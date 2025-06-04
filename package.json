@@ -1,11 +1,13 @@
 {
   "name": "test3",
+  "type": "commonjs",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "node src/app.js",
-    "dev": "nodemon src/app.js"
+    "dev": "cross-env TS_NODE_PROJECT=tsconfig.json nodemon",
+    "debug": "node --inspect ./node_modules/.bin/ts-node src/app.ts"
   },
   "author": "",
   "license": "ISC",
@@ -20,6 +22,12 @@
     "sequelize": "^6.37.3"
   },
   "devDependencies": {
-    "nodemon": "^3.1.10"
+    "@types/express": "^5.0.2",
+    "@types/mailparser": "^3.4.6",
+    "@types/node": "^22.15.29",
+    "cross-env": "^7.0.3",
+    "nodemon": "^3.1.10",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
   }
 }
