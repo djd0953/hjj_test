@@ -1,0 +1,36 @@
+ApiError: Forbidden
+    at Object.fun [as queryPoints] (/home/lawform/lawform_be/node_modules/@qdrant/openapi-typescript-fetch/dist/cjs/fetcher.js:172:23)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async QdrantClient.query (/home/lawform/lawform_be/node_modules/@qdrant/js-client-rest/dist/cjs/qdrant-client.js:1410:26)
+    at async exports.execute (/home/lawform/lawform_be/apps/api/entrypoint/lawform/search_v2/findAll.search_v2.js:81:34) {
+  headers: Headers {
+    'content-encoding': 'br',
+    'content-type': 'application/json',
+    date: 'Wed, 04 Jun 2025 01:35:03 GMT',
+    vary: 'accept-encoding, Origin, Access-Control-Request-Method, Access-Control-Request-Headers',
+    'transfer-encoding': 'chunked'
+  },
+  url: 'https://f5bf84f5-505e-4280-85fa-d322dbd2fa4b.us-west-1-0.aws.cloud.qdrant.io:6333/collections/documents_search/points/query',
+  status: 403,
+  statusText: 'Forbidden',
+  data: {
+    status: {
+      error: 'Forbidden: Index required but not found for "is_del" of one of the following types: [keyword]. Help: Create an index for this key or use a different filter.'
+    },
+    time: 0.000036291
+  }
+}
+2025-06-04 10:35:03.693 error /api/search_v2 (error)
+2025-06-04 10:35:03.693 error    body:
+2025-06-04 10:35:03.694 error     content: 노란우산
+2025-06-04 10:35:03.694 error     document_page: 0
+2025-06-04 10:35:03.694 error     magazine_page: 0
+2025-06-04 10:35:03.694 error     service_page: 0
+2025-06-04 10:35:03.695 error     limit: 100
+2025-06-04 10:35:03.695 error   return:
+2025-06-04 10:35:03.695 error     {"status":403,"message":"기타 서버 오류","id":99999,"data":{"stack":"Error: Forbidden\n    at Object.fun [as queryPoints] (/home/lawform/lawform_be/node_modules/@qdrant/openapi-typescript-fetch/dist/cjs/fetcher.js:172:23)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async QdrantClient.query (/home/lawform/lawform_be/node_modules/@qdrant/js-client-rest/dist/cjs/qdrant-client.js:1410:26)\n    at async exports.execute (/home/lawform/lawform_be/apps/api/entrypoint/lawform/search_v2/findAll.search_v2.js:81:34)"}}
+2025-06-04 10:35:03.696 error [findAll.search.js:42] Error: Forbidden
+    at Object.fun [as queryPoints] (/home/lawform/lawform_be/node_modules/@qdrant/openapi-typescript-fetch/dist/cjs/fetcher.js:172:23)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async QdrantClient.query (/home/lawform/lawform_be/node_modules/@qdrant/js-client-rest/dist/cjs/qdrant-client.js:1410:26)
+    at async exports.execute (/home/lawform/lawform_be/apps/api/entrypoint/lawform/search_v2/findAll.search_v2.js:81:34)

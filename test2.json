@@ -1,0 +1,1645 @@
+{
+    "inputSections": [
+        {
+            "title": "임금",
+            "fields": [
+                {
+                    "title": "월 급여 구성 항목(시간 외 수당 제외)",
+                    "caseCount": "1",
+                    "direction": "down",
+                    "fieldtype": "obj",
+                    "caseFields": [
+                        {
+                            "bool": "true",
+                            "name": "select_inclusion",
+                            "value": "네123"
+                        }
+                    ],
+                    "guidetooltip": "",
+                    "objdataFields": [
+                        {
+                            "type": "checkbox",
+                            "checkboxFields": [
+                                {
+                                    "binding": "base_pay",
+                                    "content": "기본급"
+                                }
+                            ],
+                            "checkboxFieldCount": "1"
+                        }
+                    ],
+                    "exampletooltip": "",
+                    "explaintooltip": "<p><strong># 작성 가이드</strong></p>\n<p>&nbsp;</p>\n<p>항목당 금액을 입력하시면 하단에 연봉이 자동으로 계산됩니다.</p>\n<p>- 기본급은 반드시 입력하세요.</p>\n<p>- 2025년 최저시급은 10030원입니다.</p>",
+                    "hasGuideTooltip": "false",
+                    "hasExampleTooltip": "false",
+                    "hasExplainTooltip": "true",
+                    "objdataFieldCount": "1"
+                },
+                {
+                    "title": "임금 산정 방식",
+                    "direction": "down",
+                    "fieldtype": "obj",
+                    "guidetooltip": "",
+                    "objdataFields": [
+                        {
+                            "type": "radio",
+                            "radioFields": [
+                                {
+                                    "content": "연봉 입력"
+                                },
+                                {
+                                    "content": "월급 입력"
+                                }
+                            ],
+                            "radioBinding": "hm1",
+                            "ai_is_required": "1",
+                            "radioDirection": "right",
+                            "radioFieldCount": "2",
+                            "ai_default_value": "연봉 입력",
+                            "ai_use_default_value": "1"
+                        }
+                    ],
+                    "exampletooltip": "<p><strong># 작성 가이드</strong></p>\n<p>1. 2025년 최저시급은 10030원입니다.</p>\n<p>2. 연봉 입력 시 하단 기본급이 자동으로 계산 됩니다.</p>\n<p>3. 월급 입력 시 항목당 금액을 입력하시면 하단에 연봉이 자동으로 계산됩니다.</p>\n<p>- 기본급은 반드시 입력하세요.</p>",
+                    "explaintooltip": "",
+                    "hasGuideTooltip": "false",
+                    "hasExampleTooltip": "true",
+                    "hasExplainTooltip": "false",
+                    "objdataFieldCount": "1"
+                },
+                {
+                    "depth": "",
+                    "title": "지급 총액",
+                    "caseCount": "1",
+                    "direction": "down",
+                    "fieldtype": "obj",
+                    "caseFields": [
+                        {
+                            "bool": "true",
+                            "name": "hm1",
+                            "value": "연봉 입력"
+                        }
+                    ],
+                    "guidetooltip": "",
+                    "objdataFields": [
+                        {
+                            "type": "text",
+                            "textFields": [
+                                {
+                                    "binding": "total_pay",
+                                    "currency": true,
+                                    "placeholder": "36,000,000",
+                                    "ai_question_1": "지급할 연봉이 얼마인가요?",
+                                    "ai_is_required": "1",
+                                    "user_question_1": "지급할 연봉이 얼마인가요?",
+                                    "immovableLeftText": "금",
+                                    "immovableRightText": "원"
+                                }
+                            ],
+                            "textFieldCount": "1"
+                        }
+                    ],
+                    "exampletooltip": "",
+                    "explaintooltip": "",
+                    "textFieldCount": "1",
+                    "hasGuideTooltip": "false",
+                    "hasExampleTooltip": "false",
+                    "hasExplainTooltip": "false",
+                    "objdataFieldCount": "1"
+                },
+                {
+                    "title": "월 급여 구성 항목",
+                    "casetype": "",
+                    "caseCount": "",
+                    "direction": "down",
+                    "fieldtype": "obj",
+                    "caseFields": [],
+                    "guidetooltip": "",
+                    "objdataFields": [
+                        {
+                            "type": "checkbox",
+                            "textFields": [
+                                {
+                                    "binding": "base_pay_2",
+                                    "currency": false,
+                                    "placeholder": "2,400,000",
+                                    "immovableLeftText": "월",
+                                    "immovableRightText": "원"
+                                }
+                            ],
+                            "checkboxFields": [
+                                {
+                                    "binding": "base_pay",
+                                    "content": "기본급",
+                                    "ai_is_required": "1",
+                                    "ai_default_value": "기본급",
+                                    "ai_use_default_value": "1"
+                                }
+                            ],
+                            "textFieldCount": "1",
+                            "checkboxFieldCount": "1"
+                        }
+                    ],
+                    "exampletooltip": "",
+                    "explaintooltip": "",
+                    "hasGuideTooltip": "false",
+                    "hasExampleTooltip": "false",
+                    "hasExplainTooltip": "false",
+                    "objdataFieldCount": "1"
+                },
+                {
+                    "depth": "1",
+                    "casetype": "AND",
+                    "caseCount": "2",
+                    "direction": "down",
+                    "fieldtype": "obj",
+                    "caseFields": [
+                        {
+                            "bool": "true",
+                            "name": "base_pay",
+                            "value": "기본급"
+                        },
+                        {
+                            "bool": "true",
+                            "name": "hm1",
+                            "value": "월급 입력"
+                        }
+                    ],
+                    "guidetooltip": "",
+                    "objdataFields": [
+                        {
+                            "type": "text",
+                            "textFields": [
+                                {
+                                    "binding": "base_pay_2",
+                                    "currency": true,
+                                    "placeholder": "2,400,000",
+                                    "immovableLeftText": "월",
+                                    "immovableRightText": "원"
+                                }
+                            ],
+                            "textFieldCount": "1"
+                        }
+                    ],
+                    "exampletooltip": "",
+                    "explaintooltip": "",
+                    "textFieldCount": "1",
+                    "hasGuideTooltip": "false",
+                    "hasExampleTooltip": "false",
+                    "hasExplainTooltip": "false",
+                    "objdataFieldCount": "1"
+                },
+                {
+                    "depth": "1",
+                    "casetype": "AND",
+                    "caseCount": "2",
+                    "direction": "down",
+                    "fieldtype": "obj",
+                    "caseFields": [
+                        {
+                            "bool": "true",
+                            "name": "base_pay",
+                            "value": "기본급"
+                        },
+                        {
+                            "bool": "true",
+                            "name": "hm1",
+                            "value": "연봉 입력"
+                        }
+                    ],
+                    "guidetooltip": "",
+                    "objdataFields": [
+                        {
+                            "type": "text",
+                            "textFields": [
+                                {
+                                    "binding": "ftotal_1",
+                                    "currency": true,
+                                    "immovableLeftText": "월",
+                                    "immovableRightText": "원"
+                                }
+                            ],
+                            "textFieldCount": "1"
+                        }
+                    ],
+                    "exampletooltip": "",
+                    "explaintooltip": "",
+                    "textFieldCount": "1",
+                    "hasGuideTooltip": "false",
+                    "hasExampleTooltip": "false",
+                    "hasExplainTooltip": "false",
+                    "objdataFieldCount": "1"
+                },
+                {
+                    "caseCount": "1",
+                    "direction": "down",
+                    "fieldtype": "obj",
+                    "caseFields": [
+                        {
+                            "bool": "true",
+                            "name": "1",
+                            "value": "1"
+                        }
+                    ],
+                    "guidetooltip": "",
+                    "objdataFields": [
+                        {
+                            "type": "checkbox",
+                            "checkboxFields": [
+                                {
+                                    "binding": "bonus_1",
+                                    "content": "상여금"
+                                }
+                            ],
+                            "checkboxFieldCount": "1"
+                        }
+                    ],
+                    "exampletooltip": "",
+                    "explaintooltip": "",
+                    "hasGuideTooltip": "false",
+                    "hasExampleTooltip": "false",
+                    "hasExplainTooltip": "false",
+                    "objdataFieldCount": "1"
+                },
+                {
+                    "depth": "1",
+                    "caseCount": "1",
+                    "direction": "down",
+                    "fieldtype": "obj",
+                    "caseFields": [
+                        {
+                            "bool": "true",
+                            "name": "bonus_1",
+                            "value": "상여금1"
+                        }
+                    ],
+                    "guidetooltip": "",
+                    "objdataFields": [
+                        {
+                            "type": "text",
+                            "textFields": [
+                                {
+                                    "binding": "bonus_2",
+                                    "currency": true,
+                                    "placeholder": "200,000",
+                                    "immovableLeftText": "월",
+                                    "immovableRightText": "원"
+                                }
+                            ],
+                            "textFieldCount": "1"
+                        }
+                    ],
+                    "exampletooltip": "",
+                    "explaintooltip": "",
+                    "textFieldCount": "1",
+                    "hasGuideTooltip": "false",
+                    "hasExampleTooltip": "false",
+                    "hasExplainTooltip": "false",
+                    "objdataFieldCount": "1"
+                },
+                {
+                    "caseCount": "",
+                    "direction": "down",
+                    "fieldtype": "obj",
+                    "caseFields": [],
+                    "guidetooltip": "",
+                    "objdataFields": [
+                        {
+                            "type": "checkbox",
+                            "checkboxFields": [
+                                {
+                                    "binding": "food_expenses_1",
+                                    "content": "식대(비과세)",
+                                    "ai_is_required": "1",
+                                    "ai_default_value": "식대(비과세)",
+                                    "ai_use_default_value": "1"
+                                }
+                            ],
+                            "checkboxFieldCount": "1"
+                        }
+                    ],
+                    "exampletooltip": "",
+                    "explaintooltip": "",
+                    "hasGuideTooltip": "false",
+                    "hasExampleTooltip": "false",
+                    "hasExplainTooltip": "false",
+                    "objdataFieldCount": "1"
+                },
+                {
+                    "depth": "1",
+                    "caseCount": "1",
+                    "direction": "down",
+                    "fieldtype": "obj",
+                    "caseFields": [
+                        {
+                            "bool": "true",
+                            "name": "food_expenses_1",
+                            "value": "식대(비과세)"
+                        }
+                    ],
+                    "guidetooltip": "",
+                    "objdataFields": [
+                        {
+                            "type": "text",
+                            "textFields": [
+                                {
+                                    "binding": "food_expenses_2",
+                                    "currency": true,
+                                    "placeholder": "200,000",
+                                    "ai_is_required": "1",
+                                    "ai_default_value": "200,000",
+                                    "immovableLeftText": "월",
+                                    "immovableRightText": "원",
+                                    "ai_use_default_value": "1"
+                                }
+                            ],
+                            "textFieldCount": "1"
+                        }
+                    ],
+                    "exampletooltip": "",
+                    "explaintooltip": "",
+                    "textFieldCount": "1",
+                    "hasGuideTooltip": "false",
+                    "hasExampleTooltip": "false",
+                    "hasExplainTooltip": "false",
+                    "objdataFieldCount": "1"
+                },
+                {
+                    "direction": "down",
+                    "fieldtype": "obj",
+                    "guidetooltip": "",
+                    "objdataFields": [
+                        {
+                            "type": "checkbox",
+                            "checkboxFields": [
+                                {
+                                    "binding": "bonus_1",
+                                    "content": "상여금"
+                                }
+                            ],
+                            "checkboxFieldCount": "1"
+                        }
+                    ],
+                    "exampletooltip": "",
+                    "explaintooltip": "",
+                    "hasGuideTooltip": "false",
+                    "hasExampleTooltip": "false",
+                    "hasExplainTooltip": "false",
+                    "objdataFieldCount": "1"
+                },
+                {
+                    "depth": "1",
+                    "title": "",
+                    "caseCount": "1",
+                    "direction": "down",
+                    "fieldtype": "obj",
+                    "caseFields": [
+                        {
+                            "bool": "true",
+                            "name": "bonus_1",
+                            "value": "상여금"
+                        }
+                    ],
+                    "guidetooltip": "",
+                    "objdataFields": [
+                        {
+                            "type": "text",
+                            "textFields": [
+                                {
+                                    "binding": "bonus_2",
+                                    "currency": true,
+                                    "placeholder": "200,000",
+                                    "immovableLeftText": "월",
+                                    "immovableRightText": "원"
+                                }
+                            ],
+                            "textFieldCount": "1"
+                        }
+                    ],
+                    "exampletooltip": "",
+                    "explaintooltip": "",
+                    "textFieldCount": "1",
+                    "hasGuideTooltip": "false",
+                    "hasExampleTooltip": "false",
+                    "hasExplainTooltip": "false",
+                    "objdataFieldCount": "1"
+                },
+                {
+                    "caseCount": "",
+                    "direction": "down",
+                    "fieldtype": "obj",
+                    "caseFields": [],
+                    "guidetooltip": "",
+                    "objdataFields": [
+                        {
+                            "type": "checkbox",
+                            "checkboxFields": [
+                                {
+                                    "binding": "traffic_pay",
+                                    "content": "교통비"
+                                }
+                            ],
+                            "checkboxFieldCount": "1"
+                        }
+                    ],
+                    "exampletooltip": "",
+                    "explaintooltip": "",
+                    "hasGuideTooltip": "false",
+                    "hasExampleTooltip": "false",
+                    "hasExplainTooltip": "false",
+                    "objdataFieldCount": "1"
+                },
+                {
+                    "depth": "1",
+                    "caseCount": "1",
+                    "direction": "down",
+                    "fieldtype": "obj",
+                    "caseFields": [
+                        {
+                            "bool": "true",
+                            "name": "traffic_pay",
+                            "value": "교통비"
+                        }
+                    ],
+                    "guidetooltip": "",
+                    "objdataFields": [
+                        {
+                            "type": "text",
+                            "textFields": [
+                                {
+                                    "binding": "traffic_pay2",
+                                    "currency": true,
+                                    "placeholder": "200,000",
+                                    "immovableLeftText": "월",
+                                    "immovableRightText": "원"
+                                }
+                            ],
+                            "textFieldCount": "1"
+                        }
+                    ],
+                    "exampletooltip": "",
+                    "explaintooltip": "",
+                    "textFieldCount": "1",
+                    "hasGuideTooltip": "false",
+                    "hasExampleTooltip": "false",
+                    "hasExplainTooltip": "false",
+                    "objdataFieldCount": "1"
+                },
+                {
+                    "depth": "",
+                    "caseCount": "",
+                    "direction": "down",
+                    "fieldtype": "obj",
+                    "caseFields": [],
+                    "guidetooltip": "",
+                    "objdataFields": [
+                        {
+                            "type": "checkbox",
+                            "checkboxFields": [
+                                {
+                                    "binding": "etc_1",
+                                    "content": "기타 수당 (1)"
+                                }
+                            ],
+                            "checkboxFieldCount": "1"
+                        }
+                    ],
+                    "exampletooltip": "<p><strong># 예문 보기</strong></p>\n<p>&nbsp;</p>\n<p>교통비 : 월 100,000원</p>",
+                    "explaintooltip": "",
+                    "hasGuideTooltip": "false",
+                    "hasExampleTooltip": "true",
+                    "hasExplainTooltip": "false",
+                    "objdataFieldCount": "1"
+                },
+                {
+                    "depth": "1",
+                    "caseCount": "1",
+                    "direction": "down",
+                    "fieldtype": "obj",
+                    "caseFields": [
+                        {
+                            "bool": "true",
+                            "name": "etc_1",
+                            "value": "기타 수당 (1)"
+                        }
+                    ],
+                    "guidetooltip": "",
+                    "objdataFields": [
+                        {
+                            "type": "text",
+                            "textFields": [
+                                {
+                                    "binding": "etc_2",
+                                    "placeholder": "자격수당"
+                                }
+                            ],
+                            "textFieldCount": "1"
+                        },
+                        {
+                            "type": "text",
+                            "textFields": [
+                                {
+                                    "binding": "etc_2_1",
+                                    "currency": true,
+                                    "placeholder": "100,000",
+                                    "immovableLeftText": "월",
+                                    "immovableRightText": "원"
+                                }
+                            ],
+                            "textFieldCount": "1"
+                        }
+                    ],
+                    "exampletooltip": "",
+                    "explaintooltip": "",
+                    "textFieldCount": "1",
+                    "hasGuideTooltip": "false",
+                    "hasExampleTooltip": "false",
+                    "hasExplainTooltip": "false",
+                    "objdataFieldCount": "2"
+                },
+                {
+                    "caseCount": "",
+                    "direction": "down",
+                    "fieldtype": "obj",
+                    "caseFields": [],
+                    "guidetooltip": "",
+                    "objdataFields": [
+                        {
+                            "type": "checkbox",
+                            "checkboxFields": [
+                                {
+                                    "binding": "etc_3",
+                                    "content": "기타 수당 (2)"
+                                }
+                            ],
+                            "checkboxFieldCount": "1"
+                        }
+                    ],
+                    "exampletooltip": "",
+                    "explaintooltip": "",
+                    "hasGuideTooltip": "false",
+                    "hasExampleTooltip": "false",
+                    "hasExplainTooltip": "false",
+                    "objdataFieldCount": "1"
+                },
+                {
+                    "depth": "1",
+                    "caseCount": "1",
+                    "direction": "down",
+                    "fieldtype": "obj",
+                    "caseFields": [
+                        {
+                            "bool": "true",
+                            "name": "etc_3",
+                            "value": "기타 수당 (2)"
+                        }
+                    ],
+                    "guidetooltip": "",
+                    "objdataFields": [
+                        {
+                            "type": "text",
+                            "textFields": [
+                                {
+                                    "binding": "etc_4",
+                                    "placeholder": "정근수당",
+                                    "immovableLeftText": ""
+                                }
+                            ],
+                            "textFieldCount": "1"
+                        },
+                        {
+                            "type": "text",
+                            "textFields": [
+                                {
+                                    "binding": "etc_4_1",
+                                    "currency": true,
+                                    "placeholder": "100,000",
+                                    "immovableLeftText": "월",
+                                    "immovableRightText": "원"
+                                }
+                            ],
+                            "selectFields": [
+                                {
+                                    "content": "적용/적용하지않음"
+                                },
+                                {
+                                    "content": "적용"
+                                },
+                                {
+                                    "content": "적용하지않음"
+                                }
+                            ],
+                            "textFieldCount": "1",
+                            "selectFieldCount": "3"
+                        }
+                    ],
+                    "exampletooltip": "",
+                    "explaintooltip": "",
+                    "textFieldCount": "1",
+                    "hasGuideTooltip": "false",
+                    "hasExampleTooltip": "false",
+                    "hasExplainTooltip": "false",
+                    "objdataFieldCount": "2"
+                },
+                {
+                    "title": "월 소정 근로시간",
+                    "caseCount": "1",
+                    "direction": "down",
+                    "fieldtype": "obj",
+                    "caseFields": [
+                        {
+                            "bool": "true",
+                            "name": "select_inclusion",
+                            "value": "아니오1"
+                        }
+                    ],
+                    "guidetooltip": "",
+                    "objdataFields": [
+                        {
+                            "type": "text",
+                            "textFields": [
+                                {
+                                    "binding": "month_common_time",
+                                    "placeholder": "209",
+                                    "immovableRightText": "시간"
+                                }
+                            ],
+                            "textFieldCount": "1"
+                        }
+                    ],
+                    "exampletooltip": "<p><strong># 작성 가이드</strong></p>\n<p>&nbsp;</p>\n<p>- 소정근로시간이란, 법정근로시간 내 사용자와 근로자가 계약상으로 정한 근로시간입니다.<br /><br /></p>\n<p>- 1일 8시간, 주 5일 근무하기로 정한 경우, 1주 소정근로시간은 40시간, 월 소정근로시간은 209시간으로 적용됩니다. 그 외 근로시간의 경우 아래 계산을 통해 직접 입력해주세요.<br /><br /></p>\n<p>- 월 소정 근로시간 = (주 근무시간 + 주휴시간) x 4.345(1주의 평균 주수)의 반올림값<br /><br /></p>\n<p>- 주휴시간이란<strong> &nbsp;</strong>1주일 동안 15시간 이상 근무하고 소정의 근로일수를 개근한 노동자에게 1주일에 평균 1회 이상의 유급휴일을 주는 것을 말합니다.(근로기준법 제55조)<br /><br /></p>\n<p>- 주휴시간 계산 = (1주 총근로시간/40시간) x 8</p>",
+                    "explaintooltip": "",
+                    "textFieldCount": "1",
+                    "hasGuideTooltip": "false",
+                    "hasExampleTooltip": "true",
+                    "hasExplainTooltip": "false",
+                    "objdataFieldCount": "1"
+                },
+                {
+                    "title": "고정OT",
+                    "casetype": "AND",
+                    "caseCount": "2",
+                    "direction": "down",
+                    "fieldtype": "obj",
+                    "caseFields": [
+                        {
+                            "bool": "true",
+                            "name": "select_inclusion",
+                            "value": "네"
+                        },
+                        {
+                            "bool": "true",
+                            "name": "hm1",
+                            "value": "연봉 입력"
+                        }
+                    ],
+                    "guidetooltip": "",
+                    "objdataFields": [
+                        {
+                            "type": "text",
+                            "textFields": [
+                                {
+                                    "binding": "nover_time",
+                                    "placeholder": "10",
+                                    "ai_question_1": "고정ot 시간이 얼마인가요?",
+                                    "immovableLeftText": "고정OT 설정 시간",
+                                    "immovableRightText": "시간",
+                                    "ai_use_default_value": "2"
+                                }
+                            ],
+                            "textFieldCount": "1"
+                        },
+                        {
+                            "type": "text",
+                            "textFields": [
+                                {
+                                    "binding": "faover_pay",
+                                    "currency": true,
+                                    "placeholder": "",
+                                    "immovableLeftText": "월 고정지급금액",
+                                    "immovableRightText": "원"
+                                }
+                            ],
+                            "textFieldCount": "1"
+                        }
+                    ],
+                    "exampletooltip": "<p><strong>#변호사 가이드</strong></p>\n<p>- 고정OT제를 적용하더라도 원칙적으로 주 52시간을 초과하여 근로할 수 없습니다.</p>\n<p><br />- 지급하는 시간 외 근무수당을 초과하여 근무를 할 경우 초과근무수당을 지급하여야 합니다.</p>\n<p><br />- 근로자의 추가 근무 시간이 포괄 임금에 포함된 시간을 초과하는 경우 50%의 초과 근무수당(휴일,야간 등 경우에 따라서 최대 150%)를 지급하여야 합니다.</p>\n<p><br />- 주52시간 적용예외 직종은 아래와 같습니다.&nbsp;</p>\n<p style=\"padding-left: 13px;\">1. 육상운송 및 파이프라인 운송업(다만, 노선여객자동차운송사업은 제외)</p>\n<p style=\"padding-left: 13px;\">2. 수상운송업</p>\n<p style=\"padding-left: 13px;\">3. 항공운송업</p>\n<p style=\"padding-left: 13px;\">4. 기타 운송관련 서비스업</p>\n<p style=\"padding-left: 13px;\">5. 보건업</p>",
+                    "explaintooltip": "",
+                    "textFieldCount": "1",
+                    "hasGuideTooltip": "false",
+                    "hasExampleTooltip": "true",
+                    "hasExplainTooltip": "false",
+                    "objdataFieldCount": "2"
+                },
+                {
+                    "title": "고정OT",
+                    "casetype": "AND",
+                    "caseCount": "2",
+                    "direction": "down",
+                    "fieldtype": "obj",
+                    "caseFields": [
+                        {
+                            "bool": "true",
+                            "name": "select_inclusion",
+                            "value": "네"
+                        },
+                        {
+                            "bool": "true",
+                            "name": "hm1",
+                            "value": "월급 입력"
+                        }
+                    ],
+                    "guidetooltip": "",
+                    "objdataFields": [
+                        {
+                            "type": "text",
+                            "textFields": [
+                                {
+                                    "binding": "overtime_pay",
+                                    "currency": true,
+                                    "placeholder": "100,000",
+                                    "immovableLeftText": "월 고정지급금액",
+                                    "immovableRightText": "원"
+                                }
+                            ],
+                            "textFieldCount": "1"
+                        },
+                        {
+                            "type": "text",
+                            "textFields": [
+                                {
+                                    "binding": "overtime",
+                                    "currency": true,
+                                    "placeholder": "",
+                                    "immovableLeftText": "월",
+                                    "immovableRightText": "시간 초과근무 계약"
+                                }
+                            ],
+                            "textFieldCount": "1"
+                        }
+                    ],
+                    "exampletooltip": "<p><strong># 작성 가이드</strong></p>\n<p>&nbsp;</p>\n<p>- 소정근로시간이란, 법정근로시간 내 사용자와 근로자가 계약상으로 정한 근로시간입니다.<br /><br /></p>\n<p>- 1일 8시간, 주 5일 근무하기로 정한 경우, 1주 소정근로시간은 40시간, 월 소정근로시간은 209시간으로 적용됩니다. 그 외 근로시간의 경우 아래 계산을 통해 직접 입력해주세요.<br /><br /></p>\n<p>- 월 소정 근로시간 = (주 근무시간 + 주휴시간) x 4.345(1주의 평균 주수)의 반올림값<br /><br /></p>\n<p>- 주휴시간이란<strong> &nbsp;</strong>1주일 동안 15시간 이상 근무하고 소정의 근로일수를 개근한 노동자에게 1주일에 평균 1회 이상의 유급휴일을 주는 것을 말합니다.(근로기준법 제55조)</p>\n<p>- 주휴시간 계산 = (1주 총근로시간/40시간) x 8</p>",
+                    "explaintooltip": "<p><strong>#변호사 가이드</strong></p>\n<p>- 고정OT제를 적용하더라도 원칙적으로 주 52시간을 초과하여 근로할 수 없습니다.</p>\n<p><br />- 지급하는 시간 외 근무수당을 초과하여 근무를 할 경우 초과근무수당을 지급하여야 합니다.</p>\n<p><br />- 근로자의 추가 근무 시간이 포괄 임금에 포함된 시간을 초과하는 경우 50%의 초과 근무수당(휴일,야간 등 경우에 따라서 최대 150%)를 지급하여야 합니다.</p>\n<p><br />- 주52시간 적용예외 직종은 아래와 같습니다.&nbsp;</p>\n<p style=\"padding-left: 13px;\">1. 육상운송 및 파이프라인 운송업(다만, 노선여객자동차운송사업은 제외)</p>\n<p style=\"padding-left: 13px;\">2. 수상운송업</p>\n<p style=\"padding-left: 13px;\">3. 항공운송업</p>\n<p style=\"padding-left: 13px;\">4. 기타 운송관련 서비스업</p>\n<p style=\"padding-left: 13px;\">5. 보건업</p>",
+                    "textFieldCount": "1",
+                    "hasGuideTooltip": "false",
+                    "hasExampleTooltip": "true",
+                    "hasExplainTooltip": "true",
+                    "objdataFieldCount": "2"
+                },
+                {
+                    "title": "인센티브 항목(연봉 불포함)",
+                    "caseCount": "",
+                    "direction": "down",
+                    "fieldtype": "obj",
+                    "caseFields": [],
+                    "guidetooltip": "",
+                    "objdataFields": [
+                        {
+                            "type": "checkbox",
+                            "checkboxFields": [
+                                {
+                                    "binding": "profit_sharing",
+                                    "content": "업무성과급"
+                                }
+                            ],
+                            "checkboxFieldCount": "1"
+                        }
+                    ],
+                    "exampletooltip": "<p><strong>#변호사 가이드</strong></p>\n<p><span class=\"notion-enable-hover\" data-token-index=\"0\">통상임금은 소정근로의 대가로서</span> <span class=\"notion-enable-hover\" data-token-index=\"2\">정기적, 일률적으로 지급하기로 정한 임금을 의미합니다.(2023다302838 등) </span><!-- notionvc: 74854599-9d4c-4426-a1b8-cd4f07b47842 --></p>\n<p><span class=\"notion-enable-hover\" data-token-index=\"0\">따라서 인센티브를 정기적, 일률적으로 지급하는 경우 통상임금에 산입할 수 있습니다.</span><!-- notionvc: af396412-0218-4f3a-89bf-ab917b5f1d1b --></p>\n<p><span class=\"notion-enable-hover\" data-token-index=\"0\">다만, 성과 지표나, 직원 사기 상승 등을 위해 일시적으로 지급하는 경우 통상임금에 산입되지 않습니다.<!-- notionvc: 993db55f-6e1a-4a2d-a1ac-8b645870f376 --></span></p>",
+                    "explaintooltip": "",
+                    "hasGuideTooltip": "false",
+                    "hasExampleTooltip": "true",
+                    "hasExplainTooltip": "false",
+                    "objdataFieldCount": "1"
+                },
+                {
+                    "caseCount": "1",
+                    "direction": "down",
+                    "fieldtype": "obj",
+                    "caseFields": [
+                        {
+                            "bool": "true",
+                            "name": "profit_sharing",
+                            "value": "업무성과급"
+                        }
+                    ],
+                    "guidetooltip": "",
+                    "objdataFields": [
+                        {
+                            "type": "text",
+                            "textFields": [
+                                {
+                                    "binding": "profit_sharing1",
+                                    "placeholder": "영업이익율 20% 달성 시",
+                                    "immovableLeftText": "조건"
+                                }
+                            ],
+                            "textFieldCount": "1"
+                        },
+                        {
+                            "type": "text",
+                            "textFields": [
+                                {
+                                    "binding": "profit_sharing2",
+                                    "placeholder": "다음년도 3월까지",
+                                    "immovableLeftText": "지급시기"
+                                }
+                            ],
+                            "textFieldCount": "1",
+                            "calendar_immovableLeftTextCase": "short"
+                        },
+                        {
+                            "type": "text",
+                            "textFields": [
+                                {
+                                    "binding": "profit_sharing3",
+                                    "currency": false,
+                                    "placeholder": "지급 연봉의 30%",
+                                    "immovableLeftText": "금액",
+                                    "immovableRightText": ""
+                                }
+                            ],
+                            "textFieldCount": "1"
+                        }
+                    ],
+                    "exampletooltip": "",
+                    "explaintooltip": "",
+                    "textFieldCount": "1",
+                    "hasGuideTooltip": "false",
+                    "hasExampleTooltip": "false",
+                    "hasExplainTooltip": "false",
+                    "objdataFieldCount": "3"
+                },
+                {
+                    "caseCount": "",
+                    "direction": "down",
+                    "fieldtype": "obj",
+                    "caseFields": [],
+                    "guidetooltip": "",
+                    "objdataFields": [
+                        {
+                            "type": "checkbox",
+                            "checkboxFields": [
+                                {
+                                    "binding": "lti",
+                                    "content": "장기근속 인센티브"
+                                }
+                            ],
+                            "checkboxFieldCount": "1"
+                        }
+                    ],
+                    "exampletooltip": "",
+                    "explaintooltip": "",
+                    "hasGuideTooltip": "false",
+                    "hasExampleTooltip": "false",
+                    "hasExplainTooltip": "false",
+                    "objdataFieldCount": "1"
+                },
+                {
+                    "caseCount": "1",
+                    "direction": "down",
+                    "fieldtype": "obj",
+                    "caseFields": [
+                        {
+                            "bool": "true",
+                            "name": "lti",
+                            "value": "장기근속 인센티브"
+                        }
+                    ],
+                    "guidetooltip": "",
+                    "objdataFields": [
+                        {
+                            "type": "text",
+                            "textFields": [
+                                {
+                                    "binding": "lti1",
+                                    "placeholder": "2년간 근속 시",
+                                    "immovableLeftText": "조건"
+                                }
+                            ],
+                            "textFieldCount": "1"
+                        },
+                        {
+                            "type": "text",
+                            "textFields": [
+                                {
+                                    "binding": "lti2",
+                                    "currency": false,
+                                    "placeholder": "조건을 만족하는 날을 포함한 달의 대한 급여가 지급되는 날",
+                                    "immovableLeftText": "지급시기"
+                                }
+                            ],
+                            "textFieldCount": "1"
+                        },
+                        {
+                            "type": "text",
+                            "textFields": [
+                                {
+                                    "binding": "lti3",
+                                    "placeholder": "200만원",
+                                    "immovableLeftText": "금액"
+                                }
+                            ],
+                            "textFieldCount": "1"
+                        }
+                    ],
+                    "exampletooltip": "",
+                    "explaintooltip": "",
+                    "textFieldCount": "1",
+                    "hasGuideTooltip": "false",
+                    "hasExampleTooltip": "false",
+                    "hasExplainTooltip": "false",
+                    "objdataFieldCount": "3"
+                },
+                {
+                    "caseCount": "",
+                    "direction": "down",
+                    "fieldtype": "obj",
+                    "caseFields": [],
+                    "guidetooltip": "",
+                    "objdataFields": [
+                        {
+                            "type": "checkbox",
+                            "checkboxFields": [
+                                {
+                                    "binding": "etc_in",
+                                    "content": "기타 직접 입력"
+                                }
+                            ],
+                            "radioDirection": "right",
+                            "checkboxFieldCount": "1"
+                        }
+                    ],
+                    "exampletooltip": "",
+                    "explaintooltip": "",
+                    "hasGuideTooltip": "false",
+                    "hasExampleTooltip": "false",
+                    "hasExplainTooltip": "false",
+                    "objdataFieldCount": "1"
+                },
+                {
+                    "caseCount": "1",
+                    "direction": "down",
+                    "fieldtype": "obj",
+                    "caseFields": [
+                        {
+                            "bool": "true",
+                            "name": "etc_in",
+                            "value": "기타 직접 입력"
+                        }
+                    ],
+                    "guidetooltip": "",
+                    "objdataFields": [
+                        {
+                            "type": "text",
+                            "textFields": [
+                                {
+                                    "binding": "etc_in1",
+                                    "placeholder": "사이닝 보너스 : 2년간 재직하는 조건으로 임금과 별도로 연봉의 30%를 선지급한다."
+                                }
+                            ],
+                            "textFieldCount": "1"
+                        }
+                    ],
+                    "exampletooltip": "",
+                    "explaintooltip": "",
+                    "textFieldCount": "1",
+                    "hasGuideTooltip": "false",
+                    "hasExampleTooltip": "false",
+                    "hasExplainTooltip": "false",
+                    "objdataFieldCount": "1"
+                },
+                {
+                    "depth": "",
+                    "title": "지급시기 및 방법",
+                    "caseCount": "",
+                    "direction": "down",
+                    "fieldtype": "obj",
+                    "caseFields": [],
+                    "guidetooltip": "",
+                    "objdataFields": [
+                        {
+                            "type": "text",
+                            "textFields": [
+                                {
+                                    "binding": "next_month_payday",
+                                    "placeholder": "1",
+                                    "immovableLeftText": "매월",
+                                    "immovableRightText": "일"
+                                }
+                            ],
+                            "textFieldCount": "1"
+                        },
+                        {
+                            "type": "text",
+                            "textFields": [
+                                {
+                                    "binding": "bank_name",
+                                    "bindingType": "bankName",
+                                    "placeholder": "국민은행",
+                                    "immovableLeftText": "은행명"
+                                }
+                            ],
+                            "selectFields": [
+                                {
+                                    "content": "적용/적용하지않음"
+                                },
+                                {
+                                    "content": "적용"
+                                },
+                                {
+                                    "content": "적용하지않음"
+                                }
+                            ],
+                            "textFieldCount": "1",
+                            "selectFieldCount": "3"
+                        },
+                        {
+                            "type": "text",
+                            "textFields": [
+                                {
+                                    "binding": "account_number",
+                                    "bindingType": "accountNumber",
+                                    "placeholder": "110-123-4567",
+                                    "immovableLeftText": "계좌번호"
+                                }
+                            ],
+                            "textFieldCount": "1"
+                        }
+                    ],
+                    "exampletooltip": "",
+                    "explaintooltip": "",
+                    "textFieldCount": "1",
+                    "hasGuideTooltip": "false",
+                    "hasExampleTooltip": "false",
+                    "hasExplainTooltip": "false",
+                    "objdataFieldCount": "3"
+                },
+                {
+                    "title": "근로계약 체크리스트",
+                    "caseCount": "",
+                    "direction": "down",
+                    "fieldtype": "obj",
+                    "caseFields": [],
+                    "guidetooltip": "",
+                    "objdataFields": [
+                        {
+                            "type": "checkbox",
+                            "selectFields": [
+                                {
+                                    "content": "적용/적용하지않음"
+                                },
+                                {
+                                    "content": "적용"
+                                },
+                                {
+                                    "content": "적용하지않음"
+                                }
+                            ],
+                            "checkboxFields": [
+                                {
+                                    "binding": "minimum_pay1",
+                                    "content": "급여를 시급으로 환산하여 계약서에 표시함"
+                                }
+                            ],
+                            "selectFieldCount": "3",
+                            "checkboxFieldCount": "1"
+                        }
+                    ],
+                    "exampletooltip": "<p style=\"text-align: center;\"><strong>- 단순 참고용으로만 활용해주세요-</strong></p>",
+                    "explaintooltip": "<p><strong># 변호사 가이드</strong></p>\n<p>매월 1회 이상 정기적으로 지급하는 임금 중 최저임금법 제6조 4항에 따라 산입되지 않는 임금을 제외한 급여 총액이 최저임금보다 적으면 최저임금법 위반입니다.(2025년 209시간 기준 월2,096,270원)</p>\n<p><br />- 최저임금법 제6조 4항에 관한 내용을 적용해 환산한 금액으로 산정하여 실제로 지급한 급여와 결과가 차이가 있을 수 있습니다.</p>\n<p><br />- 지급하는 임금의 성격에 따라 최저임금법 위반여부가 변동 될 수 있습니다.</p>\n<p><br />- 제외된 임금은 아래와 같습니다</p>\n<p style=\"padding-left: 13px;\">1. 소정근로시간 이외의 추가 근로로 인한 임금</p>\n<p style=\"padding-left: 13px;\">2. 상여금 중 최저시급을 기준으로 산정된 월 급여의 100분의 10에 해당하는 부분</p>\n<p style=\"padding-left: 13px;\">3. 식비, 교통비 중 최저시급을 기준으로 산정된 월 급여의 100분의 2에 해당하는 부분</p>\n<p style=\"padding-left: 13px;\">4. 그 외 기타 복리후생비 및 정기금을 지급할 경우 다만 다양하고 복잡한 임금체계로 인해 아래의 결과와 차이가 있을 수 있습니다.</p>",
+                    "hasGuideTooltip": "false",
+                    "hasExampleTooltip": "true",
+                    "hasExplainTooltip": "true",
+                    "objdataFieldCount": "1"
+                },
+                {
+                    "caseCount": "1",
+                    "direction": "down",
+                    "fieldtype": "obj",
+                    "caseFields": [
+                        {
+                            "bool": "true",
+                            "name": "hm1",
+                            "value": "월급 입력"
+                        }
+                    ],
+                    "guidetooltip": "",
+                    "objdataFields": [
+                        {
+                            "type": "checkbox",
+                            "checkboxFields": [
+                                {
+                                    "binding": "annual_income_chek",
+                                    "content": "연봉 확인하기"
+                                }
+                            ],
+                            "checkboxFieldCount": "1"
+                        }
+                    ],
+                    "exampletooltip": "",
+                    "explaintooltip": "",
+                    "hasGuideTooltip": "false",
+                    "hasExampleTooltip": "false",
+                    "hasExplainTooltip": "false",
+                    "objdataFieldCount": "1"
+                },
+                {
+                    "depth": "1",
+                    "casetype": "AND",
+                    "caseCount": "2",
+                    "direction": "down",
+                    "fieldtype": "obj",
+                    "caseFields": [
+                        {
+                            "bool": "true",
+                            "name": "annual_income_chek",
+                            "value": "연봉 확인하기"
+                        },
+                        {
+                            "bool": "true",
+                            "name": "select_inclusion",
+                            "value": "네"
+                        }
+                    ],
+                    "guidetooltip": "",
+                    "objdataFields": [
+                        {
+                            "type": "text",
+                            "textFields": [
+                                {
+                                    "binding": "annual_income_1",
+                                    "currency": true,
+                                    "immovableLeftText": "연봉",
+                                    "immovableRightText": "원"
+                                }
+                            ],
+                            "textFieldCount": "1"
+                        }
+                    ],
+                    "exampletooltip": "",
+                    "explaintooltip": "",
+                    "textFieldCount": "1",
+                    "hasGuideTooltip": "false",
+                    "hasExampleTooltip": "false",
+                    "hasExplainTooltip": "false",
+                    "objdataFieldCount": "1"
+                },
+                {
+                    "depth": "1",
+                    "casetype": "AND",
+                    "caseCount": "2",
+                    "direction": "down",
+                    "fieldtype": "obj",
+                    "caseFields": [
+                        {
+                            "bool": "true",
+                            "name": "select_inclusion",
+                            "value": "아니오"
+                        },
+                        {
+                            "bool": "true",
+                            "name": "annual_income_chek",
+                            "value": "연봉 확인하기"
+                        }
+                    ],
+                    "guidetooltip": "",
+                    "objdataFields": [
+                        {
+                            "type": "text",
+                            "textFields": [
+                                {
+                                    "binding": "annual_income",
+                                    "currency": true,
+                                    "immovableLeftText": "연봉",
+                                    "immovableRightText": "원"
+                                }
+                            ],
+                            "textFieldCount": "1"
+                        }
+                    ],
+                    "exampletooltip": "",
+                    "explaintooltip": "",
+                    "textFieldCount": "1",
+                    "hasGuideTooltip": "false",
+                    "hasExampleTooltip": "false",
+                    "hasExplainTooltip": "false",
+                    "objdataFieldCount": "1"
+                },
+                {
+                    "caseCount": "2",
+                    "direction": "down",
+                    "fieldtype": "obj",
+                    "caseFields": [
+                        {
+                            "bool": "true",
+                            "name": "select_inclusion",
+                            "value": "네1"
+                        },
+                        {
+                            "bool": "true",
+                            "name": "hm1",
+                            "value": "연봉 입력1"
+                        }
+                    ],
+                    "guidetooltip": "",
+                    "objdataFields": [
+                        {
+                            "type": "checkbox",
+                            "checkboxFields": [
+                                {
+                                    "binding": "faover_pay11",
+                                    "content": "고정OT에 포함된 시간 외 수당 확인하기"
+                                }
+                            ],
+                            "checkboxFieldCount": "1"
+                        }
+                    ],
+                    "exampletooltip": "",
+                    "explaintooltip": "",
+                    "hasGuideTooltip": "false",
+                    "hasExampleTooltip": "false",
+                    "hasExplainTooltip": "false",
+                    "objdataFieldCount": "1"
+                },
+                {
+                    "depth": "1",
+                    "caseCount": "1",
+                    "direction": "down",
+                    "fieldtype": "obj",
+                    "caseFields": [
+                        {
+                            "bool": "true",
+                            "name": "faover_pay11",
+                            "value": "고정OT에 포함된 시간 외 수당 확인하기"
+                        }
+                    ],
+                    "guidetooltip": "",
+                    "objdataFields": [
+                        {
+                            "type": "text",
+                            "textFields": [
+                                {
+                                    "binding": "faover_pay",
+                                    "currency": true,
+                                    "immovableLeftText": "월 고정지급금액",
+                                    "immovableRightText": "원"
+                                }
+                            ],
+                            "textFieldCount": "1"
+                        }
+                    ],
+                    "exampletooltip": "",
+                    "explaintooltip": "",
+                    "textFieldCount": "1",
+                    "hasGuideTooltip": "false",
+                    "hasExampleTooltip": "false",
+                    "hasExplainTooltip": "false",
+                    "objdataFieldCount": "1"
+                },
+                {
+                    "casetype": "AND",
+                    "caseCount": "2",
+                    "direction": "down",
+                    "fieldtype": "obj",
+                    "caseFields": [
+                        {
+                            "bool": "true",
+                            "name": "select_inclusion",
+                            "value": "네1"
+                        },
+                        {
+                            "bool": "true",
+                            "name": "hm1",
+                            "value": "월급 입력1"
+                        }
+                    ],
+                    "guidetooltip": "",
+                    "objdataFields": [
+                        {
+                            "type": "checkbox",
+                            "checkboxFields": [
+                                {
+                                    "binding": "overtime666",
+                                    "content": "고정OT에 포함된 근로시간 확인하기"
+                                }
+                            ],
+                            "checkboxFieldCount": "1"
+                        }
+                    ],
+                    "exampletooltip": "",
+                    "explaintooltip": "",
+                    "hasGuideTooltip": "false",
+                    "hasExampleTooltip": "false",
+                    "hasExplainTooltip": "false",
+                    "objdataFieldCount": "1"
+                },
+                {
+                    "depth": "1",
+                    "caseCount": "1",
+                    "direction": "down",
+                    "fieldtype": "obj",
+                    "caseFields": [
+                        {
+                            "bool": "true",
+                            "name": "overtime666",
+                            "value": "고정OT에 포함된 근로시간 확인하기"
+                        }
+                    ],
+                    "guidetooltip": "",
+                    "objdataFields": [
+                        {
+                            "type": "text",
+                            "textFields": [
+                                {
+                                    "binding": "overtime",
+                                    "immovableLeftText": "월",
+                                    "immovableRightText": "시간 초과근무 계약"
+                                }
+                            ],
+                            "textFieldCount": "1"
+                        }
+                    ],
+                    "exampletooltip": "",
+                    "explaintooltip": "",
+                    "textFieldCount": "1",
+                    "hasGuideTooltip": "false",
+                    "hasExampleTooltip": "false",
+                    "hasExplainTooltip": "false",
+                    "objdataFieldCount": "1"
+                },
+                {
+                    "caseCount": "",
+                    "direction": "down",
+                    "fieldtype": "obj",
+                    "caseFields": [],
+                    "guidetooltip": "",
+                    "objdataFields": [
+                        {
+                            "type": "checkbox",
+                            "checkboxFields": [
+                                {
+                                    "binding": "plus2",
+                                    "content": "최저임금 위반여부를 확인함(참고용)"
+                                }
+                            ],
+                            "checkboxFieldCount": "1"
+                        }
+                    ],
+                    "exampletooltip": "",
+                    "explaintooltip": "",
+                    "hasGuideTooltip": "false",
+                    "hasExampleTooltip": "false",
+                    "hasExplainTooltip": "false",
+                    "objdataFieldCount": "1"
+                },
+                {
+                    "depth": "1",
+                    "title": "",
+                    "caseCount": "1",
+                    "direction": "down",
+                    "fieldtype": "obj",
+                    "caseFields": [
+                        {
+                            "bool": "true",
+                            "name": "plus2",
+                            "value": "최저임금 위반여부를 확인함(참고용)"
+                        }
+                    ],
+                    "guidetooltip": "",
+                    "objdataFields": [
+                        {
+                            "type": "text",
+                            "textFields": [
+                                {
+                                    "binding": "minimum_pay9"
+                                }
+                            ],
+                            "textFieldCount": "1"
+                        }
+                    ],
+                    "exampletooltip": "",
+                    "explaintooltip": "",
+                    "textFieldCount": "1",
+                    "hasGuideTooltip": "false",
+                    "hasExampleTooltip": "false",
+                    "hasExplainTooltip": "false",
+                    "objdataFieldCount": "1"
+                },
+                {
+                    "title": "",
+                    "caseCount": "",
+                    "direction": "down",
+                    "fieldtype": "obj",
+                    "caseFields": [],
+                    "guidetooltip": "",
+                    "objdataFields": [
+                        {
+                            "type": "checkbox",
+                            "textFields": [
+                                {
+                                    "binding": "minimum_pay2",
+                                    "currency": true
+                                }
+                            ],
+                            "selectFields": [
+                                {
+                                    "content": "---선택---"
+                                },
+                                {
+                                    "content": "네"
+                                },
+                                {
+                                    "content": "아니오"
+                                }
+                            ],
+                            "selectBinding": "minimum_pay222",
+                            "checkboxFields": [
+                                {
+                                    "binding": "minimum_pay222",
+                                    "content": "최저임금과 급여 비교하기"
+                                }
+                            ],
+                            "textFieldCount": "1",
+                            "selectFieldCount": "3",
+                            "checkboxFieldCount": "1"
+                        }
+                    ],
+                    "exampletooltip": "",
+                    "explaintooltip": "<p><strong># 변호사 가이드</strong></p>\n<p>- 최저임금법 제6조 4항에 관한 내용을 적용해 환산한 금액으로 실제로 지급한 급여와 차이가 있을 수 있습니다.</p>\n<p>- 최저임금법 적용 급여가 최저임금에 미달할 경우 최저임금법에 저촉될 수 있습니다.</p>\n<p>- 최저임금 계산법 = 10030(2025년 최저시급) x 소정근로시간</p>\n<p>- 지급하는 임금의 성격에 따라 최저임금법 위반여부가 변동 될 수 있습니다.</p>\n<p>- 제외된 임금은 아래와 같습니다</p>\n<p style=\"padding-left: 13px;\">1. 소정근로시간 이외의 추가 근로로 인한 임금</p>\n<p style=\"padding-left: 13px;\">2. 상여금 중 최저시급을 기준으로 산정된 월 급여의 100분의 10에 해당하는 부분</p>\n<p style=\"padding-left: 13px;\">3. 식비, 교통비 중 최저시급을 기준으로 산정된 월 급여의 100분의 2에 해당하는 부분</p>",
+                    "textFieldCount": "1",
+                    "hasGuideTooltip": "false",
+                    "hasExampleTooltip": "false",
+                    "hasExplainTooltip": "true",
+                    "objdataFieldCount": "1"
+                },
+                {
+                    "title": "단순 참고용으로만 활용하여 주시기 바랍니다.",
+                    "casetype": "AND",
+                    "caseCount": "1",
+                    "direction": "down",
+                    "fieldtype": "obj",
+                    "caseFields": [
+                        {
+                            "bool": "true",
+                            "name": "minimum_pay222",
+                            "value": "최저임금과 급여 비교하기1"
+                        }
+                    ],
+                    "guidetooltip": "",
+                    "objdataFields": [
+                        {}
+                    ],
+                    "exampletooltip": "",
+                    "explaintooltip": "",
+                    "hasGuideTooltip": "false",
+                    "hasExampleTooltip": "false",
+                    "hasExplainTooltip": "false",
+                    "objdataFieldCount": "1"
+                },
+                {
+                    "depth": "",
+                    "title": "월급 환산 금액",
+                    "caseCount": "1",
+                    "direction": "right2",
+                    "fieldtype": "obj",
+                    "caseFields": [
+                        {
+                            "bool": "true",
+                            "name": "minimum_pay222",
+                            "value": "최저임금과 급여 비교하기"
+                        }
+                    ],
+                    "guidetooltip": "",
+                    "objdataFields": [
+                        {
+                            "type": "text",
+                            "textFields": [
+                                {
+                                    "binding": "minimum_pay",
+                                    "immovableLeftText": "월",
+                                    "immovableRightText": "원"
+                                }
+                            ],
+                            "textFieldCount": "1"
+                        }
+                    ],
+                    "exampletooltip": "",
+                    "explaintooltip": "",
+                    "textFieldCount": "1",
+                    "hasGuideTooltip": "false",
+                    "hasExampleTooltip": "false",
+                    "hasExplainTooltip": "false",
+                    "objdataFieldCount": "1"
+                },
+                {
+                    "depth": "",
+                    "title": "2025년 법정최저임금액",
+                    "caseCount": "1",
+                    "direction": "right2",
+                    "fieldtype": "obj",
+                    "caseFields": [
+                        {
+                            "bool": "true",
+                            "name": "minimum_pay222",
+                            "value": "최저임금과 급여 비교하기"
+                        }
+                    ],
+                    "guidetooltip": "",
+                    "objdataFields": [
+                        {
+                            "type": "text",
+                            "textFields": [
+                                {
+                                    "binding": "minimum_pay5",
+                                    "immovableLeftText": "월",
+                                    "immovableRightText": "원"
+                                }
+                            ],
+                            "textFieldCount": "1"
+                        }
+                    ],
+                    "exampletooltip": "",
+                    "explaintooltip": "",
+                    "textFieldCount": "1",
+                    "hasGuideTooltip": "false",
+                    "hasExampleTooltip": "false",
+                    "hasExplainTooltip": "false",
+                    "objdataFieldCount": "1"
+                },
+                {
+                    "caseCount": "1",
+                    "direction": "down",
+                    "fieldtype": "obj",
+                    "caseFields": [
+                        {
+                            "bool": "true",
+                            "name": "select_inclusion",
+                            "value": "네1"
+                        }
+                    ],
+                    "guidetooltip": "",
+                    "objdataFields": [
+                        {
+                            "type": "checkbox",
+                            "checkboxFields": [
+                                {
+                                    "binding": "overtime666",
+                                    "content": "고정OT에 포함된 근로시간 확인하기"
+                                }
+                            ],
+                            "checkboxFieldCount": "1"
+                        }
+                    ],
+                    "exampletooltip": "",
+                    "explaintooltip": "",
+                    "hasGuideTooltip": "false",
+                    "hasExampleTooltip": "false",
+                    "hasExplainTooltip": "false",
+                    "objdataFieldCount": "1"
+                },
+                {
+                    "depth": "1",
+                    "caseCount": "1",
+                    "direction": "down",
+                    "fieldtype": "obj",
+                    "caseFields": [
+                        {
+                            "bool": "true",
+                            "name": "overtime6661",
+                            "value": "고정OT에 포함된 근로시간 확인하기"
+                        }
+                    ],
+                    "guidetooltip": "",
+                    "objdataFields": [
+                        {
+                            "type": "text",
+                            "textFields": [
+                                {
+                                    "binding": "overtime",
+                                    "immovableLeftText": "월",
+                                    "immovableRightText": "시간 초과근무 계약"
+                                }
+                            ],
+                            "textFieldCount": "1"
+                        }
+                    ],
+                    "exampletooltip": "",
+                    "explaintooltip": "",
+                    "textFieldCount": "1",
+                    "hasGuideTooltip": "false",
+                    "hasExampleTooltip": "false",
+                    "hasExplainTooltip": "false",
+                    "objdataFieldCount": "1"
+                }
+            ],
+            "toggle": false,
+            "fieldCount": "44",
+            "guidetooltip": "",
+            "exampletooltip": "",
+            "explaintooltip": "<p><strong># 변호사 가이드</strong></p>\n<p>&nbsp;</p>\n<p>- 근로기준법상 임금의 구성 항목&middot;계산 방법&middot;지급 방법은 근로계약서에 필수적으로 명시해야 하는 근로 조건입니다.</p>\n<p>&nbsp;</p>\n<p>- 2021.11.19일부터 근로기준법 개정에 따라 사업장 규모와 상관없이, 모든 근로자에게 급여명세서 의무 교부가 시행됩니다.&nbsp;</p>\n<p>&nbsp;</p>\n<p>- 로폼의 근로계약서를 이용하시면 위 개정 내용이 포함된 근로계약서를 작성할 수 있습니다.&nbsp;&nbsp;</p>",
+            "hasGuideTooltip": "false",
+            "hasExampleTooltip": "false",
+            "hasExplainTooltip": "true"
+        }
+    ]
+}

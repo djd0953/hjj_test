@@ -1,0 +1,2151 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap');
+
+        BODY,
+        BODY>p,
+        BODY>div {
+            margin: 0;
+            word-wrap: break-word;
+            font-size: 10px;
+            font-weight: normal;
+            font-style: normal;
+            font-stretch: normal;
+            line-height: 1.71;
+            letter-spacing: normal;
+            text-align: justify;
+        }
+
+        BODY,
+        BODY>p>p,
+        BODY>div>div,
+        BODY>p>div,
+        BODY>div>p {
+            text-align: unset;
+        }
+
+        .section_title,
+        .provision_title,
+        BODY>.section_title,
+        BODY>.provision_title {
+            font-size: 11px;
+        }
+
+        BODY>table,
+        li>table {
+            width: 100% !important;
+            max-width: 100%;
+            font-size: 10px !important;
+            border-spacing: 0px;
+            border: 1px solid #333 !important;
+            border-collapse: collapse;
+        }
+
+        BODY>table>tbody>tr>td,
+        li>table>tbody>tr>td {
+            border: 1px solid #333 !important;
+            border-left: 0px !important;
+            border-top: 0px !important;
+        }
+
+        BODY>table>tbody>tr>td:first-child,
+        li>table>tbody>tr>td:first-child {
+            border-right: 1px solid #333 !important;
+        }
+
+        BODY>table>tbody>tr:last-child>td,
+        li>table>tbody>tr:last-child>td {
+            border-bottom: 0px !important;
+        }
+
+        BODY>table>tbody>tr:nth-last-child(2)>td[rowspan="2"],
+        BODY>table>tbody>tr:nth-last-child(3)>td[rowspan="3"],
+        BODY>table>tbody>tr:nth-last-child(4)>td[rowspan="4"],
+        BODY>table>tbody>tr:nth-last-child(5)>td[rowspan="5"],
+        li>table>tbody>tr:nth-last-child(2)>td[rowspan="2"],
+        li>table>tbody>tr:nth-last-child(3)>td[rowspan="3"],
+        li>table>tbody>tr:nth-last-child(4)>td[rowspan="4"],
+        li>table>tbody>tr:nth-last-child(5)>td[rowspan="5"] {
+            border-bottom: 0px !important;
+        }
+
+        BODY>table>tbody>tr>td>p,
+        BODY>table>tbody>tr>td>div,
+        BODY>table>tbody>tr>td,
+        li>table>tbody>tr>td>p,
+        li>table>tbody>tr>td>div,
+        li>table>tbody>tr>td {
+            text-align: inherit;
+            text-align-last: unset !important;
+            font-size: 10px !important;
+        }
+
+        BODY>ol {
+            padding-left: 35px;
+        }
+
+        ol {
+            margin: 0px;
+            padding-left: 25px;
+            text-indent: 0px;
+        }
+
+        ol>li {
+            font-weight: normal;
+        }
+
+        td[rowspan] {
+            position: relative;
+        }
+
+        td[rowspan]:before {
+            position: absolute;
+            content: "";
+            top: -1px;
+            left: -1px;
+            background-color: transparent;
+            border: solid black 1px;
+            width: 100%;
+            height: 100%;
+        }
+
+        td[colspan] {
+            position: relative;
+        }
+
+        td[colspan]:before {
+            position: absolute;
+            content: "";
+            top: -1px;
+            left: -1px;
+            background-color: transparent;
+            border: solid black 1px;
+            width: 100%;
+            height: 100%;
+        }
+
+        @media print {
+            p.page-break {
+                page-break-before: always;
+            }
+        }
+
+        BODY>ol>li {
+            list-style-type: decimal;
+            font-size: 10px !important;
+        }
+
+        BODY>table>tbody>tr>td>ol>li {
+            list-style-type: decimal;
+            font-size: 10px !important;
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li {
+            list-style-type: decimal;
+            font-size: 10px !important;
+        }
+
+        BODY>ol>li>ol>li {
+            list-style-type: hangul;
+            font-size: 10px !important;
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li {
+            list-style-type: hangul;
+            font-size: 10px !important;
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li {
+            list-style-type: hangul;
+            font-size: 10px !important;
+        }
+
+        BODY>ol>li>ol>li>ol {
+            counter-reset: numList;
+        }
+
+        BODY>ol>li>ol>li>ol>li {
+            list-style-type: none;
+            font-size: 10px !important;
+            text-indent: -25px;
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol {
+            counter-reset: numList;
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li {
+            list-style-type: none;
+            font-size: 10px !important;
+            text-indent: -25px;
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol {
+            counter-reset: numList;
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li {
+            list-style-type: none;
+            font-size: 10px !important;
+            text-indent: -25px;
+        }
+
+        BODY>ol>li>ol>li>ol>li:nth-child(1)::before {
+            content: "1) ";
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li:nth-child(1)::before {
+            content: "1) ";
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li:nth-child(1)::before {
+            content: "1) ";
+        }
+
+        BODY>ol>li>ol>li>ol>li:nth-child(2)::before {
+            content: "2) ";
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li:nth-child(2)::before {
+            content: "2) ";
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li:nth-child(2)::before {
+            content: "2) ";
+        }
+
+        BODY>ol>li>ol>li>ol>li:nth-child(3)::before {
+            content: "3) ";
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li:nth-child(3)::before {
+            content: "3) ";
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li:nth-child(3)::before {
+            content: "3) ";
+        }
+
+        BODY>ol>li>ol>li>ol>li:nth-child(4)::before {
+            content: "4) ";
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li:nth-child(4)::before {
+            content: "4) ";
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li:nth-child(4)::before {
+            content: "4) ";
+        }
+
+        BODY>ol>li>ol>li>ol>li:nth-child(5)::before {
+            content: "5) ";
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li:nth-child(5)::before {
+            content: "5) ";
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li:nth-child(5)::before {
+            content: "5) ";
+        }
+
+        BODY>ol>li>ol>li>ol>li:nth-child(6)::before {
+            content: "6) ";
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li:nth-child(6)::before {
+            content: "6) ";
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li:nth-child(6)::before {
+            content: "6) ";
+        }
+
+        BODY>ol>li>ol>li>ol>li:nth-child(7)::before {
+            content: "7) ";
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li:nth-child(7)::before {
+            content: "7) ";
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li:nth-child(7)::before {
+            content: "7) ";
+        }
+
+        BODY>ol>li>ol>li>ol>li:nth-child(8)::before {
+            content: "8) ";
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li:nth-child(8)::before {
+            content: "8) ";
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li:nth-child(8)::before {
+            content: "8) ";
+        }
+
+        BODY>ol>li>ol>li>ol>li:nth-child(9)::before {
+            content: "9) ";
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li:nth-child(9)::before {
+            content: "9) ";
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li:nth-child(9)::before {
+            content: "9) ";
+        }
+
+        BODY>ol>li>ol>li>ol>li:nth-child(10)::before {
+            content: "10) ";
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li:nth-child(10)::before {
+            content: "10) ";
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li:nth-child(10)::before {
+            content: "10) ";
+        }
+
+        BODY>ol>li>ol>li>ol>li:nth-child(11)::before {
+            content: "11) ";
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li:nth-child(11)::before {
+            content: "11) ";
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li:nth-child(11)::before {
+            content: "11) ";
+        }
+
+        BODY>ol>li>ol>li>ol>li:nth-child(12)::before {
+            content: "12) ";
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li:nth-child(12)::before {
+            content: "12) ";
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li:nth-child(12)::before {
+            content: "12) ";
+        }
+
+        BODY>ol>li>ol>li>ol>li:nth-child(13)::before {
+            content: "13) ";
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li:nth-child(13)::before {
+            content: "13) ";
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li:nth-child(13)::before {
+            content: "13) ";
+        }
+
+        BODY>ol>li>ol>li>ol>li:nth-child(14)::before {
+            content: "14) ";
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li:nth-child(14)::before {
+            content: "14) ";
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li:nth-child(14)::before {
+            content: "14) ";
+        }
+
+        BODY>ol>li>ol>li>ol>li:nth-child(15)::before {
+            content: "15) ";
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li:nth-child(15)::before {
+            content: "15) ";
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li:nth-child(15)::before {
+            content: "15) ";
+        }
+
+        BODY>ol>li>ol>li>ol>li:nth-child(16)::before {
+            content: "16) ";
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li:nth-child(16)::before {
+            content: "16) ";
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li:nth-child(16)::before {
+            content: "16) ";
+        }
+
+        BODY>ol>li>ol>li>ol>li:nth-child(17)::before {
+            content: "17) ";
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li:nth-child(17)::before {
+            content: "17) ";
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li:nth-child(17)::before {
+            content: "17) ";
+        }
+
+        BODY>ol>li>ol>li>ol>li:nth-child(18)::before {
+            content: "18) ";
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li:nth-child(18)::before {
+            content: "18) ";
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li:nth-child(18)::before {
+            content: "18) ";
+        }
+
+        BODY>ol>li>ol>li>ol>li:nth-child(19)::before {
+            content: "19) ";
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li:nth-child(19)::before {
+            content: "19) ";
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li:nth-child(19)::before {
+            content: "19) ";
+        }
+
+        BODY>ol>li>ol>li>ol>li:nth-child(20)::before {
+            content: "20) ";
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li:nth-child(20)::before {
+            content: "20) ";
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li:nth-child(20)::before {
+            content: "20) ";
+        }
+
+        BODY>ol>li>ol>li>ol>li>ol {
+            counter-reset: numList;
+        }
+
+        BODY>ol>li>ol>li>ol>li>ol>li {
+            list-style-type: none;
+            font-size: 10px !important;
+            text-indent: -25px;
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li>ol {
+            counter-reset: numList;
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li {
+            list-style-type: none;
+            font-size: 10px !important;
+            text-indent: -25px;
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li>ol {
+            counter-reset: numList;
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li {
+            list-style-type: none;
+            font-size: 10px !important;
+            text-indent: -25px;
+        }
+
+        BODY>ol>li>ol>li>ol>li>ol>li:nth-child(1)::before {
+            content: "가)";
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li:nth-child(1)::before {
+            content: "가)";
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li:nth-child(1)::before {
+            content: "가)";
+        }
+
+        BODY>ol>li>ol>li>ol>li>ol>li:nth-child(2)::before {
+            content: "나)";
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li:nth-child(2)::before {
+            content: "나)";
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li:nth-child(2)::before {
+            content: "나)";
+        }
+
+        BODY>ol>li>ol>li>ol>li>ol>li:nth-child(3)::before {
+            content: "다)";
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li:nth-child(3)::before {
+            content: "다)";
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li:nth-child(3)::before {
+            content: "다)";
+        }
+
+        BODY>ol>li>ol>li>ol>li>ol>li:nth-child(4)::before {
+            content: "라)";
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li:nth-child(4)::before {
+            content: "라)";
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li:nth-child(4)::before {
+            content: "라)";
+        }
+
+        BODY>ol>li>ol>li>ol>li>ol>li:nth-child(5)::before {
+            content: "마)";
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li:nth-child(5)::before {
+            content: "마)";
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li:nth-child(5)::before {
+            content: "마)";
+        }
+
+        BODY>ol>li>ol>li>ol>li>ol>li:nth-child(6)::before {
+            content: "바)";
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li:nth-child(6)::before {
+            content: "바)";
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li:nth-child(6)::before {
+            content: "바)";
+        }
+
+        BODY>ol>li>ol>li>ol>li>ol>li:nth-child(7)::before {
+            content: "사)";
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li:nth-child(7)::before {
+            content: "사)";
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li:nth-child(7)::before {
+            content: "사)";
+        }
+
+        BODY>ol>li>ol>li>ol>li>ol>li:nth-child(8)::before {
+            content: "아)";
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li:nth-child(8)::before {
+            content: "아)";
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li:nth-child(8)::before {
+            content: "아)";
+        }
+
+        BODY>ol>li>ol>li>ol>li>ol>li:nth-child(9)::before {
+            content: "자)";
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li:nth-child(9)::before {
+            content: "자)";
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li:nth-child(9)::before {
+            content: "자)";
+        }
+
+        BODY>ol>li>ol>li>ol>li>ol>li:nth-child(10)::before {
+            content: "차)";
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li:nth-child(10)::before {
+            content: "차)";
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li:nth-child(10)::before {
+            content: "차)";
+        }
+
+        BODY>ol>li>ol>li>ol>li>ol>li:nth-child(11)::before {
+            content: "카)";
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li:nth-child(11)::before {
+            content: "카)";
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li:nth-child(11)::before {
+            content: "카)";
+        }
+
+        BODY>ol>li>ol>li>ol>li>ol>li:nth-child(12)::before {
+            content: "타)";
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li:nth-child(12)::before {
+            content: "타)";
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li:nth-child(12)::before {
+            content: "타)";
+        }
+
+        BODY>ol>li>ol>li>ol>li>ol>li:nth-child(13)::before {
+            content: "파)";
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li:nth-child(13)::before {
+            content: "파)";
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li:nth-child(13)::before {
+            content: "파)";
+        }
+
+        BODY>ol>li>ol>li>ol>li>ol>li:nth-child(14)::before {
+            content: "하)";
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li:nth-child(14)::before {
+            content: "하)";
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li:nth-child(14)::before {
+            content: "하)";
+        }
+
+        BODY>ol>li>ol>li>ol>li>ol>li:nth-child(15)::before {
+            content: "가가)";
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li:nth-child(15)::before {
+            content: "가가)";
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li:nth-child(15)::before {
+            content: "가가)";
+        }
+
+        BODY>ol>li>ol>li>ol>li>ol>li:nth-child(16)::before {
+            content: "가나)";
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li:nth-child(16)::before {
+            content: "가나)";
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li:nth-child(16)::before {
+            content: "가나)";
+        }
+
+        BODY>ol>li>ol>li>ol>li>ol>li:nth-child(17)::before {
+            content: "가다)";
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li:nth-child(17)::before {
+            content: "가다)";
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li:nth-child(17)::before {
+            content: "가다)";
+        }
+
+        BODY>ol>li>ol>li>ol>li>ol>li:nth-child(18)::before {
+            content: "가라)";
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li:nth-child(18)::before {
+            content: "가라)";
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li:nth-child(18)::before {
+            content: "가라)";
+        }
+
+        BODY>ol>li>ol>li>ol>li>ol>li:nth-child(19)::before {
+            content: "가마)";
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li:nth-child(19)::before {
+            content: "가마)";
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li:nth-child(19)::before {
+            content: "가마)";
+        }
+
+        BODY>ol>li>ol>li>ol>li>ol>li:nth-child(20)::before {
+            content: "가바)";
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li:nth-child(20)::before {
+            content: "가바)";
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li:nth-child(20)::before {
+            content: "가바)";
+        }
+
+        BODY>ol>li>ol>li>ol>li>ol>li>ol {
+            counter-reset: numList;
+        }
+
+        BODY>ol>li>ol>li>ol>li>ol>li>ol>li {
+            list-style-type: none;
+            font-size: 10px !important;
+            text-indent: -25px;
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol {
+            counter-reset: numList;
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li {
+            list-style-type: none;
+            font-size: 10px !important;
+            text-indent: -25px;
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol {
+            counter-reset: numList;
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li {
+            list-style-type: none;
+            font-size: 10px !important;
+            text-indent: -25px;
+        }
+
+        BODY>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(1)::before {
+            content: "(1)";
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(1)::before {
+            content: "(1)";
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(1)::before {
+            content: "(1)";
+        }
+
+        BODY>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(2)::before {
+            content: "(2)";
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(2)::before {
+            content: "(2)";
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(2)::before {
+            content: "(2)";
+        }
+
+        BODY>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(3)::before {
+            content: "(3)";
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(3)::before {
+            content: "(3)";
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(3)::before {
+            content: "(3)";
+        }
+
+        BODY>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(4)::before {
+            content: "(4)";
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(4)::before {
+            content: "(4)";
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(4)::before {
+            content: "(4)";
+        }
+
+        BODY>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(5)::before {
+            content: "(5)";
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(5)::before {
+            content: "(5)";
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(5)::before {
+            content: "(5)";
+        }
+
+        BODY>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(6)::before {
+            content: "(6)";
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(6)::before {
+            content: "(6)";
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(6)::before {
+            content: "(6)";
+        }
+
+        BODY>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(7)::before {
+            content: "(7)";
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(7)::before {
+            content: "(7)";
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(7)::before {
+            content: "(7)";
+        }
+
+        BODY>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(8)::before {
+            content: "(8)";
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(8)::before {
+            content: "(8)";
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(8)::before {
+            content: "(8)";
+        }
+
+        BODY>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(9)::before {
+            content: "(9)";
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(9)::before {
+            content: "(9)";
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(9)::before {
+            content: "(9)";
+        }
+
+        BODY>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(10)::before {
+            content: "(10)";
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(10)::before {
+            content: "(10)";
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(10)::before {
+            content: "(10)";
+        }
+
+        BODY>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(11)::before {
+            content: "(11)";
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(11)::before {
+            content: "(11)";
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(11)::before {
+            content: "(11)";
+        }
+
+        BODY>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(12)::before {
+            content: "(12)";
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(12)::before {
+            content: "(12)";
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(12)::before {
+            content: "(12)";
+        }
+
+        BODY>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(13)::before {
+            content: "(13)";
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(13)::before {
+            content: "(13)";
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(13)::before {
+            content: "(13)";
+        }
+
+        BODY>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(14)::before {
+            content: "(14)";
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(14)::before {
+            content: "(14)";
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(14)::before {
+            content: "(14)";
+        }
+
+        BODY>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(15)::before {
+            content: "(15)";
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(15)::before {
+            content: "(15)";
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(15)::before {
+            content: "(15)";
+        }
+
+        BODY>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(16)::before {
+            content: "(16)";
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(16)::before {
+            content: "(16)";
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(16)::before {
+            content: "(16)";
+        }
+
+        BODY>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(17)::before {
+            content: "(17)";
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(17)::before {
+            content: "(17)";
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(17)::before {
+            content: "(17)";
+        }
+
+        BODY>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(18)::before {
+            content: "(18)";
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(18)::before {
+            content: "(18)";
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(18)::before {
+            content: "(18)";
+        }
+
+        BODY>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(19)::before {
+            content: "(19)";
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(19)::before {
+            content: "(19)";
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(19)::before {
+            content: "(19)";
+        }
+
+        BODY>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(20)::before {
+            content: "(20)";
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(20)::before {
+            content: "(20)";
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(20)::before {
+            content: "(20)";
+        }
+
+        BODY>ol>li>ol>li>ol>li>ol>li>ol>li>ol {
+            counter-reset: numList;
+        }
+
+        BODY>ol>li>ol>li>ol>li>ol>li>ol>li>ol>li {
+            list-style-type: none;
+            font-size: 10px !important;
+            text-indent: -25px;
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li>ol {
+            counter-reset: numList;
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li>ol>li {
+            list-style-type: none;
+            font-size: 10px !important;
+            text-indent: -25px;
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li>ol {
+            counter-reset: numList;
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li>ol>li {
+            list-style-type: none;
+            font-size: 10px !important;
+            text-indent: -25px;
+        }
+
+        BODY>ol>li>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(1)::before {
+            content: "(가)";
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(1)::before {
+            content: "(가)";
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(1)::before {
+            content: "(가)";
+        }
+
+        BODY>ol>li>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(2)::before {
+            content: "(나)";
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(2)::before {
+            content: "(나)";
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(2)::before {
+            content: "(나)";
+        }
+
+        BODY>ol>li>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(3)::before {
+            content: "(다)";
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(3)::before {
+            content: "(다)";
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(3)::before {
+            content: "(다)";
+        }
+
+        BODY>ol>li>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(4)::before {
+            content: "(라)";
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(4)::before {
+            content: "(라)";
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(4)::before {
+            content: "(라)";
+        }
+
+        BODY>ol>li>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(5)::before {
+            content: "(마)";
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(5)::before {
+            content: "(마)";
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(5)::before {
+            content: "(마)";
+        }
+
+        BODY>ol>li>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(6)::before {
+            content: "(바)";
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(6)::before {
+            content: "(바)";
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(6)::before {
+            content: "(바)";
+        }
+
+        BODY>ol>li>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(7)::before {
+            content: "(사)";
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(7)::before {
+            content: "(사)";
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(7)::before {
+            content: "(사)";
+        }
+
+        BODY>ol>li>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(8)::before {
+            content: "(아)";
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(8)::before {
+            content: "(아)";
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(8)::before {
+            content: "(아)";
+        }
+
+        BODY>ol>li>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(9)::before {
+            content: "(자)";
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(9)::before {
+            content: "(자)";
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(9)::before {
+            content: "(자)";
+        }
+
+        BODY>ol>li>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(10)::before {
+            content: "(차)";
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(10)::before {
+            content: "(차)";
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(10)::before {
+            content: "(차)";
+        }
+
+        BODY>ol>li>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(11)::before {
+            content: "(카)";
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(11)::before {
+            content: "(카)";
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(11)::before {
+            content: "(카)";
+        }
+
+        BODY>ol>li>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(12)::before {
+            content: "(타)";
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(12)::before {
+            content: "(타)";
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(12)::before {
+            content: "(타)";
+        }
+
+        BODY>ol>li>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(13)::before {
+            content: "(파)";
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(13)::before {
+            content: "(파)";
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(13)::before {
+            content: "(파)";
+        }
+
+        BODY>ol>li>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(14)::before {
+            content: "(하)";
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(14)::before {
+            content: "(하)";
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(14)::before {
+            content: "(하)";
+        }
+
+        BODY>ol>li>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(15)::before {
+            content: "(가가)";
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(15)::before {
+            content: "(가가)";
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(15)::before {
+            content: "(가가)";
+        }
+
+        BODY>ol>li>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(16)::before {
+            content: "(가나)";
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(16)::before {
+            content: "(가나)";
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(16)::before {
+            content: "(가나)";
+        }
+
+        BODY>ol>li>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(17)::before {
+            content: "(가다)";
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(17)::before {
+            content: "(가다)";
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(17)::before {
+            content: "(가다)";
+        }
+
+        BODY>ol>li>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(18)::before {
+            content: "(가라)";
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(18)::before {
+            content: "(가라)";
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(18)::before {
+            content: "(가라)";
+        }
+
+        BODY>ol>li>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(19)::before {
+            content: "(가마)";
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(19)::before {
+            content: "(가마)";
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(19)::before {
+            content: "(가마)";
+        }
+
+        BODY>ol>li>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(20)::before {
+            content: "(가바)";
+        }
+
+        BODY>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(20)::before {
+            content: "(가바)";
+        }
+
+        BODY>ol>li>table>tbody>tr>td>ol>li>ol>li>ol>li>ol>li>ol>li>ol>li:nth-child(20)::before {
+            content: "(가바)";
+        }
+
+        BODY {
+            font-family: 'Noto Serif KR', serif;
+            font-weight: 200;
+            font-size: 12px;
+            margin-left: 0px;
+            margin-right: 0px;
+        }
+
+        BODY P {
+            margin: 0;
+            line-height: 2em;
+            letter-spacing: 0.05rem;
+        }
+
+        BODY STRONG {
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body><br />
+    <html>
+
+    <head></head>
+
+    <body>
+        <header id="node_1_0">별첨 1.</header>
+        <h1 id="node_1_1" style="text-align: center;">발 주 서</h1>
+        <ol>
+            <li>발주 품목:&nbsp;<table style="width: 100%;">
+                    <tbody>
+                        <tr>
+                            <td style="text-align: center;">일자</td>
+                            <td style="text-align: center;">품목명(규격)</td>
+                            <td style="text-align: center;">수량(단위포함)</td>
+                            <td style="text-align: center;">단가</td>
+                            <td style="text-align: center;">공급가액</td>
+                            <td style="text-align: center;">부가세</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: center;">11/20</td>
+                            <td style="text-align: center;">SKZ SKZHOP POP-UP 특전 폴라로이드 포토카드 8종</td>
+                            <td style="text-align: center;">40,800 EA</td>
+                            <td style="text-align: center;">200</td>
+                            <td style="text-align: center;">8,160,000</td>
+                            <td style="text-align: center;">816,000</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: center;">11/20</td>
+                            <td style="text-align: center;">SKZ SKZHOP POP-UP 특전 띠부씰 8종</td>
+                            <td style="text-align: center;">6,480 EA</td>
+                            <td style="text-align: center;">220</td>
+                            <td style="text-align: center;">1,425,600</td>
+                            <td style="text-align: center;">142,560</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: center;">11/20</td>
+                            <td style="text-align: center;">SKZ SKZHOP POP-UP 특전 카드 커버 스티커 1종</td>
+                            <td style="text-align: center;">3,000 EA</td>
+                            <td style="text-align: center;">850</td>
+                            <td style="text-align: center;">2,550,000</td>
+                            <td style="text-align: center;">255,000</td>
+                        </tr>
+                        <tr>
+                            <td>11/20</td>
+                            <td style="text-align: center;">SKZ SKZHOP POP-UP 특전 엽서 1종</td>
+                            <td style="text-align: center;">2,268 EA</td>
+                            <td style="text-align: center;">500</td>
+                            <td style="text-align: center;">1,134,000</td>
+                            <td style="text-align: center;">113,400</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: center;">11/20</td>
+                            <td style="text-align: center;">SKZ SKZHOP POP-UP 특전 크리스마스 손글씨 카 드 1종</td>
+                            <td style="text-align: center;">5,000 EA</td>
+                            <td style="text-align: center;">500</td>
+                            <td style="text-align: center;">2,500,000</td>
+                            <td style="text-align: center;">250,000</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: center;">11/20</td>
+                            <td style="text-align: center;">SKZ SKZHOP POP-UP 특전 아크릴 키링 1종</td>
+                            <td style="text-align: center;">3,000 EA</td>
+                            <td style="text-align: center;">1,500</td>
+                            <td style="text-align: center;">4,500,000</td>
+                            <td style="text-align: center;">450,000</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: center;">11/20</td>
+                            <td style="text-align: center;">SKZ SKZHOP POP-UP 특전 종이 오너먼트 5종</td>
+                            <td style="text-align: center;">7,000 EA</td>
+                            <td style="text-align: center;">1,630</td>
+                            <td style="text-align: center;">11,410,000</td>
+                            <td style="text-align: center;">1,141,000</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: center;">11/20</td>
+                            <td style="text-align: center;">퀵</td>
+                            <td style="text-align: center;">1 EA</td>
+                            <td style="text-align: center;">40,000</td>
+                            <td style="text-align: center;">40,000</td>
+                            <td style="text-align: center;">4,000</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: center;">합계</td>
+                            <td style="text-align: center; background-color: rgb(206, 212, 217);">&nbsp;</td>
+                            <td style="text-align: center; background-color: rgb(206, 212, 217);">&nbsp;</td>
+                            <td style="text-align: center; background-color: rgb(206, 212, 217);">&nbsp;</td>
+                            <td style="text-align: center; background-color: rgb(206, 212, 217);">지급총액</td>
+                            <td style="text-align: center; background-color: rgb(206, 212, 217);">34,891,560</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </li>
+            <li>납품기한: 2024년 12월 13일</li>
+            <li>납품방법 및 장소 휘겸재 (팝업현장 직입고)</li>
+            <li>특약사항: 없음</li>
+        </ol>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+        <table id="24" style="width: 550px; border: hidden; height: 44.184px;">
+            <tbody>
+                <tr style="border: hidden; height: 10px;">
+                    <td style="width: 258.212px; height: 10px; border: none; text-align: left;">주식회사 제이와이피 쓰리식스티</td>
+                    <td style="width: 287.24px; height: 10px; border: none; text-align: left;">주식회사 위블링</td>
+                </tr>
+                <tr style="border: hidden; height: 17.092px;">
+                    <td style="width: 258.212px; height: 17.092px; border: none; text-align: left;">서울시 강동구 성안로 7-13,
+                        2층 (성내동, 광채빌딩)</td>
+                    <td style="width: 287.24px; height: 17.092px; border: none; text-align: left;">서울시 영등포구 여의대로 24,
+                        21층 (여의도동, 전국경제'</td>
+                </tr>
+                <tr style="border: hidden; height: 17.092px;">
+                    <td style="width: 258.212px; height: 17.092px; border: none; text-align: left;">대표이사 피 현 식, 정 민 종
+                        (인)</td>
+                    <td style="width: 287.24px; height: 17.092px; border: none; text-align: left;">대표이사 김 성 경 (인)</td>
+                </tr>
+            </tbody>
+        </table>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+        <p id="node_1_8" data-category="paragraph"></p>
+        <header id="node_1_9">별첨 1.</header>
+        <h1 id="node_1_10" style="text-align: center;">발 주 서</h1>
+        <ol>
+            <li>발주 품목:<table id="node_1_13" style="width: 525px; height: 170.92px;">
+                    <tbody>
+                        <tr style="height: 17.092px;">
+                            <td style="text-align: center; width: 37px; height: 17.092px;">일자</td>
+                            <td style="text-align: center; width: 209px; height: 17.092px;">품목명(규격)</td>
+                            <td style="text-align: center; width: 83px; height: 17.092px;">수량(단위포함)</td>
+                            <td style="text-align: center; width: 44px; height: 17.092px;">단가</td>
+                            <td style="text-align: center; width: 63px; height: 17.092px;">공급가액</td>
+                            <td style="text-align: center; width: 73px; height: 17.092px;">부가세</td>
+                        </tr>
+                        <tr style="height: 17.092px;">
+                            <td style="text-align: center; width: 37px; height: 17.092px;">11/29</td>
+                            <td style="text-align: center; width: 209px; height: 17.092px;">TWICE 14th 미니앨범 포토카드 19종
+                            </td>
+                            <td style="text-align: center; width: 83px; height: 17.092px;">52,000 EA</td>
+                            <td style="text-align: center; width: 44px; height: 17.092px;">190</td>
+                            <td style="text-align: center; width: 63px; height: 17.092px;">9,880,000</td>
+                            <td style="text-align: center; width: 73px; height: 17.092px;">988,000</td>
+                        </tr>
+                        <tr style="height: 17.092px;">
+                            <td style="text-align: center; width: 37px; height: 17.092px;">12/5</td>
+                            <td style="text-align: center; width: 209px; height: 17.092px;">퀵</td>
+                            <td style="text-align: center; width: 83px; height: 17.092px;">1 EA</td>
+                            <td style="text-align: center; width: 44px; height: 17.092px;">40,000</td>
+                            <td style="text-align: center; width: 63px; height: 17.092px;">40,000</td>
+                            <td style="text-align: center; width: 73px; height: 17.092px;">4,000</td>
+                        </tr>
+                        <tr style="height: 17.092px;">
+                            <td style="text-align: center; width: 37px; height: 17.092px;">&nbsp;</td>
+                            <td style="text-align: center; width: 209px; height: 17.092px;">&nbsp;</td>
+                            <td style="text-align: center; width: 83px; height: 17.092px;">&nbsp;</td>
+                            <td style="text-align: center; width: 44px; height: 17.092px;">&nbsp;</td>
+                            <td style="text-align: center; width: 63px; height: 17.092px;">&nbsp;</td>
+                            <td style="text-align: center; width: 73px; height: 17.092px;">&nbsp;</td>
+                        </tr>
+                        <tr style="height: 17.092px;">
+                            <td style="text-align: center; width: 37px; height: 17.092px;">&nbsp;</td>
+                            <td style="text-align: center; width: 209px; height: 17.092px;">&nbsp;</td>
+                            <td style="text-align: center; width: 83px; height: 17.092px;">&nbsp;</td>
+                            <td style="text-align: center; width: 44px; height: 17.092px;">&nbsp;</td>
+                            <td style="text-align: center; width: 63px; height: 17.092px;">&nbsp;</td>
+                            <td style="text-align: center; width: 73px; height: 17.092px;">&nbsp;</td>
+                        </tr>
+                        <tr style="height: 17.092px;">
+                            <td style="text-align: center; width: 37px; height: 17.092px;">&nbsp;</td>
+                            <td style="text-align: center; width: 209px; height: 17.092px;">&nbsp;</td>
+                            <td style="text-align: center; width: 83px; height: 17.092px;">&nbsp;</td>
+                            <td style="text-align: center; width: 44px; height: 17.092px;">&nbsp;</td>
+                            <td style="text-align: center; width: 63px; height: 17.092px;">&nbsp;</td>
+                            <td style="text-align: center; width: 73px; height: 17.092px;">&nbsp;</td>
+                        </tr>
+                        <tr style="height: 17.092px;">
+                            <td style="text-align: center; width: 37px; height: 17.092px;">&nbsp;</td>
+                            <td style="text-align: center; width: 209px; height: 17.092px;">&nbsp;</td>
+                            <td style="text-align: center; width: 83px; height: 17.092px;">&nbsp;</td>
+                            <td style="text-align: center; width: 44px; height: 17.092px;">&nbsp;</td>
+                            <td style="text-align: center; width: 63px; height: 17.092px;">&nbsp;</td>
+                            <td style="text-align: center; width: 73px; height: 17.092px;">&nbsp;</td>
+                        </tr>
+                        <tr style="height: 17.092px;">
+                            <td style="text-align: center; width: 37px; height: 17.092px;">&nbsp;</td>
+                            <td style="text-align: center; width: 209px; height: 17.092px;">&nbsp;</td>
+                            <td style="text-align: center; width: 83px; height: 17.092px;">&nbsp;</td>
+                            <td style="text-align: center; width: 44px; height: 17.092px;">&nbsp;</td>
+                            <td style="text-align: center; width: 63px; height: 17.092px;">&nbsp;</td>
+                            <td style="text-align: center; width: 73px; height: 17.092px;">&nbsp;</td>
+                        </tr>
+                        <tr style="height: 17.092px;">
+                            <td style="text-align: center; width: 37px; height: 17.092px;">&nbsp;</td>
+                            <td style="text-align: center; width: 209px; height: 17.092px;">&nbsp;</td>
+                            <td style="text-align: center; width: 83px; height: 17.092px;">&nbsp;</td>
+                            <td style="text-align: center; width: 44px; height: 17.092px;">&nbsp;</td>
+                            <td style="text-align: center; width: 63px; height: 17.092px;">&nbsp;</td>
+                            <td style="text-align: center; width: 73px; height: 17.092px;">&nbsp;</td>
+                        </tr>
+                        <tr style="height: 17.092px;">
+                            <td style="text-align: center; width: 37px; height: 17.092px;">합계</td>
+                            <td style="text-align: center; width: 209px; height: 17.092px; background-color: rgb(206,
+                                212, 217);">&nbsp;</td>
+                            <td style="text-align: center; width: 83px; height: 17.092px; background-color: rgb(206,
+                                212, 217);">&nbsp;</td>
+                            <td style="text-align: center; width: 44px; height: 17.092px; background-color: rgb(206,
+                                212, 217);">&nbsp;</td>
+                            <td style="text-align: center; width: 63px; height: 17.092px; background-color: rgb(206,
+                                212, 217);">지급총액</td>
+                            <td style="text-align: center; width: 73px; height: 17.092px; background-color: rgb(206,
+                                212, 217);">10,912,000</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </li>
+            <li>납품기한: 2024년 12월 5일</li>
+            <li>납품방법 및 장소 로지스밸리</li>
+            <li>특약사항: 없음</li>
+        </ol>
+        <p>&nbsp;</p>
+        <p data-category="paragraph">&nbsp;</p>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+        <table id="24" style="width: 550px; border: hidden; height: 44.184px;">
+            <tbody>
+                <tr style="border: hidden; height: 10px;">
+                    <td style="width: 258.212px; height: 10px; border: none; text-align: left;">주식회사 제이와이피 쓰리식스티</td>
+                    <td style="width: 287.24px; height: 10px; border: none; text-align: left;">주식회사 위블링</td>
+                </tr>
+                <tr style="border: hidden; height: 17.092px;">
+                    <td style="width: 258.212px; height: 17.092px; border: none; text-align: left;">서울시 강동구 성안로 7-13,
+                        2층 (성내동, 광채빌딩)</td>
+                    <td style="width: 287.24px; height: 17.092px; border: none; text-align: left;">서울시 영등포구 여의대로 24,
+                        21층 (여의도동, 전국경제'</td>
+                </tr>
+                <tr style="border: hidden; height: 17.092px;">
+                    <td style="width: 258.212px; height: 17.092px; border: none; text-align: left;">대표이사 피 현 식, 정 민 종
+                        (인)</td>
+                    <td style="width: 287.24px; height: 17.092px; border: none; text-align: left;">대표이사 김 성 경 (인)</td>
+                </tr>
+            </tbody>
+        </table>
+        <p>&nbsp;</p>
+        <p id="node_1_6" data-category="paragraph"></p>
+        <p data-category="paragraph">&nbsp;</p>
+        <p>&nbsp;</p>
+        <header id="node_1_14">별첨 1.</header>
+        <h1 id="node_1_15" style="text-align: center;">발 주 서</h1>
+        <ol>
+            <li>발주 품목:<table style="width: 100%;">
+                    <tbody>
+                        <tr style="height: 17.092px; text-align: center;">
+                            <td style="text-align: center; width: 40.0087px;">일자</td>
+                            <td style="text-align: center; width: 185.052px;">품목명(규격)</td>
+                            <td style="text-align: center; width: 89.0017px;">수량(단위포함)</td>
+                            <td style="text-align: center; width: 46.9965px;">단가</td>
+                            <td style="text-align: center; width: 68.0122px;">공급가액</td>
+                            <td style="text-align: center; width: 80.0608px;">부가세</td>
+                        </tr>
+                        <tr style="height: 34.1667px; text-align: center;">
+                            <td style="text-align: center; width: 40.0087px; height: 34.1667px;">12/2</td>
+                            <td style="text-align: center; width: 185.052px; height: 34.1667px;">SKZ SKZHOP 앨범 특전 (1차
+                                출고) 16종</td>
+                            <td style="text-align: center; width: 89.0017px; height: 34.1667px;">128,000 EA</td>
+                            <td style="text-align: center; width: 46.9965px; height: 34.1667px;">190</td>
+                            <td style="text-align: center; width: 68.0122px; height: 34.1667px;">24,320,000</td>
+                            <td style="text-align: center; width: 80.0608px; height: 34.1667px;">2,432,000</td>
+                        </tr>
+                        <tr style="height: 34.1667px; text-align: center;">
+                            <td style="text-align: center; width: 40.0087px; height: 34.1667px;">12/11</td>
+                            <td style="text-align: center; width: 185.052px; height: 34.1667px;">SKZ SKZHOP 앨범 특전 (2차
+                                출고) 16종</td>
+                            <td style="text-align: center; width: 89.0017px; height: 34.1667px;">87,304 EA</td>
+                            <td style="text-align: center; width: 46.9965px; height: 34.1667px;">190</td>
+                            <td style="text-align: center; width: 68.0122px; height: 34.184px;">16,587,760</td>
+                            <td style="text-align: center; width: 80.0608px; height: 34.1667px;">1,658,776</td>
+                        </tr>
+                        <tr style="height: 17.092px; text-align: center;">
+                            <td style="text-align: center; width: 40.0087px;">12/16</td>
+                            <td style="text-align: center; width: 185.052px;">SKZ SKZHOP 앨범 특전 (3차 출고) 8종</td>
+                            <td style="text-align: center; width: 89.0017px;">&nbsp;41,04 EA</td>
+                            <td style="text-align: center; width: 46.9965px;">&nbsp;230</td>
+                            <td style="text-align: center; width: 68.0122px;">943,920</td>
+                            <td style="text-align: center; width: 80.0608px;">94,392</td>
+                        </tr>
+                        <tr style="height: 34.1667px; text-align: center;">
+                            <td style="text-align: center; width: 40.0087px; height: 34.1667px;">12/16</td>
+                            <td style="text-align: center; width: 185.052px; height: 34.1667px;">배송비</td>
+                            <td style="text-align: center; width: 89.0017px; height: 34.1667px;">&nbsp;3 EA</td>
+                            <td style="text-align: center; width: 46.9965px; height: 34.1667px;">&nbsp;40,000</td>
+                            <td style="text-align: center; width: 68.0122px; height: 34.1667px;">&nbsp;120,000</td>
+                            <td style="text-align: center; width: 80.0608px; height: 34.1667px;">&nbsp;12,000</td>
+                        </tr>
+                        <tr style="height: 17.092px;">
+                            <td style="text-align: center; width: 40.0087px;">&nbsp;</td>
+                            <td style="text-align: center; width: 185.052px;">&nbsp;</td>
+                            <td style="text-align: center; width: 89.0017px;">&nbsp;</td>
+                            <td style="text-align: center; width: 46.9965px;">&nbsp;</td>
+                            <td style="text-align: center; width: 68.0122px;">&nbsp;</td>
+                            <td style="text-align: center; width: 80.0608px;">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: center; width: 40.0087px;">&nbsp;</td>
+                            <td style="text-align: center; width: 185.052px;">&nbsp;</td>
+                            <td style="text-align: center; width: 89.0017px;">&nbsp;</td>
+                            <td style="text-align: center; width: 46.9965px;">&nbsp;</td>
+                            <td style="text-align: center; width: 68.0122px;">&nbsp;</td>
+                            <td style="text-align: center; width: 80.0608px;">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: center; width: 40.0087px;">&nbsp;</td>
+                            <td style="text-align: center; width: 185.052px;">&nbsp;</td>
+                            <td style="text-align: center; width: 89.0017px;">&nbsp;</td>
+                            <td style="text-align: center; width: 46.9965px;">&nbsp;</td>
+                            <td style="text-align: center; width: 68.0122px;">&nbsp;</td>
+                            <td style="text-align: center; width: 80.0608px;">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: center; width: 40.0087px;">&nbsp;</td>
+                            <td style="text-align: center; width: 185.052px;">&nbsp;</td>
+                            <td style="text-align: center; width: 89.0017px;">&nbsp;</td>
+                            <td style="text-align: center; width: 46.9965px;">&nbsp;</td>
+                            <td style="text-align: center; width: 68.0122px;">&nbsp;</td>
+                            <td style="text-align: center; width: 80.0608px;">&nbsp;</td>
+                        </tr>
+                        <tr style="height: 17.092px;">
+                            <td style="text-align: center; width: 40.0087px;">&nbsp;합계</td>
+                            <td style="text-align: center; width: 185.052px; background-color: rgb(206, 212, 217);">
+                                &nbsp;</td>
+                            <td style="text-align: center; width: 89.0017px; background-color: rgb(206, 212, 217);">
+                                &nbsp;</td>
+                            <td style="text-align: center; width: 46.9965px; background-color: rgb(206, 212, 217);">
+                                &nbsp;</td>
+                            <td style="text-align: center; width: 68.0122px; background-color: rgb(206, 212, 217);">
+                                &nbsp;지급총액</td>
+                            <td style="text-align: center; width: 80.0608px; background-color: rgb(206, 212, 217);">
+                                &nbsp;46,168,848</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </li>
+            <li>납품기한: 2024년 12월 16일</li>
+            <li>납품방법 및 장소 로지스밸리</li>
+            <li>특약사항: 없음</li>
+        </ol>
+        <p>&nbsp;</p>
+        <p data-category="paragraph">&nbsp;</p>
+        <p data-category="paragraph">&nbsp;</p>
+        <p>&nbsp;</p>
+        <table id="24" style="width: 550px; border: hidden; height: 44.184px;">
+            <tbody>
+                <tr style="border: hidden; height: 10px;">
+                    <td style="width: 258.212px; height: 10px; border: none; text-align: left;">주식회사 제이와이피 쓰리식스티</td>
+                    <td style="width: 287.24px; height: 10px; border: none; text-align: left;">주식회사 위블링</td>
+                </tr>
+                <tr style="border: hidden; height: 17.092px;">
+                    <td style="width: 258.212px; height: 17.092px; border: none; text-align: left;">서울시 강동구 성안로 7-13,
+                        2층 (성내동, 광채빌딩)</td>
+                    <td style="width: 287.24px; height: 17.092px; border: none; text-align: left;">서울시 영등포구 여의대로 24,
+                        21층 (여의도동, 전국경제'</td>
+                </tr>
+                <tr style="border: hidden; height: 17.092px;">
+                    <td style="width: 258.212px; height: 17.092px; border: none; text-align: left;">대표이사 피 현 식, 정 민 종
+                        (인)</td>
+                    <td style="width: 287.24px; height: 17.092px; border: none; text-align: left;">대표이사 김 성 경 (인)</td>
+                </tr>
+            </tbody>
+        </table>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+        <header id="node_1_19">별첨 1.</header>
+        <h1 id="node_1_20" style="text-align: center;">발 주 서</h1>
+        <ol id="node_1_21">
+            <li id="21" data-category="paragraph">발주 품목:<table id="node_1_23" style="width: 525px; height:
+                    68.368px;">
+                    <tbody>
+                        <tr style="height: 17.092px;">
+                            <td style="text-align: center; width: 37px; height: 17.092px;">일자</td>
+                            <td style="text-align: center; width: 212px; height: 17.092px;">품목명(규격)</td>
+                            <td style="text-align: center; width: 84px; height: 17.092px;">수량(단위포함)</td>
+                            <td style="text-align: center; width: 44px; height: 17.092px;">단가</td>
+                            <td style="text-align: center; width: 64px; height: 17.092px;">공급가액</td>
+                            <td style="text-align: center; width: 68px; height: 17.092px;">부가세</td>
+                        </tr>
+                        <tr style="height: 17.092px;">
+                            <td style="text-align: center; width: 37px; height: 17.092px;">12/5</td>
+                            <td style="text-align: center; width: 212px; height: 17.092px;">TWICE 14th 미니앨범 포토카드 27종
+                            </td>
+                            <td style="text-align: center; width: 84px; height: 17.092px;">7,200 EA</td>
+                            <td style="text-align: center; width: 44px; height: 17.092px;">220</td>
+                            <td style="text-align: center; width: 64px; height: 17.092px;">1,584,000</td>
+                            <td style="text-align: center; width: 68px; height: 17.092px;">158,400</td>
+                        </tr>
+                        <tr style="height: 17.092px;">
+                            <td style="text-align: center; width: 37px; height: 17.092px;">12/10</td>
+                            <td style="text-align: center; width: 212px; height: 17.092px;">퀵</td>
+                            <td style="text-align: center; width: 84px; height: 17.092px;">1 EA</td>
+                            <td style="text-align: center; width: 44px; height: 17.092px;">40,000</td>
+                            <td style="text-align: center; width: 64px; height: 17.092px;">40,000</td>
+                            <td style="text-align: center; width: 68px; height: 17.092px;">4,000</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: center; width: 37px;">&nbsp;</td>
+                            <td style="text-align: center; width: 212px;">&nbsp;</td>
+                            <td style="text-align: center; width: 84px;">&nbsp;</td>
+                            <td style="text-align: center; width: 44px;">&nbsp;</td>
+                            <td style="text-align: center; width: 64px;">&nbsp;</td>
+                            <td style="text-align: center; width: 68px;">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: center; width: 37px;">&nbsp;</td>
+                            <td style="text-align: center; width: 212px;">&nbsp;</td>
+                            <td style="text-align: center; width: 84px;">&nbsp;</td>
+                            <td style="text-align: center; width: 44px;">&nbsp;</td>
+                            <td style="text-align: center; width: 64px;">&nbsp;</td>
+                            <td style="text-align: center; width: 68px;">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: center; width: 37px;">&nbsp;</td>
+                            <td style="text-align: center; width: 212px;">&nbsp;</td>
+                            <td style="text-align: center; width: 84px;">&nbsp;</td>
+                            <td style="text-align: center; width: 44px;">&nbsp;</td>
+                            <td style="text-align: center; width: 64px;">&nbsp;</td>
+                            <td style="text-align: center; width: 68px;">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: center; width: 37px;">&nbsp;</td>
+                            <td style="text-align: center; width: 212px;">&nbsp;</td>
+                            <td style="text-align: center; width: 84px;">&nbsp;</td>
+                            <td style="text-align: center; width: 44px;">&nbsp;</td>
+                            <td style="text-align: center; width: 64px;">&nbsp;</td>
+                            <td style="text-align: center; width: 68px;">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: center; width: 37px;">&nbsp;</td>
+                            <td style="text-align: center; width: 212px;">&nbsp;</td>
+                            <td style="text-align: center; width: 84px;">&nbsp;</td>
+                            <td style="text-align: center; width: 44px;">&nbsp;</td>
+                            <td style="text-align: center; width: 64px;">&nbsp;</td>
+                            <td style="text-align: center; width: 68px;">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: center; width: 37px;">&nbsp;</td>
+                            <td style="text-align: center; width: 212px;">&nbsp;</td>
+                            <td style="text-align: center; width: 84px;">&nbsp;</td>
+                            <td style="text-align: center; width: 44px;">&nbsp;</td>
+                            <td style="text-align: center; width: 64px;">&nbsp;</td>
+                            <td style="text-align: center; width: 68px;">&nbsp;</td>
+                        </tr>
+                        <tr style="height: 17.092px;">
+                            <td style="text-align: center; width: 37px; height: 17.092px;">합계</td>
+                            <td style="text-align: center; width: 212px; height: 17.092px; background-color: rgb(206,
+                                212, 217);">&nbsp;</td>
+                            <td style="text-align: center; width: 84px; height: 17.092px; background-color: rgb(206,
+                                212, 217);">&nbsp;</td>
+                            <td style="text-align: center; width: 44px; height: 17.092px; background-color: rgb(206,
+                                212, 217);">&nbsp;</td>
+                            <td style="text-align: center; width: 64px; height: 17.092px; background-color: rgb(206,
+                                212, 217);">지급총액</td>
+                            <td style="text-align: center; width: 68px; height: 17.092px; background-color: rgb(206,
+                                212, 217);">1,786,400</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </li>
+            <li>납품기한: 2024년 12월 10일</li>
+            <li>납품방법 및 장소 더현대 에픽서울 (팝업현장 직입고)</li>
+            <li>특약사항: 없음</li>
+        </ol>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+        <table id="24" style="width: 550px; border: hidden; height: 44.184px;">
+            <tbody>
+                <tr style="border: hidden; height: 10px;">
+                    <td style="width: 258.212px; height: 10px; border: none; text-align: left;">주식회사 제이와이피 쓰리식스티</td>
+                    <td style="width: 287.24px; height: 10px; border: none; text-align: left;">주식회사 위블링</td>
+                </tr>
+                <tr style="border: hidden; height: 17.092px;">
+                    <td style="width: 258.212px; height: 17.092px; border: none; text-align: left;">서울시 강동구 성안로 7-13,
+                        2층 (성내동, 광채빌딩)</td>
+                    <td style="width: 287.24px; height: 17.092px; border: none; text-align: left;">서울시 영등포구 여의대로 24,
+                        21층 (여의도동, 전국경제'</td>
+                </tr>
+                <tr style="border: hidden; height: 17.092px;">
+                    <td style="width: 258.212px; height: 17.092px; border: none; text-align: left;">대표이사 피 현 식, 정 민 종
+                        (인)</td>
+                    <td style="width: 287.24px; height: 17.092px; border: none; text-align: left;">대표이사 김 성 경 (인)</td>
+                </tr>
+            </tbody>
+        </table>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+        <header id="node_1_25">별첨 1.</header>
+        <h1 id="node_1_26" style="text-align: center;">발 주 서</h1>
+        <p>&nbsp;</p>
+        <ol id="node_1_28">
+            <li id="27" data-category="paragraph">발주 품목:<table id="node_1_30" style="width: 525px; height:
+                    170.92px;">
+                    <tbody>
+                        <tr style="height: 17.092px;">
+                            <td style="text-align: center; width: 42.0052px; height: 17.092px;">일자</td>
+                            <td style="text-align: center; width: 178.047px; height: 17.092px;">품목명(규격)</td>
+                            <td style="text-align: center; width: 94.0191px; height: 17.092px;">수량(단위포함)</td>
+                            <td style="text-align: center; width: 49.0017px; height: 17.092px;">단가</td>
+                            <td style="text-align: center; width: 72.0139px; height: 17.092px;">공급가액</td>
+                            <td style="text-align: center; width: 74.0451px; height: 17.092px;">부가세</td>
+                        </tr>
+                        <tr style="height: 17.092px;">
+                            <td style="text-align: center; width: 42.0052px; height: 17.092px;">12/16</td>
+                            <td style="text-align: center; width: 178.047px; height: 17.092px;">XD LIVE and FALL 포토카드
+                            </td>
+                            <td style="text-align: center; width: 94.0191px; height: 17.092px;">10,200 EA</td>
+                            <td style="text-align: center; width: 49.0017px; height: 17.092px;">210</td>
+                            <td style="text-align: center; width: 72.0139px; height: 17.092px;">2,142,000</td>
+                            <td style="text-align: center; width: 74.0451px; height: 17.092px;">214,200</td>
+                        </tr>
+                        <tr style="height: 17.092px;">
+                            <td style="text-align: center; width: 42.0052px; height: 17.092px;">12/26</td>
+                            <td style="text-align: center; width: 178.047px; height: 17.092px;">배송비</td>
+                            <td style="text-align: center; width: 94.0191px; height: 17.092px;">1 EA</td>
+                            <td style="text-align: center; width: 49.0017px; height: 17.092px;">40,000</td>
+                            <td style="text-align: center; width: 72.0139px; height: 17.092px;">40,000</td>
+                            <td style="text-align: center; width: 74.0451px; height: 17.092px;">4,000</td>
+                        </tr>
+                        <tr style="height: 17.092px;">
+                            <td style="text-align: center; width: 42.0052px; height: 17.092px;">&nbsp;</td>
+                            <td style="text-align: center; width: 178.047px; height: 17.092px;">&nbsp;</td>
+                            <td style="text-align: center; width: 94.0191px; height: 17.092px;">&nbsp;</td>
+                            <td style="text-align: center; width: 49.0017px; height: 17.092px;">&nbsp;</td>
+                            <td style="text-align: center; width: 72.0139px; height: 17.092px;">&nbsp;</td>
+                            <td style="text-align: center; width: 74.0451px; height: 17.092px;">&nbsp;</td>
+                        </tr>
+                        <tr style="height: 17.092px;">
+                            <td style="text-align: center; width: 42.0052px; height: 17.092px;">&nbsp;</td>
+                            <td style="text-align: center; width: 178.047px; height: 17.092px;">&nbsp;</td>
+                            <td style="text-align: center; width: 94.0191px; height: 17.092px;">&nbsp;</td>
+                            <td style="text-align: center; width: 49.0017px; height: 17.092px;">&nbsp;</td>
+                            <td style="text-align: center; width: 72.0139px; height: 17.092px;">&nbsp;</td>
+                            <td style="text-align: center; width: 74.0451px; height: 17.092px;">&nbsp;</td>
+                        </tr>
+                        <tr style="height: 17.092px;">
+                            <td style="text-align: center; width: 42.0052px; height: 17.092px;">&nbsp;</td>
+                            <td style="text-align: center; width: 178.047px; height: 17.092px;">&nbsp;</td>
+                            <td style="text-align: center; width: 94.0191px; height: 17.092px;">&nbsp;</td>
+                            <td style="text-align: center; width: 49.0017px; height: 17.092px;">&nbsp;</td>
+                            <td style="text-align: center; width: 72.0139px; height: 17.092px;">&nbsp;</td>
+                            <td style="text-align: center; width: 74.0451px; height: 17.092px;">&nbsp;</td>
+                        </tr>
+                        <tr style="height: 17.092px;">
+                            <td style="text-align: center; width: 42.0052px; height: 17.092px;">&nbsp;</td>
+                            <td style="text-align: center; width: 178.047px; height: 17.092px;">&nbsp;</td>
+                            <td style="text-align: center; width: 94.0191px; height: 17.092px;">&nbsp;</td>
+                            <td style="text-align: center; width: 49.0017px; height: 17.092px;">&nbsp;</td>
+                            <td style="text-align: center; width: 72.0139px; height: 17.092px;">&nbsp;</td>
+                            <td style="text-align: center; width: 74.0451px; height: 17.092px;">&nbsp;</td>
+                        </tr>
+                        <tr style="height: 17.092px;">
+                            <td style="text-align: center; width: 42.0052px; height: 17.092px;">&nbsp;</td>
+                            <td style="text-align: center; width: 178.047px; height: 17.092px;">&nbsp;</td>
+                            <td style="text-align: center; width: 94.0191px; height: 17.092px;">&nbsp;</td>
+                            <td style="text-align: center; width: 49.0017px; height: 17.092px;">&nbsp;</td>
+                            <td style="text-align: center; width: 72.0139px; height: 17.092px;">&nbsp;</td>
+                            <td style="text-align: center; width: 74.0451px; height: 17.092px;">&nbsp;</td>
+                        </tr>
+                        <tr style="height: 17.092px;">
+                            <td style="text-align: center; width: 42.0052px; height: 17.092px;">&nbsp;</td>
+                            <td style="text-align: center; width: 178.047px; height: 17.092px;">&nbsp;</td>
+                            <td style="text-align: center; width: 94.0191px; height: 17.092px;">&nbsp;</td>
+                            <td style="text-align: center; width: 49.0017px; height: 17.092px;">&nbsp;</td>
+                            <td style="text-align: center; width: 72.0139px; height: 17.092px;">&nbsp;</td>
+                            <td style="text-align: center; width: 74.0451px; height: 17.092px;">&nbsp;</td>
+                        </tr>
+                        <tr style="height: 17.092px;">
+                            <td style="text-align: center; width: 42.0052px; height: 17.092px;">합계</td>
+                            <td style="text-align: center; width: 178.047px; height: 17.092px; background-color:
+                                rgb(206, 212, 217);">&nbsp;</td>
+                            <td style="text-align: center; width: 94.0191px; height: 17.092px; background-color:
+                                rgb(206, 212, 217);">&nbsp;</td>
+                            <td style="text-align: center; width: 49.0017px; height: 17.092px; background-color:
+                                rgb(206, 212, 217);">&nbsp;</td>
+                            <td style="text-align: center; width: 72.0139px; height: 17.092px; background-color:
+                                rgb(206, 212, 217);">지급총액</td>
+                            <td style="text-align: center; width: 74.0451px; height: 17.092px; background-color:
+                                rgb(206, 212, 217);">2,400,200</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </li>
+            <li>납품기한: 2024년 12월 26일</li>
+            <li>납품방법 및 장소: 로지스밸리</li>
+            <li>특약사항: 없음</li>
+        </ol>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+        <table id="24" style="width: 550px; border: hidden; height: 44.184px;">
+            <tbody>
+                <tr style="border: hidden; height: 10px;">
+                    <td style="width: 258.212px; height: 10px; border: none; text-align: left;">주식회사 제이와이피 쓰리식스티</td>
+                    <td style="width: 287.24px; height: 10px; border: none; text-align: left;">주식회사 위블링</td>
+                </tr>
+                <tr style="border: hidden; height: 17.092px;">
+                    <td style="width: 258.212px; height: 17.092px; border: none; text-align: left;">서울시 강동구 성안로 7-13,
+                        2층 (성내동, 광채빌딩)</td>
+                    <td style="width: 287.24px; height: 17.092px; border: none; text-align: left;">서울시 영등포구 여의대로 24,
+                        21층 (여의도동, 전국경제'</td>
+                </tr>
+                <tr style="border: hidden; height: 17.092px;">
+                    <td style="width: 258.212px; height: 17.092px; border: none; text-align: left;">대표이사 피 현 식, 정 민 종
+                        (인)</td>
+                    <td style="width: 287.24px; height: 17.092px; border: none; text-align: left;">대표이사 김 성 경 (인)</td>
+                </tr>
+            </tbody>
+        </table>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+        <ol id="node_1_31"></ol>
+        <header></header>
+        <header></header>
+        <header id="node_1_32">별첨 1.</header>
+        <h1 id="node_1_33" style="text-align: center;">발 주 서</h1>
+        <ol id="node_1_34">
+            <li id="33" data-category="paragraph">발주 품목:<br>
+                <table style="width: 525px; height: 68.368px;">
+                    <tbody>
+                        <tr style="height: 17.092px;">
+                            <td style="text-align: center; width: 35px; height: 17.092px;">일자</td>
+                            <td style="text-align: center; width: 255px; height: 17.092px;">품목명(규격)</td>
+                            <td style="text-align: center; width: 78px; height: 17.092px;">수량(단위포함)</td>
+                            <td style="text-align: center; width: 41px; height: 17.092px;">단가</td>
+                            <td style="text-align: center; width: 49px; height: 17.092px;">공급가액</td>
+                            <td style="text-align: center; width: 51px; height: 17.092px;">부가세</td>
+                        </tr>
+                        <tr style="height: 17.092px;">
+                            <td style="text-align: center; width: 35px; height: 17.092px;">12/20</td>
+                            <td style="text-align: center; width: 255px; height: 17.092px;">SKZ ATE POP-UP 특전 폴라로이드
+                                포토카드 8종</td>
+                            <td style="text-align: center; width: 78px; height: 17.092px;">1,600 EA</td>
+                            <td style="text-align: center; width: 41px; height: 17.092px;">240</td>
+                            <td style="text-align: center; width: 49px; height: 17.092px;">384,000</td>
+                            <td style="text-align: center; width: 51px; height: 17.092px;">38,400</td>
+                        </tr>
+                        <tr style="height: 17.092px;">
+                            <td style="text-align: center; width: 35px; height: 17.092px;">12/26</td>
+                            <td style="text-align: center; width: 255px; height: 17.092px;">퀵</td>
+                            <td style="text-align: center; width: 78px; height: 17.092px;">1 EA</td>
+                            <td style="text-align: center; width: 41px; height: 17.092px;">40,000</td>
+                            <td style="text-align: center; width: 49px; height: 17.092px;">40,000</td>
+                            <td style="text-align: center; width: 51px; height: 17.092px;">4,000</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: center; width: 35px;">&nbsp;</td>
+                            <td style="text-align: center; width: 255px;">&nbsp;</td>
+                            <td style="text-align: center; width: 78px;">&nbsp;</td>
+                            <td style="text-align: center; width: 41px;">&nbsp;</td>
+                            <td style="text-align: center; width: 49px;">&nbsp;</td>
+                            <td style="text-align: center; width: 51px;">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: center; width: 35px;">&nbsp;</td>
+                            <td style="text-align: center; width: 255px;">&nbsp;</td>
+                            <td style="text-align: center; width: 78px;">&nbsp;</td>
+                            <td style="text-align: center; width: 41px;">&nbsp;</td>
+                            <td style="text-align: center; width: 49px;">&nbsp;</td>
+                            <td style="text-align: center; width: 51px;">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: center; width: 35px;">&nbsp;</td>
+                            <td style="text-align: center; width: 255px;">&nbsp;</td>
+                            <td style="text-align: center; width: 78px;">&nbsp;</td>
+                            <td style="text-align: center; width: 41px;">&nbsp;</td>
+                            <td style="text-align: center; width: 49px;">&nbsp;</td>
+                            <td style="text-align: center; width: 51px;">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: center; width: 35px;">&nbsp;</td>
+                            <td style="text-align: center; width: 255px;">&nbsp;</td>
+                            <td style="text-align: center; width: 78px;">&nbsp;</td>
+                            <td style="text-align: center; width: 41px;">&nbsp;</td>
+                            <td style="text-align: center; width: 49px;">&nbsp;</td>
+                            <td style="text-align: center; width: 51px;">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: center; width: 35px;">&nbsp;</td>
+                            <td style="text-align: center; width: 255px;">&nbsp;</td>
+                            <td style="text-align: center; width: 78px;">&nbsp;</td>
+                            <td style="text-align: center; width: 41px;">&nbsp;</td>
+                            <td style="text-align: center; width: 49px;">&nbsp;</td>
+                            <td style="text-align: center; width: 51px;">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: center; width: 35px;">&nbsp;</td>
+                            <td style="text-align: center; width: 255px;">&nbsp;</td>
+                            <td style="text-align: center; width: 78px;">&nbsp;</td>
+                            <td style="text-align: center; width: 41px;">&nbsp;</td>
+                            <td style="text-align: center; width: 49px;">&nbsp;</td>
+                            <td style="text-align: center; width: 51px;">&nbsp;</td>
+                        </tr>
+                        <tr style="height: 17.092px;">
+                            <td style="text-align: center; width: 35px; height: 17.092px;">합계</td>
+                            <td style="text-align: center; width: 255px; height: 17.092px; background-color: rgb(206,
+                                212, 217);">&nbsp;</td>
+                            <td style="text-align: center; width: 78px; height: 17.092px; background-color: rgb(206,
+                                212, 217);">&nbsp;</td>
+                            <td style="text-align: center; width: 41px; height: 17.092px; background-color: rgb(206,
+                                212, 217);">&nbsp;</td>
+                            <td style="text-align: center; width: 49px; height: 17.092px; background-color: rgb(206,
+                                212, 217);">지급총액</td>
+                            <td style="text-align: center; width: 51px; height: 17.092px; background-color: rgb(206,
+                                212, 217);">466,400</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </li>
+            <li id="35" data-category="list">납품기한: 2024년 12월 26일</li>
+            <li data-category="list">납품방법 및 장소 로지스밸리</li>
+            <li data-category="list">특약사항: 없음</li>
+        </ol>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+        <p id="node_1_40" data-category="paragraph"></p>
+        <p>&nbsp;</p>
+        <table id="24" style="width: 550px; border: hidden; height: 44.184px;">
+            <tbody>
+                <tr style="border: hidden; height: 10px;">
+                    <td style="width: 258.212px; height: 10px; border: none; text-align: left;">주식회사 제이와이피 쓰리식스티</td>
+                    <td style="width: 287.24px; height: 10px; border: none; text-align: left;">주식회사 위블링</td>
+                </tr>
+                <tr style="border: hidden; height: 17.092px;">
+                    <td style="width: 258.212px; height: 17.092px; border: none; text-align: left;">서울시 강동구 성안로 7-13,
+                        2층 (성내동, 광채빌딩)</td>
+                    <td style="width: 287.24px; height: 17.092px; border: none; text-align: left;">서울시 영등포구 여의대로 24,
+                        21층 (여의도동, 전국경제'</td>
+                </tr>
+                <tr style="border: hidden; height: 17.092px;">
+                    <td style="width: 258.212px; height: 17.092px; border: none; text-align: left;">대표이사 피 현 식, 정 민 종
+                        (인)</td>
+                    <td style="width: 287.24px; height: 17.092px; border: none; text-align: left;">대표이사 김 성 경 (인)</td>
+                </tr>
+            </tbody>
+        </table>
+        <p>&nbsp;</p>
+        <p data-category="paragraph">&nbsp;</p>
+        <header id="node_1_41">별첨 1.</header>
+        <h1 id="node_1_42" style="text-align: center;">발 주 서</h1>
+        <p>&nbsp;</p>
+        <ol id="node_1_44">
+            <li id="40" data-category="paragraph">발주 품목:&nbsp;<table>
+                    <tbody>
+                        <tr>
+                            <td style="text-align: center;">일자</td>
+                            <td style="text-align: center;">품목명(규격)</td>
+                            <td style="text-align: center;">수량(단위포함)</td>
+                            <td style="text-align: center;">단가</td>
+                            <td style="text-align: center;">공급가액</td>
+                            <td style="text-align: center;">부가세</td>
+                        </tr>
+                        <tr style="text-align: center;">
+                            <td style="text-align: center;">12/23</td>
+                            <td>NMIXX MIXX LAB 포토카드</td>
+                            <td>900 EA</td>
+                            <td>250</td>
+                            <td>225,000</td>
+                            <td>22,500</td>
+                        </tr>
+                        <tr style="text-align: center;">
+                            <td>12/27</td>
+                            <td>배송비</td>
+                            <td>1 EA</td>
+                            <td>40,000</td>
+                            <td>40,000</td>
+                            <td>4,000</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: center;">합계</td>
+                            <td style="text-align: center; background-color: rgb(206, 212, 217);">&nbsp;</td>
+                            <td style="text-align: center; background-color: rgb(206, 212, 217);">&nbsp;</td>
+                            <td style="text-align: center; background-color: rgb(206, 212, 217);">&nbsp;</td>
+                            <td style="text-align: center; background-color: rgb(206, 212, 217);">지급총액</td>
+                            <td style="text-align: center; background-color: rgb(206, 212, 217);">291,500</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </li>
+            <li>납품기한: 2024년 12월 27일</li>
+            <li>납품방법 및 장소 로지스밸리</li>
+            <li>특약사항: 없음</li>
+        </ol>
+        <p id="node_1_50" data-category="paragraph"></p>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+        <table id="24" style="width: 550px; border: hidden; height: 44.184px;">
+            <tbody>
+                <tr style="border: hidden; height: 10px;">
+                    <td style="width: 258.212px; height: 10px; border: none; text-align: left;">주식회사 제이와이피 쓰리식스티</td>
+                    <td style="width: 287.24px; height: 10px; border: none; text-align: left;">주식회사 위블링</td>
+                </tr>
+                <tr style="border: hidden; height: 17.092px;">
+                    <td style="width: 258.212px; height: 17.092px; border: none; text-align: left;">서울시 강동구 성안로 7-13,
+                        2층 (성내동, 광채빌딩)</td>
+                    <td style="width: 287.24px; height: 17.092px; border: none; text-align: left;">서울시 영등포구 여의대로 24,
+                        21층 (여의도동, 전국경제'</td>
+                </tr>
+                <tr style="border: hidden; height: 17.092px;">
+                    <td style="width: 258.212px; height: 17.092px; border: none; text-align: left;">대표이사 피 현 식, 정 민 종
+                        (인)</td>
+                    <td style="width: 287.24px; height: 17.092px; border: none; text-align: left;">대표이사 김 성 경 (인)</td>
+                </tr>
+            </tbody>
+        </table>
+        <p>&nbsp;</p>
+        <p data-category="paragraph">&nbsp;</p>
+    </body>
+
+    </html>
+</body>
+
+</html>
