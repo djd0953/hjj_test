@@ -105,6 +105,11 @@ interface nodeTypeGaurd {
 class emailHtmlBySeparator {
     private $: CheerioAPI;
     private separators: {value: string, mode?: string}[];
+
+    private found: boolean = false;
+    private currentNodes: any[] = [];
+    private previousNodes: any[] = [];
+
     private splitInfo = {
         isFound: false,
         splitIndex: -1,
@@ -123,9 +128,12 @@ class emailHtmlBySeparator {
     }
 
     private work = (parentNode: Element): void => {
-        if (this.splitInfo.isFound) return;
-        const childNodes = Array.from(parentNode.children)
+        if (this.found) {
+            this.previousNodes.push()
+            return;
+        }
 
+        const childNodes = parentNode.children
         for (const node of childNodes) {
             if (node.type === "tag")
                 this.work(node)
@@ -134,6 +142,7 @@ class emailHtmlBySeparator {
                 if (this.separators.some(sep => sep.value === text)) {
                     this.splitInfo.isFound = true;
                     console.log(node)
+                    return;
                 }
             }
         }
