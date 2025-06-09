@@ -5,9 +5,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "node src/app.js",
-    "dev": "cross-env TS_NODE_PROJECT=tsconfig.json nodemon",
-    "debug": "node --inspect ./node_modules/.bin/ts-node src/app.ts"
+    "dev": "nodemon src/app.js"
   },
   "author": "",
   "license": "ISC",
