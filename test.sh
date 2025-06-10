@@ -1,1 +1,0 @@
-sed -i s/localhost/192.168.0.219/g ./apps/web/.env
