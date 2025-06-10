@@ -5,6 +5,8 @@ import { simpleParser, ParsedMail } from 'mailparser';
 import * as cheerio from 'cheerio';
 import {Document, Element} from 'domhandler'
 
+import CF_ERROR_STATUS from './error'
+
 const email = require('./email.json')
 
 const AWS_ACCESS_KEY_ID= 'AKIA2WUHLMAMMLV3GTR4'
@@ -138,16 +140,43 @@ class emailHtmlBySeparator {
 }
 
 const start = async () => {
-    console.log(1);
-    console.log(1);
+    // console.log(1);
+    // console.log(1);
 
-    const e: string = email[8].textAsHtml;
-    const aa = new emailHtmlBySeparator(e);
-    const bb = aa.splitByDepthIndex();
-    console.log(bb);
+    // const e: string = email[8].textAsHtml;
+    // const aa = new emailHtmlBySeparator(e);
+    // const bb = aa.splitByDepthIndex();
+    // console.log(bb);
+
+    let str = 'export type CF_ERROR_STATUS_INTERFACE = {\n'
+    for (const [k1, o] of Object.entries(CF_ERROR_STATUS)) {
+        str += `\t${k1}: {\n`
+
+        for (const [k2, v] of Object.entries(o)) {
+            switch (k2) {
+                case "code":
+                case "id":
+                    str += `\t\t${k2}: ${v}\n`
+                    break;
+                case "name":
+                case "message":
+                    str += `\t\t${k2}: string\n`
+                    break;
+                default:
+                    str += `\t\t${k2}: ${typeof v}`
+                    break;
+            }
+        }
+
+        str += `\t},\n`
+    }
+
+    str += `}`
+
+    console.log(str)
 };
 
-// start();
-settingEmailJson(10);
+start();
+// settingEmailJson(10);
 
 app.listen(8888, () => {});

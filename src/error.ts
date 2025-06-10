@@ -1,7 +1,4 @@
-/**
- * @typedef {Object} CF_EEROR_STATUS_INTERFACE
- * @prop {} 
- */
+
 const CF_ERROR_STATUS = {
     MISSING_PARMAETER: {
         code: 400,
@@ -1093,12 +1090,6 @@ const CF_ERROR_STATUS = {
         name: 'FAILED_PAYMENT_CONFIRM',
         message: '구매승인에 실패했습니다.',
     },
-    CLM_CANCEL_PARTICIPATE: {
-        code: 403,
-        id: 187,
-        name: 'CLM_CANCEL_PARTICIPATE',
-        message: '초대가 취소되었습니다. 관리자에게 문의해 주세요.',
-    },
     AZURE_OPENAI_TOKEN_LIMIT: {
         code: 403,
         id: 188,
@@ -1164,12 +1155,6 @@ const CF_ERROR_STATUS = {
         id: 205,
         name: 'ALREADY_COMPLETE_SHAREHOLDER_MEETING',
         message: '이미 완료된 주주총회 입니다.',
-    },
-    AZURE_OPENAI_TOKEN_LIMIT: {
-        code: 403,
-        id: 202,
-        name: 'AZURE_OPENAI_TOKEN_LIMIT',
-        message: '입력 토큰 수가 한계치를 초과하였습니다.',
     },
     PROJECT_ATTACHMENT_NOT_FOUND: {
         code: 403,
@@ -1476,18 +1461,6 @@ const CF_ERROR_STATUS = {
         id: 254,
         name: 'EXTENSION_NOT_ALLOWED',
         message: '허용되지 않은 확장자입니다.',
-    },
-    CLM_INVALID_LEGAL_REVIEW_APPROVAL: {
-        code: 403,
-        id: 255,
-        name: 'CLM_INVALID_LEGAL_REVIEW_APPROVAL',
-        message: '법무 검토 완료 승인이 유효하지 않습니다.',
-    },
-    CLM_INVALID_LEGAL_REVIEW_APPROVE_PERSON: {
-        code: 403,
-        id: 256,
-        name: 'CLM_INVALID_LEGAL_REVIEW_APPROVE_PERSON',
-        message: '법무 검토 완료 승인 담당자가 유효하지 않습니다.',
     },
     CLM_LEGAL_REVIEW_APPROVE_CANCEL: {
         code: 403,
@@ -1797,12 +1770,6 @@ const CF_ERROR_STATUS = {
         name: 'TEAM_WATERMARK_ACCESS_NOT_ALLOWED',
         message: '해당 팀 워터마크에 대한 접근 권한이 없습니다',
     },
-    CLM_CFS_NEEDED_FOR_REQUEST: {
-        code: 403,
-        id: 2030,
-        name: 'CLM_CFS_NEEDED_FOR_REQUEST',
-        message: '계약 검토 요청을 진행하기 위해 계약서 등록이 필요합니다.',
-    },
     /* ***************************************************
      * ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      * |||||||||||||||||||||||||||||||||||||||||||||||||||
@@ -1850,23 +1817,23 @@ const CF_ERROR_STATUS = {
     },
 }
 
-class LFException {
-    constructor(status) {
-        this.status = status
-        this.name = status.name
+// class LFException {
+//     constructor(status) {
+//         this.status = status
+//         this.name = status.name
 
-        let err = {}
-        Error.captureStackTrace(err)
-        this.stack = err.stack
-    }
+//         let err = {}
+//         Error.captureStackTrace(err)
+//         this.stack = err.stack
+//     }
 
-    getResult() {
-        return {
-            code: 402 /* LOGIC_FAILED 공유 번호 */,
-            error_id: this.status.id,
-            message: this.status.message,
-        }
-    }
-}
+//     getResult() {
+//         return {
+//             code: 402 /* LOGIC_FAILED 공유 번호 */,
+//             error_id: this.status.id,
+//             message: this.status.message,
+//         }
+//     }
+// }
 
-module.exports = { CF_ERROR_STATUS, LFException }
+export default CF_ERROR_STATUS
