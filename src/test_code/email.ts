@@ -148,7 +148,8 @@ const run = async () =>
     // const a = await getRawMail()
     // const b = await AmazonES(a)
     // const {textAsHtml, text, html} = await simpleParser(a)
-    const a = await settingEmailJson("clm/email/develop/6d8e0581-569b-4596-a51d-90959cd54df1")
+    const a = await settingEmailJson("mail_test/df85bc8d-b672-47f8-abfb-e2d92d1db3bc")
+    
     console.log(1)
 };
 
