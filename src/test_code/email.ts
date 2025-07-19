@@ -14,7 +14,8 @@ const dbSeparators: string[] = [
     '/^--------- 원본 메일 ---------$/',
     '/^On .*<.*@.*> wrote:$/i',
     '/^[0-9]{4}년 [0-9]{1,2}월 [0-9]{1,2}일.*<.*@.*>님이 작성:$/',
-    '/^[0-9]{4}년 [^<]+<.*@.*>님이 작성:$/'
+    '/^[0-9]{4}년 [^<]+<.*@.*>님이 작성:$/',
+    "/보낸 사람: ?(?:<b>)?([^<>&]+?) ?(?:<\/b>)? ?[<\[]?([A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,})[>\]]?/"
 ];
 
 const test_email_paths: string[] = [
@@ -71,6 +72,7 @@ const HP_EMAIL_SPLIT_BY_SEPARATOR = ({ html, separators }: {html: string, separa
 
         const $ = cheerio.load(html)
         let found: boolean = false
+        let isInBody: boolean = false
 
         const work = (parentNode: Document | Element) => {
             $(parentNode)
@@ -84,7 +86,7 @@ const HP_EMAIL_SPLIT_BY_SEPARATOR = ({ html, separators }: {html: string, separa
                     }
 
                     if (
-                        text &&
+                        text && isInBody &&
                         separators.some((reg) => {
                             return reg.test(text)
                         })
@@ -95,6 +97,7 @@ const HP_EMAIL_SPLIT_BY_SEPARATOR = ({ html, separators }: {html: string, separa
                     }
 
                     if (node.type === 'tag') {
+                        if (node.name === "body") isInBody = true
                         work(node)
                     }
                 })
@@ -143,13 +146,51 @@ const getRawMail = async (): Promise<Buffer> => {
     })
 }
 
+const HP_EMAIL_SPLIT_BY_SEPARATOR_SAFE = ({ html, separators }: {html: string, separators: RegExp[]}) => {
+    try {
+        if (!html) return html;
+        const $ = cheerio.load(html);
+        let separatorNode = null;
+
+        function findSeparatorNode(parent:Document | Element) {
+            let found = false;
+            $(parent).contents().each((_, node) => {
+                if (found) return;
+                const text = $(node).text().trim();
+                if (separators.some((reg) => reg.test(text))) {
+                    separatorNode = node;
+                    found = true;
+                    return;
+                }
+                if (node.type === 'tag') {
+                    findSeparatorNode(node);
+                }
+            });
+        }
+
+        findSeparatorNode($.root().get(0) as unknown as Document);
+        if (separatorNode) {
+            // separatorNode 이후 모든 siblings/descendants 삭제
+            $(separatorNode).nextAll().remove();
+            $(separatorNode).remove(); // separatorNode 자체도 지울 경우
+        }
+        return $.html();
+    } catch (e) {
+        return html;
+    }
+};
+
+
 const run = async () =>
 {
     // const a = await getRawMail()
     // const b = await AmazonES(a)
     // const {textAsHtml, text, html} = await simpleParser(a)
-    const a = await settingEmailJson("mail_test/df85bc8d-b672-47f8-abfb-e2d92d1db3bc")
-    
+    const a = await settingEmailJson("clm/email/iv7444mqgm91u99n203t87a6nhevcg367okrd201");
+    const reqExps = getSeparators(dbSeparators);
+
+    const c = HP_EMAIL_SPLIT_BY_SEPARATOR_SAFE({html: a.html as string, separators: reqExps})
+    const b = HP_EMAIL_SPLIT_BY_SEPARATOR({html: a.html as string, separators: reqExps})
     console.log(1)
 };
 

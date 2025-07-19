@@ -3,9 +3,9 @@
 import { Sequelize, Options } from "sequelize";
 
 const dbInfo = {
-    username: process.env.DB_USER,
-    password: process.env.DB_PASS,
-    database: process.env.DB_NAME,
+    username: process.env.DB_USER || '',
+    password: process.env.DB_PASS || '', 
+    database: process.env.DB_NAME || '',
 }
 const config: Options = {
     host: process.env.DB_HOST,
@@ -35,4 +35,6 @@ const config: Options = {
     },
 }
 
-// global.sequelize = new Sequelize(dbInfo.database, dbInfo.username, dbInfo.password, config);
+const sequelize = new Sequelize(dbInfo.database, dbInfo.username, dbInfo.password, config);
+
+export default sequelize

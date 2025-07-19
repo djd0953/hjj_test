@@ -1,5 +1,5 @@
 import type {S3RetrieveParams} from 'types'
-import { GetObjectCommand, S3Client } from '@aws-sdk/client-s3';
+import { DeleteObjectCommand, GetObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import { SendRawEmailCommand, SESClient } from '@aws-sdk/client-ses';
 
 const BUCKET_NAME = [process.env.BUCKET_NAME1, process.env.BUCKET_NAME2]
@@ -36,6 +36,29 @@ export const S3RetreiveFileBuffer = async ({ key }: S3RetrieveParams): Promise<{
         return { status: 400, message: err };
     }
 };
+
+export const S3DeleteObject = async ({ key }: S3RetrieveParams): Promise<void> => {
+    const s3Client = new S3Client({
+        region: process.env.AWS_REGION || '',
+        credentials: {
+            accessKeyId: process.env.AWS_ACCESS_KEY_ID || '',
+            secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || '',
+        },
+    });
+
+    try {
+        // 원본 파일 삭제
+        const deleteParams = {
+            Bucket: BUCKET_NAME[0] || '',
+            Key: key, // 삭제할 원본 파일 경로
+        }
+        const deleteCommand = new DeleteObjectCommand(deleteParams)
+        await s3Client.send(deleteCommand)
+    } catch (err) {
+        console.error('Error moving file:', err)
+        throw err
+    }
+}
 
 export const AmazonES = async (message: Buffer) => {
     const sesClient = new SESClient({
