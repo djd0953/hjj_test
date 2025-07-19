@@ -21,9 +21,9 @@ const start = async () =>
     // await organization()
     // await uaparse()
     // await dining()
-    await d_test()
+    // await d_test()
 
-    // await test()
+    await test()
     
     console.log(`Test End`)
     console.log(`Test End`)
