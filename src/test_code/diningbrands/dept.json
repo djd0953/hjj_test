@@ -2,1826 +2,2535 @@
     {
         "deptId": "01BH000000",
         "deptName": "다이닝브랜즈그룹",
-        "parentDeptId": ""
+        "parentDeptId": "",
+        "org_level": 1,
+        "org_order": 1
     },
     {
         "deptId": "01BH130000",
         "deptName": "CFO",
-        "parentDeptId": "01BH000000"
+        "parentDeptId": "01BH000000",
+        "org_level": 2,
+        "org_order": 6
     },
     {
         "deptId": "01BH130102",
         "deptName": "품질관리팀",
-        "parentDeptId": "01BH140200"
+        "parentDeptId": "01BH140200",
+        "org_level": 3,
+        "org_order": 7
     },
     {
         "deptId": "01BH130110",
         "deptName": "물류품질파트",
-        "parentDeptId": "01BH130102"
+        "parentDeptId": "01BH130102",
+        "org_level": 4,
+        "org_order": 1
     },
     {
         "deptId": "01BH130300",
         "deptName": "디지털전략실",
-        "parentDeptId": "01BH000000"
+        "parentDeptId": "01BH000000",
+        "org_level": 2,
+        "org_order": 51
     },
     {
         "deptId": "01BH130301",
         "deptName": "IT운영팀",
-        "parentDeptId": "01BH130300"
+        "parentDeptId": "01BH130300",
+        "org_level": 3,
+        "org_order": 3
     },
     {
         "deptId": "01BH130303",
         "deptName": "IT인프라팀",
-        "parentDeptId": "01BH130300"
+        "parentDeptId": "01BH130300",
+        "org_level": 3,
+        "org_order": 4
     },
     {
         "deptId": "01BH130305",
         "deptName": "정보보호팀",
-        "parentDeptId": "01BH130300"
+        "parentDeptId": "01BH130300",
+        "org_level": 3,
+        "org_order": 5
     },
     {
         "deptId": "01BH130306",
         "deptName": "IT플랫폼팀",
-        "parentDeptId": "01BH130300"
+        "parentDeptId": "01BH130300",
+        "org_level": 3,
+        "org_order": 2
     },
     {
         "deptId": "01BH130307",
         "deptName": "IT전략기획팀",
-        "parentDeptId": "01BH130300"
+        "parentDeptId": "01BH130300",
+        "org_level": 3,
+        "org_order": 1
     },
     {
         "deptId": "01BH130400",
         "deptName": "구매1팀",
-        "parentDeptId": "01BH183000"
+        "parentDeptId": "01BH183000",
+        "org_level": 4,
+        "org_order": 1
     },
     {
         "deptId": "01BH130450",
         "deptName": "구매3팀",
-        "parentDeptId": "01BH183000"
+        "parentDeptId": "01BH183000",
+        "org_level": 4,
+        "org_order": 3
     },
     {
         "deptId": "01BH130600",
         "deptName": "인사1팀",
-        "parentDeptId": "01BH181000"
+        "parentDeptId": "01BH181000",
+        "org_level": 4,
+        "org_order": 1
     },
     {
         "deptId": "01BH130620",
         "deptName": "총무팀",
-        "parentDeptId": "01BH181000"
+        "parentDeptId": "01BH181000",
+        "org_level": 4,
+        "org_order": 3
     },
     {
         "deptId": "01BH130630",
         "deptName": "인재육성팀",
-        "parentDeptId": "01BH181000"
+        "parentDeptId": "01BH181000",
+        "org_level": 4,
+        "org_order": 4
     },
     {
         "deptId": "01BH130710",
         "deptName": "재무관리1팀",
-        "parentDeptId": "01BH182000"
+        "parentDeptId": "01BH182000",
+        "org_level": 4,
+        "org_order": 2
     },
     {
         "deptId": "01BH130713",
         "deptName": "직영파트",
-        "parentDeptId": "KHO011000"
+        "parentDeptId": "KHO011000",
+        "org_level": 5,
+        "org_order": 1
     },
     {
         "deptId": "01BH130720",
         "deptName": "법무팀",
-        "parentDeptId": "01BH180000"
+        "parentDeptId": "01BH180000",
+        "org_level": 3,
+        "org_order": 1
     },
     {
         "deptId": "01BH130725",
         "deptName": "경영진단팀",
-        "parentDeptId": "01BH180000"
+        "parentDeptId": "01BH180000",
+        "org_level": 3,
+        "org_order": 2
     },
     {
         "deptId": "01BH130727",
         "deptName": "개인정보보호파트",
-        "parentDeptId": "01BH180000"
+        "parentDeptId": "01BH180000",
+        "org_level": 3,
+        "org_order": 3
     },
     {
         "deptId": "01BH130800",
         "deptName": "경영기획팀",
-        "parentDeptId": "01BH130000"
+        "parentDeptId": "01BH130000",
+        "org_level": 3,
+        "org_order": 11
     },
     {
         "deptId": "01BH130810",
         "deptName": "창고43해외사업본부",
-        "parentDeptId": "01BH000000"
+        "parentDeptId": "01BH000000",
+        "org_level": 2,
+        "org_order": 46
     },
     {
         "deptId": "01BH130815",
         "deptName": "해외사업팀",
-        "parentDeptId": "01BH130810"
+        "parentDeptId": "01BH130810",
+        "org_level": 3,
+        "org_order": 1
     },
     {
         "deptId": "01BH130816",
         "deptName": "해외영업/기획파트",
-        "parentDeptId": "01BH130815"
+        "parentDeptId": "01BH130815",
+        "org_level": 4,
+        "org_order": 1
     },
     {
         "deptId": "01BH130817",
         "deptName": "해외운영파트",
-        "parentDeptId": "01BH130815"
+        "parentDeptId": "01BH130815",
+        "org_level": 4,
+        "org_order": 2
     },
     {
         "deptId": "01BH130818",
         "deptName": "홍콩법인",
-        "parentDeptId": "01BH130815"
+        "parentDeptId": "01BH130815",
+        "org_level": 4,
+        "org_order": 4
     },
     {
         "deptId": "01BH130819",
         "deptName": "해외법인",
-        "parentDeptId": "01BH130815"
+        "parentDeptId": "01BH130815",
+        "org_level": 4,
+        "org_order": 3
     },
     {
         "deptId": "01BH130870",
         "deptName": "해외메뉴개발파트",
-        "parentDeptId": "01BH170000"
+        "parentDeptId": "01BH170000",
+        "org_level": 3,
+        "org_order": 8
     },
     {
         "deptId": "01BH131110",
         "deptName": "SI파트",
-        "parentDeptId": "01BH131150"
+        "parentDeptId": "01BH131150",
+        "org_level": 4,
+        "org_order": 1
     },
     {
         "deptId": "01BH131120",
         "deptName": "PM파트",
-        "parentDeptId": "01BH131150"
+        "parentDeptId": "01BH131150",
+        "org_level": 4,
+        "org_order": 2
     },
     {
         "deptId": "01BH131150",
         "deptName": "인테리어팀",
-        "parentDeptId": "01BH184000"
+        "parentDeptId": "01BH184000",
+        "org_level": 3,
+        "org_order": 3
     },
     {
         "deptId": "01BH131160",
         "deptName": "VC팀",
-        "parentDeptId": "01BH184000"
+        "parentDeptId": "01BH184000",
+        "org_level": 3,
+        "org_order": 4
     },
     {
         "deptId": "01BH131170",
         "deptName": "그래픽파트",
-        "parentDeptId": "01BH131160"
+        "parentDeptId": "01BH131160",
+        "org_level": 4,
+        "org_order": 2
     },
     {
         "deptId": "01BH131460",
         "deptName": "홍보담당",
-        "parentDeptId": "01BH131550"
+        "parentDeptId": "01BH131550",
+        "org_level": 3,
+        "org_order": 3
     },
     {
         "deptId": "01BH131500",
         "deptName": "홍보팀",
-        "parentDeptId": "01BH131460"
+        "parentDeptId": "01BH131460",
+        "org_level": 4,
+        "org_order": 1
     },
     {
         "deptId": "01BH131510",
         "deptName": "동반성장팀",
-        "parentDeptId": "01BH131550"
+        "parentDeptId": "01BH131550",
+        "org_level": 3,
+        "org_order": 2
     },
     {
         "deptId": "01BH131550",
         "deptName": "대외협력실",
-        "parentDeptId": "01BH000000"
+        "parentDeptId": "01BH000000",
+        "org_level": 2,
+        "org_order": 48
     },
     {
         "deptId": "01BH132000",
         "deptName": "HMR파트",
-        "parentDeptId": "01BH183000"
+        "parentDeptId": "01BH183000",
+        "org_level": 4,
+        "org_order": 4
     },
     {
         "deptId": "01BH140100",
         "deptName": "가맹사업본부",
-        "parentDeptId": "DP00000250"
+        "parentDeptId": "DP00000250",
+        "org_level": 3,
+        "org_order": 3
     },
     {
         "deptId": "01BH140101",
         "deptName": "가맹지원팀",
-        "parentDeptId": "DP00000246"
+        "parentDeptId": "DP00000246",
+        "org_level": 5,
+        "org_order": 4
     },
     {
         "deptId": "01BH140102",
         "deptName": "가맹CS팀",
-        "parentDeptId": "DP00000246"
+        "parentDeptId": "DP00000246",
+        "org_level": 5,
+        "org_order": 5
     },
     {
         "deptId": "01BH140105",
         "deptName": "bhc운영4팀",
-        "parentDeptId": "01BH140110"
+        "parentDeptId": "01BH140110",
+        "org_level": 5,
+        "org_order": 4
     },
     {
         "deptId": "01BH140106",
         "deptName": "강원사업팀",
-        "parentDeptId": "01BH140110"
+        "parentDeptId": "01BH140110",
+        "org_level": 5,
+        "org_order": 11
     },
     {
         "deptId": "01BH140107",
         "deptName": "대전충청사업팀",
-        "parentDeptId": "01BH140110"
+        "parentDeptId": "01BH140110",
+        "org_level": 5,
+        "org_order": 7
     },
     {
         "deptId": "01BH140108",
         "deptName": "광주호남사업팀",
-        "parentDeptId": "01BH140110"
+        "parentDeptId": "01BH140110",
+        "org_level": 5,
+        "org_order": 8
     },
     {
         "deptId": "01BH140110",
         "deptName": "가맹운영담당",
-        "parentDeptId": "01BH140100"
+        "parentDeptId": "01BH140100",
+        "org_level": 4,
+        "org_order": 17
     },
     {
         "deptId": "01BH140111",
         "deptName": "대구경북사업팀",
-        "parentDeptId": "01BH140110"
+        "parentDeptId": "01BH140110",
+        "org_level": 5,
+        "org_order": 9
     },
     {
         "deptId": "01BH140114",
         "deptName": "제주사업팀",
-        "parentDeptId": "01BH140110"
+        "parentDeptId": "01BH140110",
+        "org_level": 5,
+        "org_order": 12
     },
     {
         "deptId": "01BH140115",
         "deptName": "부산경남사업팀",
-        "parentDeptId": "01BH140110"
+        "parentDeptId": "01BH140110",
+        "org_level": 5,
+        "org_order": 10
     },
     {
         "deptId": "01BH140118",
         "deptName": "그램그램운영팀",
-        "parentDeptId": "01BH140110"
+        "parentDeptId": "01BH140110",
+        "org_level": 5,
+        "org_order": 14
     },
     {
         "deptId": "01BH140119",
         "deptName": "bhc운영1팀",
-        "parentDeptId": "01BH140110"
+        "parentDeptId": "01BH140110",
+        "org_level": 5,
+        "org_order": 1
     },
     {
         "deptId": "01BH140148",
         "deptName": "bhc운영2팀",
-        "parentDeptId": "01BH140110"
+        "parentDeptId": "01BH140110",
+        "org_level": 5,
+        "org_order": 2
     },
     {
         "deptId": "01BH140153",
         "deptName": "특수사업팀",
-        "parentDeptId": "01BH140110"
+        "parentDeptId": "01BH140110",
+        "org_level": 5,
+        "org_order": 5
     },
     {
         "deptId": "01BH140162",
         "deptName": "부동산개발팀",
-        "parentDeptId": "DP00000250"
+        "parentDeptId": "DP00000250",
+        "org_level": 3,
+        "org_order": 23
     },
     {
         "deptId": "01BH140164",
         "deptName": "큰맘할매영업팀",
-        "parentDeptId": "01BH140110"
+        "parentDeptId": "01BH140110",
+        "org_level": 5,
+        "org_order": 18
     },
     {
         "deptId": "01BH140165",
         "deptName": "큰맘할매운영팀",
-        "parentDeptId": "01BH140110"
+        "parentDeptId": "01BH140110",
+        "org_level": 5,
+        "org_order": 13
     },
     {
         "deptId": "01BH140174",
         "deptName": "bhc운영3팀",
-        "parentDeptId": "01BH140110"
+        "parentDeptId": "01BH140110",
+        "org_level": 5,
+        "org_order": 3
     },
     {
         "deptId": "01BH140182",
         "deptName": "창고43운영파트",
-        "parentDeptId": "01BH140191"
+        "parentDeptId": "01BH140191",
+        "org_level": 4,
+        "org_order": 1
     },
     {
         "deptId": "01BH140190",
         "deptName": "창고43지원파트",
-        "parentDeptId": "01BH140191"
+        "parentDeptId": "01BH140191",
+        "org_level": 4,
+        "org_order": 2
     },
     {
         "deptId": "01BH140191",
         "deptName": "창고43운영팀",
-        "parentDeptId": "01BH130810"
+        "parentDeptId": "01BH130810",
+        "org_level": 3,
+        "org_order": 10
     },
     {
         "deptId": "01BH140192",
         "deptName": "bhc영업팀",
-        "parentDeptId": "01BH140110"
+        "parentDeptId": "01BH140110",
+        "org_level": 5,
+        "org_order": 15
     },
     {
         "deptId": "01BH140193",
         "deptName": "bhc가맹영업파트",
-        "parentDeptId": "01BH140192"
+        "parentDeptId": "01BH140192",
+        "org_level": 6,
+        "org_order": 1
     },
     {
         "deptId": "01BH140195",
         "deptName": "bhc직영영업파트",
-        "parentDeptId": "01BH140192"
+        "parentDeptId": "01BH140192",
+        "org_level": 6,
+        "org_order": 2
     },
     {
         "deptId": "01BH140200",
         "deptName": "생산물류본부",
-        "parentDeptId": "01BH000000"
+        "parentDeptId": "01BH000000",
+        "org_level": 2,
+        "org_order": 47
     },
     {
         "deptId": "01BH140260",
         "deptName": "물류담당",
-        "parentDeptId": "01BH140200"
+        "parentDeptId": "01BH140200",
+        "org_level": 3,
+        "org_order": 11
     },
     {
         "deptId": "01BH140501",
         "deptName": "가맹교육팀",
-        "parentDeptId": "DP00000246"
+        "parentDeptId": "DP00000246",
+        "org_level": 5,
+        "org_order": 6
     },
     {
         "deptId": "01BH150100",
         "deptName": "창고43매장",
-        "parentDeptId": "01BH140182"
+        "parentDeptId": "01BH140182",
+        "org_level": 5,
+        "org_order": 1
     },
     {
         "deptId": "01BH170000",
         "deptName": "R&D센터",
-        "parentDeptId": "01BH000000"
+        "parentDeptId": "01BH000000",
+        "org_level": 2,
+        "org_order": 62
     },
     {
         "deptId": "01BH170210",
         "deptName": "메뉴개발1팀",
-        "parentDeptId": "01BH170000"
+        "parentDeptId": "01BH170000",
+        "org_level": 3,
+        "org_order": 4
     },
     {
         "deptId": "01BH170220",
         "deptName": "메뉴개발2팀",
-        "parentDeptId": "01BH170000"
+        "parentDeptId": "01BH170000",
+        "org_level": 3,
+        "org_order": 5
     },
     {
         "deptId": "01BH180000",
         "deptName": "준법경영실",
-        "parentDeptId": "01BH000000"
+        "parentDeptId": "01BH000000",
+        "org_level": 2,
+        "org_order": 49
     },
     {
         "deptId": "01BH181000",
         "deptName": "HR지원담당",
-        "parentDeptId": "01BH130000"
+        "parentDeptId": "01BH130000",
+        "org_level": 3,
+        "org_order": 7
     },
     {
         "deptId": "01BH182000",
         "deptName": "재무담당",
-        "parentDeptId": "01BH130000"
+        "parentDeptId": "01BH130000",
+        "org_level": 3,
+        "org_order": 9
     },
     {
         "deptId": "01BH182010",
         "deptName": "경영관리팀",
-        "parentDeptId": "01BH182000"
+        "parentDeptId": "01BH182000",
+        "org_level": 4,
+        "org_order": 1
     },
     {
         "deptId": "01BH183000",
         "deptName": "구매담당",
-        "parentDeptId": "01BH130000"
+        "parentDeptId": "01BH130000",
+        "org_level": 3,
+        "org_order": 10
     },
     {
         "deptId": "01BH184000",
         "deptName": "디자인담당",
-        "parentDeptId": "01BH000000"
+        "parentDeptId": "01BH000000",
+        "org_level": 2,
+        "org_order": 63
     },
     {
         "deptId": "01BH190000",
         "deptName": "마케팅담당",
-        "parentDeptId": "01BH000000"
+        "parentDeptId": "01BH000000",
+        "org_level": 2,
+        "org_order": 61
     },
     {
         "deptId": "01BH190100",
         "deptName": "데이터마케팅파트",
-        "parentDeptId": "01BH191000"
+        "parentDeptId": "01BH191000",
+        "org_level": 4,
+        "org_order": 1
     },
     {
         "deptId": "01BH190200",
         "deptName": "상품기획파트",
-        "parentDeptId": "01BH191000"
+        "parentDeptId": "01BH191000",
+        "org_level": 4,
+        "org_order": 2
     },
     {
         "deptId": "01BH191000",
         "deptName": "마케팅팀",
-        "parentDeptId": "01BH190000"
-    },
-    {
-        "deptId": "09G9999990",
-        "deptName": "EY",
-        "parentDeptId": "90G9999990"
-    },
-    {
-        "deptId": "09G9999991",
-        "deptName": "LAW",
-        "parentDeptId": "90G9999990"
+        "parentDeptId": "01BH190000",
+        "org_level": 3,
+        "org_order": 4
     },
     {
         "deptId": "20100000",
         "deptName": "물류운영팀",
-        "parentDeptId": "01BH140260"
+        "parentDeptId": "01BH140260",
+        "org_level": 4,
+        "org_order": 2
     },
     {
         "deptId": "20200000",
         "deptName": "물류지원팀",
-        "parentDeptId": "01BH140260"
+        "parentDeptId": "01BH140260",
+        "org_level": 4,
+        "org_order": 1
     },
     {
         "deptId": "5240991",
         "deptName": "BHC 삼성점",
-        "parentDeptId": "01BH140101"
+        "parentDeptId": "01BH140101",
+        "org_level": 6,
+        "org_order": 1
     },
     {
         "deptId": "5241991",
         "deptName": "BHC 선릉역점",
-        "parentDeptId": "01BH140101"
+        "parentDeptId": "01BH140101",
+        "org_level": 6,
+        "org_order": 5
     },
     {
         "deptId": "5242991",
         "deptName": "BHC 서초교대점",
-        "parentDeptId": "01BH140101"
+        "parentDeptId": "01BH140101",
+        "org_level": 6,
+        "org_order": 7
     },
     {
         "deptId": "5243991",
         "deptName": "BHC 북위례점",
-        "parentDeptId": "01BH140101"
+        "parentDeptId": "01BH140101",
+        "org_level": 6,
+        "org_order": 8
     },
     {
         "deptId": "5244991",
         "deptName": "BHC 개포동점",
-        "parentDeptId": "01BH140101"
+        "parentDeptId": "01BH140101",
+        "org_level": 6,
+        "org_order": 9
     },
     {
         "deptId": "5320991",
         "deptName": "BHC 산호세점",
-        "parentDeptId": "01BH140101"
+        "parentDeptId": "01BH140101",
+        "org_level": 6,
+        "org_order": 2
     },
     {
         "deptId": "5321991",
         "deptName": "BHC 빅토리아점",
-        "parentDeptId": "01BH140101"
+        "parentDeptId": "01BH140101",
+        "org_level": 6,
+        "org_order": 3
     },
     {
         "deptId": "5322991",
         "deptName": "BHC 이천롯데아울렛점",
-        "parentDeptId": "01BH140101"
+        "parentDeptId": "01BH140101",
+        "org_level": 6,
+        "org_order": 6
     },
     {
         "deptId": "5323991",
         "deptName": "BHC 아이스가든점",
-        "parentDeptId": "01BH140101"
+        "parentDeptId": "01BH140101",
+        "org_level": 6,
+        "org_order": 4
     },
     {
         "deptId": "5324991",
         "deptName": "BHC 제주동화마을점",
-        "parentDeptId": "01BH140101"
+        "parentDeptId": "01BH140101",
+        "org_level": 6,
+        "org_order": 10
     },
     {
         "deptId": "60109991",
         "deptName": "창고43 본점2관점",
-        "parentDeptId": "01BH150100"
+        "parentDeptId": "01BH150100",
+        "org_level": 6,
+        "org_order": 3
     },
     {
         "deptId": "60209991",
         "deptName": "창고43 여의강변점",
-        "parentDeptId": "01BH150100"
+        "parentDeptId": "01BH150100",
+        "org_level": 6,
+        "org_order": 5
     },
     {
         "deptId": "60409991",
         "deptName": "창고43 명동점",
-        "parentDeptId": "01BH150100"
+        "parentDeptId": "01BH150100",
+        "org_level": 6,
+        "org_order": 6
     },
     {
         "deptId": "60509991",
         "deptName": "창고43 본점",
-        "parentDeptId": "01BH150100"
+        "parentDeptId": "01BH150100",
+        "org_level": 6,
+        "org_order": 2
     },
     {
         "deptId": "606009991",
         "deptName": "창고43 시청점",
-        "parentDeptId": "01BH150100"
+        "parentDeptId": "01BH150100",
+        "org_level": 6,
+        "org_order": 8
     },
     {
         "deptId": "60609991",
         "deptName": "창고43 샛강점",
-        "parentDeptId": "01BH150100"
+        "parentDeptId": "01BH150100",
+        "org_level": 6,
+        "org_order": 7
     },
     {
         "deptId": "60709991",
         "deptName": "창고43 강남점",
-        "parentDeptId": "01BH150100"
+        "parentDeptId": "01BH150100",
+        "org_level": 6,
+        "org_order": 9
     },
     {
         "deptId": "60909991",
         "deptName": "창고43 역삼점",
-        "parentDeptId": "01BH150100"
+        "parentDeptId": "01BH150100",
+        "org_level": 6,
+        "org_order": 10
     },
     {
         "deptId": "61009991",
         "deptName": "창고43 상암점",
-        "parentDeptId": "01BH150100"
+        "parentDeptId": "01BH150100",
+        "org_level": 6,
+        "org_order": 11
     },
     {
         "deptId": "61109991",
         "deptName": "창고43 삼성점",
-        "parentDeptId": "01BH150100"
+        "parentDeptId": "01BH150100",
+        "org_level": 6,
+        "org_order": 12
     },
     {
         "deptId": "61209991",
         "deptName": "창고43 무교점",
-        "parentDeptId": "01BH150100"
+        "parentDeptId": "01BH150100",
+        "org_level": 6,
+        "org_order": 13
     },
     {
         "deptId": "61309991",
         "deptName": "창고43 송도점",
-        "parentDeptId": "01BH150100"
+        "parentDeptId": "01BH150100",
+        "org_level": 6,
+        "org_order": 14
     },
     {
         "deptId": "61409991",
         "deptName": "창고43 목동점",
-        "parentDeptId": "01BH150100"
+        "parentDeptId": "01BH150100",
+        "org_level": 6,
+        "org_order": 15
     },
     {
         "deptId": "6160991",
         "deptName": "창고43 청담점",
-        "parentDeptId": "01BH150100"
+        "parentDeptId": "01BH150100",
+        "org_level": 6,
+        "org_order": 17
     },
     {
         "deptId": "6170991",
         "deptName": "창고43 교대점",
-        "parentDeptId": "01BH150100"
+        "parentDeptId": "01BH150100",
+        "org_level": 6,
+        "org_order": 18
     },
     {
         "deptId": "6180991",
         "deptName": "창고43 광주상무점",
-        "parentDeptId": "01BH150100"
+        "parentDeptId": "01BH150100",
+        "org_level": 6,
+        "org_order": 19
     },
     {
         "deptId": "6190991",
         "deptName": "창고43 마곡점",
-        "parentDeptId": "01BH150100"
+        "parentDeptId": "01BH150100",
+        "org_level": 6,
+        "org_order": 20
     },
     {
         "deptId": "62009991",
         "deptName": "창고43 대구수성점",
-        "parentDeptId": "01BH150100"
+        "parentDeptId": "01BH150100",
+        "org_level": 6,
+        "org_order": 21
     },
     {
         "deptId": "62109991",
         "deptName": "창고43 판교점",
-        "parentDeptId": "01BH150100"
+        "parentDeptId": "01BH150100",
+        "org_level": 6,
+        "org_order": 22
     },
     {
         "deptId": "62209991",
         "deptName": "창고43 해운대점",
-        "parentDeptId": "01BH150100"
+        "parentDeptId": "01BH150100",
+        "org_level": 6,
+        "org_order": 23
     },
     {
         "deptId": "62309991",
         "deptName": "창고43 잠실점",
-        "parentDeptId": "01BH150100"
+        "parentDeptId": "01BH150100",
+        "org_level": 6,
+        "org_order": 24
     },
     {
         "deptId": "62409991",
         "deptName": "창고43 서여의도점",
-        "parentDeptId": "01BH150100"
-    },
-    {
-        "deptId": "99G9999999",
-        "deptName": "퇴사자",
-        "parentDeptId": ""
+        "parentDeptId": "01BH150100",
+        "org_level": 6,
+        "org_order": 25
     },
     {
         "deptId": "DP00000246",
         "deptName": "가맹기획/지원담당",
-        "parentDeptId": "01BH140100"
+        "parentDeptId": "01BH140100",
+        "org_level": 4,
+        "org_order": 24
     },
     {
         "deptId": "DP00000247",
         "deptName": "가맹기획팀",
-        "parentDeptId": "DP00000246"
+        "parentDeptId": "DP00000246",
+        "org_level": 5,
+        "org_order": 1
     },
     {
         "deptId": "DP00000250",
         "deptName": "COO",
-        "parentDeptId": "01BH000000"
+        "parentDeptId": "01BH000000",
+        "org_level": 2,
+        "org_order": 2
     },
     {
         "deptId": "DP00000253",
         "deptName": "계육구매파트",
-        "parentDeptId": "01BH130400"
+        "parentDeptId": "01BH130400",
+        "org_level": 5,
+        "org_order": 1
     },
     {
         "deptId": "KHO008000",
         "deptName": "OBK사업본부",
-        "parentDeptId": "DP00000250"
+        "parentDeptId": "DP00000250",
+        "org_level": 3,
+        "org_order": 7
     },
     {
         "deptId": "KHO008100",
         "deptName": "OBK운영담당",
-        "parentDeptId": "KHO008000"
+        "parentDeptId": "KHO008000",
+        "org_level": 4,
+        "org_order": 1
     },
     {
         "deptId": "KHO008110",
         "deptName": "OBK운영팀",
-        "parentDeptId": "KHO008100"
+        "parentDeptId": "KHO008100",
+        "org_level": 5,
+        "org_order": 1
     },
     {
         "deptId": "KHO008200",
-        "deptName": "OBK지원담당",
-        "parentDeptId": "KHO008000"
+        "deptName": "OBK기획/지원담당",
+        "parentDeptId": "KHO008000",
+        "org_level": 4,
+        "org_order": 2
     },
     {
         "deptId": "KHO011000",
         "deptName": "재무관리2팀",
-        "parentDeptId": "01BH182000"
+        "parentDeptId": "01BH182000",
+        "org_level": 4,
+        "org_order": 3
     },
     {
         "deptId": "KHO011100",
         "deptName": "obk파트",
-        "parentDeptId": "KHO011000"
+        "parentDeptId": "KHO011000",
+        "org_level": 5,
+        "org_order": 2
     },
     {
         "deptId": "KHO012000",
         "deptName": "구매2팀",
-        "parentDeptId": "01BH183000"
+        "parentDeptId": "01BH183000",
+        "org_level": 4,
+        "org_order": 2
     },
     {
         "deptId": "KHO014000",
         "deptName": "인사2팀",
-        "parentDeptId": "01BH181000"
+        "parentDeptId": "01BH181000",
+        "org_level": 4,
+        "org_order": 2
     },
     {
         "deptId": "KHO016000",
         "deptName": "마케팅커뮤니케이션팀",
-        "parentDeptId": "01BH190000"
+        "parentDeptId": "01BH190000",
+        "org_level": 3,
+        "org_order": 1
     },
     {
         "deptId": "KHO017100",
         "deptName": "OBK지원팀",
-        "parentDeptId": "KHO008200"
+        "parentDeptId": "KHO008200",
+        "org_level": 5,
+        "org_order": 3
     },
     {
         "deptId": "KHO023000",
         "deptName": "메뉴개발3팀",
-        "parentDeptId": "01BH170000"
+        "parentDeptId": "01BH170000",
+        "org_level": 3,
+        "org_order": 7
     },
     {
         "deptId": "KHO023100",
         "deptName": "스테이크개발파트",
-        "parentDeptId": "KHO023000"
+        "parentDeptId": "KHO023000",
+        "org_level": 4,
+        "org_order": 1
     },
     {
         "deptId": "KHO201000",
         "deptName": "OBK기획파트",
-        "parentDeptId": "KHO008200"
+        "parentDeptId": "KHO008200",
+        "org_level": 5,
+        "org_order": 4
     },
     {
         "deptId": "KHO204000",
         "deptName": "산업안전보건파트",
-        "parentDeptId": "KHO008200"
+        "parentDeptId": "KHO008200",
+        "org_level": 5,
+        "org_order": 5
     },
     {
         "deptId": "KOP035000",
         "deptName": "1지역",
-        "parentDeptId": "KHO008100"
+        "parentDeptId": "KHO008100",
+        "org_level": 5,
+        "org_order": 4
     },
     {
         "deptId": "KOP036000",
         "deptName": "2지역",
-        "parentDeptId": "KHO008100"
+        "parentDeptId": "KHO008100",
+        "org_level": 5,
+        "org_order": 5
     },
     {
         "deptId": "KOP037000",
         "deptName": "3지역",
-        "parentDeptId": "KHO008100"
+        "parentDeptId": "KHO008100",
+        "org_level": 5,
+        "org_order": 6
     },
     {
         "deptId": "KOP038000",
         "deptName": "4지역",
-        "parentDeptId": "KHO008100"
+        "parentDeptId": "KHO008100",
+        "org_level": 5,
+        "org_order": 7
     },
     {
         "deptId": "KOP039000",
         "deptName": "5지역",
-        "parentDeptId": "KHO008100"
+        "parentDeptId": "KHO008100",
+        "org_level": 5,
+        "org_order": 8
     },
     {
         "deptId": "KOP060000",
         "deptName": "6지역",
-        "parentDeptId": "KHO008100"
+        "parentDeptId": "KHO008100",
+        "org_level": 5,
+        "org_order": 9
     },
     {
         "deptId": "KOP070000",
         "deptName": "7지역",
-        "parentDeptId": "KHO008100"
+        "parentDeptId": "KHO008100",
+        "org_level": 5,
+        "org_order": 10
     },
     {
         "deptId": "KOP080000",
         "deptName": "8지역",
-        "parentDeptId": "KHO008100"
+        "parentDeptId": "KHO008100",
+        "org_level": 5,
+        "org_order": 11
     },
     {
         "deptId": "KSF012000",
         "deptName": "황금FOH",
-        "parentDeptId": "KOP060000"
+        "parentDeptId": "KOP060000",
+        "org_level": 6,
+        "org_order": 1
     },
     {
         "deptId": "KSF019000",
         "deptName": "신촌FOH",
-        "parentDeptId": "KOP036000"
+        "parentDeptId": "KOP036000",
+        "org_level": 6,
+        "org_order": 1
     },
     {
         "deptId": "KSF021000",
         "deptName": "서현FOH",
-        "parentDeptId": "KOP037000"
+        "parentDeptId": "KOP037000",
+        "org_level": 6,
+        "org_order": 1
     },
     {
         "deptId": "KSF029000",
         "deptName": "상무FOH",
-        "parentDeptId": "KOP070000"
+        "parentDeptId": "KOP070000",
+        "org_level": 6,
+        "org_order": 1
     },
     {
         "deptId": "KSF030000",
         "deptName": "남천FOH",
-        "parentDeptId": "KOP080000"
+        "parentDeptId": "KOP080000",
+        "org_level": 6,
+        "org_order": 1
     },
     {
         "deptId": "KSF031000",
         "deptName": "고잔FOH",
-        "parentDeptId": "KOP035000"
+        "parentDeptId": "KOP035000",
+        "org_level": 6,
+        "org_order": 1
     },
     {
         "deptId": "KSF036000",
         "deptName": "중앙FOH",
-        "parentDeptId": "KOP060000"
+        "parentDeptId": "KOP060000",
+        "org_level": 6,
+        "org_order": 3
     },
     {
         "deptId": "KSF038000",
         "deptName": "수원역사FOH",
-        "parentDeptId": "KOP039000"
+        "parentDeptId": "KOP039000",
+        "org_level": 6,
+        "org_order": 1
     },
     {
         "deptId": "KSF040000",
         "deptName": "평촌FOH",
-        "parentDeptId": "KOP039000"
+        "parentDeptId": "KOP039000",
+        "org_level": 6,
+        "org_order": 3
     },
     {
         "deptId": "KSF045000",
         "deptName": "잠실FOH",
-        "parentDeptId": "KOP038000"
+        "parentDeptId": "KOP038000",
+        "org_level": 6,
+        "org_order": 1
     },
     {
         "deptId": "KSF062000",
         "deptName": "노원FOH",
-        "parentDeptId": "KOP037000"
+        "parentDeptId": "KOP037000",
+        "org_level": 6,
+        "org_order": 3
     },
     {
         "deptId": "KSF077000",
         "deptName": "인동FOH",
-        "parentDeptId": "KOP060000"
+        "parentDeptId": "KOP060000",
+        "org_level": 6,
+        "org_order": 5
     },
     {
         "deptId": "KSF085000",
         "deptName": "금오FOH",
-        "parentDeptId": "KOP037000"
+        "parentDeptId": "KOP037000",
+        "org_level": 6,
+        "org_order": 5
     },
     {
         "deptId": "KSF086000",
         "deptName": "작전FOH",
-        "parentDeptId": "KOP035000"
+        "parentDeptId": "KOP035000",
+        "org_level": 6,
+        "org_order": 3
     },
     {
         "deptId": "KSF090000",
         "deptName": "남포항FOH",
-        "parentDeptId": "KOP060000"
+        "parentDeptId": "KOP060000",
+        "org_level": 6,
+        "org_order": 7
     },
     {
         "deptId": "KSF092000",
         "deptName": "광천FOH",
-        "parentDeptId": "KOP070000"
+        "parentDeptId": "KOP070000",
+        "org_level": 6,
+        "org_order": 3
     },
     {
         "deptId": "KSF098000",
         "deptName": "진주FOH",
-        "parentDeptId": "KOP060000"
+        "parentDeptId": "KOP060000",
+        "org_level": 6,
+        "org_order": 9
     },
     {
         "deptId": "KSF099000",
         "deptName": "부천역사FOH",
-        "parentDeptId": "KOP035000"
+        "parentDeptId": "KOP035000",
+        "org_level": 6,
+        "org_order": 5
     },
     {
         "deptId": "KSF101000",
         "deptName": "영통FOH",
-        "parentDeptId": "KOP039000"
+        "parentDeptId": "KOP039000",
+        "org_level": 6,
+        "org_order": 5
     },
     {
         "deptId": "KSF103000",
         "deptName": "n천호FOH",
-        "parentDeptId": "KOP037000"
+        "parentDeptId": "KOP037000",
+        "org_level": 6,
+        "org_order": 7
     },
     {
         "deptId": "KSF105000",
         "deptName": "n여의도FOH",
-        "parentDeptId": "KOP038000"
+        "parentDeptId": "KOP038000",
+        "org_level": 6,
+        "org_order": 3
     },
     {
         "deptId": "KSF112000",
         "deptName": "동탄FOH",
-        "parentDeptId": "KOP039000"
+        "parentDeptId": "KOP039000",
+        "org_level": 6,
+        "org_order": 7
     },
     {
         "deptId": "KSF115000",
         "deptName": "가산FOH",
-        "parentDeptId": "KOP035000"
+        "parentDeptId": "KOP035000",
+        "org_level": 6,
+        "org_order": 7
     },
     {
         "deptId": "KSF117000",
         "deptName": "원마운트FOH",
-        "parentDeptId": "KOP036000"
+        "parentDeptId": "KOP036000",
+        "org_level": 6,
+        "org_order": 3
     },
     {
         "deptId": "KSF118000",
         "deptName": "펜타포트FOH",
-        "parentDeptId": "KOP039000"
+        "parentDeptId": "KOP039000",
+        "org_level": 6,
+        "org_order": 9
     },
     {
         "deptId": "KSF119000",
         "deptName": "양산FOH",
-        "parentDeptId": "KOP080000"
+        "parentDeptId": "KOP080000",
+        "org_level": 6,
+        "org_order": 3
     },
     {
         "deptId": "KSF121000",
         "deptName": "목포남악FOH",
-        "parentDeptId": "KOP070000"
+        "parentDeptId": "KOP070000",
+        "org_level": 6,
+        "org_order": 5
     },
     {
         "deptId": "KSF122000",
         "deptName": "n효자FOH",
-        "parentDeptId": "KOP070000"
+        "parentDeptId": "KOP070000",
+        "org_level": 6,
+        "org_order": 7
     },
     {
         "deptId": "KSF124000",
         "deptName": "평택FOH",
-        "parentDeptId": "KOP039000"
+        "parentDeptId": "KOP039000",
+        "org_level": 6,
+        "org_order": 11
     },
     {
         "deptId": "KSF125000",
         "deptName": "거제FOH",
-        "parentDeptId": "KOP080000"
+        "parentDeptId": "KOP080000",
+        "org_level": 6,
+        "org_order": 23
     },
     {
         "deptId": "KSF126000",
         "deptName": "n해운대FOH",
-        "parentDeptId": "KOP080000"
+        "parentDeptId": "KOP080000",
+        "org_level": 6,
+        "org_order": 5
     },
     {
         "deptId": "KSF127000",
         "deptName": "김포FOH",
-        "parentDeptId": "KOP036000"
+        "parentDeptId": "KOP036000",
+        "org_level": 6,
+        "org_order": 5
     },
     {
         "deptId": "KSF128000",
         "deptName": "유성FOH",
-        "parentDeptId": "KOP070000"
+        "parentDeptId": "KOP070000",
+        "org_level": 6,
+        "org_order": 9
     },
     {
         "deptId": "KSF129000",
         "deptName": "n센트럴시티FOH",
-        "parentDeptId": "KOP036000"
+        "parentDeptId": "KOP036000",
+        "org_level": 6,
+        "org_order": 7
     },
     {
         "deptId": "KSF130000",
         "deptName": "순천FOH",
-        "parentDeptId": "KOP070000"
+        "parentDeptId": "KOP070000",
+        "org_level": 6,
+        "org_order": 11
     },
     {
         "deptId": "KSF131000",
         "deptName": "원주FOH",
-        "parentDeptId": "KOP037000"
+        "parentDeptId": "KOP037000",
+        "org_level": 6,
+        "org_order": 9
     },
     {
         "deptId": "KSF132000",
         "deptName": "동대문FOH",
-        "parentDeptId": "KOP038000"
+        "parentDeptId": "KOP038000",
+        "org_level": 6,
+        "org_order": 5
     },
     {
         "deptId": "KSF134000",
         "deptName": "n강남FOH",
-        "parentDeptId": "KOP036000"
+        "parentDeptId": "KOP036000",
+        "org_level": 6,
+        "org_order": 9
     },
     {
         "deptId": "KSF135000",
         "deptName": "n목동FOH",
-        "parentDeptId": "KOP035000"
+        "parentDeptId": "KOP035000",
+        "org_level": 6,
+        "org_order": 9
     },
     {
         "deptId": "KSF136000",
         "deptName": "n남포FOH",
-        "parentDeptId": "KOP037000"
+        "parentDeptId": "KOP037000",
+        "org_level": 6,
+        "org_order": 11
     },
     {
         "deptId": "KSF138000",
         "deptName": "부평FOH",
-        "parentDeptId": "KOP035000"
+        "parentDeptId": "KOP035000",
+        "org_level": 6,
+        "org_order": 11
     },
     {
         "deptId": "KSF139000",
         "deptName": "n신대방FOH",
-        "parentDeptId": "KOP060000"
+        "parentDeptId": "KOP060000",
+        "org_level": 6,
+        "org_order": 13
     },
     {
         "deptId": "KSF140000",
         "deptName": "합정FOH",
-        "parentDeptId": "KOP036000"
+        "parentDeptId": "KOP036000",
+        "org_level": 6,
+        "org_order": 11
     },
     {
         "deptId": "KSF141000",
         "deptName": "n삼산FOH",
-        "parentDeptId": "KOP060000"
+        "parentDeptId": "KOP060000",
+        "org_level": 6,
+        "org_order": 15
     },
     {
         "deptId": "KSF143000",
         "deptName": "송도FOH",
-        "parentDeptId": "KOP035000"
+        "parentDeptId": "KOP035000",
+        "org_level": 6,
+        "org_order": 13
     },
     {
         "deptId": "KSF144000",
         "deptName": "구파발FOH",
-        "parentDeptId": "KOP036000"
+        "parentDeptId": "KOP036000",
+        "org_level": 6,
+        "org_order": 13
     },
     {
         "deptId": "KSF145000",
         "deptName": "n일산FOH",
-        "parentDeptId": "KOP036000"
+        "parentDeptId": "KOP036000",
+        "org_level": 6,
+        "org_order": 15
     },
     {
         "deptId": "KSF146000",
         "deptName": "n죽전FOH",
-        "parentDeptId": "KOP060000"
+        "parentDeptId": "KOP060000",
+        "org_level": 6,
+        "org_order": 17
     },
     {
         "deptId": "KSF147000",
         "deptName": "n동래FOH",
-        "parentDeptId": "KOP080000"
+        "parentDeptId": "KOP080000",
+        "org_level": 6,
+        "org_order": 7
     },
     {
         "deptId": "KSF148000",
         "deptName": "n덕천FOH",
-        "parentDeptId": "KOP080000"
+        "parentDeptId": "KOP080000",
+        "org_level": 6,
+        "org_order": 9
     },
     {
         "deptId": "KSF149000",
         "deptName": "n서면FOH",
-        "parentDeptId": "KOP080000"
+        "parentDeptId": "KOP080000",
+        "org_level": 6,
+        "org_order": 11
     },
     {
         "deptId": "KSF150000",
         "deptName": "n명동FOH",
-        "parentDeptId": "KOP038000"
+        "parentDeptId": "KOP038000",
+        "org_level": 6,
+        "org_order": 7
     },
     {
         "deptId": "KSF151000",
         "deptName": "n청주FOH",
-        "parentDeptId": "KOP070000"
+        "parentDeptId": "KOP070000",
+        "org_level": 6,
+        "org_order": 13
     },
     {
         "deptId": "KSF152000",
         "deptName": "타임스퀘어FOH",
-        "parentDeptId": "KOP038000"
+        "parentDeptId": "KOP038000",
+        "org_level": 6,
+        "org_order": 9
     },
     {
         "deptId": "KSF153000",
         "deptName": "n파주FOH",
-        "parentDeptId": "KOP036000"
+        "parentDeptId": "KOP036000",
+        "org_level": 6,
+        "org_order": 17
     },
     {
         "deptId": "KSF154000",
         "deptName": "n미아FOH",
-        "parentDeptId": "KOP038000"
+        "parentDeptId": "KOP038000",
+        "org_level": 6,
+        "org_order": 11
     },
     {
         "deptId": "KSF155000",
         "deptName": "n건대스타시티FOH",
-        "parentDeptId": "KOP037000"
+        "parentDeptId": "KOP037000",
+        "org_level": 6,
+        "org_order": 13
     },
     {
         "deptId": "KSF156000",
         "deptName": "n공항FOH",
-        "parentDeptId": "KOP035000"
+        "parentDeptId": "KOP035000",
+        "org_level": 6,
+        "org_order": 25
     },
     {
         "deptId": "KSF157000",
         "deptName": "n광교FOH",
-        "parentDeptId": "KOP039000"
+        "parentDeptId": "KOP039000",
+        "org_level": 6,
+        "org_order": 13
     },
     {
         "deptId": "KSF158000",
         "deptName": "대구신세계FOH",
-        "parentDeptId": "KOP060000"
+        "parentDeptId": "KOP060000",
+        "org_level": 6,
+        "org_order": 19
     },
     {
         "deptId": "KSF159000",
         "deptName": "대전현대아울렛FOH",
-        "parentDeptId": "KOP070000"
+        "parentDeptId": "KOP070000",
+        "org_level": 6,
+        "org_order": 15
     },
     {
         "deptId": "KSF160000",
         "deptName": "남양주현대아울렛FOH",
-        "parentDeptId": "KOP037000"
+        "parentDeptId": "KOP037000",
+        "org_level": 6,
+        "org_order": 15
     },
     {
         "deptId": "KSF161000",
         "deptName": "부산신세계센텀시티FOH",
-        "parentDeptId": "KOP080000"
+        "parentDeptId": "KOP080000",
+        "org_level": 6,
+        "org_order": 13
     },
     {
         "deptId": "KSF162000",
         "deptName": "신세계사우스시티FOH",
-        "parentDeptId": "KOP039000"
+        "parentDeptId": "KOP039000",
+        "org_level": 6,
+        "org_order": 15
     },
     {
         "deptId": "KSF163000",
         "deptName": "용산아이파크몰FOH",
-        "parentDeptId": "KOP038000"
+        "parentDeptId": "KOP038000",
+        "org_level": 6,
+        "org_order": 13
     },
     {
         "deptId": "KSF164000",
         "deptName": "동탄롯데FOH",
-        "parentDeptId": "KOP039000"
+        "parentDeptId": "KOP039000",
+        "org_level": 6,
+        "org_order": 17
     },
     {
         "deptId": "KSF165000",
         "deptName": "대전신세계FOH",
-        "parentDeptId": "KOP070000"
+        "parentDeptId": "KOP070000",
+        "org_level": 6,
+        "org_order": 17
     },
     {
         "deptId": "KSF166000",
         "deptName": "하남스타필드FOH",
-        "parentDeptId": "KOP037000"
+        "parentDeptId": "KOP037000",
+        "org_level": 6,
+        "org_order": 17
     },
     {
         "deptId": "KSF167000",
         "deptName": "n사당파스텔시티FOH",
-        "parentDeptId": "KOP038000"
+        "parentDeptId": "KOP038000",
+        "org_level": 6,
+        "org_order": 15
     },
     {
         "deptId": "KSF168000",
         "deptName": "n김해신세계FOH",
-        "parentDeptId": "KOP060000"
+        "parentDeptId": "KOP060000",
+        "org_level": 6,
+        "org_order": 21
     },
     {
         "deptId": "KSF169000",
         "deptName": "광명AKFOH",
-        "parentDeptId": "KOP035000"
+        "parentDeptId": "KOP035000",
+        "org_level": 6,
+        "org_order": 15
     },
     {
         "deptId": "KSF170000",
         "deptName": "왕십리역사FOH",
-        "parentDeptId": "KOP037000"
+        "parentDeptId": "KOP037000",
+        "org_level": 6,
+        "org_order": 19
     },
     {
         "deptId": "KSF171000",
         "deptName": "춘천FOH",
-        "parentDeptId": "KOP037000"
+        "parentDeptId": "KOP037000",
+        "org_level": 6,
+        "org_order": 21
     },
     {
         "deptId": "KSF172000",
         "deptName": "동부산롯데아울렛FOH",
-        "parentDeptId": "KOP080000"
+        "parentDeptId": "KOP080000",
+        "org_level": 6,
+        "org_order": 15
     },
     {
         "deptId": "KSF173000",
         "deptName": "천안아산신세계FOH",
-        "parentDeptId": "KOP039000"
+        "parentDeptId": "KOP039000",
+        "org_level": 6,
+        "org_order": 19
     },
     {
         "deptId": "KSF174000",
         "deptName": "시흥신세계아울렛FOH",
-        "parentDeptId": "KOP035000"
+        "parentDeptId": "KOP035000",
+        "org_level": 6,
+        "org_order": 17
     },
     {
         "deptId": "KSF175000",
         "deptName": "n신림타임스트림FOH",
-        "parentDeptId": "KOP038000"
+        "parentDeptId": "KOP038000",
+        "org_level": 6,
+        "org_order": 17
     },
     {
         "deptId": "KSF176000",
         "deptName": "광화문D타워FOH",
-        "parentDeptId": "KOP038000"
+        "parentDeptId": "KOP038000",
+        "org_level": 6,
+        "org_order": 19
     },
     {
         "deptId": "KSF177000",
         "deptName": "여수웅천FOH",
-        "parentDeptId": "KOP070000"
+        "parentDeptId": "KOP070000",
+        "org_level": 6,
+        "org_order": 19
     },
     {
         "deptId": "KSF178000",
         "deptName": "n분당AKFOH",
-        "parentDeptId": "KOP038000"
+        "parentDeptId": "KOP038000",
+        "org_level": 6,
+        "org_order": 21
     },
     {
         "deptId": "KSF179000",
         "deptName": "기흥롯데아울렛FOH",
-        "parentDeptId": "KOP039000"
+        "parentDeptId": "KOP039000",
+        "org_level": 6,
+        "org_order": 21
     },
     {
         "deptId": "KSF180000",
         "deptName": "반월당FOH",
-        "parentDeptId": "KOP060000"
+        "parentDeptId": "KOP060000",
+        "org_level": 6,
+        "org_order": 23
     },
     {
         "deptId": "KSF181000",
         "deptName": "동광주홈플러스FOH",
-        "parentDeptId": "KOP070000"
+        "parentDeptId": "KOP070000",
+        "org_level": 6,
+        "org_order": 21
     },
     {
         "deptId": "KSF182000",
         "deptName": "고척아이파크몰FOH",
-        "parentDeptId": "KOP035000"
+        "parentDeptId": "KOP035000",
+        "org_level": 6,
+        "org_order": 19
     },
     {
         "deptId": "KSF183000",
         "deptName": "상봉홈플러스FOH",
-        "parentDeptId": "KOP037000"
+        "parentDeptId": "KOP037000",
+        "org_level": 6,
+        "org_order": 23
     },
     {
         "deptId": "KSF184000",
         "deptName": "청량리역사FOH",
-        "parentDeptId": "KOP037000"
+        "parentDeptId": "KOP037000",
+        "org_level": 6,
+        "org_order": 25
     },
     {
         "deptId": "KSF185000",
         "deptName": "대전갤러리아FOH",
-        "parentDeptId": "KOP070000"
+        "parentDeptId": "KOP070000",
+        "org_level": 6,
+        "org_order": 23
     },
     {
         "deptId": "KSF186000",
         "deptName": "제주아일랜드FOH",
-        "parentDeptId": "KOP080000"
+        "parentDeptId": "KOP080000",
+        "org_level": 6,
+        "org_order": 17
     },
     {
         "deptId": "KSF187000",
         "deptName": "코엑스스타필드FOH",
-        "parentDeptId": "KOP036000"
+        "parentDeptId": "KOP036000",
+        "org_level": 6,
+        "org_order": 21
     },
     {
         "deptId": "KSF188000",
         "deptName": "판교FOH",
-        "parentDeptId": "KOP038000"
+        "parentDeptId": "KOP038000",
+        "org_level": 6,
+        "org_order": 23
     },
     {
         "deptId": "KSF189000",
         "deptName": "평촌롯데FOH",
-        "parentDeptId": "KOP039000"
+        "parentDeptId": "KOP039000",
+        "org_level": 6,
+        "org_order": 23
     },
     {
         "deptId": "KSF190000",
         "deptName": "중동롯데FOH",
-        "parentDeptId": "KOP035000"
+        "parentDeptId": "KOP035000",
+        "org_level": 6,
+        "org_order": 21
     },
     {
         "deptId": "KSF191000",
         "deptName": "명지스타필드FOH",
-        "parentDeptId": "KOP080000"
+        "parentDeptId": "KOP080000",
+        "org_level": 6,
+        "org_order": 19
     },
     {
         "deptId": "KSF192000",
         "deptName": "양재FOH",
-        "parentDeptId": "KOP036000"
+        "parentDeptId": "KOP036000",
+        "org_level": 6,
+        "org_order": 23
     },
     {
         "deptId": "KSF193000",
         "deptName": "광복롯데FOH",
-        "parentDeptId": "KOP080000"
+        "parentDeptId": "KOP080000",
+        "org_level": 6,
+        "org_order": 21
     },
     {
         "deptId": "KSF194000",
         "deptName": "인천롯데FOH",
-        "parentDeptId": "KOP035000"
+        "parentDeptId": "KOP035000",
+        "org_level": 6,
+        "org_order": 23
     },
     {
         "deptId": "KSF195000",
         "deptName": "수원스타필드FOH",
-        "parentDeptId": "KOP039000"
+        "parentDeptId": "KOP039000",
+        "org_level": 6,
+        "org_order": 25
     },
     {
         "deptId": "KSF196000",
         "deptName": "천호현대FOH",
-        "parentDeptId": "KOP037000"
+        "parentDeptId": "KOP037000",
+        "org_level": 6,
+        "org_order": 27
     },
     {
         "deptId": "KSF197000",
         "deptName": "수원타임빌라스FOH",
-        "parentDeptId": "KOP039000"
+        "parentDeptId": "KOP039000",
+        "org_level": 6,
+        "org_order": 28
     },
     {
         "deptId": "KSF198000",
         "deptName": "군산롯데몰FOH",
-        "parentDeptId": "KOP070000"
+        "parentDeptId": "KOP070000",
+        "org_level": 6,
+        "org_order": 25
     },
     {
         "deptId": "KSF199000",
         "deptName": "강남교보타워FOH",
-        "parentDeptId": "KOP036000"
+        "parentDeptId": "KOP036000",
+        "org_level": 6,
+        "org_order": 25
     },
     {
         "deptId": "KSF200000",
         "deptName": "여주신세계아울렛FOH",
-        "parentDeptId": "KOP037000"
+        "parentDeptId": "KOP037000",
+        "org_level": 6,
+        "org_order": 29
     },
     {
         "deptId": "KSF201000",
         "deptName": "고양스타필드FOH",
-        "parentDeptId": "KOP036000"
+        "parentDeptId": "KOP036000",
+        "org_level": 6,
+        "org_order": 27
     },
     {
         "deptId": "KSF202000",
         "deptName": "잠실롯데FOH",
-        "parentDeptId": "KOP038000"
+        "parentDeptId": "KOP038000",
+        "org_level": 6,
+        "org_order": 25
     },
     {
         "deptId": "KSF203000",
         "deptName": "강동아이파크더리버FOH",
-        "parentDeptId": "KOP038000"
+        "parentDeptId": "KOP038000",
+        "org_level": 6,
+        "org_order": 27
     },
     {
         "deptId": "KSF204000",
         "deptName": "구의이스트폴FOH",
-        "parentDeptId": "KOP037000"
+        "parentDeptId": "KOP037000",
+        "org_level": 6,
+        "org_order": 31
     },
     {
         "deptId": "KSF205000",
         "deptName": "진주롯데몰점FOH",
-        "parentDeptId": "KOP060000"
+        "parentDeptId": "KOP060000",
+        "org_level": 6,
+        "org_order": 26
     },
     {
         "deptId": "KSF207000",
         "deptName": "김포공항롯데FOH",
-        "parentDeptId": "KOP035000"
+        "parentDeptId": "KOP035000",
+        "org_level": 6,
+        "org_order": 27
     },
     {
         "deptId": "KSF701000",
         "deptName": "D서초FOH",
-        "parentDeptId": "KOP036000"
+        "parentDeptId": "KOP036000",
+        "org_level": 6,
+        "org_order": 29
     },
     {
         "deptId": "KSF702000",
         "deptName": "D삼성FOH",
-        "parentDeptId": "KOP036000"
+        "parentDeptId": "KOP036000",
+        "org_level": 6,
+        "org_order": 31
     },
     {
         "deptId": "KSF747000",
         "deptName": "D안암FOH",
-        "parentDeptId": "KOP038000"
+        "parentDeptId": "KOP038000",
+        "org_level": 6,
+        "org_order": 29
     },
     {
         "deptId": "KSP012000",
         "deptName": "황금BOH",
-        "parentDeptId": "KOP060000"
+        "parentDeptId": "KOP060000",
+        "org_level": 6,
+        "org_order": 2
     },
     {
         "deptId": "KSP019000",
         "deptName": "신촌BOH",
-        "parentDeptId": "KOP036000"
+        "parentDeptId": "KOP036000",
+        "org_level": 6,
+        "org_order": 2
     },
     {
         "deptId": "KSP021000",
         "deptName": "서현BOH",
-        "parentDeptId": "KOP037000"
+        "parentDeptId": "KOP037000",
+        "org_level": 6,
+        "org_order": 2
     },
     {
         "deptId": "KSP029000",
         "deptName": "상무BOH",
-        "parentDeptId": "KOP070000"
+        "parentDeptId": "KOP070000",
+        "org_level": 6,
+        "org_order": 2
     },
     {
         "deptId": "KSP030000",
         "deptName": "남천BOH",
-        "parentDeptId": "KOP080000"
+        "parentDeptId": "KOP080000",
+        "org_level": 6,
+        "org_order": 2
     },
     {
         "deptId": "KSP031000",
         "deptName": "고잔BOH",
-        "parentDeptId": "KOP035000"
+        "parentDeptId": "KOP035000",
+        "org_level": 6,
+        "org_order": 2
     },
     {
         "deptId": "KSP036000",
         "deptName": "중앙BOH",
-        "parentDeptId": "KOP060000"
+        "parentDeptId": "KOP060000",
+        "org_level": 6,
+        "org_order": 4
     },
     {
         "deptId": "KSP038000",
         "deptName": "수원역사BOH",
-        "parentDeptId": "KOP039000"
+        "parentDeptId": "KOP039000",
+        "org_level": 6,
+        "org_order": 2
     },
     {
         "deptId": "KSP040000",
         "deptName": "평촌BOH",
-        "parentDeptId": "KOP039000"
+        "parentDeptId": "KOP039000",
+        "org_level": 6,
+        "org_order": 4
     },
     {
         "deptId": "KSP045000",
         "deptName": "잠실BOH",
-        "parentDeptId": "KOP038000"
+        "parentDeptId": "KOP038000",
+        "org_level": 6,
+        "org_order": 2
     },
     {
         "deptId": "KSP062000",
         "deptName": "노원BOH",
-        "parentDeptId": "KOP037000"
+        "parentDeptId": "KOP037000",
+        "org_level": 6,
+        "org_order": 4
     },
     {
         "deptId": "KSP077000",
         "deptName": "인동BOH",
-        "parentDeptId": "KOP060000"
+        "parentDeptId": "KOP060000",
+        "org_level": 6,
+        "org_order": 6
     },
     {
         "deptId": "KSP085000",
         "deptName": "금오BOH",
-        "parentDeptId": "KOP037000"
+        "parentDeptId": "KOP037000",
+        "org_level": 6,
+        "org_order": 6
     },
     {
         "deptId": "KSP086000",
         "deptName": "작전BOH",
-        "parentDeptId": "KOP035000"
+        "parentDeptId": "KOP035000",
+        "org_level": 6,
+        "org_order": 4
     },
     {
         "deptId": "KSP090000",
         "deptName": "남포항BOH",
-        "parentDeptId": "KOP060000"
+        "parentDeptId": "KOP060000",
+        "org_level": 6,
+        "org_order": 8
     },
     {
         "deptId": "KSP092000",
         "deptName": "광천BOH",
-        "parentDeptId": "KOP070000"
+        "parentDeptId": "KOP070000",
+        "org_level": 6,
+        "org_order": 4
     },
     {
         "deptId": "KSP098000",
         "deptName": "진주BOH",
-        "parentDeptId": "KOP060000"
+        "parentDeptId": "KOP060000",
+        "org_level": 6,
+        "org_order": 10
     },
     {
         "deptId": "KSP099000",
         "deptName": "부천역사BOH",
-        "parentDeptId": "KOP035000"
+        "parentDeptId": "KOP035000",
+        "org_level": 6,
+        "org_order": 6
     },
     {
         "deptId": "KSP101000",
         "deptName": "영통BOH",
-        "parentDeptId": "KOP039000"
+        "parentDeptId": "KOP039000",
+        "org_level": 6,
+        "org_order": 6
     },
     {
         "deptId": "KSP103000",
         "deptName": "n천호BOH",
-        "parentDeptId": "KOP037000"
+        "parentDeptId": "KOP037000",
+        "org_level": 6,
+        "org_order": 8
     },
     {
         "deptId": "KSP105000",
         "deptName": "n여의도BOH",
-        "parentDeptId": "KOP038000"
+        "parentDeptId": "KOP038000",
+        "org_level": 6,
+        "org_order": 4
     },
     {
         "deptId": "KSP112000",
         "deptName": "동탄BOH",
-        "parentDeptId": "KOP039000"
+        "parentDeptId": "KOP039000",
+        "org_level": 6,
+        "org_order": 8
     },
     {
         "deptId": "KSP115000",
         "deptName": "가산BOH",
-        "parentDeptId": "KOP035000"
+        "parentDeptId": "KOP035000",
+        "org_level": 6,
+        "org_order": 8
     },
     {
         "deptId": "KSP117000",
         "deptName": "원마운트BOH",
-        "parentDeptId": "KOP036000"
+        "parentDeptId": "KOP036000",
+        "org_level": 6,
+        "org_order": 4
     },
     {
         "deptId": "KSP118000",
         "deptName": "펜타포트BOH",
-        "parentDeptId": "KOP039000"
+        "parentDeptId": "KOP039000",
+        "org_level": 6,
+        "org_order": 10
     },
     {
         "deptId": "KSP119000",
         "deptName": "양산BOH",
-        "parentDeptId": "KOP080000"
+        "parentDeptId": "KOP080000",
+        "org_level": 6,
+        "org_order": 4
     },
     {
         "deptId": "KSP121000",
         "deptName": "목포남악BOH",
-        "parentDeptId": "KOP070000"
+        "parentDeptId": "KOP070000",
+        "org_level": 6,
+        "org_order": 6
     },
     {
         "deptId": "KSP122000",
         "deptName": "n효자BOH",
-        "parentDeptId": "KOP070000"
+        "parentDeptId": "KOP070000",
+        "org_level": 6,
+        "org_order": 8
     },
     {
         "deptId": "KSP124000",
         "deptName": "평택BOH",
-        "parentDeptId": "KOP039000"
+        "parentDeptId": "KOP039000",
+        "org_level": 6,
+        "org_order": 12
     },
     {
         "deptId": "KSP125000",
         "deptName": "거제BOH",
-        "parentDeptId": "KOP080000"
+        "parentDeptId": "KOP080000",
+        "org_level": 6,
+        "org_order": 24
     },
     {
         "deptId": "KSP126000",
         "deptName": "n해운대BOH",
-        "parentDeptId": "KOP080000"
+        "parentDeptId": "KOP080000",
+        "org_level": 6,
+        "org_order": 6
     },
     {
         "deptId": "KSP127000",
         "deptName": "김포BOH",
-        "parentDeptId": "KOP036000"
+        "parentDeptId": "KOP036000",
+        "org_level": 6,
+        "org_order": 6
     },
     {
         "deptId": "KSP128000",
         "deptName": "유성BOH",
-        "parentDeptId": "KOP070000"
+        "parentDeptId": "KOP070000",
+        "org_level": 6,
+        "org_order": 10
     },
     {
         "deptId": "KSP129000",
         "deptName": "n센트럴시티BOH",
-        "parentDeptId": "KOP036000"
+        "parentDeptId": "KOP036000",
+        "org_level": 6,
+        "org_order": 8
     },
     {
         "deptId": "KSP130000",
         "deptName": "순천BOH",
-        "parentDeptId": "KOP070000"
+        "parentDeptId": "KOP070000",
+        "org_level": 6,
+        "org_order": 12
     },
     {
         "deptId": "KSP131000",
         "deptName": "원주BOH",
-        "parentDeptId": "KOP037000"
+        "parentDeptId": "KOP037000",
+        "org_level": 6,
+        "org_order": 10
     },
     {
         "deptId": "KSP132000",
         "deptName": "동대문BOH",
-        "parentDeptId": "KOP038000"
+        "parentDeptId": "KOP038000",
+        "org_level": 6,
+        "org_order": 6
     },
     {
         "deptId": "KSP134000",
         "deptName": "n강남BOH",
-        "parentDeptId": "KOP036000"
+        "parentDeptId": "KOP036000",
+        "org_level": 6,
+        "org_order": 10
     },
     {
         "deptId": "KSP135000",
         "deptName": "n목동BOH",
-        "parentDeptId": "KOP035000"
+        "parentDeptId": "KOP035000",
+        "org_level": 6,
+        "org_order": 10
     },
     {
         "deptId": "KSP136000",
         "deptName": "n남포BOH",
-        "parentDeptId": "KOP037000"
+        "parentDeptId": "KOP037000",
+        "org_level": 6,
+        "org_order": 12
     },
     {
         "deptId": "KSP138000",
         "deptName": "부평BOH",
-        "parentDeptId": "KOP035000"
+        "parentDeptId": "KOP035000",
+        "org_level": 6,
+        "org_order": 12
     },
     {
         "deptId": "KSP139000",
         "deptName": "n신대방BOH",
-        "parentDeptId": "KOP060000"
+        "parentDeptId": "KOP060000",
+        "org_level": 6,
+        "org_order": 14
     },
     {
         "deptId": "KSP140000",
         "deptName": "합정BOH",
-        "parentDeptId": "KOP036000"
+        "parentDeptId": "KOP036000",
+        "org_level": 6,
+        "org_order": 12
     },
     {
         "deptId": "KSP141000",
         "deptName": "n삼산BOH",
-        "parentDeptId": "KOP060000"
+        "parentDeptId": "KOP060000",
+        "org_level": 6,
+        "org_order": 16
     },
     {
         "deptId": "KSP143000",
         "deptName": "송도BOH",
-        "parentDeptId": "KOP035000"
+        "parentDeptId": "KOP035000",
+        "org_level": 6,
+        "org_order": 14
     },
     {
         "deptId": "KSP144000",
         "deptName": "구파발BOH",
-        "parentDeptId": "KOP036000"
+        "parentDeptId": "KOP036000",
+        "org_level": 6,
+        "org_order": 14
     },
     {
         "deptId": "KSP145000",
         "deptName": "n일산BOH",
-        "parentDeptId": "KOP036000"
+        "parentDeptId": "KOP036000",
+        "org_level": 6,
+        "org_order": 16
     },
     {
         "deptId": "KSP146000",
         "deptName": "n죽전BOH",
-        "parentDeptId": "KOP060000"
+        "parentDeptId": "KOP060000",
+        "org_level": 6,
+        "org_order": 18
     },
     {
         "deptId": "KSP147000",
         "deptName": "n동래BOH",
-        "parentDeptId": "KOP080000"
+        "parentDeptId": "KOP080000",
+        "org_level": 6,
+        "org_order": 8
     },
     {
         "deptId": "KSP148000",
         "deptName": "n덕천BOH",
-        "parentDeptId": "KOP080000"
+        "parentDeptId": "KOP080000",
+        "org_level": 6,
+        "org_order": 10
     },
     {
         "deptId": "KSP149000",
         "deptName": "n서면BOH",
-        "parentDeptId": "KOP080000"
+        "parentDeptId": "KOP080000",
+        "org_level": 6,
+        "org_order": 12
     },
     {
         "deptId": "KSP150000",
         "deptName": "n명동BOH",
-        "parentDeptId": "KOP038000"
+        "parentDeptId": "KOP038000",
+        "org_level": 6,
+        "org_order": 8
     },
     {
         "deptId": "KSP151000",
         "deptName": "n청주BOH",
-        "parentDeptId": "KOP070000"
+        "parentDeptId": "KOP070000",
+        "org_level": 6,
+        "org_order": 14
     },
     {
         "deptId": "KSP152000",
         "deptName": "타임스퀘어BOH",
-        "parentDeptId": "KOP038000"
+        "parentDeptId": "KOP038000",
+        "org_level": 6,
+        "org_order": 10
     },
     {
         "deptId": "KSP153000",
         "deptName": "n파주BOH",
-        "parentDeptId": "KOP036000"
+        "parentDeptId": "KOP036000",
+        "org_level": 6,
+        "org_order": 18
     },
     {
         "deptId": "KSP154000",
         "deptName": "n미아BOH",
-        "parentDeptId": "KOP038000"
+        "parentDeptId": "KOP038000",
+        "org_level": 6,
+        "org_order": 12
     },
     {
         "deptId": "KSP155000",
         "deptName": "n건대스타시티BOH",
-        "parentDeptId": "KOP037000"
+        "parentDeptId": "KOP037000",
+        "org_level": 6,
+        "org_order": 14
     },
     {
         "deptId": "KSP156000",
         "deptName": "n공항BOH",
-        "parentDeptId": "KOP035000"
+        "parentDeptId": "KOP035000",
+        "org_level": 6,
+        "org_order": 26
     },
     {
         "deptId": "KSP157000",
         "deptName": "n광교BOH",
-        "parentDeptId": "KOP039000"
+        "parentDeptId": "KOP039000",
+        "org_level": 6,
+        "org_order": 14
     },
     {
         "deptId": "KSP158000",
         "deptName": "대구신세계BOH",
-        "parentDeptId": "KOP060000"
+        "parentDeptId": "KOP060000",
+        "org_level": 6,
+        "org_order": 20
     },
     {
         "deptId": "KSP159000",
         "deptName": "대전현대아울렛BOH",
-        "parentDeptId": "KOP070000"
+        "parentDeptId": "KOP070000",
+        "org_level": 6,
+        "org_order": 16
     },
     {
         "deptId": "KSP160000",
         "deptName": "남양주현대아울렛BOH",
-        "parentDeptId": "KOP037000"
+        "parentDeptId": "KOP037000",
+        "org_level": 6,
+        "org_order": 16
     },
     {
         "deptId": "KSP161000",
         "deptName": "부산신세계센텀시티BOH",
-        "parentDeptId": "KOP080000"
+        "parentDeptId": "KOP080000",
+        "org_level": 6,
+        "org_order": 14
     },
     {
         "deptId": "KSP162000",
         "deptName": "신세계사우스시티BOH",
-        "parentDeptId": "KOP039000"
+        "parentDeptId": "KOP039000",
+        "org_level": 6,
+        "org_order": 16
     },
     {
         "deptId": "KSP163000",
         "deptName": "용산아이파크몰BOH",
-        "parentDeptId": "KOP038000"
+        "parentDeptId": "KOP038000",
+        "org_level": 6,
+        "org_order": 14
     },
     {
         "deptId": "KSP164000",
         "deptName": "동탄롯데BOH",
-        "parentDeptId": "KOP039000"
+        "parentDeptId": "KOP039000",
+        "org_level": 6,
+        "org_order": 18
     },
     {
         "deptId": "KSP165000",
         "deptName": "대전신세계BOH",
-        "parentDeptId": "KOP070000"
+        "parentDeptId": "KOP070000",
+        "org_level": 6,
+        "org_order": 18
     },
     {
         "deptId": "KSP166000",
         "deptName": "하남스타필드BOH",
-        "parentDeptId": "KOP037000"
+        "parentDeptId": "KOP037000",
+        "org_level": 6,
+        "org_order": 18
     },
     {
         "deptId": "KSP167000",
         "deptName": "n사당파스텔시티BOH",
-        "parentDeptId": "KOP038000"
+        "parentDeptId": "KOP038000",
+        "org_level": 6,
+        "org_order": 16
     },
     {
         "deptId": "KSP168000",
         "deptName": "n김해신세계BOH",
-        "parentDeptId": "KOP060000"
+        "parentDeptId": "KOP060000",
+        "org_level": 6,
+        "org_order": 22
     },
     {
         "deptId": "KSP169000",
         "deptName": "광명AKBOH",
-        "parentDeptId": "KOP035000"
+        "parentDeptId": "KOP035000",
+        "org_level": 6,
+        "org_order": 16
     },
     {
         "deptId": "KSP170000",
         "deptName": "왕십리역사BOH",
-        "parentDeptId": "KOP037000"
+        "parentDeptId": "KOP037000",
+        "org_level": 6,
+        "org_order": 20
     },
     {
         "deptId": "KSP171000",
         "deptName": "춘천BOH",
-        "parentDeptId": "KOP037000"
+        "parentDeptId": "KOP037000",
+        "org_level": 6,
+        "org_order": 22
     },
     {
         "deptId": "KSP172000",
         "deptName": "동부산롯데아울렛BOH",
-        "parentDeptId": "KOP080000"
+        "parentDeptId": "KOP080000",
+        "org_level": 6,
+        "org_order": 16
     },
     {
         "deptId": "KSP173000",
         "deptName": "천안아산신세계BOH",
-        "parentDeptId": "KOP039000"
+        "parentDeptId": "KOP039000",
+        "org_level": 6,
+        "org_order": 20
     },
     {
         "deptId": "KSP174000",
         "deptName": "시흥신세계아울렛BOH",
-        "parentDeptId": "KOP035000"
+        "parentDeptId": "KOP035000",
+        "org_level": 6,
+        "org_order": 18
     },
     {
         "deptId": "KSP175000",
         "deptName": "n신림타임스트림BOH",
-        "parentDeptId": "KOP038000"
+        "parentDeptId": "KOP038000",
+        "org_level": 6,
+        "org_order": 18
     },
     {
         "deptId": "KSP176000",
         "deptName": "광화문D타워BOH",
-        "parentDeptId": "KOP038000"
+        "parentDeptId": "KOP038000",
+        "org_level": 6,
+        "org_order": 20
     },
     {
         "deptId": "KSP177000",
         "deptName": "여수웅천BOH",
-        "parentDeptId": "KOP070000"
+        "parentDeptId": "KOP070000",
+        "org_level": 6,
+        "org_order": 20
     },
     {
         "deptId": "KSP178000",
         "deptName": "n분당AKBOH",
-        "parentDeptId": "KOP038000"
+        "parentDeptId": "KOP038000",
+        "org_level": 6,
+        "org_order": 22
     },
     {
         "deptId": "KSP179000",
         "deptName": "기흥롯데아울렛BOH",
-        "parentDeptId": "KOP039000"
+        "parentDeptId": "KOP039000",
+        "org_level": 6,
+        "org_order": 22
     },
     {
         "deptId": "KSP180000",
         "deptName": "반월당BOH",
-        "parentDeptId": "KOP060000"
+        "parentDeptId": "KOP060000",
+        "org_level": 6,
+        "org_order": 24
     },
     {
         "deptId": "KSP181000",
         "deptName": "동광주홈플러스BOH",
-        "parentDeptId": "KOP070000"
+        "parentDeptId": "KOP070000",
+        "org_level": 6,
+        "org_order": 22
     },
     {
         "deptId": "KSP182000",
         "deptName": "고척아이파크몰BOH",
-        "parentDeptId": "KOP035000"
+        "parentDeptId": "KOP035000",
+        "org_level": 6,
+        "org_order": 20
     },
     {
         "deptId": "KSP183000",
         "deptName": "상봉홈플러스BOH",
-        "parentDeptId": "KOP037000"
+        "parentDeptId": "KOP037000",
+        "org_level": 6,
+        "org_order": 24
     },
     {
         "deptId": "KSP184000",
         "deptName": "청량리역사BOH",
-        "parentDeptId": "KOP037000"
+        "parentDeptId": "KOP037000",
+        "org_level": 6,
+        "org_order": 26
     },
     {
         "deptId": "KSP185000",
         "deptName": "대전갤러리아BOH",
-        "parentDeptId": "KOP070000"
+        "parentDeptId": "KOP070000",
+        "org_level": 6,
+        "org_order": 24
     },
     {
         "deptId": "KSP186000",
         "deptName": "제주아일랜드BOH",
-        "parentDeptId": "KOP080000"
+        "parentDeptId": "KOP080000",
+        "org_level": 6,
+        "org_order": 18
     },
     {
         "deptId": "KSP187000",
         "deptName": "코엑스스타필드BOH",
-        "parentDeptId": "KOP036000"
+        "parentDeptId": "KOP036000",
+        "org_level": 6,
+        "org_order": 22
     },
     {
         "deptId": "KSP188000",
         "deptName": "판교BOH",
-        "parentDeptId": "KOP038000"
+        "parentDeptId": "KOP038000",
+        "org_level": 6,
+        "org_order": 24
     },
     {
         "deptId": "KSP189000",
         "deptName": "평촌롯데BOH",
-        "parentDeptId": "KOP039000"
+        "parentDeptId": "KOP039000",
+        "org_level": 6,
+        "org_order": 24
     },
     {
         "deptId": "KSP190000",
         "deptName": "중동롯데BOH",
-        "parentDeptId": "KOP035000"
+        "parentDeptId": "KOP035000",
+        "org_level": 6,
+        "org_order": 22
     },
     {
         "deptId": "KSP191000",
         "deptName": "명지스타필드BOH",
-        "parentDeptId": "KOP080000"
+        "parentDeptId": "KOP080000",
+        "org_level": 6,
+        "org_order": 20
     },
     {
         "deptId": "KSP192000",
         "deptName": "양재BOH",
-        "parentDeptId": "KOP036000"
+        "parentDeptId": "KOP036000",
+        "org_level": 6,
+        "org_order": 24
     },
     {
         "deptId": "KSP193000",
         "deptName": "광복롯데BOH",
-        "parentDeptId": "KOP080000"
+        "parentDeptId": "KOP080000",
+        "org_level": 6,
+        "org_order": 22
     },
     {
         "deptId": "KSP194000",
         "deptName": "인천롯데BOH",
-        "parentDeptId": "KOP035000"
+        "parentDeptId": "KOP035000",
+        "org_level": 6,
+        "org_order": 24
     },
     {
         "deptId": "KSP195000",
         "deptName": "수원스타필드BOH",
-        "parentDeptId": "KOP039000"
+        "parentDeptId": "KOP039000",
+        "org_level": 6,
+        "org_order": 26
     },
     {
         "deptId": "KSP196000",
         "deptName": "천호현대BOH",
-        "parentDeptId": "KOP037000"
+        "parentDeptId": "KOP037000",
+        "org_level": 6,
+        "org_order": 28
     },
     {
         "deptId": "KSP197000",
         "deptName": "수원타임빌라스BOH",
-        "parentDeptId": "KOP039000"
+        "parentDeptId": "KOP039000",
+        "org_level": 6,
+        "org_order": 27
     },
     {
         "deptId": "KSP198000",
         "deptName": "군산롯데몰BOH",
-        "parentDeptId": "KOP070000"
+        "parentDeptId": "KOP070000",
+        "org_level": 6,
+        "org_order": 26
     },
     {
         "deptId": "KSP199000",
         "deptName": "강남교보타워BOH",
-        "parentDeptId": "KOP036000"
+        "parentDeptId": "KOP036000",
+        "org_level": 6,
+        "org_order": 26
     },
     {
         "deptId": "KSP200000",
         "deptName": "여주신세계아울렛BOH",
-        "parentDeptId": "KOP037000"
+        "parentDeptId": "KOP037000",
+        "org_level": 6,
+        "org_order": 30
     },
     {
         "deptId": "KSP201000",
         "deptName": "고양스타필드 BOH",
-        "parentDeptId": "KOP036000"
+        "parentDeptId": "KOP036000",
+        "org_level": 6,
+        "org_order": 28
     },
     {
         "deptId": "KSP202000",
         "deptName": "잠실롯데BOH",
-        "parentDeptId": "KOP038000"
+        "parentDeptId": "KOP038000",
+        "org_level": 6,
+        "org_order": 26
     },
     {
         "deptId": "KSP203000",
         "deptName": "강동아이파크더리버BOH",
-        "parentDeptId": "KOP038000"
+        "parentDeptId": "KOP038000",
+        "org_level": 6,
+        "org_order": 28
     },
     {
         "deptId": "KSP204000",
         "deptName": "구의이스트폴BOH",
-        "parentDeptId": "KOP037000"
+        "parentDeptId": "KOP037000",
+        "org_level": 6,
+        "org_order": 32
     },
     {
         "deptId": "KSP205000",
         "deptName": "진주롯데몰점BOH",
-        "parentDeptId": "KOP060000"
+        "parentDeptId": "KOP060000",
+        "org_level": 6,
+        "org_order": 25
     },
     {
         "deptId": "KSP207000",
         "deptName": "김포공항롯데BOH",
-        "parentDeptId": "KOP035000"
+        "parentDeptId": "KOP035000",
+        "org_level": 6,
+        "org_order": 28
     },
     {
         "deptId": "KSP701000",
         "deptName": "D서초BOH",
-        "parentDeptId": "KOP036000"
+        "parentDeptId": "KOP036000",
+        "org_level": 6,
+        "org_order": 30
     },
     {
         "deptId": "KSP702000",
         "deptName": "D삼성BOH",
-        "parentDeptId": "KOP036000"
+        "parentDeptId": "KOP036000",
+        "org_level": 6,
+        "org_order": 32
     },
     {
         "deptId": "KSP747000",
         "deptName": "D안암BOH",
-        "parentDeptId": "KOP038000"
+        "parentDeptId": "KOP038000",
+        "org_level": 6,
+        "org_order": 30
     }
 ]

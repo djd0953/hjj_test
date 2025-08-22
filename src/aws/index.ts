@@ -14,6 +14,7 @@ const getS3Client = () => {
     });
 }
 
+
 export const S3RetreiveFileBuffer = async ({ key, bucketIndex = 0}: S3RetrieveParams): Promise<{ status: number; Body?: Buffer; message?: unknown }> => {
     if (!key) return { status: 400, message: "Key가 없음" }
 

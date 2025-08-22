@@ -3,7 +3,9 @@
 import * as dotenv from 'dotenv';
 dotenv.config();
 
+import awsDownload from './test_code/awsDownload';
 import email from '@/test_code/email';
+import jwt from '@/test_code/jwt';
 import organization from '@/test_code/organization'
 import separate from '@/test_code/separate_code';
 import uaparse from '@/test_code/uaparse'
@@ -17,6 +19,8 @@ import test from '@/test_code/test'
 const start = async () =>
 {
     console.log('\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nTest Start!!!')
+    // await awsDownload()
+    // await jwt()
     // await email()
     // await organization()
     // await uaparse()
