@@ -4,30 +4,45 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 
 import awsDownload from './test_code/awsDownload';
+import cleanDocx from './test_code/cleanDocx'
+import db_migration from './test_code/dbMigration';
+import diffDocx from './test_code/diffDocx'
 import email from '@/test_code/email';
 import jwt from '@/test_code/jwt';
-import organization from '@/test_code/organization'
+import lcs from '@/test_code/lcs';
+import organization from '@/test_code/organization';
 import separate from '@/test_code/separate_code';
-import uaparse from '@/test_code/uaparse'
+import test from '@/test_code/test';
+import uaparse from '@/test_code/uaparse';
 
-import dining from '@/test_code/diningbrands/diningbrands_user'
-import d_test from '@/test_code/diningbrands/test'
-
-import test from '@/test_code/test'
-
+import dining from '@/test_code/diningbrands/diningbrands_user';
+import d_test from '@/test_code/diningbrands/test';
 
 const start = async () =>
 {
     console.log('\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nTest Start!!!')
-    // await awsDownload()
-    // await jwt()
-    // await email()
-    // await organization()
-    // await uaparse()
+    /**
+     * diningbrands
+     */
     // await dining()
     // await d_test()
+    /**
+     * diningbrands
+     */
 
+    // await awsDownload()
+    // await cleanDocx()
+    // await db_migration()
+    // await diffDocx()
+    // await email()
+    // await jwt()
+    // await lcs()
+    // await organization()
+    // await separate()
     await test()
+    // await uaparse()
+
+
     
     console.log(`Test End`)
     console.log(`Test End`)
