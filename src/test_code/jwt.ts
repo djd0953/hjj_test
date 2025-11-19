@@ -1,7 +1,7 @@
 let jwt = require('jsonwebtoken')
 
 export default async () => {
-    const secretKey = 'dininglawform';
+    const secretKey = 'secret_key';
     const data =
     {
         id: 5244,
@@ -10,8 +10,8 @@ export default async () => {
     };
 
     console.time('aa')
-    const token = jwt.sign(data, secretKey, {expiresIn: '7d', issuer: 'dining_brands'});
-    const sso = await jwt.verify(token, 'dininglawform')
+    const token = jwt.sign(data, secretKey, {expiresIn: '7d', issuer: 'who_issuer'});
+    const sso = await jwt.verify(token, secretKey)
 
     console.timeEnd('aa')
 

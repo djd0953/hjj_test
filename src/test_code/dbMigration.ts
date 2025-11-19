@@ -1,5 +1,5 @@
-import db from '@/db'
-import db2 from '@/db/migrateDb'
+import db from '@db'
+import db2 from '@migrateDb'
 import { QueryTypes, Transaction } from 'sequelize';
 import { Json } from 'sequelize/types/utils';
 

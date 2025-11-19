@@ -1,5 +1,5 @@
-import { dummy } from "@/libs/mock_data/organization";
-import type { TeamOrganization } from "types";
+import { dummy } from "@libs/mock_data/organization";
+import type { TeamOrganization } from "@types";
 
 const getOrganizationTree = (organizationList: TeamOrganization[]): {tree: TeamOrganization[], iMap: Map<string, TeamOrganization>} => 
 {

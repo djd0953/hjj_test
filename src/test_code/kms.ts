@@ -1,4 +1,4 @@
-import {kms, sm, whoAmI} from '@/aws';
+import {kms, sm, whoAmI} from '@aws';
 
 
 export default async () => 

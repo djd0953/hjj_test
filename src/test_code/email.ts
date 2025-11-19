@@ -1,5 +1,5 @@
 // import { AmazonES, S3RetreiveFileBuffer } from '@/aws'
-import {s3} from '@/aws';
+import {s3} from '@aws';
 import { simpleParser, ParsedMail } from 'mailparser';
 import * as cheerio from 'cheerio';
 import {Document, Element} from 'domhandler'

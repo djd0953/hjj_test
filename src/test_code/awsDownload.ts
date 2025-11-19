@@ -1,4 +1,4 @@
-import {s3} from '@/aws'
+import {s3} from '@aws'
 import fs from 'fs'
 
 export default async () => {

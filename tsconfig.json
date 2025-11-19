@@ -4,22 +4,29 @@
         "module": "commonjs",                        
         "typeRoots": ["./types", "./node_modules/@types"],
         "lib": ["ES2020", "DOM"],                    
-        "moduleResolution": "node",                  
         "esModuleInterop": true,                     
         "resolveJsonModule": true,                   
         "strict": true,                              
         "noImplicitAny": true,                       
         "skipLibCheck": true,                        
         "forceConsistentCasingInFileNames": true,    
-        "outDir": "./dist",                          
-        "rootDir": "./src",                          
         "types": ["node"],                           
+
         "allowSyntheticDefaultImports": true,        
         "allowJs": true,                             
         "checkJs": false,
-        "baseUrl": ".",
+
+        "outDir": "./dist",                          
+        "rootDir": "./src",                          
+
         "paths": {
-            "@/*": ["src/*"]
+            "@code/*": ["./src/test_code/*"],
+            "@libs/*": ["./src/libs/*"],
+            "@aws": ["./src/aws/index.ts"],
+            "@db": ["./src/db/index.ts"],
+            "@migrateDb": ["./src/db/migrateDb.ts"],
+            "@util": ["./src/util/index.ts"],
+            "@types": ["./types/index.ts"]
         }
     },
     "include": ["src/**/*"],
