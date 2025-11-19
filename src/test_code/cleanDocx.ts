@@ -140,7 +140,7 @@ const stripTagsPO = (arr: any, tagNames: string[]) => {
 }
 
 const stripFormattingPO = (arr: any) => {
-    return stripTagsPO(arr, ['w:highlight', 'w:shd'])
+    return stripTagsPO(arr, ['w:highlight', 'w:shd', 'w:color', 'w:bdr', 'w:pStyle'])
 }
 
 const stripCommentRefsPO = (arr: any) => {
@@ -208,7 +208,7 @@ const run = async () =>
         removeHighlights: true,
         removeShapes: true
     }
-    const docx = fs.readFileSync(path.resolve('files', 'test.docx'))
+    const docx = fs.readFileSync(path.resolve('files', 't1.docx'))
     const zip = await JSZip.loadAsync(docx);
 
     // 2) 정리해야 하는 파트 목록(존재하는 것만 처리)

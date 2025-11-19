@@ -1,4 +1,5 @@
-import { AmazonES, S3RetreiveFileBuffer } from '@/aws'
+// import { AmazonES, S3RetreiveFileBuffer } from '@/aws'
+import {s3} from '@/aws';
 import { simpleParser, ParsedMail } from 'mailparser';
 import * as cheerio from 'cheerio';
 import {Document, Element} from 'domhandler'
@@ -37,8 +38,8 @@ const test_email_paths: string[] = [
 
 const settingEmailJson = async (path: string): Promise<ParsedMail> => {
 
-    const data = await S3RetreiveFileBuffer({ key: path });
-    if (!data.Body) 
+    const data = await s3.retreiveFileBuffer({ key: path });
+    if (!data.body) 
         return {
             html: false,
             subject: '',
@@ -63,7 +64,7 @@ const settingEmailJson = async (path: string): Promise<ParsedMail> => {
             text: ''
         }
 
-    return await simpleParser(data.Body);
+    return await simpleParser(data.body);
 };
 
 const HP_EMAIL_SPLIT_BY_SEPARATOR = ({ html, separators }: {html: string, separators: RegExp[]}) => {

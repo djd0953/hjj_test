@@ -1,11 +1,7 @@
 
-// juice + pseudo materialize 보강 인라인러 (단일 파일)
 //@ts-ignore
 import * as juiceClient from 'juice/client'
 import {JSDOM} from 'jsdom'
-
-// 브라우저 번들용
-// Node 환경(SSR)에서 쓰면: import juice from 'juice'
 
 const WRAPPER_ID = '#output-content'
 

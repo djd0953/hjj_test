@@ -1,6 +1,6 @@
 import type {TeamOrganization} from 'types'
 export const dummy: TeamOrganization[] = [
-    {    id:'01BH000000',    team_id: 370,    name: '다이닝브랜즈그룹',    sort_id: 1,    ancestor_id: null},
+    {    id:'01BH000000',    team_id: 370,    name: '그룹',    sort_id: 1,    ancestor_id: null},
     {    id:'DP00000250',    team_id: 370,    name: 'COO',    sort_id: 2,    ancestor_id: '01BH000000'},
     {    id:'01BH140100',    team_id: 370,    name: '가맹사업본부',    sort_id: 3,    ancestor_id: 'DP00000250'},
     {    id:'01BH140110',    team_id: 370,    name: '가맹운영담당',    sort_id: 17,    ancestor_id: '01BH140100'},

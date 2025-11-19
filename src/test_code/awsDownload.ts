@@ -1,11 +1,11 @@
-import {S3DeleteObject, S3RetreiveFileBuffer} from '@/aws'
+import {s3} from '@/aws'
 import fs from 'fs'
 
 export default async () => {
-    const url = 'upload/11992/(주)블루개러지 자동결제 부가합의서_2025_암호화해제.doc';
-    const r = await S3RetreiveFileBuffer({key: url, bucketIndex: 1})
+    const url = 'upload/11992/file.doc';
+    const r = await s3.retreiveFileBuffer({key: url, bucketIndex: 1})
 
-    if (!r.Body) return
+    if (!r.body) return
 
-    fs.writeFileSync("(주)블루개러지 자동결제 부가합의서_2025_암호화해제.doc", r.Body)
+    fs.writeFileSync("file.doc", r.body)
 }

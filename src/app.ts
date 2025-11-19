@@ -8,15 +8,14 @@ import cleanDocx from './test_code/cleanDocx'
 import db_migration from './test_code/dbMigration';
 import diffDocx from './test_code/diffDocx'
 import email from '@/test_code/email';
+import excelFileCheck from './test_code/excelFileCheck';
 import jwt from '@/test_code/jwt';
+import kms from '@/test_code/kms'
 import lcs from '@/test_code/lcs';
 import organization from '@/test_code/organization';
 import separate from '@/test_code/separate_code';
 import test from '@/test_code/test';
 import uaparse from '@/test_code/uaparse';
-
-import dining from '@/test_code/diningbrands/diningbrands_user';
-import d_test from '@/test_code/diningbrands/test';
 
 const start = async () =>
 {
@@ -30,17 +29,19 @@ const start = async () =>
      * diningbrands
      */
 
-    // await awsDownload()
-    // await cleanDocx()
-    // await db_migration()
-    // await diffDocx()
-    // await email()
-    // await jwt()
-    // await lcs()
-    // await organization()
-    // await separate()
-    await test()
-    // await uaparse()
+    // await awsDownload();
+    // await cleanDocx();
+    // await db_migration();
+    // await diffDocx();
+    // await email();
+    // await excelFileCheck();
+    // await jwt();
+    // await kms();
+    // await lcs();
+    // await organization();
+    // await separate();
+    await test();
+    // await uaparse();
 
 
     

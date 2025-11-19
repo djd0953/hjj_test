@@ -167,7 +167,7 @@ function _normalizeListNumIds(documentXml: string) {
     return new XMLSerializer().serializeToString(doc)
 }
 
-export const xmlNumberingParser = async (docxBlob: Blob) => {
+export const xmlNumberingParser = async (docxBlob: Buffer<ArrayBufferLike>) => {
     // 1) zip 열기
     const zip = await JSZip.loadAsync(docxBlob)
 
@@ -195,4 +195,3 @@ export const xmlNumberingParser = async (docxBlob: Blob) => {
     const outBlob = await zip.generateAsync({ type: 'blob' })
     return outBlob
 }
-
