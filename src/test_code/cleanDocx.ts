@@ -1,7 +1,7 @@
-import { XMLParser, XMLBuilder } from 'fast-xml-parser'
-import JSZip from 'jszip'
-import fs from 'fs'
-import path from 'path'
+import { XMLParser, XMLBuilder } from 'fast-xml-parser';
+import JSZip from 'jszip';
+import fs from 'fs';
+import path from 'path';
 
 // 1) 파서/빌더 옵션은 "**둘 다**" 동일한 그룹명을 사용
 const PARSER_OPTS = 
@@ -20,7 +20,7 @@ const PARSER_OPTS =
     // // 텍스트 노드는 건드리지 않음
     // // stopNodes: ['w:t','w:instrText','a:t','m:t'],
     ignoreAttributes: false,
-    preserveOrder: true,
+    preserveOrder: true
     // attributeNamePrefix: '@_',
 
     // preserveOrder: true,
@@ -46,7 +46,7 @@ const BUILDER_OPTS =
     preserveOrder: true,
     ignoreAttributes: false,
     suppressEmptyNode: false,
-    format: false,
+    format: false
 } as const;
 
 const parser  = new XMLParser(PARSER_OPTS);
@@ -59,9 +59,10 @@ interface Options {
     removeShapes: boolean
 }
 
-const nodeName = (n: Record<string, string>) => Object.keys(n).find((k) => k !== ':@')
+const nodeName = (n: Record<string, string>) => Object.keys(n).find((k) => k !== ':@');
 
-const removeOverridesFromContentTypes = async (zip: JSZip, partNames: string[]) => {
+const removeOverridesFromContentTypes = async (zip: JSZip, partNames: string[]) => 
+{
     const f = zip.file("[Content_Types].xml");
     if (!f) return;
 
@@ -74,7 +75,7 @@ const removeOverridesFromContentTypes = async (zip: JSZip, partNames: string[]) 
         if (k !== "Types") return n;
         const arr = n[k];
         const next = Array.isArray(arr)
-        ? arr.filter((child) => 
+            ? arr.filter((child) => 
             {
                 const ck = nodeName(child);
                 if (ck !== "Override") return true;
@@ -82,31 +83,35 @@ const removeOverridesFromContentTypes = async (zip: JSZip, partNames: string[]) 
                 // pn은 '/word/comments.xml' 같은 절대 경로 형태
                 return !partNames.includes(pn);
             })
-        : arr;
+            : arr;
         return { ...n, [k]: next };
     });
 
     zip.file("[Content_Types].xml", builder.build(cleaned));
-}
+};
 
-const removeRelsTargets = async (zip: JSZip, targets: string[]) => {
+const removeRelsTargets = async (zip: JSZip, targets: string[]) => 
+{
     const relFiles = Object.keys(zip.files).filter(
         (p) => p.startsWith("word/_rels/") && p.endsWith(".rels")
     );
 
-    for (const p of relFiles) {
+    for (const p of relFiles) 
+    {
         const relXmlFile = await zip.file(p);
         if (!relXmlFile) continue;
 
         const relXml = await relXmlFile.async("string");
         const po = parser.parse(relXml);
 
-        const cleaned = po.map((n: Record<string, string>) => {
+        const cleaned = po.map((n: Record<string, string>) => 
+        {
             const k = nodeName(n);
             if (k !== "Relationships") return n;
             const arr = n[k];
             const next = Array.isArray(arr)
-                ? arr.filter((child) => {
+                ? arr.filter((child) => 
+                {
                     const ck = nodeName(child);
                     if (ck !== "Relationship") return true;
                     const target = child[":@"]?.["@_Target"]?.replace(/^.\//, "") || '';
@@ -119,37 +124,43 @@ const removeRelsTargets = async (zip: JSZip, targets: string[]) => {
 
         zip.file(p, builder.build(cleaned));
     }
-}
+};
 
-const stripTagsPO = (arr: any, tagNames: string[]) => {
+const stripTagsPO = (arr: any, tagNames: string[]) => 
+{
     return arr
-        .map((n: any) => {
-            const key = nodeName(n)
-            if (!key) return n
+        .map((n: any) => 
+        {
+            const key = nodeName(n);
+            if (!key) return n;
 
-            if (tagNames.includes(key)) return null
+            if (tagNames.includes(key)) return null;
 
-            const child = n[key]
-            if (Array.isArray(child)) {
-                const cleaned = stripTagsPO(child, tagNames).filter(Boolean)
-                return { ...n, [key]: cleaned }
+            const child = n[key];
+            if (Array.isArray(child)) 
+            {
+                const cleaned = stripTagsPO(child, tagNames).filter(Boolean);
+                return { ...n, [key]: cleaned };
             }
-            return n
+            return n;
         })
-        .filter(Boolean)
-}
+        .filter(Boolean);
+};
 
-const stripFormattingPO = (arr: any) => {
-    return stripTagsPO(arr, ['w:highlight', 'w:shd', 'w:color', 'w:bdr', 'w:pStyle'])
-}
+const stripFormattingPO = (arr: any) => 
+{
+    return stripTagsPO(arr, ['w:highlight', 'w:shd', 'w:color', 'w:bdr', 'w:pStyle']);
+};
 
-const stripCommentRefsPO = (arr: any) => {
-    return stripTagsPO(arr, ['w:commentRangeStart', 'w:commentRangeEnd', 'w:commentReference'])
-}
+const stripCommentRefsPO = (arr: any) => 
+{
+    return stripTagsPO(arr, ['w:commentRangeStart', 'w:commentRangeEnd', 'w:commentReference']);
+};
 
-const  stripDrawingsPO = (arr: any) => {
-    return stripTagsPO(arr, ['w:drawing', 'w:pict', 'w:txbxContent', 'w:sdtPr', 'w:sdtContent'])
-}
+const  stripDrawingsPO = (arr: any) => 
+{
+    return stripTagsPO(arr, ['w:drawing', 'w:pict', 'w:txbxContent', 'w:sdtPr', 'w:sdtContent']);
+};
 
 const clearCommentRefsXML = async (zip: JSZip) =>
 {
@@ -160,8 +171,8 @@ const clearCommentRefsXML = async (zip: JSZip) =>
         'word/commentsExtensible.xml'
     ].map((path: string) => 
     {
-        tryDelete(zip, path)
-    })
+        tryDelete(zip, path);
+    });
 
     await removeOverridesFromContentTypes(zip, [
         '/word/comments.xml',
@@ -175,31 +186,35 @@ const clearCommentRefsXML = async (zip: JSZip) =>
         'commentsExtended.xml',
         'commentsIds.xml',
         'commentsExtensible.xml'
-        ]);
-}
+    ]);
+};
 
 const cleanXml = (xmlString: string, { removeComments, removeHighlights, removeShapes }: Options) =>
 {
-    if (!xmlString) return builder.build(xmlString)
+    if (!xmlString) return builder.build(xmlString);
 
-    const po = parser.parse(xmlString)
-    let cleaned = po
+    const po = parser.parse(xmlString);
+    let cleaned = po;
 
-    if (removeComments) {
-        cleaned = stripCommentRefsPO(cleaned)
+    if (removeComments) 
+    {
+        cleaned = stripCommentRefsPO(cleaned);
     }
-    if (removeHighlights) {
-        cleaned = stripFormattingPO(cleaned)
+    if (removeHighlights) 
+    {
+        cleaned = stripFormattingPO(cleaned);
     }
-    if (removeShapes) {
-        cleaned = stripDrawingsPO(cleaned)
+    if (removeShapes) 
+    {
+        cleaned = stripDrawingsPO(cleaned);
     }
-    return builder.build(cleaned)
-}
+    return builder.build(cleaned);
+};
 
-const tryDelete = (zip: JSZip, path: string) => {
-    if (zip.file(path)) zip.remove(path)
-}
+const tryDelete = (zip: JSZip, path: string) => 
+{
+    if (zip.file(path)) zip.remove(path);
+};
 
 const run = async () =>
 {
@@ -207,37 +222,38 @@ const run = async () =>
         removeComments: true,
         removeHighlights: true,
         removeShapes: true
-    }
-    const docx = fs.readFileSync(path.resolve('files', 't1.docx'))
+    };
+    const docx = fs.readFileSync(path.resolve('files', 't1.docx'));
     const zip = await JSZip.loadAsync(docx);
 
     // 2) 정리해야 하는 파트 목록(존재하는 것만 처리)
     const candidates = [
         'word/document.xml',
         'word/footnotes.xml',
-        'word/endnotes.xml',
-    ]
+        'word/endnotes.xml'
+    ];
 
     if (options.removeComments)
-        clearCommentRefsXML(zip)
+        clearCommentRefsXML(zip);
 
     // 3) 각 파트 XML을 파싱/정리/재작성
-    for (const path of candidates) {
-        const file = zip.file(path)
-        if (!file) continue
-        const xml = await file.async('string')
-        const nextXml = cleanXml(xml, options)
-        zip.file(path, nextXml)
+    for (const path of candidates) 
+    {
+        const file = zip.file(path);
+        if (!file) continue;
+        const xml = await file.async('string');
+        const nextXml = cleanXml(xml, options);
+        zip.file(path, nextXml);
     }
 
     // 4) 새 DOCX(Buffer)로 재압축
     const cleanDocx = await zip.generateAsync({ type: 'nodebuffer' });
     fs.writeFileSync(path.resolve('files', 'test_clean.docx'), cleanDocx);
-}
+};
 
 export default async () => 
 {
-    await run()
+    await run();
 
-    console.log(1)
-}
+    console.log(1);
+};

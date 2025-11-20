@@ -3,30 +3,31 @@ import type { TeamOrganization } from "@types";
 
 const getOrganizationTree = (organizationList: TeamOrganization[]): {tree: TeamOrganization[], iMap: Map<string, TeamOrganization>} => 
 {
-    const iMap: Map<string, TeamOrganization> = new Map()
+    const iMap: Map<string, TeamOrganization> = new Map();
     for (const o of organizationList)
     {
-        o.source_original_data = JSON.stringify(o)
-        o.children = []
+        o.source_original_data = JSON.stringify(o);
+        o.children = [];
 
-        iMap.set(o.id, o)
+        iMap.set(o.id, o);
     }
 
-    const tree: TeamOrganization[] = []
+    const tree: TeamOrganization[] = [];
     for (const o of organizationList)
     {
         if (o.ancestor_id) 
         {
-            const parent = iMap.get(o.ancestor_id)
-            if (parent) {
-                o.parent = parent
-                parent.children?.push(o)
+            const parent = iMap.get(o.ancestor_id);
+            if (parent) 
+            {
+                o.parent = parent;
+                parent.children?.push(o);
             }
             else
-                tree.push(o)
+                tree.push(o);
         }
         else
-            tree.push(o)
+            tree.push(o);
     }
 
     const getDepth = (o: TeamOrganization, depth: number) => 
@@ -36,16 +37,16 @@ const getOrganizationTree = (organizationList: TeamOrganization[]): {tree: TeamO
         if (Array.isArray(o.children) && o.children.length > 0) 
         {
             for (const c of o.children)
-                getDepth(c, depth + 1)
+                getDepth(c, depth + 1);
         }
-    }
+    };
 
     for (const o of tree)
-        getDepth(o, 0)
+        getDepth(o, 0);
 
     
-    return {tree, iMap}
-}
+    return { tree, iMap };
+};
 
 type SeachResult = {
     node: TeamOrganization,
@@ -53,7 +54,7 @@ type SeachResult = {
 }
 const getOrganization = (tree: TeamOrganization[], id: string): TeamOrganization | null => 
 {
-    let result: SeachResult | null = null
+    let result: SeachResult | null = null;
 
     const dfs = (current: TeamOrganization, path: TeamOrganization[]) =>
     {
@@ -64,41 +65,45 @@ const getOrganization = (tree: TeamOrganization[], id: string): TeamOrganization
             {
                 node: current,
                 ancestors: [...path]
-            }
+            };
         }
 
         if (current.children && current.children.length > 0)
         {
             for (const child of current.children)
-                dfs(child, [...path, current])
+                dfs(child, [...path, current]);
         }
-    }
+    };
 
     for (const rootNode of tree)
     {
-        dfs(rootNode, [])
+        dfs(rootNode, []);
         if (result) break;
     }
 
-    return result
-}
+    return result;
+};
 
-function findNodeAndAncestorsByIdMap(idMap: Map<string, TeamOrganization>, id: string) {
+function findNodeAndAncestorsByIdMap(idMap: Map<string, TeamOrganization>, id: string) 
+{
     const node = idMap.get(id);
     if (!node) return null;
 
     const ancestors: TeamOrganization[] = [];
     let current = node.parent;
-    while (current) {
+    while (current) 
+    {
         ancestors.push(current);
         current = current.parent;
     }
 
-    function collectDescendants(n: TeamOrganization): TeamOrganization[] {
-    let desc: TeamOrganization[] = [];
-        for (const child of n.children ?? []) {
-        desc.push(child);
-        desc = desc.concat(collectDescendants(child));
+    function collectDescendants(n: TeamOrganization): TeamOrganization[] 
+    {
+        let desc: TeamOrganization[] = [];
+        for (const child of n.children ?? []) 
+        {
+            desc.push(child);
+            desc = desc.concat(collectDescendants(child));
         }
         return desc;
     }
@@ -111,7 +116,8 @@ function findNodeAndAncestorsByIdMap(idMap: Map<string, TeamOrganization>, id: s
     };
 }
 
-const run = async () => {
+const run = async () => 
+{
     // console.time("getOrganizationTree");
     // const {tree, iMap} = getOrganizationTree(dummy);
     // console.timeEnd("getOrganizationTree")
@@ -124,8 +130,8 @@ const run = async () => {
     // const c = findNodeAndAncestorsByIdMap(iMap, '01BH131460')
     // console.timeEnd("findNodeAndAncestorsByIdMap")
 
-    console.log(1)
-}
+    console.log(1);
+};
 
-export default run
+export default run;
 // 다이닝 활성 인원 150 -> 9999 (294)

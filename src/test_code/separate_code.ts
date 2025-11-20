@@ -1,30 +1,32 @@
 import fs from 'fs';
 import path from 'path';
 
-const run = async (): Promise<void> => {
-    const src = fs.readFileSync(path.join(__dirname, '../', 'libs', 'bb.txt'), {encoding: 'utf-8'});
+const run = async (): Promise<void> => 
+{
+    const src = fs.readFileSync(path.join(__dirname, '../', 'libs', 'bb.txt'), { encoding: 'utf-8' });
     const lines = src.split('\n');
 
-    let str = ''
-    let isStart = true
-    let s = 0
-    let current
+    let str = '';
+    let isStart = true;
+    let s = 0;
+    let current;
 
     try 
     {
         for (const line of lines) 
         {
-            current = line
+            current = line;
             if (!line) continue;
     
-            if (current.includes('recipients') || current.includes('ccRecipients')) {
-                current = line.replace('string[]', 'CF_BUSINESS_EVENT_RECIPIENT[]')
+            if (current.includes('recipients') || current.includes('ccRecipients')) 
+            {
+                current = line.replace('string[]', 'CF_BUSINESS_EVENT_RECIPIENT[]');
             }
 
             if (isStart) 
             {
                 const [t, etc] = current.split('=');
-                str += `${t.replace('type', 'interface')} extends BusinessEvent ${etc}\n`
+                str += `${t.replace('type', 'interface')} extends BusinessEvent ${etc}\n`;
                 isStart = false;
                 s++;
             }
@@ -55,8 +57,8 @@ const run = async (): Promise<void> => {
     }
     catch (err)
     {
-        console.log(err)
+        console.log(err);
     }
-}
+};
 
-export default run
+export default run;

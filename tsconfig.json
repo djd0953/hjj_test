@@ -3,7 +3,7 @@
         "target": "es2020",                          
         "module": "commonjs",                        
         "typeRoots": ["./types", "./node_modules/@types"],
-        "lib": ["ES2020", "DOM"],                    
+        "lib": ["ES2020"],                    
         "esModuleInterop": true,                     
         "resolveJsonModule": true,                   
         "strict": true,                              

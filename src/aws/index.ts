@@ -1,13 +1,13 @@
-import type {S3DirNode, S3FileNode, S3PathParam, S3PathTypeValues, S3RetrieveParams} from 'types'
+import type { S3DirNode, S3FileNode, S3PathParam, S3PathTypeValues, S3RetrieveParams } from '@types';
 import { DeleteObjectCommand, GetObjectCommand, GetObjectCommandInput, GetObjectRequest, ListObjectsV2Command, ListObjectsV2CommandInput, S3Client } from '@aws-sdk/client-s3';
 import { SendRawEmailCommand, SESClient } from '@aws-sdk/client-ses';
 import { SecretsManagerClient, GetSecretValueCommand, PutSecretValueCommand } from '@aws-sdk/client-secrets-manager';
 import { KMSClient, EncryptCommand, DecryptCommand } from '@aws-sdk/client-kms';
-import { STSClient, GetCallerIdentityCommand } from '@aws-sdk/client-sts'
-import { extensionReg } from '@/util';
+import { STSClient, GetCallerIdentityCommand } from '@aws-sdk/client-sts';
+import { extensionReg } from '@util';
 
 const BUCKET_NAME = [process.env.BUCKET_NAME1 as string, process.env.BUCKET_NAME2 as string];
-const responseStatus = ({status, msg, body}: {status: number, msg?: string, body?: any}) => ({status, message: msg, body});
+const responseStatus = ({ status, msg, body }: {status: number, msg?: string, body?: any}) => ({ status, message: msg, body });
 const environment = "stagging";
 
 export class S3Path 
@@ -17,21 +17,21 @@ export class S3Path
 
     constructor({ url, type, id, fileName, base = 'uploadV2', isIncludeEnv = true }: S3PathParam)
     {
-        if (base) this._path = base.split('/')
+        if (base) this._path = base.split('/');
 
         if (url) 
         {
-            const split = url.split('/')
-            this._path = [...split].slice(0, -1)
+            const split = url.split('/');
+            this._path = [...split].slice(0, -1);
 
-            this._fileName = split[split.length - 1]?.normalize()
+            this._fileName = split[split.length - 1]?.normalize();
         }
         else
         {
-            if (type) this._path.push(this.setType(type))
-            if (isIncludeEnv) this._path.push(environment)
-            if (id) this._path.push(`${id}`)
-            if (fileName) this._fileName = fileName.normalize()
+            if (type) this._path.push(this.setType(type));
+            if (isIncludeEnv) this._path.push(environment);
+            if (id) this._path.push(`${id}`);
+            if (fileName) this._fileName = fileName.normalize();
         }
     }
 
@@ -56,10 +56,10 @@ export class S3Path
 
     setType = (type: S3PathTypeValues) => 
     {
-        if (type === 1 || type === 2) return 'writingEditorLog'
-        if (type === 3) return 'cfsFileEditorLog'
-        else return type
-    }
+        if (type === 1 || type === 2) return 'writingEditorLog';
+        if (type === 3) return 'cfsFileEditorLog';
+        else return type;
+    };
 }
 
 class awsS3Client
@@ -68,19 +68,19 @@ class awsS3Client
         region: process.env.AWS_REGION || '',
         credentials: {
             accessKeyId: process.env.AWS_ACCESS_KEY_ID || '',
-            secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || '',
-        },
+            secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || ''
+        }
     });
 
-    async retreiveFileBuffer ({key, bucketIndex = 0}: S3RetrieveParams)
+    async retreiveFileBuffer ({ key, bucketIndex = 0 }: S3RetrieveParams)
     {
-        if (!key) return responseStatus({status: 400, msg: "not found key"});
+        if (!key) return responseStatus({ status: 400, msg: "not found key" });
 
         try 
         {
             const params = {
                 Bucket: BUCKET_NAME[bucketIndex],
-                Key: key,
+                Key: key
             };
 
             const command = new GetObjectCommand(params);
@@ -91,18 +91,18 @@ class awsS3Client
             for await (const chunk of response.Body as AsyncIterable<Buffer>)
                 chunks.push(chunk);
 
-            return responseStatus({status: 200, body: Buffer.concat(chunks)});
+            return responseStatus({ status: 200, body: Buffer.concat(chunks) });
         } 
         catch (err: any) 
         {
             console.error(err);
-            return responseStatus({status: 400, msg: err?.message || ''})
+            return responseStatus({ status: 400, msg: err?.message || '' });
         }
     }
 
     async deleteFile ({ key, bucketIndex = 0 }: S3RetrieveParams): Promise<void>
     {
-        if (!key) return
+        if (!key) return;
 
         try 
         {
@@ -110,16 +110,16 @@ class awsS3Client
             const deleteParams = 
             {
                 Bucket: BUCKET_NAME[bucketIndex] || '',
-                Key: key, // 삭제할 원본 파일 경로
-            }
+                Key: key // 삭제할 원본 파일 경로
+            };
 
-            const deleteCommand = new DeleteObjectCommand(deleteParams)
-            await this.s3Client.send(deleteCommand)
+            const deleteCommand = new DeleteObjectCommand(deleteParams);
+            await this.s3Client.send(deleteCommand);
         }
         catch (err) 
         {
-            console.error('Error moving file:', err)
-            throw err
+            console.error('Error moving file:', err);
+            throw err;
         }
     }
 
@@ -145,7 +145,7 @@ class awsS3Client
                 {
                     Bucket: BUCKET_NAME[bucketIndex],
                     Prefix: prefix,
-                    ContinuationToken,
+                    ContinuationToken
                 };
 
                 const command = await this.s3Client.send(new ListObjectsV2Command(params));
@@ -158,7 +158,7 @@ class awsS3Client
                 ContinuationToken = command.NextContinuationToken;
             }
 
-            let listIndex = 0
+            let listIndex = 0;
             for (const l of list)
             {
                 const path = l.replace(prefix, '').split('/').filter(Boolean);
@@ -186,7 +186,7 @@ class awsS3Client
 
                         if (!nextDir) 
                         {
-                            nextDir = {type: 'dir', name: p, children: []};
+                            nextDir = { type: 'dir', name: p, children: [] };
                             currentPath.children.push(nextDir);
                         } 
                         else
@@ -195,7 +195,7 @@ class awsS3Client
                 }
             }
 
-            return root
+            return root;
         }
         catch (err) 
         {
@@ -220,7 +220,7 @@ class awsS3Client
 
         const target = current.children.find((node): node is S3FileNode => node.type === 'file' && node.normalize.toLocaleLowerCase() === fileName.normalize().toLocaleLowerCase());
         return target ? target.fullPath : null;
-    }
+    };
 }
 
 class sesClient
@@ -231,8 +231,8 @@ class sesClient
             credentials: 
             {
                 accessKeyId: process.env.AWS_EMAIL_ACCESS_KEY_ID as string,
-                secretAccessKey: process.env.AWS_EMAIL_SECRET_ACCESS_KEY as string,
-            },
+                secretAccessKey: process.env.AWS_EMAIL_SECRET_ACCESS_KEY as string
+            }
         }
     );
 
@@ -241,12 +241,12 @@ class sesClient
         try
         {
             const command = new SendRawEmailCommand(
-            {
-                RawMessage: 
                 {
-                    Data: message,
-                },
-            });
+                    RawMessage: 
+                {
+                    Data: message
+                }
+                });
 
             const data = await this.sesClient.send(command);
             return data;
@@ -260,7 +260,7 @@ class sesClient
 
 class awsKMSClient
 {
-    kmsClient = new KMSClient({region: process.env.AWS_REGION || ''});
+    kmsClient = new KMSClient({ region: process.env.AWS_REGION || '' });
     key = process.env.AWS_KMS_KEY_ID || '';
 
     constructor (key?: string)
@@ -271,10 +271,10 @@ class awsKMSClient
     async encrypt (plaintext: string)
     {
         const command = new EncryptCommand(
-        {
-            KeyId: this.key,
-            Plaintext: Buffer.from(plaintext, 'utf8'),
-        });
+            {
+                KeyId: this.key,
+                Plaintext: Buffer.from(plaintext, 'utf8')
+            });
 
         const response = await this.kmsClient.send(command);
         if (!response.CiphertextBlob) throw new Error();
@@ -286,10 +286,10 @@ class awsKMSClient
         if (!cipherText) return '';
 
         const command = new DecryptCommand(
-        {
-            KeyId: this.key,
-            CiphertextBlob: Buffer.from(cipherText, 'base64'),
-        });
+            {
+                KeyId: this.key,
+                CiphertextBlob: Buffer.from(cipherText, 'base64')
+            });
 
         const response = await this.kmsClient.send(command);
         if (!response.Plaintext) throw new Error();
@@ -333,7 +333,7 @@ class awsSMClient
         const secret = await this.get();
         secret[key] = value;
 
-        return await this.set(secret)
+        return await this.set(secret);
     }
 
     autoParseValue (value: Record<string, unknown>)
@@ -352,11 +352,11 @@ class awsSMClient
             }
             catch
             {
-                return val
+                return val;
             }
 
-            return val
-        }
+            return val;
+        };
     }
 }
 

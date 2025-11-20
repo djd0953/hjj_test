@@ -53,7 +53,7 @@ const buildTree = async (rootDir: string, currentDir: string = rootDir, baseDir:
                 name,
                 relativePath,
                 p: relativePath.split('/').length > 1 ? relativePath.split('/').slice(0, -1).join('/') : '',
-                children,
+                children
             };
             nodes.push(dirNode);
         } 
@@ -66,14 +66,14 @@ const buildTree = async (rootDir: string, currentDir: string = rootDir, baseDir:
                 title: name.replace(/\.[^/.]+$/, '').normalize(),
                 relativePath,
                 p: relativePath.split('/').length > 1 ? relativePath.split('/').slice(0, -1).join('/') : '',
-                ext,
+                ext
             };
             nodes.push(fileNode);
         }
     }
 
     return nodes;
-}
+};
 
 const parseExcel = async (path: string) =>
 {
@@ -95,25 +95,25 @@ const parseExcel = async (path: string) =>
                 let val: exceljs.CellValue = row.values?.[8];
                 let val2: exceljs.CellValue = row.values?.[9];
 
-                if (typeof val === 'string') val = val.normalize()
-                else if (typeof val === 'number') val = `${val}`
-                else if (val && typeof val === 'object' && (val as exceljs.CellFormulaValue | exceljs.CellSharedFormulaValue)?.result) val = (val as exceljs.CellFormulaValue | exceljs.CellSharedFormulaValue).result?.toString()
+                if (typeof val === 'string') val = val.normalize();
+                else if (typeof val === 'number') val = `${val}`;
+                else if (val && typeof val === 'object' && (val as exceljs.CellFormulaValue | exceljs.CellSharedFormulaValue)?.result) val = (val as exceljs.CellFormulaValue | exceljs.CellSharedFormulaValue).result?.toString();
                 else if (val && typeof val === 'object' && val instanceof Date) val = dayjs(val).format('YYYY-MM-DD');
-                else if (val && typeof val === 'object' && val.hasOwnProperty('richText')) val = (val as exceljs.CellRichTextValue).richText.map((z: exceljs.RichText) => z.text).join('')
+                else if (val && typeof val === 'object' && val.hasOwnProperty('richText')) val = (val as exceljs.CellRichTextValue).richText.map((z: exceljs.RichText) => z.text).join('');
                 else if (val && typeof val === 'object' && (val as exceljs.CellHyperlinkValue)?.text) val = (val as exceljs.CellHyperlinkValue).text.toString();
                 else if (val && typeof val === 'object' && (val as exceljs.CellErrorValue)?.error) val = (val as exceljs.CellErrorValue).error.toString();
-                else val = ''
+                else val = '';
 
-                if (typeof val2 === 'string') val2 = val2.normalize()
-                else if (typeof val2 === 'number') val2 = `${val2}`
-                else if (val2 && typeof val2 === 'object' && (val2 as exceljs.CellFormulaValue | exceljs.CellSharedFormulaValue)?.result) val2 = (val2 as exceljs.CellFormulaValue | exceljs.CellSharedFormulaValue).result?.toString()
+                if (typeof val2 === 'string') val2 = val2.normalize();
+                else if (typeof val2 === 'number') val2 = `${val2}`;
+                else if (val2 && typeof val2 === 'object' && (val2 as exceljs.CellFormulaValue | exceljs.CellSharedFormulaValue)?.result) val2 = (val2 as exceljs.CellFormulaValue | exceljs.CellSharedFormulaValue).result?.toString();
                 else if (val2 && typeof val2 === 'object' && val2 instanceof Date) val2 = dayjs(val2).format('YYYY-MM-DD');
-                else if (val2 && typeof val2 === 'object' && val2.hasOwnProperty('richText')) val2 = (val2 as exceljs.CellRichTextValue).richText.map((z: exceljs.RichText) => z.text).join('')
+                else if (val2 && typeof val2 === 'object' && val2.hasOwnProperty('richText')) val2 = (val2 as exceljs.CellRichTextValue).richText.map((z: exceljs.RichText) => z.text).join('');
                 else if (val2 && typeof val2 === 'object' && (val2 as exceljs.CellHyperlinkValue)?.text) val2 = (val2 as exceljs.CellHyperlinkValue).text.toString();
                 else if (val2 && typeof val2 === 'object' && (val2 as exceljs.CellErrorValue)?.error) val2 = (val2 as exceljs.CellErrorValue).error.toString();
                 else val2 = '';
 
-                data.push({no: rowNumber, path: null, title: val || '', att: val2 || ''});
+                data.push({ no: rowNumber, path: null, title: val || '', att: val2 || '' });
             }
         });
 
@@ -124,7 +124,7 @@ const parseExcel = async (path: string) =>
         console.error('Error reading Excel file:', error);
         return [];
     }
-}
+};
 
 function flattenFilesFromTree(nodes: TreeNode[]): FlatFileInfo[] 
 {
@@ -140,7 +140,7 @@ function flattenFilesFromTree(nodes: TreeNode[]): FlatFileInfo[]
                 p: file.p,
                 name: file.name,         // 예: "a.docx"
                 title: file.name.replace(/\.[^/.]+$/, '').normalize(),
-                ext: file.ext,           // 예: "docx"
+                ext: file.ext           // 예: "docx"
             });
         }
         else
@@ -150,7 +150,8 @@ function flattenFilesFromTree(nodes: TreeNode[]): FlatFileInfo[]
         }
     };
 
-    for (const n of nodes) {
+    for (const n of nodes) 
+    {
         walk(n);
     }
 
@@ -167,17 +168,17 @@ export default async () =>
     if (excelFilePath)
     {
         const excelData = await parseExcel(path.join(root, excelFilePath.relativePath));
-        const lines: string[] = []
+        const lines: string[] = [];
         for (const d of excelData)
         {
             const match = files.find(f => f.title.replace(/\s/g, '').toLocaleLowerCase() === d.title.replace(/\s/g, '').toLocaleLowerCase());
             if (match) d.path = match.path.split('/').slice(0, -1).join('/').normalize();
 
-            lines.push(`${d.no}\t${d.path}\t${d.title}\t${d.att}\n`)
+            lines.push(`${d.no}\t${d.path}\t${d.title}\t${d.att}\n`);
         }
 
         fs.writeFileSync('files/contract_list/contract_list.txt', lines.join(''));
     }
 
-    console.log(1)
-}
+    console.log(1);
+};

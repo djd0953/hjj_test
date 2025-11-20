@@ -1,5 +1,5 @@
-import db from '@db'
-import db2 from '@migrateDb'
+import db from '@db';
+import db2 from '@migrateDb';
 import { QueryTypes, Transaction } from 'sequelize';
 import { Json } from 'sequelize/types/utils';
 
@@ -25,7 +25,7 @@ interface list {
     keywords?: Json,
     category?: Json,
     [key: string]: any
-};
+}
 
 const tableName = 'category_depth';
 
@@ -50,7 +50,7 @@ const insertQueries =
     document_template: 'INSERT INTO document_template (id, document_id, template_id, template_data, template_category, css_template_type, ai_questions, modifieddate, updated_at, created_at, is_del) VALUES (:id, :document_id, :template_id, :template_data, :template_category, :css_template_type, :ai_questions, :modifieddate, :updated_at, :created_at, :is_del)',
     category: 'INSERT INTO category (idx, name, `type`) VALUES (:idx, :name, :type);',
     category_sub: 'INSERT INTO category_sub (idx, category, name, `desc`, status, sort) VALUES (:idx, :category, :name, :desc, :status, :sort);',
-    category_depth: 'INSERT INTO category_depth (idx, category_sub, name, status, sort, `level`) VALUES (:idx, :category_sub, :name, :status, :sort, :level);',
+    category_depth: 'INSERT INTO category_depth (idx, category_sub, name, status, sort, `level`) VALUES (:idx, :category_sub, :name, :status, :sort, :level);'
 };
 
 const defaultValues = 
@@ -75,7 +75,7 @@ const defaultValues =
     document_template:
     {
         template_data: null,
-        ai_questions: null,
+        ai_questions: null
     },
     category: {},
     category_sub: {},
@@ -84,7 +84,7 @@ const defaultValues =
 
 const setDefaultValue = (row: Record<string, any>) =>
 {
-    const safeValues = {...row};
+    const safeValues = { ...row };
     const defaultValue = defaultValues[tableName];
 
     for (const key in defaultValue)
@@ -103,7 +103,7 @@ const setDefaultValue = (row: Record<string, any>) =>
     }
 
     return safeValues;
-}
+};
 
 export default async () => 
 {
@@ -128,7 +128,7 @@ export default async () =>
             const rows = await db.query<list>(`SELECT * FROM ${tableName} where ${pk} > :lastId ORDER BY ${pk} ASC LIMIT :limit`, {
                 transaction,
                 type: QueryTypes.SELECT,
-                replacements: {lastId, limit}
+                replacements: { lastId, limit }
             });
 
             if (rows.length < 1) break;
@@ -143,15 +143,15 @@ export default async () =>
                     {
                         transaction: transaction2, 
                         type: QueryTypes.INSERT, 
-                        replacements: safeValues,
+                        replacements: safeValues
                     }
                 ).catch(e => 
-                    {
-                        console.log(e);
-                        logInsertErrorPretty(e, row);
-                        throw e;
-                    }
-                )
+                {
+                    console.log(e);
+                    logInsertErrorPretty(e, row);
+                    throw e;
+                }
+                );
             }
 
             await transaction.commit();
@@ -161,7 +161,7 @@ export default async () =>
     }
     catch (e)
     {
-        console.log(e)
+        console.log(e);
         if (transaction)
             await transaction.rollback();
         if (transaction2)
@@ -170,96 +170,112 @@ export default async () =>
 
     console.groupEnd();
     console.log(1);
-}
+};
 
 // 1) 'target ... fails ( ... )' 헤드라인만 추출
-function extractVitessHeadline(msg: string): string | null {
-  if (!msg) return null;
-  // 'target: ... fails ( ... ) (errno ...' 구조에서 errno 직전까지 캡처
-  const m = msg.match(/(target:[\s\S]*?fails\s*\([\s\S]*?\))\s*\(errno\b/i);
-  return m ? m[1] : null;
+function extractVitessHeadline(msg: string): string | null 
+{
+    if (!msg) return null;
+    // 'target: ... fails ( ... ) (errno ...' 구조에서 errno 직전까지 캡처
+    const m = msg.match(/(target:[\s\S]*?fails\s*\([\s\S]*?\))\s*\(errno\b/i);
+    return m ? m[1] : null;
 }
 
 // 2) Vitess/MySQL FK 메시지에서 세부정보 파싱
-function parseFkFail(msg: string) {
-  if (!msg) return null;
+function parseFkFail(msg: string) 
+{
+    if (!msg) return null;
 
-  // target DB/테이블:  ... fails (`lfdev`.`documents`, CONSTRAINT ...
-  const mTable = msg.match(/fails\s*\(\s*`([^`]+)`\.`([^`]+)`/i);
-  // CONSTRAINT `FK_xxx`
-  const mConstraint = msg.match(/CONSTRAINT\s+`([^`]+)`/i);
-  // FOREIGN KEY (`child_col`)
-  const mChild = msg.match(/FOREIGN KEY\s*\(`([^`]+)`\)/i);
-  // REFERENCES `parent_table` (`parent_col`)
-  const mRef = msg.match(/REFERENCES\s+`([^`]+)`\s*\(`([^`]+)`\)/i);
+    // target DB/테이블:  ... fails (`lfdev`.`documents`, CONSTRAINT ...
+    const mTable = msg.match(/fails\s*\(\s*`([^`]+)`\.`([^`]+)`/i);
+    // CONSTRAINT `FK_xxx`
+    const mConstraint = msg.match(/CONSTRAINT\s+`([^`]+)`/i);
+    // FOREIGN KEY (`child_col`)
+    const mChild = msg.match(/FOREIGN KEY\s*\(`([^`]+)`\)/i);
+    // REFERENCES `parent_table` (`parent_col`)
+    const mRef = msg.match(/REFERENCES\s+`([^`]+)`\s*\(`([^`]+)`\)/i);
 
-  return {
-    db: mTable?.[1] ?? null,
-    childTable: mTable?.[2] ?? null,
-    constraint: mConstraint?.[1] ?? null,
-    childColumn: mChild?.[1] ?? null,
-    parentTable: mRef?.[1] ?? null,
-    parentColumn: mRef?.[2] ?? null,
-  };
+    return {
+        db: mTable?.[1] ?? null,
+        childTable: mTable?.[2] ?? null,
+        constraint: mConstraint?.[1] ?? null,
+        childColumn: mChild?.[1] ?? null,
+        parentTable: mRef?.[1] ?? null,
+        parentColumn: mRef?.[2] ?? null
+    };
 }
 
 
-function logInsertErrorPretty(err: any, replacements: Record<string, any>) {
-  const sqlMessage: string | undefined =
+function logInsertErrorPretty(err: any, replacements: Record<string, any>) 
+{
+    const sqlMessage: string | undefined =
     err?.sqlMessage || err?.parent?.sqlMessage || err?.message;
 
-  const headline = sqlMessage ? extractVitessHeadline(sqlMessage) : null;
-  const fk = sqlMessage ? parseFkFail(sqlMessage) : null;
+    const headline = sqlMessage ? extractVitessHeadline(sqlMessage) : null;
+    const fk = sqlMessage ? parseFkFail(sqlMessage) : null;
 
-  // 값 포매터(그대로 사용해도 됨)
-  const formatVal = (v: any) => {
-    if (v === null) return 'NULL';
-    if (v === undefined) return 'undefined';
-    if (Buffer.isBuffer(v)) return `<Buffer ${v.length} bytes>`;
-    if (typeof v === 'string') {
-      const s = v.length > 300 ? v.slice(0, 300) + '…(truncated)' : v;
-      try { return JSON.stringify(JSON.parse(s)); } catch { return s; }
-    }
-    if (typeof v === 'object') {
-      try { return JSON.stringify(v); } catch { return String(v); }
-    }
-    return String(v);
-  };
+    // 값 포매터(그대로 사용해도 됨)
+    const formatVal = (v: any) => 
+    {
+        if (v === null) return 'NULL';
+        if (v === undefined) return 'undefined';
+        if (Buffer.isBuffer(v)) return `<Buffer ${v.length} bytes>`;
+        if (typeof v === 'string') 
+        {
+            const s = v.length > 300 ? v.slice(0, 300) + '…(truncated)' : v;
+            try { return JSON.stringify(JSON.parse(s)); }
+            catch { return s; }
+        }
+        if (typeof v === 'object') 
+        {
+            try { return JSON.stringify(v); }
+            catch { return String(v); }
+        }
+        return String(v);
+    };
 
-  const lines = Object.entries(replacements || {})
-    .sort(([a], [b]) => a.localeCompare(b))
-    .map(([k, v]) => `  ${k}: ${formatVal(v)}`);
+    const lines = Object.entries(replacements || {})
+        .sort(([a], [b]) => a.localeCompare(b))
+        .map(([k, v]) => `  ${k}: ${formatVal(v)}`);
 
-  console.error('='.repeat(80));
-  if (headline) {
+    console.error('='.repeat(80));
+    if (headline) 
+    {
     // ✅ 원하는 출력: 'error: target ... fails (...)'
-    console.error(`- error: '${headline}'`);
-  } else if (sqlMessage) {
-    console.error(`- error: ${sqlMessage}`);
-  } else {
-    console.error(`- error: ${String(err)}`);
-  }
-
-  // FK 디테일과 문제 값도 함께
-  if (fk) {
-    const badVal =
-      fk.childColumn && replacements
-        ? replacements[fk.childColumn]
-        : undefined;
-
-    console.error(`- details: db=${fk.db ?? '-'}, table=${fk.childTable ?? '-'}, constraint=${fk.constraint ?? '-'}`);
-    console.error(`           child_column=${fk.childColumn ?? '-'}  parent=${fk.parentTable ?? '-'}(${fk.parentColumn ?? '-'})`);
-    if (fk.childColumn) {
-      console.error(`- offending value (${fk.childColumn}): ${formatVal(badVal)}`);
+        console.error(`- error: '${headline}'`);
     }
-  }
+    else if (sqlMessage) 
+    {
+        console.error(`- error: ${sqlMessage}`);
+    }
+    else 
+    {
+        console.error(`- error: ${String(err)}`);
+    }
 
-  // errno/code/sqlState 등 원하면 그대로
-  if (err?.errno || err?.code || err?.sqlState) {
-    console.error(`- errno: ${err.errno ?? '-'}, code: ${err.code ?? '-'}, sqlState: ${err.sqlState ?? '-'}`);
-  }
+    // FK 디테일과 문제 값도 함께
+    if (fk) 
+    {
+        const badVal =
+      fk.childColumn && replacements
+          ? replacements[fk.childColumn]
+          : undefined;
 
-  console.error('- values (from replacements):');
-  console.error(lines.join('\n'));
-  console.error('='.repeat(80));
+        console.error(`- details: db=${fk.db ?? '-'}, table=${fk.childTable ?? '-'}, constraint=${fk.constraint ?? '-'}`);
+        console.error(`           child_column=${fk.childColumn ?? '-'}  parent=${fk.parentTable ?? '-'}(${fk.parentColumn ?? '-'})`);
+        if (fk.childColumn) 
+        {
+            console.error(`- offending value (${fk.childColumn}): ${formatVal(badVal)}`);
+        }
+    }
+
+    // errno/code/sqlState 등 원하면 그대로
+    if (err?.errno || err?.code || err?.sqlState) 
+    {
+        console.error(`- errno: ${err.errno ?? '-'}, code: ${err.code ?? '-'}, sqlState: ${err.sqlState ?? '-'}`);
+    }
+
+    console.error('- values (from replacements):');
+    console.error(lines.join('\n'));
+    console.error('='.repeat(80));
 }
