@@ -1,9 +1,10 @@
-import type { S3DirNode, S3FileNode, S3PathParam, S3PathTypeValues, S3RetrieveParams } from '@types';
 import { DeleteObjectCommand, GetObjectCommand, GetObjectCommandInput, GetObjectRequest, ListObjectsV2Command, ListObjectsV2CommandInput, S3Client } from '@aws-sdk/client-s3';
 import { SendRawEmailCommand, SESClient } from '@aws-sdk/client-ses';
 import { SecretsManagerClient, GetSecretValueCommand, PutSecretValueCommand } from '@aws-sdk/client-secrets-manager';
 import { KMSClient, EncryptCommand, DecryptCommand } from '@aws-sdk/client-kms';
 import { STSClient, GetCallerIdentityCommand } from '@aws-sdk/client-sts';
+
+import type { S3DirNode, S3FileNode, S3PathParam, S3PathTypeValues, S3RetrieveParams } from '@types';
 import { extensionReg } from '@util';
 
 const BUCKET_NAME = [process.env.BUCKET_NAME1 as string, process.env.BUCKET_NAME2 as string];

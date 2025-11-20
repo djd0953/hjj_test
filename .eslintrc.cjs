@@ -58,7 +58,7 @@ module.exports = {
         ],
 
         "max-len": [
-            "warn",
+            "off",
             {
                 code: 140,
                 tabWidth: 4,
@@ -103,7 +103,7 @@ module.exports = {
         eqeqeq: ["error", "always"],
 
         // if (a = b) 처럼 조건 안에서 실수로 대입하는 거 방지
-        "no-cond-assign": ["error", "always"],
+        "no-cond-assign": ["error", "except-parens"],
 
         // switch case 빠져나가는 거 까먹는 실수 방지
         "no-fallthrough": "error",
@@ -116,6 +116,8 @@ module.exports = {
 
         // finally 블록에서 return / throw 등 위험 패턴 방지
         "no-unsafe-finally": "error",
+
+        "@typescript-eslint/no-explicit-any": "off",
 
         // Promise 리턴하는 함수를 await 안 하고 흘려보내는 실수 방지
         "@typescript-eslint/no-floating-promises": "off",

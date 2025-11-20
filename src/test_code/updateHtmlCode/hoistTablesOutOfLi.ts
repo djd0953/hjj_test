@@ -207,7 +207,10 @@ export async function hoistTablesOutOfLi(html: string): Promise<string>
     {
         let d = 0;
         let cur: Element | null = li;
-        while ((cur = cur.parentElement?.closest?.('li') || null)) d++;
+        while ((cur = cur.parentElement?.closest?.('li') || null))
+        { 
+            d++; 
+        }
         return d;
     }
 
