@@ -1,7 +1,9 @@
-import { XMLParser, XMLBuilder } from 'fast-xml-parser';
-import JSZip from 'jszip';
 import fs from 'fs';
 import path from 'path';
+
+import { XMLParser, XMLBuilder } from 'fast-xml-parser';
+import { type Request, type Response } from 'express';
+import JSZip from 'jszip';
 
 // 1) 파서/빌더 옵션은 "**둘 다**" 동일한 그룹명을 사용
 const PARSER_OPTS = 
@@ -253,7 +255,12 @@ const run = async () =>
 
 export default async () => 
 {
-    await run();
-
-    console.log(1);
+    try
+    {
+        await run();
+    }
+    catch (err)
+    {
+        console.error(err);
+    }
 };

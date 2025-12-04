@@ -1,5 +1,5 @@
 export * from './utils/aws';
 export * from './utils/db';
 
-export * from './test_code/link';
-export * from './test_code/organization';
+export * from './code/link';
+export * from './code/organization';

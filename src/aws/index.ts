@@ -1,4 +1,4 @@
-import { DeleteObjectCommand, GetObjectCommand, GetObjectCommandInput, GetObjectRequest, ListObjectsV2Command, ListObjectsV2CommandInput, S3Client } from '@aws-sdk/client-s3';
+import { DeleteObjectCommand, GetObjectCommand, ListObjectsV2Command, ListObjectsV2CommandInput, S3Client } from '@aws-sdk/client-s3';
 import { SendRawEmailCommand, SESClient } from '@aws-sdk/client-ses';
 import { SecretsManagerClient, GetSecretValueCommand, PutSecretValueCommand } from '@aws-sdk/client-secrets-manager';
 import { KMSClient, EncryptCommand, DecryptCommand } from '@aws-sdk/client-kms';

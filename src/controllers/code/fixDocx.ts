@@ -1,8 +1,4 @@
-import { cleanHtmlForDocx } from './updateHtmlCode/cleanHtmlForDocx';
-import { hoistTablesOutOfLi } from './updateHtmlCode/hoistTablesOutOfLi';
-import { htmlHybridToDocx } from './updateHtmlCode/htmlHybridToDocx';
-import { inlineAllCssWithJuiceAndPseudo } from './updateHtmlCode/inlineAllCssWithJuiceAndPseudo';
-import { xmlNumberingParser } from './updateHtmlCode/xmlNumberingParser';
+import { cleanHtmlForDocx , hoistTablesOutOfLi , htmlHybridToDocx , inlineAllCssWithJuiceAndPseudo , xmlNumberingParser } from '@util';
 
 const html = '';
 

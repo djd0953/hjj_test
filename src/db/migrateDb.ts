@@ -1,13 +1,12 @@
 'use strict';
 
-import { Sequelize, Options, QueryTypes } from "sequelize";
+import { Sequelize, Options } from "sequelize";
 
 const dbInfo = {
     username: process.env.M_DB_USER || '',
     password: process.env.M_DB_PASS || '', 
     database: process.env.M_DB_NAME || ''
 };
-console.log(dbInfo, process.env.M_DB_HOST);
 const config: Options = {
     host: process.env.M_DB_HOST,
     username: process.env.M_DB_USER,

@@ -1,3 +1,9 @@
+export { cleanHtmlForDocx } from "./updateHtmlCode/cleanHtmlForDocx";
+export { hoistTablesOutOfLi } from "./updateHtmlCode/hoistTablesOutOfLi";
+export { htmlHybridToDocx } from "./updateHtmlCode/htmlHybridToDocx";
+export { inlineAllCssWithJuiceAndPseudo } from "./updateHtmlCode/inlineAllCssWithJuiceAndPseudo";
+export { xmlNumberingParser } from "./updateHtmlCode/xmlNumberingParser";
+
 const MAX_TS = "2038-01-18 23:59:59"; // TIMESTAMP 안전 상한
 const MIN_TS = "1970-01-01 00:00:01"; // TIMESTAMP 하한(환경에 따라 00:00:00도 허용되나 안전하게 +1s)
 
@@ -33,7 +39,7 @@ const formatUtcToMysqlLiteral = (d: Date): string =>
 export const normalizeExpireTimestamp = (input: string | Date | null | undefined): string => 
 {
     // 1) 빈값/제로데이트 → never expires 상한값으로
-    if (input == null || (typeof input === "string" && (ZERO_PATTERNS.has(input.trim()) || input.trim().startsWith("0000-00-00"))))
+    if (input === null || (typeof input === "string" && (ZERO_PATTERNS.has(input.trim()) || input.trim().startsWith("0000-00-00"))))
         return MAX_TS;
 
     // 2) 문자열이면 파싱, Date면 그대로 사용

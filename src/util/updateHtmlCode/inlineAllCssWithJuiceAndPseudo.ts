@@ -106,7 +106,7 @@ function waitForIframeLoad(iframe: HTMLIFrameElement)
         setTimeout(done, 120); // 안전망
     });
 }
-const microtask = () => new Promise<void>((r) => setTimeout(r, 0));
+const microtask = () => new Promise<void>(resolve => setTimeout(resolve, 0));
 
 /** ::before/::after → <span data-pseudo="before/after"> 실물화 */
 function materializePseudoElements(doc: Document, scope: Element) 

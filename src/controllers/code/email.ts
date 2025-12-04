@@ -1,11 +1,13 @@
 // import { AmazonES, S3RetreiveFileBuffer } from '@/aws'
-import { s3 } from '@aws';
+import fs from 'fs';
+import path from 'path';
+
 import { simpleParser, ParsedMail } from 'mailparser';
 import * as cheerio from 'cheerio';
 import { Document, Element } from 'domhandler';
-import fs from 'fs';
-import path from 'path';
 import MailComposer from 'nodemailer/lib/mail-composer';
+
+import { s3 } from '@aws';
 import email from '@libs/email.json';
 
 const dbSeparators: string[] = [
@@ -208,17 +210,15 @@ const HP_EMAIL_SPLIT_BY_SEPARATOR_SAFE = ({ html, separators }: {html: string, s
 };
 
 
-const run = async () =>
+export default async () =>
 {
     // const a = await getRawMail()
     // const b = await AmazonES(a)
     // const {textAsHtml, text, html} = await simpleParser(a)
-    const a = await settingEmailJson("clm/email/iv7444mqgm91u99n203t87a6nhevcg367okrd201");
+    const a = await settingEmailJson("clm/email/production/e31tmj9a0sk45mo8v121qncv0ni446k4vlrejlo1");
     const reqExps = getSeparators(dbSeparators);
 
     const c = HP_EMAIL_SPLIT_BY_SEPARATOR_SAFE({ html: a.html as string, separators: reqExps });
     const b = HP_EMAIL_SPLIT_BY_SEPARATOR({ html: a.html as string, separators: reqExps });
     console.log(1);
 };
-
-export default run;

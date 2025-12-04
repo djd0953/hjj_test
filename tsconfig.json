@@ -20,7 +20,8 @@
         "rootDir": "./src",                          
 
         "paths": {
-            "@code/*": ["./src/test_code/*"],
+            "@controller": ["./src/controllers/index.ts"],
+            "@code/*": ["./src/controllers/code/*"],
             "@libs/*": ["./src/libs/*"],
             "@aws": ["./src/aws/index.ts"],
             "@db": ["./src/db/index.ts"],

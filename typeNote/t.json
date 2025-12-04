@@ -1,0 +1,107 @@
+{
+    "progress_draft": {
+        "label": "임시 저장"
+    },
+    "progress_review_request": {
+        "label": "내부 결재 중"
+    },
+    "progress_legal_designation": {
+        "label": "담당자 배정 중"
+    },
+    "progress_legal_review": {
+        "label": "법무 검토 중"
+    },
+    "progress_requester_review": {
+        "label": "요청자 검토 중"
+    },
+    "progress_legal_complete": {
+        "label": "법무 검토 완료"
+    },
+    "progress_financial_review": {
+        "label": "재무 검토 중"
+    },
+    "progress_financial_review_complete": {
+        "label": "재무 검토 완료"
+    },
+    "progress_final_approval": {
+        "label": "최종 결재 중"
+    },
+    "progress_use_seal": {
+        "label": "인감 사용 신청 중"
+    },
+    "progress_esign_request": {
+        "label": "서명 진행 중"
+    },
+    "progress_copy_register": {
+        "label": "사본 등록 중"
+    },
+    "progress_inprogress": {
+        "label": "계약 이행 중"
+    },
+    "progress_finished": {
+        "label": "계약 종료"
+    },
+    "progress_canceled": {
+        "label": "계약 중단"
+    },
+    "progress_wait_advice_designation": {
+        "label": "담당자 배정 중"
+    },
+    "progress_advice_review": {
+        "label": "법률 자문 중"
+    },
+    "progress_advice_to_requester": {
+        "label": "요청자 검토 중"
+    },
+    "progress_advice_complete": {
+        "label": "법률 자문 완료"
+    },
+    "progress_advice_pause": {
+        "label": "자문 중단"
+    },
+    "button_review_legal": {
+        "label": "법무 검토 담당자에게 보내기"
+    },
+    "button_review_legal_ordered": {
+        "label": "[order]차 법무 검토 담당자에게 보내기"
+    },
+    "button_send_to_requester": {
+        "label": "요청자에게 보내기"
+    },
+    "button_legal_complete": {
+        "label": "법무 검토 완료"
+    },
+    "button_legal_again": {
+        "label": "재검토 요청"
+    },
+    "button_review_cancel": {
+        "label": "계약 중단/취소"
+    },
+    "button_request_cancel": {
+        "label": "요청 취소"
+    },
+    "button_financial_review_deny": {
+        "label": "반려"
+    },
+    "button_financial_review_complete": {
+        "label": "재무 검토 완료"
+    },
+    "button_financial_review_again": {
+        "label": "재무 재검토 요청"
+    },
+    "button_list": {
+        "label": "목록"
+    },
+    "button_save_temp": {
+        "label": "임시 저장"
+    },
+    "button_review_request": {
+        "label": "계약서 검토 요청"
+    },
+    "button_register_separately": {
+        "label": "체결 계약서 별도 등록"
+    },
+    "display_name_contract_review_deadline": {
+        "label": "검토 마감기한"
+    }
+}
