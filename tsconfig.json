@@ -12,6 +12,9 @@
         "forceConsistentCasingInFileNames": true,    
         "types": ["node"],                           
 
+        "sourceMap": true,
+        "inlineSources": true,
+
         "allowSyntheticDefaultImports": true,        
         "allowJs": true,                             
         "checkJs": false,
@@ -27,7 +30,8 @@
             "@db": ["./src/db/index.ts"],
             "@migrateDb": ["./src/db/migrateDb.ts"],
             "@util": ["./src/util/index.ts"],
-            "@types": ["./types/index.ts"]
+            "@types": ["./types/index.ts"],
+            "@log": ["./src/util/log/log.ts"]
         }
     },
     "include": ["src/**/*"],

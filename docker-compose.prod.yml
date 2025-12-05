@@ -1,0 +1,10 @@
+services:
+  test-server:
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    container_name: test-server-prod
+    ports:
+      - "9090:9090"
+    environment:
+      NODE_ENV: production

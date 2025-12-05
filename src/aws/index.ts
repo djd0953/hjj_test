@@ -16,7 +16,7 @@ export class S3Path
     _path: string[] = [];
     _fileName: string = '';
 
-    constructor({ url, type, id, fileName, base = 'uploadV2', isIncludeEnv = true }: S3PathParam)
+    constructor({ url, type, id, fileName, base = 'files', isIncludeEnv = true }: S3PathParam)
     {
         if (base) this._path = base.split('/');
 

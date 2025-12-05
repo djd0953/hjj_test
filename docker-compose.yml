@@ -1,0 +1,16 @@
+# docker-compose.yml (dev)
+
+services:
+  test-server:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: test-server
+    ports:
+      - "9090:9090"
+      - "9229:9229"   # ← 디버깅용 (중요)
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    environment:
+      NODE_ENV: development

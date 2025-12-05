@@ -16,7 +16,7 @@ export default async () =>
     const b = "GBCDFEGH";
 
     const dp: number[][] = Array.from(new Array(a.length + 1), () => new Array(b.length + 1).fill(0));
-    const dp2: number[][] = Array.from(new Array(a.length + 1), () => new Array(b.length + 1).fill(0));
+    // const dp2: number[][] = Array.from(new Array(a.length + 1), () => new Array(b.length + 1).fill(0));
     lcs1(dp, a.split(''), b.split(''));
 
     let log = '- ' + a.split('').join(' ') + '\n';
@@ -63,9 +63,7 @@ export default async () =>
         lcs2(next_i, next_j);
     };
 
-    console.log(log);
 
     lcs2(dp.length - 1, dp[0].length - 1);
-    console.log('str', str.split('').reverse().join(''));
-    console.log(1);
+    console.warn('str', str.split('').reverse().join(''));
 };

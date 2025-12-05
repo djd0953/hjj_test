@@ -129,9 +129,6 @@ const run = async () =>
     // console.time("findNodeAndAncestorsByIdMap");
     // const c = findNodeAndAncestorsByIdMap(iMap, '01BH131460')
     // console.timeEnd("findNodeAndAncestorsByIdMap")
-
-    console.log(1);
 };
 
 export default run;
-// 다이닝 활성 인원 150 -> 9999 (294)

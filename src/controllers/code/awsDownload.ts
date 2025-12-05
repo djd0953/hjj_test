@@ -4,17 +4,10 @@ import { s3 } from '@aws';
 
 export default async () => 
 {
-    try
-    {
-        const url = 'upload/11992/file.doc';
-        const r = await s3.retreiveFileBuffer({ key: url, bucketIndex: 1 });
+    const url = 'upload/11992/file.doc';
+    const r = await s3.retreiveFileBuffer({ key: url, bucketIndex: 1 });
 
-        if (!r.body) return;
+    if (!r.body) return;
 
-        fs.writeFileSync("file.doc", r.body);
-    }
-    catch (err)
-    {
-        console.error(err);
-    }
+    fs.writeFileSync("file.doc", r.body);
 };

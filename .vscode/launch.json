@@ -2,6 +2,7 @@
     "version": "0.2.0",
     "configurations": [
         {
+            // 로컬 개발용
             "type": "node",
             "request": "launch",
             "name": "Debug with Nodemon",
@@ -20,6 +21,21 @@
                 "NODE_ENV": "development"
             },
             "skipFiles": ["<node_internals>/**"]
+        },
+
+        {
+            // Docker 컨테이너 디버깅용
+            "type": "node",
+            "request": "attach",
+            "name": "Attach to Docker Node",
+            "address": "localhost",
+            "port": 9229,
+            "restart": true,
+            "protocol": "inspector",
+            "skipFiles": ["<node_internals>/**"],
+
+            "localRoot": "${workspaceFolder}",
+            "remoteRoot": "/usr/src/app"
         }
     ]
 }

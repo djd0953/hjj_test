@@ -1,14 +1,9 @@
-// import { AmazonES, S3RetreiveFileBuffer } from '@/aws'
-import fs from 'fs';
-import path from 'path';
-
 import { simpleParser, ParsedMail } from 'mailparser';
 import * as cheerio from 'cheerio';
 import { Document, Element } from 'domhandler';
-import MailComposer from 'nodemailer/lib/mail-composer';
+// import MailComposer from 'nodemailer/lib/mail-composer';
 
 import { s3 } from '@aws';
-import email from '@libs/email.json';
 
 const dbSeparators: string[] = [
     '/^---------- Forwarded message ---------$/i',
@@ -119,7 +114,7 @@ const HP_EMAIL_SPLIT_BY_SEPARATOR = ({ html, separators }: {html: string, separa
     }
     catch (e) 
     {
-        return html;
+        throw e;
     }
 };
 
@@ -138,32 +133,32 @@ const getSeparators = (arr:string[]): RegExp[] =>
     }).filter(x => x) as RegExp[];
 };
 
-const getRawMail = async (): Promise<Buffer> => 
-{
+// const getRawMail = async (): Promise<Buffer> => 
+// {
 
-    const uuid1 = crypto.randomUUID();
-    const uuid2 = crypto.randomUUID();
+//     const uuid1 = crypto.randomUUID();
+//     const uuid2 = crypto.randomUUID();
 
-    return new Promise((resolve, reject) => 
-    {
-        new MailComposer({
-            from: '[로폼 비즈니스] <alert@business.lfdev.io>',
-            to: 'hjj0106@amicuslex.net',
-            subject: '[Test Mail]',
-            html: '<html><head></head><body><div dir="ltr">Test Case Mail</div></body></html>',
-            text: 'Test Case Mail',
-            encoding: 'UTF-8',
-            messageId: `<${uuid2}@test>`,
-            inReplyTo: `<${uuid1}@test>`
-        })
-            .compile()
-            .build((err, msg) => 
-            {
-                if (err) reject(err);
-                resolve(msg);
-            });
-    });
-};
+//     return new Promise((resolve, reject) => 
+//     {
+//         new MailComposer({
+//             from: '[로폼 비즈니스] <alert@business.lfdev.io>',
+//             to: 'hjj0106@amicuslex.net',
+//             subject: '[Test Mail]',
+//             html: '<html><head></head><body><div dir="ltr">Test Case Mail</div></body></html>',
+//             text: 'Test Case Mail',
+//             encoding: 'UTF-8',
+//             messageId: `<${uuid2}@test>`,
+//             inReplyTo: `<${uuid1}@test>`
+//         })
+//             .compile()
+//             .build((err, msg) => 
+//             {
+//                 if (err) reject(err);
+//                 resolve(msg);
+//             });
+//     });
+// };
 
 const HP_EMAIL_SPLIT_BY_SEPARATOR_SAFE = ({ html, separators }: {html: string, separators: RegExp[]}) => 
 {
@@ -204,8 +199,7 @@ const HP_EMAIL_SPLIT_BY_SEPARATOR_SAFE = ({ html, separators }: {html: string, s
     }
     catch (e) 
     {
-        console.log(e);
-        return html;
+        throw e;
     }
 };
 
@@ -220,5 +214,4 @@ export default async () =>
 
     const c = HP_EMAIL_SPLIT_BY_SEPARATOR_SAFE({ html: a.html as string, separators: reqExps });
     const b = HP_EMAIL_SPLIT_BY_SEPARATOR({ html: a.html as string, separators: reqExps });
-    console.log(1);
 };

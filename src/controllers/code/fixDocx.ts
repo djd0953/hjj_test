@@ -20,6 +20,4 @@ const run = async () =>
 export default async () => 
 {
     await run();
-
-    console.log(1);
 };

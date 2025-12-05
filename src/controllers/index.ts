@@ -1,5 +1,7 @@
 import { Router, type Request, type Response, type Express } from "express";
+import { TokenExpiredError } from "jsonwebtoken";
 
+import logger from "@log";
 import awsDownload from '@code/awsDownload';
 import cleanDocx from '@code/cleanDocx';
 import db_migration from '@code/dbMigration';
@@ -17,6 +19,73 @@ import sentEvent from '@code/sentEvent';
 import test from '@code/test';
 import uaparse from '@code/uaparse';
 
+type MaybePromise<T> = T | Promise<T>;
+type StandardHandler = () => MaybePromise<unknown>;
+type SentEventHandler = (req: Request, res: Response) => MaybePromise<unknown>;
+
+type FunctionKeywords = 
+{
+    aws: StandardHandler;
+    cleanDocx: StandardHandler;
+    dbMigration: StandardHandler;
+    diffDocx: StandardHandler;
+    email: StandardHandler;
+    excelFileCheck: StandardHandler;
+    excelWritingBulkChk: StandardHandler;
+    fixDocx: StandardHandler;
+    jwt: StandardHandler;
+    kms: StandardHandler;
+    lcs: StandardHandler;
+    organization: StandardHandler;
+    sentEvent: SentEventHandler;
+    separateCode: StandardHandler;
+    test: StandardHandler;
+    uaparse: StandardHandler;
+};
+
+const functionKeywords: FunctionKeywords = 
+{
+    aws: awsDownload,
+    cleanDocx: cleanDocx,
+    dbMigration: db_migration,
+    diffDocx: diffDocx,
+    email: email,
+    excelFileCheck: excelFileCheck,
+    excelWritingBulkChk: excelWritingBulkChk,
+    fixDocx: fixDocx,
+    jwt: jwt,
+    kms: kms,
+    lcs: lcs,
+    organization: organization,
+    sentEvent: sentEvent,
+    separateCode: separate,
+    test: test,
+    uaparse: uaparse
+};
+type Keyword = keyof FunctionKeywords;
+
+(async (keyword: Keyword | "") =>
+{
+    if (keyword === "" || !(keyword in functionKeywords)) return;
+    const key = keyword as Keyword;
+
+    try
+    {
+        if (key === "sentEvent") throw new Error();
+
+        const func = functionKeywords[key];
+        const r = await func();
+        logger.verbose(r);
+    }
+    catch (_e)
+    {
+        if (_e instanceof TokenExpiredError)
+            logger.error("토큰 만료");
+        else
+            logger.error(`execute function error`, _e);
+    }
+})("");
+
 export default (app: Express) => 
 {
     const router = Router();
@@ -24,74 +93,31 @@ export default (app: Express) =>
     router.get("/:keyword", async (req: Request, res: Response) => 
     {
         const { keyword } = req.params;
-        let r;
-
-        console.warn(`====================== Test Start ======================`);
 
         try
         {
-            switch (keyword)
-            {
-                case "aws":
-                    r = await awsDownload();
-                    break;
-                case "cleanDocx":
-                    r = await cleanDocx();
-                    break;
-                case "dbMigration":
-                    r = await db_migration();
-                    break;
-                case "diffDocx":
-                    r = await diffDocx();
-                    break;
-                case "email":
-                    r = await email();
-                    break;
-                case "excelFileCheck":
-                    r = await excelFileCheck();
-                    break;
-                case "excelWritingBulkChk":
-                    r = await excelWritingBulkChk();
-                    break;
-                case "fixDocx":
-                    r = await fixDocx();
-                    break;
-                case "jwt":
-                    r = await jwt();
-                    break;
-                case "kms":
-                    r = await kms();
-                    break;
-                case "lcs":
-                    r = await lcs();
-                    break;
-                case "organization":
-                    r = await organization();
-                    break;
-                case "sentEvent":
-                    r = await sentEvent();
-                    break;
-                case "separateCode":
-                    r = await separate();
-                    break;
-                case "test":
-                    r = await test();
-                    break;
-                case "uaparse":
-                    r = await uaparse();
-                    break;
-                default:
-                    throw new Error();
-            }
+            if (!(keyword in functionKeywords)) throw new Error();
+            const key = keyword as Keyword;
+
+            let r: any;
+            if (key === "sentEvent")
+                r = await functionKeywords.sentEvent(req, res);
+            else
+                r = await functionKeywords[key]();
+
+            logger.verbose(r);
 
             res.send({ data: r });
         }
         catch (_e: any)
         {
+            if (_e instanceof TokenExpiredError)
+                logger.error("토큰 만료");
+            else
+                logger.error(`execute function error`, _e);
+
             res.sendStatus(404);
         }
-
-        console.warn(`====================== Test End ======================\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n`);
     });
 
     app.use('/', router);

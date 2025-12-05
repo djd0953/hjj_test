@@ -1,6 +1,5 @@
 import { QueryTypes, Transaction } from 'sequelize';
 import { Json } from 'sequelize/types/utils';
-import { type Request, type Response } from 'express';
 
 import db2 from '@migrateDb';
 import db from '@db';
@@ -109,7 +108,6 @@ const setDefaultValue = (row: Record<string, any>) =>
 
 export default async () => 
 {
-    console.groupCollapsed('Migration');
     let transaction: Transaction|null = null;
     let transaction2: Transaction|null = null;
     
@@ -149,7 +147,6 @@ export default async () =>
                     }
                 ).catch(e => 
                 {
-                    console.log(e);
                     logInsertErrorPretty(e, row);
                     throw e;
                 }
@@ -161,17 +158,13 @@ export default async () =>
         }
 
     }
-    catch (e)
+    catch
     {
-        console.log(e);
         if (transaction)
             await transaction.rollback();
         if (transaction2)
             await transaction2.rollback();
     }
-
-    console.groupEnd();
-    console.log(1);
 };
 
 // 1) 'target ... fails ( ... )' 헤드라인만 추출

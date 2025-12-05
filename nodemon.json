@@ -1,6 +1,12 @@
 {
-    "watch": ["src"],
+    "watch": [
+        "src"
+    ],
     "ext": "ts,json",
-    "ignore": ["dist", "email.json", "typeNode"],
-    "exec": "ts-node src/index.ts"
+    "ignore": [
+        "dist",
+        "email.json",
+        "typeNode"
+    ],
+    "exec": "node --inspect=0.0.0.0:9229 --enable-source-maps -r ts-node/register -r tsconfig-paths/register src/app.ts"
 }

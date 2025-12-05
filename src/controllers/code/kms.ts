@@ -12,12 +12,10 @@ export default async () =>
     
         const id = await whoAmI();
     
-        // const a = await sm.get<{LF_TEST_KEY: string}>();
-
-        console.log(1);
+        const c = await sm.get<{LF_TEST_KEY: string}>();
     }
     catch (e)
     {
-        console.log(e);
+        throw e;
     }
 };

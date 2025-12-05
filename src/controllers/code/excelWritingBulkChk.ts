@@ -487,7 +487,5 @@ const validateExcelValue = (type: string, value: string) =>
 export default async () => 
 {
     const e = fs.readFileSync(path.resolve('files', 'tt.xlsx'));
-    const ed = await HP_EXCEL_TO_WRITING_BULK_META_INFO(e);
-
-    console.log(1);
+    return await HP_EXCEL_TO_WRITING_BULK_META_INFO(e);
 };

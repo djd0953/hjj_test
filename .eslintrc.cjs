@@ -129,6 +129,9 @@ module.exports = {
         "import/resolver": {
             typescript: {
                 project: "./tsconfig.json"
+            },
+            node: {
+                extensions: ['.js', '.ts']
             }
         }
     }

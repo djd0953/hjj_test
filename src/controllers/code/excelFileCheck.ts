@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+
 import exceljs from 'exceljs';
 import dayjs from 'dayjs';
 
@@ -179,6 +180,4 @@ export default async () =>
 
         fs.writeFileSync('files/contract_list/contract_list.txt', lines.join(''));
     }
-
-    console.log(1);
 };

@@ -71,36 +71,24 @@ const isJSONStringifiable = (obj: any) =>
     }
 };
 
-export default async () => 
+export default async (req: Request, res: Response) => 
 {
-    const app = express();
-    app.get('/', (req: Request, res: Response) => 
-    {
-        const userId = 100;
-        const returnSentEvent = new ReturnSentEvent();
-    
-        returnSentEvent.addClient({ userId, req, res });
+    const userId = 100;
+    const returnSentEvent = new ReturnSentEvent();
 
-        let i = 1;
-        const intervalId = setInterval(() => 
+    returnSentEvent.addClient({ userId, req, res });
+
+    let i = 1;
+    const intervalId = setInterval(() => 
+    {
+        if (i < 10) returnSentEvent.sendToClients(userId, { percent: i * 10 });
+        else 
         {
-            if (i < 10) returnSentEvent.sendToClients(userId, { percent: i * 10 });
-            else 
-            {
-                clearInterval(intervalId);
-                returnSentEvent.sendToClients(userId, { percent: 100, done: true });
-                returnSentEvent.removeClient(userId, res);
-                res.end();
-            }
-            i++;
-        }, 100);
-    });
-
-    app.listen(9090, (err) => 
-    {
-        if (err) console.log(err);
-        else console.log(`Start Listen Port 9090`);
-    });
-
-    console.log(1);
+            clearInterval(intervalId);
+            returnSentEvent.sendToClients(userId, { percent: 100, done: true });
+            returnSentEvent.removeClient(userId, res);
+            res.end();
+        }
+        i++;
+    }, 100);
 };

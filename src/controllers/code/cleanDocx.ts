@@ -2,7 +2,6 @@ import fs from 'fs';
 import path from 'path';
 
 import { XMLParser, XMLBuilder } from 'fast-xml-parser';
-import { type Request, type Response } from 'express';
 import JSZip from 'jszip';
 
 // 1) 파서/빌더 옵션은 "**둘 다**" 동일한 그룹명을 사용
@@ -253,14 +252,4 @@ const run = async () =>
     fs.writeFileSync(path.resolve('files', 'test_clean.docx'), cleanDocx);
 };
 
-export default async () => 
-{
-    try
-    {
-        await run();
-    }
-    catch (err)
-    {
-        console.error(err);
-    }
-};
+export default run;

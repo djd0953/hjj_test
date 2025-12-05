@@ -1,13 +1,13 @@
 'use strict';
 
 import * as dotenv from 'dotenv';
-dotenv.config();
-
-import express from 'express';
 import { json, urlencoded } from 'body-parser';
 import cors from 'cors';
+import express from 'express';
 
+dotenv.config();
 import controllers from './controllers';
+
 
 const app = express();
 app.disable("x-powered-by");
@@ -15,7 +15,7 @@ app.use(urlencoded({ extended: true }));
 app.use(json());
 app.use(cors({ origin: "*" }));
 
-const PORT = 9090;
+const PORT = process.env.PORT;
 
 controllers(app);
 

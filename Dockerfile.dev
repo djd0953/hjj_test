@@ -1,0 +1,20 @@
+# 개발용 - ts-node + nodemon + hot reload
+FROM node:22-slim
+
+WORKDIR /usr/src/app
+
+# package.json 먼저 복사
+COPY package*.json ./
+
+# devDependencies도 포함해서 설치
+RUN npm install --include=dev
+
+# 전체 소스 복사
+COPY . .
+
+# 디버그용 포트
+EXPOSE 9090
+EXPOSE 9229
+
+# 개발 모드 실행 → nodemon 사용
+CMD ["npm", "run", "dev"]
