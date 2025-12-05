@@ -7,12 +7,10 @@ import JSZip from 'jszip';
 // 1) 파서/빌더 옵션은 "**둘 다**" 동일한 그룹명을 사용
 const PARSER_OPTS = 
 {
-    // preserveOrder: true,
     // ignoreDeclaration: false,     // 선언 유지
     // ignorePiTags: false,          // PI 유지
     // removeNSPrefix: false,        // 네임스페이스 접두사 절대 제거하지 않음
     // attributesGroupName: ':@',    // ← 이걸 쓰면 트리 어디에도 '@_' 키가 있어선 안됨
-    // ignoreAttributes: false,
     // // 값 변형 방지
     // parseTagValue: false,
     // parseAttributeValue: false,
@@ -20,20 +18,9 @@ const PARSER_OPTS =
     // processEntities: false,
     // // 텍스트 노드는 건드리지 않음
     // // stopNodes: ['w:t','w:instrText','a:t','m:t'],
+
     ignoreAttributes: false,
     preserveOrder: true
-    // attributeNamePrefix: '@_',
-
-    // preserveOrder: true,
-    // ignoreDeclaration: false,
-    // ignorePiTags: false,
-    // removeNSPrefix: false,
-    // ignoreAttributes: false,
-    // parseTagValue: false,
-    // parseAttributeValue: false,
-    // trimValues: false,
-    // processEntities: false,
-    // stopNodes: ['w:t','w:instrText','a:t','m:t'],
 } as const;
 
 const BUILDER_OPTS = 
@@ -41,27 +28,27 @@ const BUILDER_OPTS =
     // preserveOrder: true,
     // ignoreAttributes: false,
     // attributesGroupName: ':@',
-    // suppressEmptyNode: false,     // self-closing 강제 금지
-    // format: false,                // 불필요한 들여쓰기/개행 금지
 
     preserveOrder: true,
     ignoreAttributes: false,
-    suppressEmptyNode: false,
-    format: false
+    suppressEmptyNode: false, // self-closing 강제 금지
+    format: false // 불필요한 들여쓰기/개행 금지
 } as const;
 
 const parser  = new XMLParser(PARSER_OPTS);
 const builder = new XMLBuilder(BUILDER_OPTS);
 
-
-interface Options {
+interface Options 
+{
     removeComments: boolean
     removeHighlights: boolean
     removeShapes: boolean
 }
 
+/** Docx Node들 중 :@는 Group 정보를 가지고 있음 제외한 나머지 style 정보 (이름으로 정보를 알 수 있음)를 가져옴 */
 const nodeName = (n: Record<string, string>) => Object.keys(n).find((k) => k !== ':@');
 
+/** Content_types에 Content들의 정보를 가지고 있음 */
 const removeOverridesFromContentTypes = async (zip: JSZip, partNames: string[]) => 
 {
     const f = zip.file("[Content_Types].xml");
@@ -91,6 +78,7 @@ const removeOverridesFromContentTypes = async (zip: JSZip, partNames: string[]) 
     zip.file("[Content_Types].xml", builder.build(cleaned));
 };
 
+/** _rels에 추가 외부 정보를 가지고 있음 (코멘드, 이미지 등등) */
 const removeRelsTargets = async (zip: JSZip, targets: string[]) => 
 {
     const relFiles = Object.keys(zip.files).filter(
@@ -127,6 +115,7 @@ const removeRelsTargets = async (zip: JSZip, targets: string[]) =>
     }
 };
 
+/** tag names에 들어온 테그 string을 제외함 */
 const stripTagsPO = (arr: any, tagNames: string[]) => 
 {
     return arr
@@ -148,21 +137,19 @@ const stripTagsPO = (arr: any, tagNames: string[]) =>
         .filter(Boolean);
 };
 
-const stripFormattingPO = (arr: any) => 
-{
-    return stripTagsPO(arr, ['w:highlight', 'w:shd', 'w:color', 'w:bdr', 'w:pStyle']);
-};
+/** w:highlight - 글자 뒷 배경, w:shd - 글자 음영, w:color - 글꼴 색, w:bdr - 글자 테두리 */
+const stripFormattingPO = (arr: Record<string, string>[]) =>
+    stripTagsPO(arr, ['w:highlight', 'w:shd', 'w:color', 'w:bdr', 'w:pStyle']);
 
-const stripCommentRefsPO = (arr: any) => 
-{
-    return stripTagsPO(arr, ['w:commentRangeStart', 'w:commentRangeEnd', 'w:commentReference']);
-};
+/** comment 위치로 지정된 style 제거 */
+const stripCommentRefsPO = (arr: Record<string, string>[]) =>
+    stripTagsPO(arr, ['w:commentRangeStart', 'w:commentRangeEnd', 'w:commentReference']);
 
-const  stripDrawingsPO = (arr: any) => 
-{
-    return stripTagsPO(arr, ['w:drawing', 'w:pict', 'w:txbxContent', 'w:sdtPr', 'w:sdtContent']);
-};
-
+/** w:drawing - 그리기 (펜, 도형, 이미지) */
+const stripDrawingsPO = (arr: Record<string, string>[]) =>
+    stripTagsPO(arr, ['w:drawing', 'w:pict', 'w:txbxContent', 'w:sdtPr', 'w:sdtContent']);
+    
+/** Comment 외부 참조 정보 제거 */
 const clearCommentRefsXML = async (zip: JSZip) =>
 {
     [
@@ -198,17 +185,12 @@ const cleanXml = (xmlString: string, { removeComments, removeHighlights, removeS
     let cleaned = po;
 
     if (removeComments) 
-    {
         cleaned = stripCommentRefsPO(cleaned);
-    }
     if (removeHighlights) 
-    {
         cleaned = stripFormattingPO(cleaned);
-    }
     if (removeShapes) 
-    {
         cleaned = stripDrawingsPO(cleaned);
-    }
+
     return builder.build(cleaned);
 };
 
@@ -217,13 +199,15 @@ const tryDelete = (zip: JSZip, path: string) =>
     if (zip.file(path)) zip.remove(path);
 };
 
-const run = async () =>
+export default async () =>
 {
-    const options: Options = {
+    const options: Options = 
+    {
         removeComments: true,
         removeHighlights: true,
         removeShapes: true
     };
+
     const docx = fs.readFileSync(path.resolve('files', 't1.docx'));
     const zip = await JSZip.loadAsync(docx);
 
@@ -242,6 +226,7 @@ const run = async () =>
     {
         const file = zip.file(path);
         if (!file) continue;
+
         const xml = await file.async('string');
         const nextXml = cleanXml(xml, options);
         zip.file(path, nextXml);
@@ -251,5 +236,3 @@ const run = async () =>
     const cleanDocx = await zip.generateAsync({ type: 'nodebuffer' });
     fs.writeFileSync(path.resolve('files', 'test_clean.docx'), cleanDocx);
 };
-
-export default run;

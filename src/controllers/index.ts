@@ -4,7 +4,6 @@ import { TokenExpiredError } from "jsonwebtoken";
 import logger from "@log";
 import awsDownload from '@code/awsDownload';
 import cleanDocx from '@code/cleanDocx';
-import db_migration from '@code/dbMigration';
 import diffDocx from '@code/diffDocx';
 import email from '@code/email';
 import excelFileCheck from '@code/excelFileCheck';
@@ -27,7 +26,6 @@ type FunctionKeywords =
 {
     aws: StandardHandler;
     cleanDocx: StandardHandler;
-    dbMigration: StandardHandler;
     diffDocx: StandardHandler;
     email: StandardHandler;
     excelFileCheck: StandardHandler;
@@ -47,7 +45,6 @@ const functionKeywords: FunctionKeywords =
 {
     aws: awsDownload,
     cleanDocx: cleanDocx,
-    dbMigration: db_migration,
     diffDocx: diffDocx,
     email: email,
     excelFileCheck: excelFileCheck,
