@@ -5,7 +5,8 @@ import { JSDOM } from 'jsdom';
 
 const WRAPPER_ID = '#output-content';
 
-type J = {
+type J = 
+{
     inlineContent: (html: string, css: string, opt?: any) => string
 }
 const juice: J = juiceClient as unknown as J;

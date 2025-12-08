@@ -5,7 +5,7 @@ import { KMSClient, EncryptCommand, DecryptCommand } from '@aws-sdk/client-kms';
 import { STSClient, GetCallerIdentityCommand } from '@aws-sdk/client-sts';
 
 import type { S3DirNode, S3FileNode, S3PathParam, S3PathTypeValues, S3RetrieveParams } from '@types';
-import { extensionReg } from '@util';
+import { Patterns } from '@util';
 
 const BUCKET_NAME = [process.env.BUCKET_NAME1 as string, process.env.BUCKET_NAME2 as string];
 const responseStatus = ({ status, msg, body }: {status: number, msg?: string, body?: any}) => ({ status, message: msg, body });
@@ -37,8 +37,8 @@ export class S3Path
     }
 
     getFileName = (): string => this._fileName;
-    getTitle = (): string => this._fileName.replace(extensionReg, '');
-    getExtension = (): string => this._fileName.match(extensionReg)?.[0]?.toLowerCase() || '';
+    getTitle = (): string => this._fileName.replace(Patterns.fileExtension, '');
+    getExtension = (): string => this._fileName.match(Patterns.fileExtension)?.[0]?.toLowerCase() || '';
     getAnotherExtensionFileName = (extension: string): string => `${this.getTitle()}.${extension}`;
     getWithSuffixFileName = (suffix: string, separate: string = '_'): string =>
         `${this.getTitle()}${separate}${suffix}.${this.getExtension()}`;

@@ -1,7 +1,7 @@
 import { Router, type Request, type Response, type Express } from "express";
 import { TokenExpiredError } from "jsonwebtoken";
 
-import logger from "@log";
+import { logger } from "@util";
 import awsDownload from '@code/awsDownload';
 import cleanDocx from '@code/cleanDocx';
 import diffDocx from '@code/diffDocx';
