@@ -5,22 +5,26 @@ import { XMLParser, XMLBuilder } from 'fast-xml-parser';
 import JSZip from 'jszip';
 
 // 1) 파서/빌더 옵션은 "**둘 다**" 동일한 그룹명을 사용
-const PARSER_OPTS = 
-{
-    // ignoreDeclaration: false,     // 선언 유지
-    // ignorePiTags: false,          // PI 유지
-    // removeNSPrefix: false,        // 네임스페이스 접두사 절대 제거하지 않음
-    // attributesGroupName: ':@',    // ← 이걸 쓰면 트리 어디에도 '@_' 키가 있어선 안됨
-    // // 값 변형 방지
-    // parseTagValue: false,
-    // parseAttributeValue: false,
-    // trimValues: false,
-    // processEntities: false,
-    // // 텍스트 노드는 건드리지 않음
-    // // stopNodes: ['w:t','w:instrText','a:t','m:t'],
+// const PARSER_OPTS = 
+// {
+// ignoreDeclaration: false,     // 선언 유지
+// ignorePiTags: false,          // PI 유지
+// removeNSPrefix: false,        // 네임스페이스 접두사 절대 제거하지 않음
+// attributesGroupName: ':@',    // ← 이걸 쓰면 트리 어디에도 '@_' 키가 있어선 안됨
 
+// ignoreAttributes: false,
+// preserveOrder: true
+// } as const;
+const PARSER_OPTS = {
+    preserveOrder: true,
+    ignoreDeclaration: false,
+    ignorePiTags: false,
+    removeNSPrefix: false,
     ignoreAttributes: false,
-    preserveOrder: true
+    parseTagValue: false,
+    parseAttributeValue: false,
+    trimValues: false,
+    processEntities: false
 } as const;
 
 const BUILDER_OPTS = 
@@ -32,9 +36,10 @@ const BUILDER_OPTS =
     preserveOrder: true,
     ignoreAttributes: false,
     suppressEmptyNode: false, // self-closing 강제 금지
-    format: false // 불필요한 들여쓰기/개행 금지
+    format: false, // 불필요한 들여쓰기/개행 금지
+    processEntities: false
 } as const;
-
+    
 const parser  = new XMLParser(PARSER_OPTS);
 const builder = new XMLBuilder(BUILDER_OPTS);
 
@@ -139,7 +144,7 @@ const stripTagsPO = (arr: any, tagNames: string[]) =>
 
 /** w:highlight - 글자 뒷 배경, w:shd - 글자 음영, w:color - 글꼴 색, w:bdr - 글자 테두리 */
 const stripFormattingPO = (arr: Record<string, string>[]) =>
-    stripTagsPO(arr, ['w:highlight', 'w:shd', 'w:color', 'w:bdr', 'w:pStyle']);
+    stripTagsPO(arr, ['w:highlight', 'w:shd', 'w:color', 'w:bdr', 'w:strike']);
 
 /** comment 위치로 지정된 style 제거 */
 const stripCommentRefsPO = (arr: Record<string, string>[]) =>
@@ -188,8 +193,11 @@ const cleanXml = (xmlString: string, { removeComments, removeHighlights, removeS
         cleaned = stripCommentRefsPO(cleaned);
     if (removeHighlights) 
         cleaned = stripFormattingPO(cleaned);
-    if (removeShapes) 
-        cleaned = stripDrawingsPO(cleaned);
+    // if (removeShapes) 
+    //     cleaned = stripDrawingsPO(cleaned);
+
+
+    const a = builder.build(cleaned);
 
     return builder.build(cleaned);
 };
@@ -214,8 +222,8 @@ export default async () =>
     // 2) 정리해야 하는 파트 목록(존재하는 것만 처리)
     const candidates = [
         'word/document.xml',
-        'word/footnotes.xml',
-        'word/endnotes.xml'
+        'word/numbering.xml',
+        'word/styles.xml'
     ];
 
     if (options.removeComments)

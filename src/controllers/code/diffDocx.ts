@@ -1,7 +1,8 @@
-import JSZip from 'jszip';
-import { XMLParser, XMLBuilder } from 'fast-xml-parser';
 import fs from 'fs';
 import path from 'path';
+
+import JSZip from 'jszip';
+import { XMLParser, XMLBuilder } from 'fast-xml-parser';
 
 /**
  * Diff 연산 타입
@@ -399,7 +400,7 @@ export function toStringChunks(ops: DiffGroup[]): Array<[DiffOp, string]>
  * - delete → red, insert → green
  * - 기준 문서를 B로 하고 싶다면 flattenRuns에서 bFlat을 쓰고 diff도 반대로 적용하는 식으로 조절
  */
-async function run() 
+export default async () =>
 {
     const bufA = fs.readFileSync(path.resolve('files', 'diff_1.docx'));
     const bufB = fs.readFileSync(path.resolve('files', 'diff_2.docx'));
@@ -419,9 +420,7 @@ async function run()
     const C =  await A.zip.generateAsync({ type: 'nodebuffer' });
 
     return C;
-}
-
-export default run;
+};
 
 /*
 USAGE (Node):

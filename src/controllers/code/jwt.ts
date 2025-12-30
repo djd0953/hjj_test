@@ -1,9 +1,11 @@
-import jwt from 'jsonwebtoken';
+import jwt, { JwtPayload } from 'jsonwebtoken';
+
+import { jwtTemplateData } from '../../../types';
 
 export default async () => 
 {
     const secretKey = 'secret_key';
-    const data =
+    const data: jwtTemplateData =
     {
         id: 5244,
         user_ip: '210.218.228.234',
@@ -12,5 +14,5 @@ export default async () =>
     const token = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NTI0NCwidXNlcl9pcCI6IjIxMC4yMTguMjI4LjIzNCIsInVzZXJfYWdlbnQiOiJNb3ppbGxhLzUuMCAoTWFjaW50b3NoOyBJbnRlbCBNYWMgT1MgWCAxMF8xNV83KSBBcHBsZVdlYktpdC81MzcuMzYgKEtIVE1MLCBsaWtlIEdlY2tvKSBDaHJvbWUvMTM5LjAuMC4wIFNhZmFyaS81MzcuMzYiLCJpYXQiOjE3NjQ5MTA3NzgsImV4cCI6MTc2NDkxMDgwOCwiaXNzIjoid2hvX2lzc3VlciJ9.EFOyVaDan4hVqjiBLf3BrvZEKkgLJH51uHph51PsOQc`;
 
     // return jwt.sign(data, secretKey, { expiresIn: '30s', issuer: 'who_issuer' });
-    return await jwt.verify(token, secretKey);
+    return jwt.verify(token, secretKey) as JwtPayload & jwtTemplateData;
 };

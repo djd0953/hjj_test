@@ -25,5 +25,8 @@
         "**/.retool_types/**": true,
         ".cache": true,
         "retool.config.json": true
+    },
+    "[xml]": {
+        "editor.defaultFormatter": "redhat.vscode-xml"
     }
 }

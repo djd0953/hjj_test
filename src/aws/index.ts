@@ -46,7 +46,7 @@ export class S3Path
         `${this.getTitle()}${separate}${suffix}.${extension}`;
 
     get = (): string => [...this._path, this._fileName].join('/');
-    getPrefix = (): string => this._path.join('/') + '/';
+    getPrefix = (): string => this._path.join('/') + "/";
     getDirectory = (): string => this._path.join('/');
     getAnotherExtension = (extension: string): string =>
         [...this._path, this.getAnotherExtensionFileName(extension)].join('/');
@@ -145,7 +145,7 @@ class awsS3Client
                 const params: ListObjectsV2CommandInput = 
                 {
                     Bucket: BUCKET_NAME[bucketIndex],
-                    Prefix: prefix,
+                    Prefix: prefix !== '/' ? prefix : undefined,
                     ContinuationToken
                 };
 
@@ -190,8 +190,8 @@ class awsS3Client
                             nextDir = { type: 'dir', name: p, children: [] };
                             currentPath.children.push(nextDir);
                         } 
-                        else
-                            currentPath = nextDir;
+
+                        currentPath = nextDir;
                     }
                 }
             }
@@ -221,6 +221,19 @@ class awsS3Client
 
         const target = current.children.find((node): node is S3FileNode => node.type === 'file' && node.normalize.toLocaleLowerCase() === fileName.normalize().toLocaleLowerCase());
         return target ? target.fullPath : null;
+    };
+
+    getKeyByUrl = async ({ url, s3Path }: { url?: string, s3Path?: S3Path }) => 
+    {
+        let path = s3Path;
+        if (url) path = new S3Path({ url });
+        if (!path) return null;
+
+        const prefix = path.getPrefix();
+        const fileName = path.getFileName();
+
+        const root = await this.getFilesList({ prefix, bucketIndex: 1 });
+        return this.getKeyByListObject({ root, fileName });
     };
 }
 
@@ -300,7 +313,17 @@ class awsKMSClient
 
 class awsSMClient
 {
-    smClient = new SecretsManagerClient({ region: process.env.AWS_REGION || 'ap-northeast-2' });
+    smClient = new SecretsManagerClient(
+        { 
+            region: process.env.AWS_REGION || 'ap-northeast-2', 
+            credentials: 
+            {
+                accessKeyId: process.env.AWS_SM_ACCESS_KEY_ID || '',
+                secretAccessKey: process.env.AWS_SM_SECRET_ACCESS_KEY || ''
+            } 
+        }
+    );
+
     key = process.env.AWS_SM_KEY_ID || '';
 
     async get<T = Record<string, unknown>> (): Promise<T>
@@ -361,10 +384,82 @@ class awsSMClient
     }
 }
 
+export interface ENV_CONFIG 
+{
+    LF_SERVER_DB_HOST: string
+    LF_SERVER_DB_DATABASE: string
+    LF_SERVER_DB_USER: string
+    LF_SERVER_DB_PASSWORD: string
+
+    LF_AWS_S3_REGION: string
+    LF_AWS_S3_ACCESS_KEY_ID: string
+    LF_AWS_S3_SECRET_ACCESS_KEY: string
+    LF_AWS_S3_PRIVATE_BUCKET_NAME: string
+
+    LF_AWS_SES_ACCESS_KEY_ID: string
+    LF_AWS_SES_SECRET_ACCESS_KEY: string
+
+    LF_ENV: string    
+}
+
+class awsSMClinetPolling
+{
+    private smClient = new SecretsManagerClient(
+        { 
+            region: process.env.LF_AWS_SM_REGION || 'ap-northeast-2' 
+        }
+    );
+
+    private cache?: ENV_CONFIG;
+    private inflight?: Promise<ENV_CONFIG>;
+
+    async load (): Promise<ENV_CONFIG>
+    {
+        if (this.cache) return this.cache;
+        if (this.inflight) return this.inflight;
+        const key = process.env.LF_AWS_SM_KEY_ID;
+        if (!key)
+        {
+            console.error(process.env);
+            throw new Error("nope");
+        }
+
+        this.inflight = (async () => 
+        {
+            try
+            {
+                const command = new GetSecretValueCommand({ SecretId: key });
+                const response = await this.smClient.send(command);
+                if (!response.SecretString)
+                    throw new Error("nope");
+    
+                const parsed = JSON.parse(response.SecretString) as ENV_CONFIG;
+                process.env = { ...process.env, ...parsed };
+
+                return parsed;
+            }
+            catch (err)
+            {
+                console.error(err);
+                throw new Error("nope");
+            }
+        })();
+
+        return this.inflight;
+    }
+
+    getByKey<K extends keyof ENV_CONFIG> (key: K): ENV_CONFIG[K]|undefined
+    {
+        if (!this.cache) return undefined;
+        return this.cache[key];
+    }
+}
+
 export const s3 = new awsS3Client();
 export const ses = new sesClient();
 export const kms = new awsKMSClient();
 export const sm = new awsSMClient();
+export const smp = new awsSMClinetPolling();
 
 export const whoAmI = async () =>
 {

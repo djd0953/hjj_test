@@ -6,6 +6,8 @@ import cors from 'cors';
 import express from 'express';
 
 dotenv.config();
+import { logger } from '@util';
+
 import controllers from './controllers';
 
 
@@ -19,4 +21,4 @@ const PORT = process.env.PORT;
 
 controllers(app);
 
-app.listen(PORT);
+app.listen(PORT, () => logger.verbose("start"));

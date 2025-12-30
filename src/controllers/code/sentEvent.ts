@@ -81,7 +81,7 @@ export default async (req: Request, res: Response) =>
     let i = 1;
     const intervalId = setInterval(() => 
     {
-        if (i < 10) returnSentEvent.sendToClients(userId, { percent: i * 10 });
+        if (i < 10) returnSentEvent.sendToClients(userId, { percent: i * 10, done: false });
         else 
         {
             clearInterval(intervalId);

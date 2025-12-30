@@ -6,32 +6,7 @@ import exceljs from 'exceljs';
 
 import templateData from '@libs/template_data.json';
 
-interface CellInfo 
-{
-    address: string;
-    value: string | undefined;
-}
-
-interface ErrorStat
-{
-    prob: boolean,
-    message: string
-}
-
-interface CellData
-{
-    bindKeyName: string;
-    displayName: string;
-    value: string|number|boolean|null;
-}
-
-interface ExcelContent
-{
-    rowIndex: number;
-    error: ErrorStat;
-    content: Record<string, CellData>;
-    esignSigner: Record<string, CellData>;
-}
+import { CellData, CellInfo, ErrorStat, ExcelContent } from '../../../types';
 
 const user_to_bind_key_map = 
 [

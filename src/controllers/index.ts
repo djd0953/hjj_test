@@ -1,5 +1,5 @@
 import { Router, type Request, type Response, type Express } from "express";
-import { TokenExpiredError } from "jsonwebtoken";
+import { JwtPayload, TokenExpiredError } from "jsonwebtoken";
 
 import { logger } from "@util";
 import awsDownload from '@code/awsDownload';
@@ -15,30 +15,36 @@ import lcs from '@code/lcs';
 import organization from '@code/organization';
 import separate from '@code/separate_code';
 import sentEvent from '@code/sentEvent';
+import sm from '@code/sm';
 import test from '@code/test';
 import uaparse from '@code/uaparse';
+import uuid from '@code/uuid';
 
-type MaybePromise<T> = T | Promise<T>;
-type StandardHandler = () => MaybePromise<unknown>;
-type SentEventHandler = (req: Request, res: Response) => MaybePromise<unknown>;
+import { ExcelContent, jwtTemplateData } from "../../types";
+
+type MaybePromise<T> = Promise<T>;
+type StandardHandler<T> = () => MaybePromise<T>;
+type SentEventHandler<T> = (req: Request, res: Response) => MaybePromise<T>;
 
 type FunctionKeywords = 
 {
-    aws: StandardHandler;
-    cleanDocx: StandardHandler;
-    diffDocx: StandardHandler;
-    email: StandardHandler;
-    excelFileCheck: StandardHandler;
-    excelWritingBulkChk: StandardHandler;
-    fixDocx: StandardHandler;
-    jwt: StandardHandler;
-    kms: StandardHandler;
-    lcs: StandardHandler;
-    organization: StandardHandler;
-    sentEvent: SentEventHandler;
-    separateCode: StandardHandler;
-    test: StandardHandler;
-    uaparse: StandardHandler;
+    aws: StandardHandler<string|null>;
+    cleanDocx: StandardHandler<void>;
+    diffDocx: StandardHandler<Buffer<ArrayBufferLike>>;
+    email: StandardHandler<void>;
+    excelFileCheck: StandardHandler<void>;
+    excelWritingBulkChk: StandardHandler<{contents: ExcelContent[], total: number}>;
+    fixDocx: StandardHandler<void>;
+    jwt: StandardHandler<JwtPayload & jwtTemplateData>;
+    kms: StandardHandler<{ testText: string[]; encryptText: string[]; }>;
+    lcs: StandardHandler<void>;
+    organization: StandardHandler<void>;
+    sentEvent: SentEventHandler<void>;
+    separateCode: StandardHandler<void>;
+    sm: StandardHandler<any>;
+    test: StandardHandler<any>;
+    uaparse: StandardHandler<void>;
+    uuid: StandardHandler<string>;
 };
 
 const functionKeywords: FunctionKeywords = 
@@ -56,8 +62,10 @@ const functionKeywords: FunctionKeywords =
     organization: organization,
     sentEvent: sentEvent,
     separateCode: separate,
+    sm: sm,
     test: test,
-    uaparse: uaparse
+    uaparse: uaparse,
+    uuid: uuid
 };
 type Keyword = keyof FunctionKeywords;
 
@@ -83,36 +91,68 @@ type Keyword = keyof FunctionKeywords;
     }
 })("");
 
+const executeFunction = async (key: Keyword, option?: {req: Request, res: Response}) =>
+{
+    let r: any;
+    if (key === "sentEvent")
+    {
+        if (option?.req && option?.res)
+            r = await functionKeywords.sentEvent(option.req, option.res);
+    }
+    else
+    {
+        r = await functionKeywords[key]();
+    }
+
+    return r;
+};
+
+const exceptionFunction = (e: any) =>
+{
+    if (e instanceof TokenExpiredError)
+        logger.error("토큰 만료");
+    else
+        logger.error(`execute function error`, e);
+};
+
 export default (app: Express) => 
 {
     const router = Router();
 
-    router.get("/:keyword", async (req: Request, res: Response) => 
+    router.get("/b/:keyword", async (req: Request, res: Response) => 
     {
         const { keyword } = req.params;
 
         try
         {
             if (!(keyword in functionKeywords)) throw new Error();
-            const key = keyword as Keyword;
 
-            let r: any;
-            if (key === "sentEvent")
-                r = await functionKeywords.sentEvent(req, res);
-            else
-                r = await functionKeywords[key]();
-
-            logger.verbose(r);
-
-            res.send({ data: r });
+            const data = await executeFunction(keyword as Keyword, { req, res });
+            logger.verbose(data);
+            res.send({ data });
         }
         catch (_e: any)
         {
-            if (_e instanceof TokenExpiredError)
-                logger.error("토큰 만료");
-            else
-                logger.error(`execute function error`, _e);
+            exceptionFunction(_e);
+            res.sendStatus(404);
+        }
+    });
 
+    router.get("/p/:keyword", async (req: Request, res: Response) => 
+    {
+        const { keyword } = req.params;
+
+        try
+        {
+            if (!(keyword in functionKeywords)) throw new Error();
+
+            const data = await executeFunction(keyword as Keyword, { req, res });
+            logger.verbose(data);
+            res.send({ data });
+        }
+        catch (_e: any)
+        {
+            exceptionFunction(_e);
             res.sendStatus(404);
         }
     });
