@@ -11,58 +11,25 @@ import { CellData, CellInfo, ErrorStat, ExcelContent } from '../../../types';
 const user_to_bind_key_map = 
 [
     {
-        "displayName": "대리점 상호",
+        "displayName": "이름",
         "bindKeyName": "name1",
         "required": false
     },
     {
-        "displayName": "사업자번호",
-        "bindKeyName": "rrn1",
-        "required": false
+        "displayName": "구간별 장려금 1",
+        "bindKeyName": "kg_one"
     },
     {
-        "displayName": "사무실 주소",
-        "bindKeyName": "addr1_2"
+        "displayName": "구간별 장려금 2",
+        "bindKeyName": "kg_two"
     },
     {
-        "displayName": "대표자",
-        "bindKeyName": "ceo1"
+        "displayName": "구간별 장려금 3",
+        "bindKeyName": "kg_three"
     },
     {
-        "displayName": "연락처",
-        "bindKeyName": "phone1"
-    },
-    {
-        "displayName": "이메일",
-        "bindKeyName": "email1"
-    },
-    {
-        "displayName": "창고주소",
-        "bindKeyName": "addr2_2"
-    },
-    {
-        "displayName": "계약 체결일",
-        "bindKeyName": "clm_con_date"
-    },
-    {
-        "displayName": "결제조건",
-        "bindKeyName": "payterm"
-    },
-    {
-        "displayName": "매출 장려금 제품",
-        "bindKeyName": "obj"
-    },
-    {
-        "displayName": "운임 및 운임보조비",
-        "bindKeyName": "kgpay1"
-    },
-    {
-        "displayName": "월중한도",
-        "bindKeyName": "limit1"
-    },
-    {
-        "displayName": "월말한도",
-        "bindKeyName": "limit2"
+        "displayName": "구간별 장려금 4",
+        "bindKeyName": "kg_four"
     }
 ];
 
@@ -462,5 +429,7 @@ const validateExcelValue = (type: string, value: string) =>
 export default async () => 
 {
     const e = fs.readFileSync(path.resolve('files', 'tt.xlsx'));
-    return await HP_EXCEL_TO_WRITING_BULK_META_INFO(e);
+    const bu = await HP_EXCEL_TO_WRITING_BULK_META_INFO(e);
+    console.log(bu);
+    return bu;
 };
