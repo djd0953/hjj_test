@@ -55,7 +55,7 @@ const formatJson = (data) =>
     {
         return JSON.stringify(data, null, 2);
     }
-    catch (_) 
+    catch 
     {
         return String(data);
     }
@@ -87,7 +87,7 @@ const sendRequest = async () =>
         {
             body = formatJson(JSON.parse(text));
         }
-        catch (_) 
+        catch
         {
             body = text || '(empty)';
         }

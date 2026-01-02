@@ -1,10 +1,11 @@
 'use strict';
 
+import path from 'path';
+
 import * as dotenv from 'dotenv';
 import { json, urlencoded } from 'body-parser';
 import cors from 'cors';
 import express from 'express';
-import path from 'path';
 
 dotenv.config();
 import { logger } from '@util';
