@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="ko">
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>API Playground</title>
+	<link rel="stylesheet" href="/ui/app.css" />
+</head>
+
+<body>
+	<div class="app">
+		<header class="topbar">
+			<div class="brand">
+				<span class="logo">API</span>
+				<div class="meta">
+					<h1> </h1>
+					<p> </p>
+				</div>
+			</div>
+			<div class="env">
+				<span class="pill">GET</span>
+				<span class="pill">/b/:keyword</span>
+				<span class="pill">/p/:keyword</span>
+			</div>
+		</header>
+
+		<main class="layout">
+			<section class="panel">
+				<h2>Request</h2>
+				<div class="field">
+					<label for="mode">Debug Mode</label>
+					<div class="segmented" id="mode">
+						<button data-mode="b" class="is-active">brack</button>
+						<button data-mode="p">pass</button>
+					</div>
+				</div>
+				<div class="field">
+					<label for="keyword">Keyword</label>
+					<select id="keyword"></select>
+				</div>
+				<div class="field">
+					<label for="notes">Notes</label>
+					<textarea id="notes" rows="4" placeholder="엔드포인트 설명이나 테스트 메모를 적어두세요."></textarea>
+				</div>
+				<button id="send" class="primary">Send Request</button>
+			</section>
+
+			<section class="panel">
+				<h2>Response</h2>
+				<div class="field">
+					<label>cURL</label>
+					<pre id="curl" class="code">-</pre>
+				</div>
+				<div class="field">
+					<label>Status</label>
+					<div id="status" class="status">-</div>
+				</div>
+				<div class="field">
+					<label>Body</label>
+					<pre id="result" class="code">-</pre>
+				</div>
+			</section>
+		</main>
+	</div>
+
+	<script src="/ui/app.js"></script>
+</body>
+
+</html>
