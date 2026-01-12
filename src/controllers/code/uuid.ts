@@ -1,7 +1,9 @@
 import { randomUUID } from "crypto";
 
-export default async () => 
+import { type Request, type Response } from 'express';
+
+export default async (req: Request, res: Response) => 
 {
     const uuidv4 = randomUUID();
-    return uuidv4;
+    res.send(uuidv4);
 };

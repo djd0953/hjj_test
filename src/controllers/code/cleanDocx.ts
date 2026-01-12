@@ -3,6 +3,7 @@ import path from 'path';
 
 import { XMLParser, XMLBuilder } from 'fast-xml-parser';
 import JSZip from 'jszip';
+import { type Request, type Response } from 'express';
 
 // 1) 파서/빌더 옵션은 "**둘 다**" 동일한 그룹명을 사용
 // const PARSER_OPTS = 
@@ -207,7 +208,7 @@ const tryDelete = (zip: JSZip, path: string) =>
     if (zip.file(path)) zip.remove(path);
 };
 
-export default async () =>
+export default async (req: Request, res: Response) => 
 {
     const options: Options = 
     {

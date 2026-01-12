@@ -1,3 +1,5 @@
+import { type Request, type Response } from 'express';
+
 import { dummy } from "@libs/mock_data/organization";
 import type { TeamOrganization } from "@types";
 
@@ -116,7 +118,7 @@ function findNodeAndAncestorsByIdMap(idMap: Map<string, TeamOrganization>, id: s
     };
 }
 
-const run = async () => 
+export default async (req: Request, res: Response) => 
 {
     // console.time("getOrganizationTree");
     // const {tree, iMap} = getOrganizationTree(dummy);
@@ -129,6 +131,5 @@ const run = async () =>
     // console.time("findNodeAndAncestorsByIdMap");
     // const c = findNodeAndAncestorsByIdMap(iMap, '01BH131460')
     // console.timeEnd("findNodeAndAncestorsByIdMap")
+    res.send({});
 };
-
-export default run;

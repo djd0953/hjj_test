@@ -30,7 +30,8 @@
             "@db": ["./src/db/index.ts"],
             "@migrateDb": ["./src/db/migrateDb.ts"],
             "@util": ["./src/util/index.ts"],
-            "@types": ["./types/index.ts"],
+            "@types": ["./types/index.d.ts"],
+            "@files/*": ["./files/*"]
         }
     },
     "include": ["src/**/*"],

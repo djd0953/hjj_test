@@ -3,6 +3,8 @@ import * as cheerio from 'cheerio';
 import { Document, Element } from 'domhandler';
 // import MailComposer from 'nodemailer/lib/mail-composer';
 
+import { type Request, type Response } from 'express';
+
 import { s3 } from '@aws';
 
 const dbSeparators: string[] = [
@@ -204,7 +206,7 @@ const HP_EMAIL_SPLIT_BY_SEPARATOR_SAFE = ({ html, separators }: {html: string, s
 };
 
 
-export default async () =>
+export default async (req: Request, res: Response) => 
 {
     // const a = await getRawMail()
     // const b = await AmazonES(a)
@@ -214,4 +216,6 @@ export default async () =>
 
     const c = HP_EMAIL_SPLIT_BY_SEPARATOR_SAFE({ html: a.html as string, separators: reqExps });
     const b = HP_EMAIL_SPLIT_BY_SEPARATOR({ html: a.html as string, separators: reqExps });
+
+    res.send({});
 };

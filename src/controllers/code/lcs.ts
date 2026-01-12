@@ -1,3 +1,4 @@
+import { type Request, type Response } from 'express';
 const lcs1 = (dp: number[][], a: string[], b: string[]) =>
 {
     const maxDp = (i: number, j: number) => Math.max(dp[i-1][j], dp[i][j-1]);
@@ -10,7 +11,7 @@ const lcs1 = (dp: number[][], a: string[], b: string[]) =>
         }
 };
 
-export default async () => 
+export default async (req: Request, res: Response) => 
 {
     const a = "ABCDEFGH";
     const b = "GBCDFEGH";
@@ -65,5 +66,5 @@ export default async () =>
 
 
     lcs2(dp.length - 1, dp[0].length - 1);
-    console.warn('str', str.split('').reverse().join(''));
+    res.send({});
 };

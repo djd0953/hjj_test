@@ -3,10 +3,12 @@ import path from 'path';
 
 import dayjs from 'dayjs';
 import exceljs from 'exceljs';
+import { type Request, type Response } from 'express';
 
 import templateData from '@libs/template_data.json';
 
 import { CellData, CellInfo, ErrorStat, ExcelContent } from '../../../types';
+
 
 const user_to_bind_key_map = 
 [
@@ -426,10 +428,10 @@ const validateExcelValue = (type: string, value: string) =>
     return true;
 };
 
-export default async () => 
+export default async (req: Request, res: Response) => 
 {
     const e = fs.readFileSync(path.resolve('files', 'tt.xlsx'));
     const bu = await HP_EXCEL_TO_WRITING_BULK_META_INFO(e);
-    console.log(bu);
-    return bu;
+
+    res.send(bu);
 };

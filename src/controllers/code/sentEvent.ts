@@ -1,4 +1,4 @@
-import express, { type Request, type Response } from 'express';
+import { type Request, type Response } from 'express';
 
 class ReturnSentEvent 
 {

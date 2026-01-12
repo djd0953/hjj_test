@@ -1,35 +1,43 @@
-interface T
+import { type Request, type Response } from 'express';
+
+interface A
 {
-    s: boolean
-    a?: number
-    b?: string
-    c?: string
+    bindKeyName: string,
+    url: string
 }
 
-interface T1 extends T
-{
-    s: false
-    c: string
-}
-
-interface T2 extends T
-{
-    s: true
-    a: number
-}
-
-type TT = T1 | T2
-
-export default async () => 
-{
-
-    const a: TT = 
+const a1: A[] = 
+[
     {
-        s: false,
-        c: "a"
-    };
+        bindKeyName: "image1-1-1",
+        url: 'a'
+    },
+    {
+        bindKeyName: "image1-1-2",
+        url: 'b'
+    },
+    {
+        bindKeyName: "image1-1-3",
+        url: 'c'
+    }
+];
 
-    console.error(a);
+const a2: A[] = 
+[
+    {
+        bindKeyName: "image1-1-1",
+        url: 'a'
+    },
+    {
+        bindKeyName: "image1-1-2",
+        url: 'b'
+    }
+];
 
-    return a;
+export default async (req: Request, res: Response) => 
+{
+    const stagingA = a2.filter(x => a1.some(y => y.bindKeyName === x.bindKeyName));
+    const deleteA = a1.filter(x => a2.every(y => y.bindKeyName !== x.bindKeyName));
+
+    res.send({ stagingA, deleteA });
 };

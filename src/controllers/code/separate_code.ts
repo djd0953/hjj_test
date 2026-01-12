@@ -1,7 +1,9 @@
 import fs from 'fs';
 import path from 'path';
 
-const run = async (): Promise<void> => 
+import { type Request, type Response } from 'express';
+
+export default async (req: Request, res: Response) => 
 {
     const src = fs.readFileSync(path.join(__dirname, '../', 'libs', 'bb.txt'), { encoding: 'utf-8' });
     const lines = src.split('\n');
@@ -54,11 +56,10 @@ const run = async (): Promise<void> =>
     
         // 파일로 저장
         fs.writeFileSync('ttt.txt', str, 'utf-8');
+        res.send();
     }
     catch (err)
     {
         console.log(err);
     }
 };
-
-export default run;

@@ -3,6 +3,7 @@ import path from 'path';
 
 import exceljs from 'exceljs';
 import dayjs from 'dayjs';
+import { type Request, type Response } from 'express';
 
 type TreeNode = DirNode | FileNode;
 
@@ -159,7 +160,7 @@ function flattenFilesFromTree(nodes: TreeNode[]): FlatFileInfo[]
     return result;
 }
 
-export default async () => 
+export default async (req: Request, res: Response) => 
 {
     const root = path.resolve('files', 'contract_list');
     const tree = await buildTree(root);
@@ -180,4 +181,6 @@ export default async () =>
 
         fs.writeFileSync('files/contract_list/contract_list.txt', lines.join(''));
     }
+
+    res.send({ excelFilePath });
 };

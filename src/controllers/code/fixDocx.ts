@@ -1,8 +1,11 @@
+import { type Request, type Response } from 'express';
+
 import { cleanHtmlForDocx , hoistTablesOutOfLi , htmlHybridToDocx , inlineAllCssWithJuiceAndPseudo , xmlNumberingParser } from '@util';
 
 const html = '';
 
-const run = async () =>
+
+export default async (req: Request, res: Response) => 
 {
     // FE로직
     const convertHtml = await hoistTablesOutOfLi(html);
@@ -15,9 +18,6 @@ const run = async () =>
 
     // FE로직
     const outBlob = await xmlNumberingParser(docx);
-};
 
-export default async () => 
-{
-    await run();
+    res.send(outBlob);
 };

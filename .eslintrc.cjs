@@ -131,7 +131,7 @@ module.exports = {
                 project: "./tsconfig.json"
             },
             node: {
-                extensions: ['.js', '.ts']
+                extensions: ['.js', '.ts', 'json']
             }
         }
     }

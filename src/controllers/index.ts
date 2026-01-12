@@ -1,5 +1,5 @@
 import { Router, type Request, type Response, type Express } from "express";
-import { JwtPayload, TokenExpiredError } from "jsonwebtoken";
+import { TokenExpiredError } from "jsonwebtoken";
 
 import { logger } from "@util";
 import awsDownload from '@code/awsDownload';
@@ -16,35 +16,33 @@ import organization from '@code/organization';
 import separate from '@code/separate_code';
 import sentEvent from '@code/sentEvent';
 import sm from '@code/sm';
+import templateDataParse from "@code/templateDataParse";
 import test from '@code/test';
 import uaparse from '@code/uaparse';
 import uuid from '@code/uuid';
 
-import { ExcelContent, jwtTemplateData } from "../../types";
-
-type MaybePromise<T> = Promise<T>;
-type StandardHandler<T> = () => MaybePromise<T>;
-type SentEventHandler<T> = (req: Request, res: Response) => MaybePromise<T>;
+type ApiFunction = (req: Request, res: Response) => Promise<void>;
 
 type FunctionKeywords = 
 {
-    aws: StandardHandler<string|null>;
-    cleanDocx: StandardHandler<void>;
-    diffDocx: StandardHandler<Buffer<ArrayBufferLike>>;
-    email: StandardHandler<void>;
-    excelFileCheck: StandardHandler<void>;
-    excelWritingBulkChk: StandardHandler<{contents: ExcelContent[], total: number}>;
-    fixDocx: StandardHandler<void>;
-    jwt: StandardHandler<JwtPayload & jwtTemplateData>;
-    kms: StandardHandler<{ testText: string[]; encryptText: string[]; }>;
-    lcs: StandardHandler<void>;
-    organization: StandardHandler<void>;
-    sentEvent: SentEventHandler<void>;
-    separateCode: StandardHandler<void>;
-    sm: StandardHandler<any>;
-    test: StandardHandler<any>;
-    uaparse: StandardHandler<void>;
-    uuid: StandardHandler<string>;
+    aws: ApiFunction
+    cleanDocx: ApiFunction
+    diffDocx: ApiFunction
+    email: ApiFunction
+    excelFileCheck: ApiFunction
+    excelWritingBulkChk: ApiFunction
+    fixDocx: ApiFunction
+    jwt: ApiFunction
+    kms: ApiFunction
+    lcs: ApiFunction
+    organization: ApiFunction
+    sentEvent: ApiFunction
+    separateCode: ApiFunction
+    sm: ApiFunction
+    templateDataParse: ApiFunction
+    test: ApiFunction
+    uaparse: ApiFunction
+    uuid: ApiFunction
 };
 
 const functionKeywords: FunctionKeywords = 
@@ -63,49 +61,12 @@ const functionKeywords: FunctionKeywords =
     sentEvent: sentEvent,
     separateCode: separate,
     sm: sm,
+    templateDataParse: templateDataParse,
     test: test,
     uaparse: uaparse,
     uuid: uuid
 };
 type Keyword = keyof FunctionKeywords;
-
-(async (keyword: Keyword | "") =>
-{
-    if (keyword === "" || !(keyword in functionKeywords)) return;
-    const key = keyword as Keyword;
-
-    try
-    {
-        if (key === "sentEvent") throw new Error();
-
-        const func = functionKeywords[key];
-        const r = await func();
-        logger.verbose(r);
-    }
-    catch (_e)
-    {
-        if (_e instanceof TokenExpiredError)
-            logger.error("토큰 만료");
-        else
-            logger.error(`execute function error`, _e);
-    }
-})("");
-
-const executeFunction = async (key: Keyword, option?: {req: Request, res: Response}) =>
-{
-    let r: any;
-    if (key === "sentEvent")
-    {
-        if (option?.req && option?.res)
-            r = await functionKeywords.sentEvent(option.req, option.res);
-    }
-    else
-    {
-        r = await functionKeywords[key]();
-    }
-
-    return r;
-};
 
 const exceptionFunction = (e: any) =>
 {
@@ -119,36 +80,18 @@ export default (app: Express) =>
 {
     const router = Router();
 
-    router.get("/b/:keyword", async (req: Request, res: Response) => 
+    router.get("/:type/:keyword", async (req: Request, res: Response) => 
     {
-        const { keyword } = req.params;
+        const { type, keyword } = req.params;
 
         try
         {
             if (!(keyword in functionKeywords)) throw new Error();
-
-            const data = await executeFunction(keyword as Keyword, { req, res });
-            logger.verbose(data);
-            res.send({ data });
-        }
-        catch (_e: any)
-        {
-            exceptionFunction(_e);
-            res.sendStatus(404);
-        }
-    });
-
-    router.get("/p/:keyword", async (req: Request, res: Response) => 
-    {
-        const { keyword } = req.params;
-
-        try
-        {
-            if (!(keyword in functionKeywords)) throw new Error();
-
-            const data = await executeFunction(keyword as Keyword, { req, res });
-            logger.verbose(data);
-            res.send({ data });
+            if (type[0] === 'b') 
+            {
+                console.log('brake');
+            }
+            await functionKeywords[keyword as Keyword](req, res);
         }
         catch (_e: any)
         {
