@@ -39,7 +39,5 @@ export default async (req: Request, res: Response) =>
     const stagingA = a2.filter(x => a1.some(y => y.bindKeyName === x.bindKeyName));
     const deleteA = a1.filter(x => a2.every(y => y.bindKeyName !== x.bindKeyName));
 
-    // commit test
-
     res.send({ stagingA, deleteA });
 };
