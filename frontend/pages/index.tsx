@@ -29,6 +29,8 @@ const MODES =
     'pass'
 ];
 
+const ORIGIN = "http://localhost:9090"
+
 export default function Home() 
 {
     const [mode, setMode] = useState<string>('brack');
@@ -39,18 +41,16 @@ export default function Home()
     const [statusColor, setStatusColor] = useState<string>('#1c222b');
     const [result, setResult] = useState<string>('-');
 
-    const origin = typeof window !== 'undefined' ? window.location.origin : '';
-
     useEffect(() => 
     {
-        setCurl(`curl -X GET "${origin}/${mode}/${keyword}`);
-    }, [origin, mode, keyword]);
+        setCurl(`curl -X GET "${ORIGIN}/${mode}/${keyword}`);
+    }, [mode, keyword]);
 
     const sendRequest = async () => 
     {
         if (!keyword) return;
-        const url = `http://localhost:9090/${mode}/${keyword}`;
-        setCurl(`curl -X GET "${origin}/${mode}/${keyword}`);
+        const url = `${ORIGIN}/${mode}/${keyword}`;
+        setCurl(`curl -X GET "${ORIGIN}/${mode}/${keyword}`);
         setResult('Loading...');
         setStatusText('...');
         setStatusColor('#1c222b');
