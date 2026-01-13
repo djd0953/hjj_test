@@ -10,7 +10,24 @@ services:
       - "9090:9090"
       - "9229:9229"   # ← 디버깅용 (중요)
     volumes:
-      - .:/usr/src/app
+      - .:/usr/src/app:cached
       - /usr/src/app/node_modules
     environment:
       NODE_ENV: development
+      CHOKIDAR_USEPOLLING: 'true'
+      CHOKIDAR_INTERVAL: 100
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/usr/src/app:cached
+      - /usr/src/app/node_modules
+    environment:
+      NODE_ENV: development
+      CHOKIDAR_USEPOLLING: 'true'
+    command: npm run dev

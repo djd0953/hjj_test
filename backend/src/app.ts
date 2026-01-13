@@ -1,7 +1,5 @@
 'use strict';
 
-import path from 'path';
-
 import * as dotenv from 'dotenv';
 import { json, urlencoded } from 'body-parser';
 import cors from 'cors';
@@ -18,7 +16,6 @@ app.disable("x-powered-by");
 app.use(urlencoded({ extended: true }));
 app.use(json());
 app.use(cors({ origin: "*" }));
-app.use('/ui', express.static(path.resolve('public')));
 
 const PORT = process.env.PORT;
 
