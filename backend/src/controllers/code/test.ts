@@ -36,10 +36,9 @@ const a2: A[] =
 
 export default async (req: Request, res: Response) => 
 {
-    const stagingA = a2.filter(x => a1.some(y => y.bindKeyName === x.bindKeyName));
-    const deleteA = a1.filter(x => a2.every(y => y.bindKeyName !== x.bindKeyName));
+    let result: number[] = [];
+    result = result.concat([1,2,3])
+    result = result.concat([4,5,6])
 
-    // 히히
-
-    res.send({ stagingA, deleteA });
+    res.send( result );
 };

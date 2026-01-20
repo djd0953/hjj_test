@@ -13,7 +13,9 @@
         "javascript",
         "javascriptreact",
         "typescript",
-        "typescriptreact"
+        "typescriptreact",
+        "tsx",
+        "css"
     ],
 
     "files.exclude": {
