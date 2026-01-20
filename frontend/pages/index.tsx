@@ -31,6 +31,8 @@ const MODES =
 
 const ORIGIN = "http://localhost:9090"
 
+export const title = 'API Playground';
+
 export default function Home() 
 {
     const [mode, setMode] = useState<string>('brack');
@@ -41,16 +43,21 @@ export default function Home()
     const [statusColor, setStatusColor] = useState<string>('#1c222b');
     const [result, setResult] = useState<string>('-');
 
+    const resetCurl = () => 
+    {
+        setCurl(`curl -X GET "${ORIGIN}/${mode}/${keyword}"`);
+    }
+
     useEffect(() => 
     {
-        setCurl(`curl -X GET "${ORIGIN}/${mode}/${keyword}`);
+        resetCurl()
     }, [mode, keyword]);
 
     const sendRequest = async () => 
     {
         if (!keyword) return;
         const url = `${ORIGIN}/${mode}/${keyword}`;
-        setCurl(`curl -X GET "${ORIGIN}/${mode}/${keyword}`);
+        resetCurl()
         setResult('Loading...');
         setStatusText('...');
         setStatusColor('#1c222b');
@@ -90,80 +97,68 @@ export default function Home()
         []
     );
 
+    /**
+.card 
+{
+    background: #ffffff;
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    box-shadow: 0 24px 60px rgba(24, 32, 43, 0.12);
+}
+.segmented { display: inline-flex; background: #f2f5f6; border-radius: 999px; padding: 4px; gap: 6px; }
+.segmented button { border: none; background: transparent; padding: 8px 16px; border-radius: 999px; font-weight: 600; cursor: pointer; color: #6a7380; }
+.segmented button.is-active { background: #2f6f76; color: #fff; }
+     */
+
     return (
         <>
-            <Head>
-                <meta charSet="utf-8" />
-                <meta name="viewport" content="width=device-width, initial-scale=1" />
-                <title>API Playground</title>
-                <link rel="stylesheet" href="/ui/app.css" />
-            </Head>
-
-            <div className="app">
-                <header className="topbar">
-                    <div className="brand">
-                        <span className="logo">API</span>
-                        <div className="meta">
-                            <h1> </h1>
-                            <p> </p>
+            <div className="page-grid">
+                <section className="panel">
+                    <h2>Request</h2>
+                    <div className="field">
+                        <label>Debug Mode</label>
+                        <div className="segmented">
+                            {MODES && MODES.map(m => (
+                                <button
+                                    key={m}
+                                    type="button"
+                                    className={mode === m ? 'is-active' : ''}
+                                    onClick={() => setMode(m)}
+                                >{m}</button>
+                            ))}
                         </div>
                     </div>
-                    <div className="env">
-                        <span className="pill">GET</span>
-                        <span className="pill">/b/:keyword</span>
-                        <span className="pill">/p/:keyword</span>
+
+                    <div className="field">
+                        <label>Keyword</label>
+                        <select value={keyword} onChange={(e) => setKeyword(e.target.value)}>
+                            {keywordOptions}
+                        </select>
                     </div>
-                </header>
 
-                <main className="layout">
-                    <section className="panel">
-                        <h2>Request</h2>
-                        <div className="field">
-                            <label htmlFor="mode">Debug Mode</label>
-                            <div className="segmented" id="mode">
-                                {MODES && MODES.map(m => (
-                                    <button
-                                        key={m}
-                                        type="button"
-                                        className={mode === m ? 'is-active' : ''}
-                                        onClick={() => setMode(m)}
-                                    >{m}</button>
-                                ))}
-                            </div>
-                        </div>
-                        <div className="field">
-                            <label htmlFor="keyword">Keyword</label>
-                            <select id="keyword" value={keyword} onChange={(e) => setKeyword(e.target.value)}>
-                                {keywordOptions}
-                            </select>
-                        </div>
-                        <div className="field">
-                            <label htmlFor="notes">Notes</label>
-                            <textarea id="notes" rows={4} placeholder="Note" value={notes} onChange={(e) => setNotes(e.target.value)} />
-                        </div>
-                        <button id="send" className="primary" onClick={sendRequest}>
-                            Send Request
-                        </button>
-                    </section>
+                    <div className="field">
+                        <label>Notes</label>
+                        <textarea rows={4} placeholder="Note" value={notes} onChange={(e) => setNotes(e.target.value)} />
+                    </div>
 
-                    <section className="panel">
-                        <h2>Response</h2>
-                        <div className="field">
-                            <label>cURL</label>
-                            <pre id="curl" className="code">{curl}</pre>
-                        </div>
-                        <div className="field">
-                            <label>Status</label>
-                            <div id="status" className="status" style={{ color: statusColor }}>
-                                {statusText}
-                            </div>
-                        </div>
-                        <div className="field">
-                            <label>Body</label>
-                            <pre id="result" className="code">{result}</pre>
-                        </div>
-                    </section>
-                </main>
+                    <button id="send" className="primary" onClick={sendRequest}>Send Request</button>
+                </section>
+
+                <section className="panel">
+                    <h2>Response</h2>
+                    <div className="field">
+                        <label>cURL</label>
+                        <pre className="code">{curl}</pre>
+                    </div>
+                    <div className="field">
+                        <label>Status</label>
+                        <div className="status" style={{ color: statusColor }}>{statusText}</div>
+                    </div>
+                    <div className="field">
+                        <label>Body</label>
+                        <pre className="code">{result}</pre>
+                    </div>
+                </section>
             </div>
         </>
     );
