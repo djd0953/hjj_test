@@ -5,6 +5,7 @@ import { logger } from "@util";
 import awsDownload from '@code/awsDownload';
 import cleanDocx from '@code/cleanDocx';
 import diffDocx from '@code/diffDocx';
+import effectiveDate from "@code/effectiveDate";
 import email from '@code/email';
 import excelFileCheck from '@code/excelFileCheck';
 import excelWritingBulkChk from '@code/excelWritingBulkChk';
@@ -28,6 +29,7 @@ type FunctionKeywords =
     aws: ApiFunction
     cleanDocx: ApiFunction
     diffDocx: ApiFunction
+    effectiveDate: ApiFunction
     email: ApiFunction
     excelFileCheck: ApiFunction
     excelWritingBulkChk: ApiFunction
@@ -50,6 +52,7 @@ const functionKeywords: FunctionKeywords =
     aws: awsDownload,
     cleanDocx: cleanDocx,
     diffDocx: diffDocx,
+    effectiveDate: effectiveDate,
     email: email,
     excelFileCheck: excelFileCheck,
     excelWritingBulkChk: excelWritingBulkChk,
@@ -79,6 +82,19 @@ const exceptionFunction = (e: any) =>
 export default (app: Express) => 
 {
     const router = Router();
+
+    router.get("/get/keyword/list", async (req: Request, res: Response) => 
+    {
+        try 
+        {
+            res.send(Object.keys(functionKeywords))
+        }
+        catch (_e: any)
+        {
+            exceptionFunction(_e);
+            res.sendStatus(404);
+        }
+    })
 
     router.get("/:type/:keyword", async (req: Request, res: Response) => 
     {

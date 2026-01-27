@@ -1,27 +1,4 @@
-import Head from 'next/head';
 import React, { useEffect, useMemo, useState } from 'react';
-
-const KEYWORDS = 
-[
-    'aws',
-    'cleanDocx',
-    'diffDocx',
-    'email',
-    'excelFileCheck',
-    'excelWritingBulkChk',
-    'fixDocx',
-    'jwt',
-    'kms',
-    'lcs',
-    'organization',
-    'sentEvent',
-    'separateCode',
-    'sm',
-    'templateDataParse',
-    'test',
-    'uaparse',
-    'uuid'
-];
 
 const MODES = 
 [
@@ -37,6 +14,7 @@ export default function Home()
 {
     const [mode, setMode] = useState<string>('brack');
     const [keyword, setKeyword] = useState<string>('aws');
+    const [keywordList, setKeywordList] = useState<string[]>([]);
     const [notes, setNotes] = useState<string>('');
     const [curl, setCurl] = useState<string>('-');
     const [statusText, setStatusText] = useState<string>('-');
@@ -89,26 +67,30 @@ export default function Home()
     };
 
     const keywordOptions = useMemo(
-        () => KEYWORDS.map((k) => (
+        () => keywordList.map((k) => (
             <option key={k} value={k}>
                 {k}
             </option>
         )),
-        []
+        [keywordList]
     );
 
-    /**
-.card 
-{
-    background: #ffffff;
-    border-radius: 0.75rem;
-    padding: 1.5rem;
-    box-shadow: 0 24px 60px rgba(24, 32, 43, 0.12);
-}
-.segmented { display: inline-flex; background: #f2f5f6; border-radius: 999px; padding: 4px; gap: 6px; }
-.segmented button { border: none; background: transparent; padding: 8px 16px; border-radius: 999px; font-weight: 600; cursor: pointer; color: #6a7380; }
-.segmented button.is-active { background: #2f6f76; color: #fff; }
-     */
+    const getKeywords = async () => 
+    {
+        const url = `${ORIGIN}/get/keyword/list`;
+        await fetch(url)
+        .then(async res =>
+        {
+            const a = await res.json()
+            setKeywordList(a)
+        });
+
+    }
+
+    useEffect(() => 
+    {
+        getKeywords()
+    }, [])
 
     return (
         <>
