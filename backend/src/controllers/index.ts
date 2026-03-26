@@ -21,6 +21,7 @@ import templateDataParse from "@code/templateDataParse";
 import test from '@code/test';
 import uaparse from '@code/uaparse';
 import uuid from '@code/uuid';
+import woffToTtf from '@code/woff-to-ttf';
 
 type ApiFunction = (req: Request, res: Response) => Promise<void>;
 
@@ -42,9 +43,9 @@ type FunctionKeywords =
     separateCode: ApiFunction
     sm: ApiFunction
     templateDataParse: ApiFunction
-    test: ApiFunction
     uaparse: ApiFunction
     uuid: ApiFunction
+    woffToTtf: ApiFunction
 };
 
 const functionKeywords: FunctionKeywords = 
@@ -65,9 +66,9 @@ const functionKeywords: FunctionKeywords =
     separateCode: separate,
     sm: sm,
     templateDataParse: templateDataParse,
-    test: test,
     uaparse: uaparse,
-    uuid: uuid
+    uuid: uuid,
+    woffToTtf: woffToTtf
 };
 type Keyword = keyof FunctionKeywords;
 
@@ -105,7 +106,7 @@ export default (app: Express) =>
             if (!(keyword in functionKeywords)) throw new Error();
             if (type[0] === 'b') 
             {
-                console.log('brake');
+                logger.verbose('brake')
             }
             await functionKeywords[keyword as Keyword](req, res);
         }
@@ -116,5 +117,6 @@ export default (app: Express) =>
         }
     });
 
+    test()
     app.use('/', router);
 };
