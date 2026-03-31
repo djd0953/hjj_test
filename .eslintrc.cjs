@@ -128,11 +128,45 @@ module.exports = {
     settings: {
         "import/resolver": {
             typescript: {
-                project: "./tsconfig.json"
+                project: ["./backend/tsconfig.json", "./frontend/tsconfig.json"],
+                alwaysTryTypes: true
             },
             node: {
-                extensions: ['.js', '.ts', 'json']
+                extensions: ['.js', '.ts', '.tsx', '.json'],
+                moduleDirectory: ['node_modules', 'frontend/node_modules', 'backend/node_modules']
             }
         }
-    }
+    },
+    overrides: [
+        {
+            files: ["frontend/**/*.{ts,tsx}"],
+            settings: {
+                "import/resolver": {
+                    typescript: {
+                        project: "./frontend/tsconfig.json",
+                        alwaysTryTypes: true
+                    },
+                    node: {
+                        extensions: ['.js', '.ts', '.tsx', '.json'],
+                        moduleDirectory: ['node_modules', 'frontend/node_modules']
+                    }
+                }
+            }
+        },
+        {
+            files: ["backend/**/*.{ts,tsx}"],
+            settings: {
+                "import/resolver": {
+                    typescript: {
+                        project: "./backend/tsconfig.json",
+                        alwaysTryTypes: true
+                    },
+                    node: {
+                        extensions: ['.js', '.ts', '.tsx', '.json'],
+                        moduleDirectory: ['node_modules', 'backend/node_modules']
+                    }
+                }
+            }
+        }
+    ]
 };

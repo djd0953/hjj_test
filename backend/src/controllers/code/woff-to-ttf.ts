@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import zlib from 'zlib';
+
 import { type Request, type Response } from 'express';
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const { Font, woff2 } = require('fonteditor-core') as {
@@ -21,7 +22,8 @@ interface WoffTableEntry {
     origChecksum: number;
 }
 
-function woffToTtf(woffBuffer: Buffer): Buffer {
+function woffToTtf(woffBuffer: Buffer): Buffer 
+{
     let pos = 0;
 
     const readU32 = () => { const v = woffBuffer.readUInt32BE(pos); pos += 4; return v; };
@@ -46,7 +48,8 @@ function woffToTtf(woffBuffer: Buffer): Buffer {
 
     // 테이블 디렉터리 파싱 (20 bytes × numTables)
     const entries: WoffTableEntry[] = [];
-    for (let i = 0; i < numTables; i++) {
+    for (let i = 0; i < numTables; i++) 
+    {
         const tag           = readU32();
         const tableOffset   = readU32();
         const compLength    = readU32();
@@ -54,7 +57,7 @@ function woffToTtf(woffBuffer: Buffer): Buffer {
         const origChecksum  = readU32();
         const tagStr = String.fromCharCode(
             (tag >> 24) & 0xFF, (tag >> 16) & 0xFF,
-            (tag >> 8)  & 0xFF,  tag         & 0xFF,
+            (tag >> 8)  & 0xFF,  tag         & 0xFF
         );
         entries.push({ tag, tagStr, offset: tableOffset, compLength, origLength, origChecksum });
     }
@@ -63,7 +66,8 @@ function woffToTtf(woffBuffer: Buffer): Buffer {
     entries.sort((a, b) => a.tag - b.tag);
 
     // 각 테이블 데이터 압축 해제 + 4-byte 패딩
-    const tables: Buffer[] = entries.map(e => {
+    const tables: Buffer[] = entries.map(e => 
+    {
         const compressed = woffBuffer.subarray(e.offset, e.offset + e.compLength);
         const raw = e.compLength === e.origLength
             ? Buffer.from(compressed)           // 비압축
@@ -83,7 +87,8 @@ function woffToTtf(woffBuffer: Buffer): Buffer {
     const dataStart = 12 + numTables * 16;
     const tableOffsets: number[] = [];
     let cursor = dataStart;
-    for (const t of tables) {
+    for (const t of tables) 
+    {
         tableOffsets.push(cursor);
         cursor += t.length;
     }
@@ -100,7 +105,8 @@ function woffToTtf(woffBuffer: Buffer): Buffer {
     out.writeUInt16BE(rangeShift,    p); p += 2;
 
     // 테이블 레코드 (16 bytes × n)
-    for (let i = 0; i < numTables; i++) {
+    for (let i = 0; i < numTables; i++) 
+    {
         const e = entries[i];
         out.writeUInt32BE(e.tag,           p); p += 4;
         out.writeUInt32BE(e.origChecksum,  p); p += 4;
@@ -109,7 +115,8 @@ function woffToTtf(woffBuffer: Buffer): Buffer {
     }
 
     // 테이블 데이터
-    for (const t of tables) {
+    for (const t of tables) 
+    {
         t.copy(out, p);
         p += t.length;
     }
@@ -117,34 +124,42 @@ function woffToTtf(woffBuffer: Buffer): Buffer {
     return out;
 }
 
-async function woff2ToTtf(woff2Buffer: Buffer): Promise<Buffer> {
+async function woff2ToTtf(woff2Buffer: Buffer): Promise<Buffer> 
+{
     await woff2.init();
     const font = Font.create(woff2Buffer, { type: 'woff2' });
     const ttf  = font.write({ type: 'ttf' });
     return Buffer.from(ttf);
 }
 
-function collectFontFiles(dir: string, exts: string[]): string[] {
+function collectFontFiles(dir: string, exts: string[]): string[] 
+{
     const result: string[] = [];
-    for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    for (const entry of fs.readdirSync(dir, { withFileTypes: true })) 
+    {
         const full = path.join(dir, entry.name);
-        if (entry.isDirectory()) {
+        if (entry.isDirectory()) 
+        {
             // ttf 출력 디렉터리는 재귀 탐색에서 제외
             if (full !== OUTPUT_DIR) result.push(...collectFontFiles(full, exts));
-        } else if (entry.isFile() && exts.includes(path.extname(entry.name).toLowerCase())) {
+        }
+        else if (entry.isFile() && exts.includes(path.extname(entry.name).toLowerCase())) 
+        {
             result.push(full);
         }
     }
     return result;
 }
 
-export default async (_req: Request, res: Response): Promise<void> => {
+export default async (_req: Request, res: Response): Promise<void> => 
+{
     fs.mkdirSync(OUTPUT_DIR, { recursive: true });
 
     const woffFiles  = collectFontFiles(FONT_DIR, ['.woff']);
     const woff2Files = collectFontFiles(FONT_DIR, ['.woff2']);
 
-    if (woffFiles.length === 0 && woff2Files.length === 0) {
+    if (woffFiles.length === 0 && woff2Files.length === 0) 
+    {
         res.send({ converted: [], message: 'woff/woff2 파일을 찾을 수 없습니다.' });
         return;
     }
@@ -153,27 +168,35 @@ export default async (_req: Request, res: Response): Promise<void> => {
     const failed: { file: string; error: string }[] = [];
 
     // woff → ttf
-    for (const filePath of woffFiles) {
+    for (const filePath of woffFiles) 
+    {
         const baseName = path.basename(filePath, '.woff') + '.ttf';
         const outPath  = path.join(OUTPUT_DIR, baseName);
-        try {
+        try 
+        {
             const buf = fs.readFileSync(filePath);
             fs.writeFileSync(outPath, woffToTtf(buf));
             converted.push(baseName);
-        } catch (e: any) {
+        }
+        catch (e: any) 
+        {
             failed.push({ file: path.basename(filePath), error: e.message });
         }
     }
 
     // woff2 → ttf
-    for (const filePath of woff2Files) {
+    for (const filePath of woff2Files) 
+    {
         const baseName = path.basename(filePath, '.woff2') + '.ttf';
         const outPath  = path.join(OUTPUT_DIR, baseName);
-        try {
+        try 
+        {
             const buf = fs.readFileSync(filePath);
             fs.writeFileSync(outPath, await woff2ToTtf(buf));
             converted.push(baseName);
-        } catch (e: any) {
+        }
+        catch (e: any) 
+        {
             failed.push({ file: path.basename(filePath), error: e.message });
         }
     }

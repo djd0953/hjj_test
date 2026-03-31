@@ -4,7 +4,8 @@ import React from 'react';
 
 export const title = 'Logs';
 
-export default function Logs() {
+export default function Logs() 
+{
     return (
         <>
             <Head>

@@ -1,10 +1,18 @@
 @import "tailwindcss";
 @reference "tailwindcss/utilities";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @layer base {
   body {
     @apply min-h-screen text-[#1c222b] font-sans;
     background: radial-gradient(circle at top left, #e3eaef 0%, #f4f6f8 45%, #eef0f2 100%);
+  }
+
+  .dark body,
+  body.dark {
+    @apply text-[#e0e6ed];
+    background: radial-gradient(circle at top left, #1a1f2e 0%, #111827 45%, #0f172a 100%);
   }
 }
 
@@ -14,7 +22,7 @@
   }
 
   .panel {
-    @apply bg-white rounded-[18px] p-6 flex flex-col gap-4;
+    @apply bg-white dark:bg-[#1e293b] rounded-[18px] p-6 flex flex-col gap-4;
     box-shadow: 0 24px 60px rgba(24, 32, 43, 0.12);
   }
 
@@ -23,13 +31,13 @@
   }
 
   label {
-    @apply text-xs uppercase tracking-[0.08em] text-[#6a7380];
+    @apply text-xs uppercase tracking-[0.08em] text-[#6a7380] dark:text-[#94a3b8];
   }
 
   select,
   textarea,
   .status {
-    @apply border border-[#d9e0e6] rounded-xl px-3.5 py-3 text-sm bg-[#f9fbfc] text-[#1c222b];
+    @apply border border-[#d9e0e6] dark:border-[#334155] rounded-xl px-3.5 py-3 text-sm bg-[#f9fbfc] dark:bg-[#0f172a] text-[#1c222b] dark:text-[#e0e6ed];
   }
 
   textarea {
@@ -37,11 +45,11 @@
   }
 
   .segmented {
-    @apply inline-flex gap-1.5 rounded-full p-1 bg-[#f2f5f6];
+    @apply inline-flex gap-1.5 rounded-full p-1 bg-[#f2f5f6] dark:bg-[#1e293b];
   }
 
   .segmented button {
-    @apply border-0 bg-transparent px-4 py-2 rounded-full font-semibold cursor-pointer text-[#6a7380];
+    @apply border-0 bg-transparent px-4 py-2 rounded-full font-semibold cursor-pointer text-[#6a7380] dark:text-[#94a3b8];
   }
 
   .segmented button.is-active {

@@ -6,7 +6,7 @@ const MODES =
     'pass'
 ];
 
-const ORIGIN = "http://localhost:9090"
+const ORIGIN = "http://localhost:9090";
 
 export const title = 'API Playground';
 
@@ -24,18 +24,18 @@ export default function Home()
     const resetCurl = () => 
     {
         setCurl(`curl -X GET "${ORIGIN}/${mode}/${keyword}"`);
-    }
+    };
 
     useEffect(() => 
     {
-        resetCurl()
+        resetCurl();
     }, [mode, keyword]);
 
     const sendRequest = async () => 
     {
         if (!keyword) return;
         const url = `${ORIGIN}/${mode}/${keyword}`;
-        resetCurl()
+        resetCurl();
         setResult('Loading...');
         setStatusText('...');
         setStatusColor('#1c222b');
@@ -78,19 +78,16 @@ export default function Home()
     const getKeywords = async () => 
     {
         const url = `${ORIGIN}/get/keyword/list`;
-        await fetch(url)
-        .then(async res =>
-        {
-            const a = await res.json()
-            setKeywordList(a)
-        });
+        const res = await fetch(url);
+        const a = await res.json();
+        setKeywordList(a);
 
-    }
+    };
 
     useEffect(() => 
     {
-        getKeywords()
-    }, [])
+        getKeywords();
+    }, []);
 
     return (
         <>
