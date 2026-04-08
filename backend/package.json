@@ -48,6 +48,7 @@
     "uuid": "^13.0.0",
     "winston": "^3.18.3",
     "winston-daily-rotate-file": "^5.0.0",
+    "ws": "^8.20.0",
     "xmldom": "^0.6.0"
   },
   "devDependencies": {
@@ -60,6 +61,7 @@
     "@types/nodemailer": "^6.4.17",
     "@types/ua-parser-js": "^0.7.39",
     "@types/winston": "^2.4.4",
+    "@types/ws": "^8.18.1",
     "@typescript-eslint/eslint-plugin": "^8.47.0",
     "@typescript-eslint/parser": "^8.47.0",
     "cross-env": "^7.0.3",

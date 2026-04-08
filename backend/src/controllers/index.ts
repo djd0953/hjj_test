@@ -22,12 +22,14 @@ import test from '@code/test';
 import uaparse from '@code/uaparse';
 import uuid from '@code/uuid';
 import woffToTtf from '@code/woff-to-ttf';
+import card from "@code/card";
 
 type ApiFunction = (req: Request, res: Response) => Promise<void>;
 
 type FunctionKeywords = 
 {
     aws: ApiFunction
+    card: ApiFunction
     cleanDocx: ApiFunction
     diffDocx: ApiFunction
     effectiveDate: ApiFunction
@@ -51,6 +53,7 @@ type FunctionKeywords =
 const functionKeywords: FunctionKeywords = 
 {
     aws: awsDownload,
+    card: card,
     cleanDocx: cleanDocx,
     diffDocx: diffDocx,
     effectiveDate: effectiveDate,
@@ -88,14 +91,14 @@ export default (app: Express) =>
     {
         try 
         {
-            res.send(Object.keys(functionKeywords))
+            res.send(Object.keys(functionKeywords));
         }
         catch (_e: any)
         {
             exceptionFunction(_e);
             res.sendStatus(404);
         }
-    })
+    });
 
     router.get("/:type/:keyword", async (req: Request, res: Response) => 
     {
@@ -106,7 +109,7 @@ export default (app: Express) =>
             if (!(keyword in functionKeywords)) throw new Error();
             if (type[0] === 'b') 
             {
-                logger.verbose('brake')
+                logger.verbose('brake');
             }
             await functionKeywords[keyword as Keyword](req, res);
         }
@@ -117,6 +120,6 @@ export default (app: Express) =>
         }
     });
 
-    test()
+    test();
     app.use('/', router);
 };

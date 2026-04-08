@@ -4,11 +4,13 @@ import * as dotenv from 'dotenv';
 import { json, urlencoded } from 'body-parser';
 import cors from 'cors';
 import express from 'express';
+import { createServer } from 'http';
 
 dotenv.config();
 import { logger } from '@util';
 
 import controllers from './controllers';
+import { initWebSocket } from './ws';
 
 
 const app = express();
@@ -21,4 +23,7 @@ const PORT = process.env.PORT;
 
 controllers(app);
 
-app.listen(PORT, () => logger.verbose("start"));
+const server = createServer(app);
+initWebSocket(server);
+
+server.listen(PORT, () => logger.verbose("start"));
