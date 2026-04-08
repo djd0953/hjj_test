@@ -17,9 +17,10 @@ const KOREAN_KEY_MAP: Record<string, string> = {
 
 type Direction = "UP" | "DOWN" | "LEFT" | "RIGHT";
 
-interface Point {
-  x: number;
-  y: number;
+interface Point 
+{
+    x: number;
+    y: number;
 }
 
 export default function Snake() 

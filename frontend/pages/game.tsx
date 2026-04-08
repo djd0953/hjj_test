@@ -6,6 +6,10 @@ import Pong from '../components/games/Pong';
 import Breakout from '../components/games/Breakout';
 import FlappyBird from '../components/games/FlappyBird';
 import Game2048 from '../components/games/Game2048';
+import SpaceShooter from '../components/games/SpaceShooter';
+import TowerSmash from '../components/games/TowerSmash';
+import Blackjack from '../components/games/Blackjack';
+import BlackjackOnline from '../components/games/BlackjackOnline';
 
 export const title = 'Game';
 export const subTitle = 'Pick a game and play';
@@ -22,7 +26,11 @@ const GAMES: GameEntry[] = [
     { id: 'pong',         label: 'Pong',        component: Pong },
     { id: 'breakout',     label: '벽돌깨기',    component: Breakout },
     { id: 'flappy-bird',  label: 'Flappy Bird', component: FlappyBird },
-    { id: '2048',         label: '2048',        component: Game2048 }
+    { id: '2048',         label: '2048',        component: Game2048 },
+    { id: 'space-shooter', label: 'Space Shooter', component: SpaceShooter },
+    { id: 'tower-smash',   label: 'Tower Smash (3D)', component: TowerSmash },
+    { id: 'blackjack',     label: '블랙잭',           component: Blackjack },
+    { id: 'blackjack-online', label: '블랙잭 (온라인)', component: BlackjackOnline }
 ];
 
 export default function Game()
@@ -35,12 +43,12 @@ export default function Game()
     return (
         <section className="panel">
             <div className="flex items-center gap-4 mb-4">
-                <label htmlFor="game-select" className="text-sm font-semibold !normal-case !tracking-normal">
+                <label htmlFor="game-select" className="text-sm font-semibold normal-case tracking-normal">
                     Game
                 </label>
                 <select
                     id="game-select"
-                    className="min-w-[240px]"
+                    className="min-w-60"
                     value={selectedId}
                     onChange={(e) => setSelectedId(e.target.value)}
                 >

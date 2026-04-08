@@ -135,7 +135,7 @@ export default function Layout({ children }: { children: React.ReactNode })
 
                         {/* Desktop sidebar (full/mini) */}
                         {isDesktop ? (
-                            <aside className="bg-white dark:bg-[#1e293b] rounded-[18px] p-[12px] shadow-panel h-[calc(100vh-80px)] sticky top-10">
+                            <aside className="bg-white dark:bg-[#1e293b] rounded-[18px] p-3 shadow-panel h-[calc(100vh-80px)] sticky top-10">
                                 <div className="flex items-center justify-between mb-3">
                                     {sidebarMode === 'full' ? (
                                         <span className="text-sm font-semibold text-ink">Menu</span>

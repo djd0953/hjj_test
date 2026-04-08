@@ -13,10 +13,10 @@
         "javascript",
         "javascriptreact",
         "typescript",
-        "typescriptreact",
-        "tsx",
-        "css"
+        "typescriptreact"
     ],
+    "css.customData": [],
+    "css.lint.unknownAtRules": "ignore",
 
     "files.exclude": {
         "**/.git": true,
