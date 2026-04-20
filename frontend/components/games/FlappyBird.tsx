@@ -6,8 +6,8 @@ const CANVAS_HEIGHT = 480;
 
 const BIRD_SIZE = 20;
 const BIRD_X = 80;
-const GRAVITY = 0.5;
-const FLAP_STRENGTH = -8;
+const GRAVITY = 0.25;
+const FLAP_STRENGTH = -6;
 
 const PIPE_WIDTH = 50;
 const PIPE_GAP = 140;

@@ -1,0 +1,905 @@
+{
+    "title": "표준 거래약정서(펫대리점)",
+    "variables": [
+        {
+            "name": "clm_background_1",
+            "value": "이 계약은 공급업자와 대리점 간의 대리점거래에 있어서 양 당사자 사이의 기본적인 권리와 의무를 정하는 것을 목적으로 한다."
+        },
+        {
+            "name": "clm_discuss_1",
+            "value": "상호 합의로 대금 결제일을 정하는 경우 익월 {{pay_date}}일까지 지급"
+        },
+        {
+            "name": "clm_discuss_2",
+            "value": "회전일 기준: 월말 회전일을 {{cycle_date}}일로 한다"
+        },
+        {
+            "name": "clm_discuss_3",
+            "value": "대금결제조건: {{payterm}}"
+        },
+        {
+            "name": "clm_discuss_4",
+            "value": "운반비: {{place1}} 공장 {{kgpay1}}원/kg"
+        },
+        {
+            "name": "clm_discuss_5",
+            "value": "여신한도액: 월중한도 {{limit1}}원, 월말한도 {{limit2}}원"
+        }
+    ],
+    "outputTitle": "",
+    "inputSections": [
+        {
+            "title": "당사자",
+            "fields": [
+                {
+                    "title": "대리점",
+                    "direction": "down",
+                    "fieldtype": "obj",
+                    "guidetooltip": "",
+                    "objdataFields": [
+                        {
+                            "type": "text",
+                            "textFields": [
+                                {
+                                    "binding": "name1",
+                                    "placeholder": "상호명 입력",
+                                    "immovableLeftText": "상호명"
+                                }
+                            ],
+                            "textFieldCount": "1"
+                        }
+                    ],
+                    "exampletooltip": "",
+                    "explaintooltip": "",
+                    "textFieldCount": "1",
+                    "hasGuideTooltip": "false",
+                    "hasExampleTooltip": "false",
+                    "hasExplainTooltip": "false",
+                    "objdataFieldCount": "1"
+                }
+            ],
+            "fieldCount": "1",
+            "guidetooltip": "",
+            "exampletooltip": "",
+            "explaintooltip": "",
+            "hasGuideTooltip": "false",
+            "hasExampleTooltip": "false",
+            "hasExplainTooltip": "false"
+        },
+        {
+            "title": "대금 지급시기",
+            "fields": [
+                {
+                    "title": "상호 합의로 대금 결제일을 정하는 경우",
+                    "direction": "down",
+                    "fieldtype": "obj",
+                    "guidetooltip": "",
+                    "objdataFields": [
+                        {
+                            "type": "text",
+                            "textFields": [
+                                {
+                                    "binding": "pay_date",
+                                    "placeholder": "1",
+                                    "immovableLeftText": "익월",
+                                    "immovableRightText": "일까지 지급"
+                                }
+                            ],
+                            "textFieldCount": "1"
+                        }
+                    ],
+                    "exampletooltip": "",
+                    "explaintooltip": "",
+                    "textFieldCount": "1",
+                    "hasGuideTooltip": "false",
+                    "hasExampleTooltip": "false",
+                    "hasExplainTooltip": "false",
+                    "objdataFieldCount": "1"
+                }
+            ],
+            "fieldCount": "1",
+            "guidetooltip": "",
+            "exampletooltip": "",
+            "explaintooltip": "",
+            "hasGuideTooltip": "false",
+            "hasExampleTooltip": "false",
+            "hasExplainTooltip": "false"
+        },
+        {
+            "title": "회전일 기준",
+            "fields": [
+                {
+                    "direction": "down",
+                    "fieldtype": "obj",
+                    "guidetooltip": "",
+                    "objdataFields": [
+                        {
+                            "type": "text",
+                            "textFields": [
+                                {
+                                    "binding": "cycle_date",
+                                    "placeholder": "1",
+                                    "immovableLeftText": "월말 회전일을",
+                                    "immovableRightText": "일로 한다"
+                                }
+                            ],
+                            "textFieldCount": "1"
+                        }
+                    ],
+                    "exampletooltip": "",
+                    "explaintooltip": "",
+                    "textFieldCount": "1",
+                    "hasGuideTooltip": "false",
+                    "hasExampleTooltip": "false",
+                    "hasExplainTooltip": "false",
+                    "objdataFieldCount": "1"
+                }
+            ],
+            "fieldCount": "1",
+            "guidetooltip": "",
+            "exampletooltip": "",
+            "explaintooltip": "",
+            "hasGuideTooltip": "false",
+            "hasExampleTooltip": "false",
+            "hasExplainTooltip": "false"
+        },
+        {
+            "title": "대금결제조건",
+            "fields": [
+                {
+                    "direction": "down",
+                    "fieldtype": "obj",
+                    "guidetooltip": "",
+                    "objdataFields": [
+                        {
+                            "type": "text",
+                            "textFields": [
+                                {
+                                    "binding": "payterm",
+                                    "placeholder": "결제조건 입력"
+                                }
+                            ],
+                            "textFieldCount": "1"
+                        }
+                    ],
+                    "exampletooltip": "",
+                    "explaintooltip": "",
+                    "textFieldCount": "1",
+                    "hasGuideTooltip": "false",
+                    "hasExampleTooltip": "false",
+                    "hasExplainTooltip": "false",
+                    "objdataFieldCount": "1"
+                }
+            ],
+            "fieldCount": "1",
+            "guidetooltip": "",
+            "exampletooltip": "",
+            "explaintooltip": "",
+            "hasGuideTooltip": "false",
+            "hasExampleTooltip": "false",
+            "hasExplainTooltip": "false"
+        },
+        {
+            "title": "매출 장려금",
+            "fields": [
+                {
+                    "direction": "down",
+                    "fieldtype": "obj",
+                    "guidetooltip": "",
+                    "objdataFields": [
+                        {
+                            "type": "text",
+                            "textFields": [
+                                {
+                                    "binding": "obj",
+                                    "placeholder": "제품 입력"
+                                }
+                            ],
+                            "textFieldCount": "1"
+                        }
+                    ],
+                    "exampletooltip": "",
+                    "explaintooltip": "",
+                    "textFieldCount": "1",
+                    "hasGuideTooltip": "false",
+                    "hasExampleTooltip": "false",
+                    "hasExplainTooltip": "false",
+                    "objdataFieldCount": "1"
+                }
+            ],
+            "fieldCount": "1",
+            "guidetooltip": "",
+            "exampletooltip": "",
+            "explaintooltip": "",
+            "hasGuideTooltip": "false",
+            "hasExampleTooltip": "false",
+            "hasExplainTooltip": "false"
+        },
+        {
+            "title": "운반비",
+            "fields": [
+                {
+                    "direction": "right2",
+                    "fieldtype": "obj",
+                    "guidetooltip": "",
+                    "objdataFields": [
+                        {
+                            "type": "text",
+                            "textFields": [
+                                {
+                                    "binding": "place1",
+                                    "immovableRightText": "공장"
+                                }
+                            ],
+                            "textFieldCount": "1"
+                        }
+                    ],
+                    "exampletooltip": "",
+                    "explaintooltip": "",
+                    "textFieldCount": "1",
+                    "hasGuideTooltip": "false",
+                    "hasExampleTooltip": "false",
+                    "hasExplainTooltip": "false",
+                    "objdataFieldCount": "1"
+                },
+                {
+                    "direction": "right2",
+                    "fieldtype": "obj",
+                    "guidetooltip": "",
+                    "objdataFields": [
+                        {
+                            "type": "text",
+                            "textFields": [
+                                {
+                                    "binding": "kgpay1",
+                                    "currency": true,
+                                    "immovableLeftText": "￦",
+                                    "immovableRightText": "원/kg"
+                                }
+                            ],
+                            "textFieldCount": "1"
+                        }
+                    ],
+                    "exampletooltip": "",
+                    "explaintooltip": "",
+                    "textFieldCount": "1",
+                    "hasGuideTooltip": "false",
+                    "hasExampleTooltip": "false",
+                    "hasExplainTooltip": "false",
+                    "objdataFieldCount": "1"
+                }
+            ],
+            "fieldCount": "2",
+            "guidetooltip": "",
+            "exampletooltip": "",
+            "explaintooltip": "",
+            "hasGuideTooltip": "false",
+            "hasExampleTooltip": "false",
+            "hasExplainTooltip": "false"
+        },
+        {
+            "title": "여신한도액",
+            "fields": [
+                {
+                    "direction": "down",
+                    "fieldtype": "obj",
+                    "guidetooltip": "",
+                    "objdataFields": [
+                        {
+                            "type": "text",
+                            "textFields": [
+                                {
+                                    "binding": "limit1",
+                                    "currency": true,
+                                    "placeholder": "1,000,000",
+                                    "immovableLeftText": "월중한도",
+                                    "immovableRightText": "원"
+                                }
+                            ],
+                            "textFieldCount": "1"
+                        },
+                        {
+                            "type": "text",
+                            "textFields": [
+                                {
+                                    "binding": "limit2",
+                                    "currency": true,
+                                    "placeholder": "1,000,000",
+                                    "immovableLeftText": "월말한도",
+                                    "immovableRightText": "원"
+                                }
+                            ],
+                            "textFieldCount": "1"
+                        }
+                    ],
+                    "exampletooltip": "",
+                    "explaintooltip": "",
+                    "textFieldCount": "1",
+                    "hasGuideTooltip": "false",
+                    "hasExampleTooltip": "false",
+                    "hasExplainTooltip": "false",
+                    "objdataFieldCount": "2"
+                }
+            ],
+            "fieldCount": "1",
+            "guidetooltip": "",
+            "exampletooltip": "",
+            "explaintooltip": "",
+            "hasGuideTooltip": "false",
+            "hasExampleTooltip": "false",
+            "hasExplainTooltip": "false"
+        },
+        {
+            "title": "계약 체결일",
+            "fields": [
+                {
+                    "direction": "down",
+                    "fieldtype": "obj",
+                    "guidetooltip": "",
+                    "objdataFields": [
+                        {
+                            "type": "calendar",
+                            "calendar_Binding": "clm_con_date",
+                            "calendar_placeholder": "2025.01.01.",
+                            "calendar_immovableLeftTextCase": "short"
+                        }
+                    ],
+                    "exampletooltip": "",
+                    "explaintooltip": "",
+                    "hasGuideTooltip": "false",
+                    "hasExampleTooltip": "false",
+                    "hasExplainTooltip": "false",
+                    "objdataFieldCount": "1"
+                }
+            ],
+            "fieldCount": "1",
+            "guidetooltip": "",
+            "exampletooltip": "",
+            "explaintooltip": "",
+            "hasGuideTooltip": "false",
+            "hasExampleTooltip": "false",
+            "hasExplainTooltip": "false"
+        },
+        {
+            "title": "대리점 상세정보",
+            "fields": [
+                {
+                    "title": "상호",
+                    "direction": "right2",
+                    "fieldtype": "obj",
+                    "guidetooltip": "",
+                    "objdataFields": [
+                        {
+                            "type": "text",
+                            "textFields": [
+                                {
+                                    "binding": "name1",
+                                    "placeholder": "상호명 입력"
+                                }
+                            ],
+                            "textFieldCount": "1"
+                        }
+                    ],
+                    "exampletooltip": "",
+                    "explaintooltip": "",
+                    "textFieldCount": "1",
+                    "hasGuideTooltip": "false",
+                    "hasExampleTooltip": "false",
+                    "hasExplainTooltip": "false",
+                    "objdataFieldCount": "1"
+                },
+                {
+                    "title": "대표이사",
+                    "direction": "right2",
+                    "fieldtype": "obj",
+                    "guidetooltip": "",
+                    "objdataFields": [
+                        {
+                            "type": "text",
+                            "textFields": [
+                                {
+                                    "binding": "ceo1",
+                                    "placeholder": "대표이사명 입력"
+                                }
+                            ],
+                            "textFieldCount": "1"
+                        }
+                    ],
+                    "exampletooltip": "",
+                    "explaintooltip": "",
+                    "textFieldCount": "1",
+                    "hasGuideTooltip": "false",
+                    "hasExampleTooltip": "false",
+                    "hasExplainTooltip": "false",
+                    "objdataFieldCount": "1"
+                },
+                {
+                    "title": "사업자번호",
+                    "direction": "down",
+                    "fieldtype": "obj",
+                    "guidetooltip": "",
+                    "objdataFields": [
+                        {
+                            "type": "text",
+                            "textFields": [
+                                {
+                                    "binding": "rrn1",
+                                    "placeholder": "사업자번호 입력"
+                                }
+                            ],
+                            "textFieldCount": "1"
+                        }
+                    ],
+                    "exampletooltip": "",
+                    "explaintooltip": "",
+                    "textFieldCount": "1",
+                    "hasGuideTooltip": "false",
+                    "hasExampleTooltip": "false",
+                    "hasExplainTooltip": "false",
+                    "objdataFieldCount": "1"
+                },
+                {
+                    "title": "사무실 주소",
+                    "direction": "down",
+                    "fieldtype": "obj",
+                    "guidetooltip": "",
+                    "objdataFields": [
+                        {
+                            "type": "address",
+                            "addressBinding": "addr1_1",
+                            "addressDetailBinding": "addr1_2"
+                        }
+                    ],
+                    "exampletooltip": "",
+                    "explaintooltip": "",
+                    "hasGuideTooltip": "false",
+                    "hasExampleTooltip": "false",
+                    "hasExplainTooltip": "false",
+                    "objdataFieldCount": "1"
+                },
+                {
+                    "title": "연락처",
+                    "direction": "right2",
+                    "fieldtype": "obj",
+                    "guidetooltip": "",
+                    "objdataFields": [
+                        {
+                            "type": "text",
+                            "textFields": [
+                                {
+                                    "binding": "phone1",
+                                    "placeholder": "연락처 입력"
+                                }
+                            ],
+                            "textFieldCount": "1"
+                        }
+                    ],
+                    "exampletooltip": "",
+                    "explaintooltip": "",
+                    "textFieldCount": "1",
+                    "hasGuideTooltip": "false",
+                    "hasExampleTooltip": "false",
+                    "hasExplainTooltip": "false",
+                    "objdataFieldCount": "1"
+                },
+                {
+                    "title": "이메일",
+                    "direction": "right2",
+                    "fieldtype": "obj",
+                    "guidetooltip": "",
+                    "objdataFields": [
+                        {
+                            "type": "text",
+                            "textFields": [
+                                {
+                                    "binding": "email1",
+                                    "placeholder": "이메일 입력"
+                                }
+                            ],
+                            "textFieldCount": "1"
+                        }
+                    ],
+                    "exampletooltip": "",
+                    "explaintooltip": "",
+                    "textFieldCount": "1",
+                    "hasGuideTooltip": "false",
+                    "hasExampleTooltip": "false",
+                    "hasExplainTooltip": "false",
+                    "objdataFieldCount": "1"
+                },
+                {
+                    "title": "창고주소",
+                    "direction": "down",
+                    "fieldtype": "obj",
+                    "guidetooltip": "",
+                    "objdataFields": [
+                        {
+                            "type": "address",
+                            "addressBinding": "addr2_1",
+                            "addressDetailBinding": "addr2_2"
+                        }
+                    ],
+                    "exampletooltip": "",
+                    "explaintooltip": "",
+                    "hasGuideTooltip": "false",
+                    "hasExampleTooltip": "false",
+                    "hasExplainTooltip": "false",
+                    "objdataFieldCount": "1"
+                }
+            ],
+            "toggle": false,
+            "fieldCount": "7",
+            "guidetooltip": "",
+            "exampletooltip": "",
+            "explaintooltip": "",
+            "hasGuideTooltip": "false",
+            "hasExampleTooltip": "false",
+            "hasExplainTooltip": "false"
+        }
+    ],
+    "outputSections": [
+        {
+            "law_text": "<p style=\"text-align: center;\">&nbsp;</p>\n<p style=\"text-align: center;\">&nbsp;</p>\n<p style=\"text-align: center;\"><span style=\"font-size: 24px;\">{{name1}} 펫대리점 거래약정서</span></p>\n<p style=\"text-align: center;\">&nbsp;</p>\n<p style=\"text-align: center;\">&nbsp;</p>\n<p style=\"text-align: center;\">&nbsp;</p>\n<p style=\"text-align: center;\">&nbsp;</p>"
+        },
+        {
+            "law_text": "<p class=\"page-break\">&nbsp;</p>\n<p class=\"page-break\">&nbsp;</p>\n<p style=\"text-align: center;\">&nbsp;</p>\n<p style=\"text-align: center;\"><span style=\"font-size: 20px;\">대리점거래약정서</span></p>\n<p style=\"text-align: center;\">&nbsp;</p>\n<p style=\"text-align: center;\">&nbsp;</p>",
+            "caseCount": "1",
+            "caseFields": [
+                {
+                    "name": "name1"
+                }
+            ]
+        },
+        {
+            "law_text": "<p><strong>공급업자</strong></p>\n<p>상호 : 대주산업 주식회사</p>\n<p>사업자번호 : 309-85-00957</p>\n<p>주소 : 서울시 광진구 천호대로 549, 20층</p>\n<p>대표이사 정석원</p>\n<p>&nbsp;</p>\n<p><strong>대리점</strong></p>\n<p>상호 : {{name1}}</p>\n<p>사업자번호 : {{rrn1}}</p>\n<p>주소 : {{addr1_1}} {{addr1_2}}</p>\n<p>대표이사 {{ceo1}}</p>",
+            "caseCount": "1",
+            "caseFields": [
+                {
+                    "name": "name1"
+                }
+            ],
+            "padding_top": "20"
+        },
+        {
+            "law_text": "<p>이 계약은 공급업자와 대리점 간의 대리점거래에 있어서 양 당사자 사이의 기본적인 권리와 의무를 정하는 것을 목적으로 한다.</p>",
+            "caseCount": "1",
+            "caseFields": [
+                {
+                    "name": "name1"
+                }
+            ],
+            "initoutput": false,
+            "padding_top": "20",
+            "provision_title": "목적"
+        },
+        {
+            "law_text": "<p>1. 공급업자와 대리점은 대등한 지위에서 이 계약상의 의무를 신의에 따라 성실히 이행함으로써 상호 공정한 거래관계와 동반성장을 추구한다.</p>",
+            "caseCount": "1",
+            "caseFields": [
+                {
+                    "name": "name1"
+                }
+            ],
+            "provision_title": "기본원칙"
+        },
+        {
+            "law_text": "<p>1. 공급업자와 대리점은 공정하고 투명한 거래를 위하여 다음 각 호의 내용을 준수한다.</p>\n<p>가. 상대방에게 금품, 향응, 편의 또는 접대를 요구하거나 제공해서는 아니 되며, 위법하거나 부당한 행위를 하지 아니한다.</p>\n<p>나. 거래상 우월적 지위를 남용하여 공정한 거래질서에 반하는 행위를 요구하지 아니한다.</p>\n<p>2. 공급업자와 대리점은 이 계약의 목적달성을 위해 상호간 수시로 정보를 교환하고, 최대한의 선의로 상호 협력한다.</p>",
+            "caseCount": "1",
+            "caseFields": [
+                {
+                    "name": "name1"
+                }
+            ],
+            "provision_title": "공정거래 준수 및 동반성장 지원"
+        },
+        {
+            "law_text": "<p>공급업자는 대리점이 주문한 제품을 대리점에 납품하고 대리점은 이를 매입하여 판매한다.</p>",
+            "caseCount": "1",
+            "caseFields": [
+                {
+                    "name": "name1"
+                }
+            ],
+            "provision_title": "거래형태"
+        },
+        {
+            "law_text": "<p>1. 제품의 납품은 공급업자가 대리점이 주문하는 제품을 대리점의 영업장 또는 공급업자와 대리점이 사전 합의한 대리점의 창고에 운송하는 것으로 한다. 다만, 영업상 필요시에는 상호 합의하에 이를 변경할 수 있다.</p>\n<p>2. 공급업자가 대리점에게 납품하는 상품의 종류ㆍ수량ㆍ가격ㆍ납품기일은 [별지]와 같다.<br />[별지]는 상품의 종류ㆍ수량ㆍ가격ㆍ납품기일이 명시된 발주의뢰서, 매출전표, 세금계산서, 거래명세서 등으로 대신할 수 있다.</p>\n<p>3. 공급업자는 제1항 및 제2항에 따른 납품기일, 납품장소에 차질 없이 제품을 납품하여야 하며, 부득이한 사유로 제1항 및 2항에 따른 제품의 납품이 불가능한 경우에는 대리점에 이를 사전 통지한다.</p>\n<p>4. 공급업자가 제1항의 장소에 납품하면, 대리점은 납품내역을 확인한 후 공급업자에게 인수증을 교부한다.</p>\n<p>5. 공급업자는 합리적 이유 없이 대리점이 요청한 제품의 납품을 거절하여서는 아니 되며, 공급업자가 합리적 이유를 들어 대리점의 납품 요청을 거절하는 경우 대리점은 공급업자에게 그 이유의 확인을 요청할 수 있다. 이 경우 공급업자는 대리점의 요청을 받은 날로부터 30일 이내에 그 이유에 대하여 성실히 답변하여야 한다.</p>",
+            "caseCount": "1",
+            "caseFields": [
+                {
+                    "name": "name1"
+                }
+            ],
+            "provision_title": "제품의 납품"
+        },
+        {
+            "law_text": "<p>1. 대리점은 공급업자로부터 제품을 공급받음과 동시에 현금, 수표, 어음 등으로 제품대금을 결제한다.</p>\n<p>2. 전항에도 불구하고 공급업자와 대리점의 상호 합의로 제품대금 결제일을 달리 정할 수 있고 이 경우 익월 {{pay_date}}일까지 대리점은 제품대금을 지급한다.</p>\n<p>3. 대리점의 고의 또는 과실로 인해 대금결제기일 내에 결제하지 못한 경우 대리점은 상법상의 지연이자를 부담한다.</p>\n<p>4. 대리점의 지급지연이 발생한 경우 공급업자는 차기 결제기일에 그 지연 사실과 지연 금액을 고지하여야 한다.</p>",
+            "caseCount": "1",
+            "caseFields": [
+                {
+                    "name": "name1"
+                }
+            ],
+            "provision_title": "대금의 지급수단 및 지급시기"
+        },
+        {
+            "law_text": "<p>1. 공급업자는 대리점거래에서 발생하는 대리점의 채무에 대한 담보를 대리점에게 요구할 수 있다. 이는 장래에 발생할 채무의 담보를 포함한다.</p>\n<p>2. 대리점은 부동산 담보의 제공 또는 보험회사로부터 발급받은 보증보험증권의 제공, 기타 이에 준하는 방식으로 채무이행을 담보할 수 있다.</p>",
+            "caseCount": "1",
+            "caseFields": [
+                {
+                    "name": "name1"
+                }
+            ],
+            "provision_title": "담보"
+        },
+        {
+            "law_text": "<p>1. 대리점은 다음 각 호의 어느 하나에 해당하는 경우 공급업자가 납품한 제품의 반품을 요구할 수 있다.</p>\n<p>가. 납품시점에 납품 받은 제품이 훼손되었거나 제품에 하자가 있는 경우</p>\n<p>나. 납품 받은 제품이 주문과 다른 경우</p>\n<p>다. 납품시점에 제1호부터 제2호까지의 규정에 준하는 정당한 사유가 있는 경우</p>\n<p>2. 대리점은 제품 인수와 동시에 제품을 검수해야 하며, 이상 발견 시 즉시 공급업자에게 제품의 견본 또는 확인할 수 있는 방법을 첨부하여 서면으로 통보하여야 한다.<br />대리점이 인수일로부터 5일 이내에 통보하지 아니한 경우 제품이 이상 없이 인수된 것으로 간주한다.</p>\n<p>3. 공급업자는 대리점으로부터 수령한 하자 통지서를 검토 후 7일이내에 결과를 통보하고 공급업자의 귀책으로 인하여 발생한 하자는 반품수령 및 교환한다.</p>\n<p>4. 제1항에 따른 반품기간은 납품시점으로부터 ( 15 )일 이내로 한다. 다만, 제1항에 해당하는 사유를 외견상 즉시 발견할 수 없는 합리적인 사유가 있는 경우에는 상호 합의로 기간을 연장할 수 있다.</p>\n<p>5. 제1항의 반품 조건 및 제2항의 반품 기간 등 반품 관련 구체적 사항에 대하여 대리점은 각 제품별로 공급업자에게 협의를 요구할 수 있으며, 공급업자는 이에 성실히 임해야 한다.</p>\n<p>6. 공급업자의 부당한 반품 거부, 제한 또는 지연으로 인해 발생한 비용은 공급업자가 부담하여야 한다.</p>",
+            "caseCount": "1",
+            "caseFields": [
+                {
+                    "name": "name1"
+                }
+            ],
+            "provision_title": "반품조건"
+        },
+        {
+            "law_text": "<p>1. 공급업자는 상호협의 하에 제품 판매 활성화 등의 목적으로 대리점에 장려금을 지급할 수 있다.</p>\n<p>2. 제1항의 판매장려금 지급을 위한 판매장려금의 지급조건ㆍ지급시기ㆍ지급횟수ㆍ지급방법 등은 [별지]와 같다.</p>\n<p>3. 공급업자는 계약기간 중 정당한 사유 없이 제2항의 판매장려금과 관련한 사항을 대리점에게 불리하게 변경하여서는 아니 된다.</p>",
+            "caseCount": "1",
+            "caseFields": [
+                {
+                    "name": "name1"
+                }
+            ],
+            "provision_title": "판매장려금"
+        },
+        {
+            "law_text": "<p>1. 공급업자와 대리점은 제품 판매의 촉진을 위해 상대방에게 판촉행사의 실시를 제안할 수 있다.</p>\n<p>2. 판촉행사의 비용은 판촉행사의 내용, 소요 인력 및 경비, 판촉행사로 증대된 매출액 등을 고려하여 공급업자와 대리점이 합리적인 수준에서 분담한다.</p>",
+            "caseCount": "1",
+            "caseFields": [
+                {
+                    "name": "name1"
+                }
+            ],
+            "provision_title": "판촉행사의 실시"
+        },
+        {
+            "law_text": "<p>1. 대리점은 공급업자의 사전 동의 없이 이 계약에 기초한 권리・의무의 전부 또는 일부를 제3자에게 양도할 수 없다. 단, 금전채권의 경우에는 공급업자에 대한 사전 통지 후 제3자에게 양도할 수 있다.</p>\n<p>2. 제1항의 양도를 공급업자가 승낙하는 경우 제12조의 중도해지규정을 적용하지 않는다.</p>\n<p>3. 영업양수인은 대리점의 공급업자에 대한 권리와 의무를 승계한다.</p>",
+            "caseCount": "1",
+            "caseFields": [
+                {
+                    "name": "name1"
+                }
+            ],
+            "provision_title": "영업양도 등"
+        },
+        {
+            "law_text": "<p>1. 공급업자는 대리점의 판매활동을 지도하기 위하여 업무상의 지도권과 기타 제반 협조를 성의껏 수행한다.</p>\n<p>2. 상기 목적으로 공급업자는 대리점의 영업현황 및 경리내용 등의 열람을 요구할 수 있으며 대리점은 이에 적극 협조한다.</p>",
+            "caseCount": "1",
+            "caseFields": [
+                {
+                    "name": "name1"
+                }
+            ],
+            "provision_title": "영업현황 점검 및 경영지도"
+        },
+        {
+            "law_text": "<p>1. 공급업자와 대리점은 다음 각 호의 어느 하나에 해당하는 사유가 발생할 경우 이 계약을 해지할 수 있다.</p>\n<p>가. 공급업자, 대리점 양 당사자가 상호 합의한 경우</p>\n<p>나. 공급업자 또는 대리점이 발행한 어음&middot;수표가 지급거절 되거나, 공급업자 또는 대리점에 대한 회생&middot;파산 절차가 개시된 경우</p>\n<p>다. 공급업자 또는 대리점의 주요재산(이 계약에 따라 공급업자가 대리점에 대하여 가지는 납품대금 청구채권을 포함한다)에 대하여 강제경매 등이 실행되어 더 이상 이 계약의 이행이 곤란하게 된 경우</p>\n<p>라. 당사자 중 일방이 금융기관으로부터 거래정지처분을 받은 경우</p>\n<p>마. 당사자 중 일방이 감독관청으로부터 허가취소,영업정지 등의 처분을 받은 경우</p>\n<p>바. 당사자 중 일방이 1 개월 이상 행방을 감추거나 연락이 두절되어 거래를 진행할 수 없는 경우</p>\n<p>사. 대리점의 최종 제품발주 이후 판매를 기피하는 등 본 계약상 의무 또는 책임을 회피하여 6개월 동안 발주가 없을 경우</p>\n<p>아. 이 계약에 명시된 브랜드나 거래품목이 불가항력에 의하여 생산이 중단 또는 종료된 경우. 이때 불가항력이라 함은 화재, 홍수, 지진, 폭풍 등의 천재지변과 전쟁, 혁명, 정부의 규제 등과 같이 당사자들이 객관적으로 통제할 수 없는 사정을 말한다.</p>\n<p>자. 대리점의 제품 구매액이 전년 대비 50% 이상 현저히 감소할 경우</p>\n<p>차. 대리점 및 유통업자가 공급업자에 대하여 명예훼손 또는 비방 행위를 하여, 공급업자의 영업에 영향을 미치는 경우</p>\n<p>카. 기타 불가항력적인 사정으로 인하여 거래를 계속할 수 없는 경우</p>\n<p>타. 공급업자가 납품한 제품이 관계법령에 저촉되거나, 공급업자가 라이선스권자와 체결한 라이선스계약이 종료되어 해당 상품의 납품 또는 판매가 불가능하게 된 경우</p>\n<p>2. 다음 각 호의 어느 하나에 해당하는 사유가 발생할 경우 공급업자 또는 대리점은 14일 이상의 기간을 정하여 상대방에게 대한 1회 이상의 서면통보로써 그 시정을 요구하고, 이 기간 내에 시정이 이루어지지 않으면 이 계약을 해지할 수 있다.</p>\n<p>가. 대리점이 정당한 사유 없이 판매를 기피하는 등 본 계약상 의무 또는 책임을 회피하는 행위를 하는 경우</p>\n<p>나. 대리점이 공급자에 대해 명예훼손 행위를 하여, 공급자의 영업에 상당한 영향을 미치는 경우</p>\n<p>3. 제1항 및 제2항에 해당하지 않는 부득이한 사유로 어느 일방이 이 계약을 해지하려는 경우에는 해지 1개월 전까지 상대방에게 그 사유를 서면으로 통지한다.</p>\n<p>4. 이 조에 의하여 계약이 해지될 경우, 계약 해지에 관하여 책임 있는 당사자는 상대방에 대하여 계약 해지로 인한 손해를 배상한다.</p>\n<p>5. 본 계약이 기간만료, 해제, 해지 등의 사유로 종료된 경우 각 당사자는 자신의 채무에 대하여 기한의 이익을 상실하며, 지체 없이 이를 상대방에게 변제하여야 한다.</p>",
+            "caseCount": "1",
+            "caseFields": [
+                {
+                    "name": "name1"
+                }
+            ],
+            "provision_title": "계약해지"
+        },
+        {
+            "law_text": "<p>제13조에 따라 이 계약이 해지될 경우 이 계약과 관련하여 해지 시점까지 발생하여 이행기가 도래한 채무를 채권 대등액에서 상계할 수 있다.</p>",
+            "caseCount": "1",
+            "caseFields": [
+                {
+                    "name": "name1"
+                }
+            ],
+            "provision_title": "상계"
+        },
+        {
+            "law_text": "<p>1. 공급업자와 대리점은 이 계약위반으로 상대방에게 손해를 입힌 때에는 배상책임을 진다.</p>\n<p>2. 공급업자와 대리점 간의 거래가 종료되었을 경우 대리점은 공급업자와 정산 후 지체 없이 공급업자에 대한 제품대금, 장비대금 등 일체의 채무를 변제하여야 하며, 대리점이 이러한 변제의무를 지체하거나 별도 정해진 기간 내 미이행시 정산일 익일부터(별도 공급업자와 정해진 기간이 있다면 그러한 지정기일 익일부터) 완제일까지 상법에 의한 지연손해금을 지급하기로 한다.</p>",
+            "caseCount": "1",
+            "caseFields": [
+                {
+                    "name": "name1"
+                }
+            ],
+            "provision_title": "손해배상/지연손해금"
+        },
+        {
+            "law_text": "<p>1. 본 계약의 존속기간은 계약을 체결한 날로부터 당해 년 12월31일까지 계약한다.</p>\n<p>2. 공급업자 또는 대리점이 계약기간의 만료일로부터 30일 전까지 서면으로 상대방에게 계약조건의 변경이나 갱신거절 등 계약의 갱신과 관련한 별도의 의사표시를 하지 아니하는 경우, 이 계약은 자동 종료되는 것으로 본다.</p>",
+            "caseCount": "1",
+            "caseFields": [
+                {
+                    "name": "name1"
+                }
+            ],
+            "provision_title": "계약 기간"
+        },
+        {
+            "law_text": "<p>1. 이 계약에서 정하지 아니한 사항 또는 이 계약의 내용에 대하여 공급업자와 대리점간 분쟁이 발생한 경우 공급업자와 대리점의 합의된 의사에 따른다. 공급업자와 대리점사이에 계약 해석과 관련한 합의가 이루어지지 않은 경우 일반 상관례 및 관련 법령에 따른다.</p>\n<p>2. 공급업자와 대리점은 이 계약에 관한 분쟁의 해결은 대한민국 법률을 준거법으로 하여 통상의 민사재판에 의하며, 공급업자의 주소지를 관할하는 법원을 1심 전속적 합의관할법원으로 한다.</p>",
+            "caseCount": "1",
+            "caseFields": [
+                {
+                    "name": "name1"
+                }
+            ],
+            "provision_title": "분쟁해결 및 재판관할"
+        },
+        {
+            "law_text": "<p>1. 공급업자와 대리점은 이 계약을 체결하기 전에 충분한 협의를 거쳤고, 계약 내용을 모두 숙지하였으며, 신의에 따라 성실히 계약상의 권리를 행사하고 의무를 이행할 것을 확약하며, 그 증거로써 본 계약서 (「전자문서 및 전자거래기본법」 제2조제1호에 따른 전자문서를 포함한다. 이하 본계약서에서 같다)를 작성하여 당사자가 서명(「전자서명법」제 2조제2호에 따른 전자서명을 포함한다. 이하 본계약서에서 같다)또는 기명 날인 후 2통의 계약서를 작성하고 각각 1부씩 보관한다.</p>\n<p>2. 이 계약서에 기재된 내용만이 공급업자와 대리점 사이에 합의된 내용이며, 이 이외의 내용에 대한 당사자 간의 그 어떠한 구두 합의도 당사자를 구속하지 아니한다.</p>\n<p>3. 이 계약서의 내용은 공급업자와 대리점 사이의 서면 합의에 의해서만 변경되거나 수정될 수 있으며, 그 변경 및 수정은 공급업자와 대리점이 해당 서면에 서명 또는 기명 날인함과 동시에 그 효력을 발생한다.</p>",
+            "caseCount": "1",
+            "caseFields": [
+                {
+                    "name": "name1"
+                }
+            ],
+            "provision_title": "계약의 효력 등"
+        },
+        {
+            "law_text": "<p style=\"text-align: center;\">&nbsp;</p>\n<p style=\"text-align: center;\">&nbsp;</p>\n<p style=\"text-align: center;\">{{clm_con_date}}</p>\n<p style=\"text-align: center;\">&nbsp;</p>\n<p style=\"text-align: center;\">&nbsp;</p>",
+            "padding_top": "50"
+        },
+        {
+            "law_text": "<p><strong>공급업자</strong></p>\n<p>상호 : 대주산업 주식회사</p>\n<p>사업자번호 : 309-85-00957</p>\n<p>주소 : 서울시 광진구 천호대로 549, 20층</p>\n<p>대표이사 정석원</p>\n<p>&nbsp;</p>\n<p><strong>대리점</strong></p>\n<p>상호 : {{name1}}</p>\n<p>사업자번호 : {{rrn1}}</p>\n<p>주소 : {{addr1_1}} {{addr1_2}}</p>\n<p>대표이사 {{ceo1}}</p>",
+            "caseCount": "1",
+            "caseFields": [
+                {
+                    "name": "name1"
+                }
+            ]
+        },
+        {
+            "law_text": "<p class=\"page-break\">&nbsp;</p>\n<p style=\"text-align: center;\">&nbsp;</p>\n<p style=\"text-align: center;\"><span style=\"font-size: 20px;\">별 도 약 정 서</span></p>\n<p style=\"text-align: center;\">&nbsp;</p>",
+            "caseCount": "1",
+            "caseFields": [
+                {
+                    "name": "name1"
+                }
+            ]
+        },
+        {
+            "law_text": "<p>대주산업 주식회사 (이하 &lsquo;공급업자&rsquo;라 한다)과 판매 대리점 (이하 &lsquo;대리점&rsquo;라 한다)간 체결한 거래계약서 제5, 6, 9조에 의거 다음과 같이 합의하고, 후일을 <u>입증</u>하기 위하여 합의서 2통을 작성하고 공급업자와 대리점간 각 1통씩 보관한다.</p>\n<p>&nbsp;</p>\n<p style=\"text-align: center;\">- 다&nbsp; 음 -</p>",
+            "caseCount": "1",
+            "caseFields": [
+                {
+                    "name": "name1"
+                }
+            ]
+        },
+        {
+            "law_text": "<p>거래 약정서 제5조의 상품공급가격은 별첨가격으로 한다.</p>",
+            "caseCount": "1",
+            "caseFields": [
+                {
+                    "name": "name1"
+                }
+            ],
+            "provision_title": "상품 공급가격",
+            "provision_title_init": true
+        },
+        {
+            "law_text": "<p>월말 회전일을 {{cycle_date}}일로 한다.</p>",
+            "provision_title": "회전일 기준"
+        },
+        {
+            "law_text": "<p>대금결제는 <strong>현금 결제</strong>를 원칙으로 한다. (결제조건 :<strong> </strong>{{payterm}})</p>",
+            "provision_title": "대금결제조건"
+        },
+        {
+            "law_text": "<p>대리점의 월 매출이 아래 표에 나타난 매출구간에 속할 시 표시된 지급률로 장려금을 지급한다.</p>",
+            "caseCount": "1",
+            "caseFields": [
+                {
+                    "name": "name1"
+                }
+            ],
+            "provision_title": "매출 장려금"
+        },
+        {
+            "law_text": "<table class=\"tg\" style=\"width: 100%;\">\n<tbody>\n<tr>\n<td style=\"width: 40%; text-align: center;\"><strong>매출액(공급가)</strong></td>\n<td style=\"width: 30%; text-align: center;\"><strong>지급률</strong></td>\n<td style=\"width: 30%; text-align: center;\"><strong>비고</strong></td>\n</tr>\n<tr>\n<td style=\"width: 40%; text-align: center;\">1,500만원이상~2,000만원미만</td>\n<td style=\"width: 30%; text-align: center;\">&nbsp;2.5%</td>\n<td style=\"width: 30%; text-align: center;\">&nbsp;</td>\n</tr>\n<tr>\n<td style=\"width: 40%; text-align: center;\">2,000만원이상~4,000만원미만</td>\n<td style=\"width: 30%; text-align: center;\">&nbsp;3.5%</td>\n<td style=\"width: 30%; text-align: center;\">&nbsp;</td>\n</tr>\n<tr>\n<td style=\"width: 40%; text-align: center;\">4,000만원이상~6,000만원미만</td>\n<td style=\"width: 30%; text-align: center;\">&nbsp;5%</td>\n<td style=\"width: 30%; text-align: center;\">&nbsp;</td>\n</tr>\n<tr>\n<td style=\"width: 40%; text-align: center;\">6,000만원이상~8,000만원미만</td>\n<td style=\"width: 30%; text-align: center;\">&nbsp;6%</td>\n<td style=\"width: 30%; text-align: center;\">&nbsp;</td>\n</tr>\n<tr>\n<td style=\"width: 40%; text-align: center;\">8,000만원이상</td>\n<td style=\"width: 30%; text-align: center;\">&nbsp;4%</td>\n<td style=\"width: 30%; text-align: center;\">초과분</td>\n</tr>\n</tbody>\n</table>",
+            "caseCount": "1",
+            "caseFields": [
+                {
+                    "name": "name1"
+                }
+            ]
+        },
+        {
+            "law_text": "<p>□ 해당 월 마감 부가세별도 매출액 기준</p>\n<p>□ 장부상 미수금액 0원 시 장려금 지급</p>\n<p>□ 매 분기 마감 후 산출된 금액에 대해 익월 20일전까지 지급</p>\n<p><strong>□ 전 분기 월 평균매출 대비, 당 분기 각 월의 매출이 모두 70% 이상인 경우는 지급률에 0.5%포인트를 더하여 지급한다. (2.5% &rarr; 3%)</strong></p>\n<p><strong>□ 전 분기 월 평균매출 대비, 당 분기 월 마감 매출이 20% 미만이 한달이라도 발생할 경우 매출 장려금 지급대상에서 제외된다.</strong></p>\n<p><strong>□ (</strong><strong>쉨잇, 쉨잇 캣, 도그랑 진도 골드, 캐츠랑 고메디쉬 제외한 모든 품목).</strong></p>\n<p><strong>□ 하기 제품 장려금 포함 <br /></strong>&nbsp; &nbsp; &nbsp;{{obj}}</p>",
+            "caseCount": "1",
+            "caseFields": [
+                {
+                    "name": "name1"
+                }
+            ]
+        },
+        {
+            "law_text": "<p>품목 장려금은 매분기 공급업자가 선정한 품목의 월 매출액에 대해 정해진 지급방법과 지급액 또는 사전에 공지된 상품 등으로 지급한다.</p>",
+            "caseCount": "1",
+            "caseFields": [
+                {
+                    "name": "name1"
+                }
+            ],
+            "provision_title": "품목 장려금"
+        },
+        {
+            "law_text": "<p>운반비는 공급업자가 대리점에게 제품운송비의 일부 또는 전부를 지급한다.<br />운임 및 운임보조비는 {{place1}}공장 : ￦ {{kgpay1}}원/kg<br />운반비의 지급은 매월마감 후 산출된 금액을 익월 20일까지 지급한다.<br /><br /><strong>최소배송물량 기준</strong>&nbsp; 인천 하치장 출고 시 : 3.5톤이상<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;장항공장 하치장 출고 시: 5톤이상<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</p>",
+            "provision_title": "운반비 및 최소배송물량기준"
+        },
+        {
+            "law_text": "<p>대리점은 본 계약상의 창고주소 외에는 정당한 사유 없이 주문한 제품을 임의로 도착지변경하거나 요구할 수 없다.</p>",
+            "caseCount": "1",
+            "caseFields": [
+                {
+                    "name": "name1"
+                }
+            ],
+            "provision_title": "도착지 변경"
+        },
+        {
+            "law_text": "<p>여신한도액은 (월중한도: {{limit1}}원, 월말한도: {{limit2}}원) 으로 한다.<br />대리점의 외상잔액(어음잔액포함)이 신용한도액을 초과했을 경우 제품출고를 제한한다.</p>",
+            "provision_title": "여신한도액"
+        },
+        {
+            "law_text": "<p>공급업자와 대리점 간 거래에 있어 상호 사업의 형태변경<br />(사업자등록 유무 및 변경, 전자상거래, 통신판매 등) 발생시 이를 상대방에게 고지하여야 한다.&nbsp;</p>",
+            "caseCount": "1",
+            "caseFields": [
+                {
+                    "name": "name1"
+                }
+            ],
+            "provision_title": "기타"
+        },
+        {
+            "law_text": "<p>6개월이상 주문이 없을 시 사전 고지 없이 휴면 대리점으로 전환되어 주문에 제한을 받게 된다.</p>",
+            "caseCount": "1",
+            "caseFields": [
+                {
+                    "name": "name1"
+                }
+            ],
+            "provision_title": "장기간의 주문 지연 시"
+        },
+        {
+            "law_text": "<table class=\"tg\" style=\"width: 100%;\">\n<tbody>\n<tr>\n<td style=\"width: 25%; text-align: center;\">상호명</td>\n<td style=\"width: 85%; text-align: center;\">{{name1}}</td>\n</tr>\n<tr>\n<td style=\"width: 25%; text-align: center;\">사업자번호</td>\n<td style=\"width: 85%; text-align: center;\">{{rrn1}}</td>\n</tr>\n<tr>\n<td style=\"width: 25%; text-align: center;\">연락처</td>\n<td style=\"width: 85%; text-align: center;\">{{phone1}}</td>\n</tr>\n<tr>\n<td style=\"width: 25%; text-align: center;\">이메일</td>\n<td style=\"width: 85%; text-align: center;\">{{email1}}</td>\n</tr>\n<tr>\n<td style=\"width: 25%; text-align: center;\">사무실주소</td>\n<td style=\"width: 85%; text-align: center;\">{{addr1_1}} {{addr1_2}}</td>\n</tr>\n<tr>\n<td style=\"width: 25%; text-align: center;\">창고주소</td>\n<td style=\"width: 85%; text-align: center;\">{{addr2_1}} {{addr2_2}}</td>\n</tr>\n</tbody>\n</table>",
+            "caseCount": "1",
+            "caseFields": [
+                {
+                    "name": "name1"
+                }
+            ],
+            "provision_title": "대리점 정보"
+        },
+        {
+            "law_text": "<p style=\"text-align: center;\">&nbsp;</p>\n<p style=\"text-align: center;\">본 합의서는 필요한 경우 합의에 의하여 변경할 수 있다.</p>\n<p style=\"text-align: center;\">&nbsp;</p>",
+            "caseCount": "1",
+            "caseFields": [
+                {
+                    "name": "name1"
+                }
+            ]
+        },
+        {
+            "law_text": "<p style=\"text-align: center;\">&nbsp;</p>\n<p style=\"text-align: center;\">&nbsp;</p>\n<p style=\"text-align: center;\">{{clm_con_date}}</p>\n<p style=\"text-align: center;\">&nbsp;</p>\n<p style=\"text-align: center;\">&nbsp;</p>\n<p style=\"text-align: center;\">&nbsp;</p>"
+        },
+        {
+            "law_text": "<p><strong>공급업자</strong></p>\n<p>상호 : 대주산업 주식회사</p>\n<p>사업자번호 : 309-85-00957</p>\n<p>주소 : 서울시 광진구 천호대로 549, 20층</p>\n<p>대표이사 정석원</p>\n<p>&nbsp;</p>\n<p><strong>대리점</strong></p>\n<p>상호 : {{name1}}</p>\n<p>사업자번호 : {{rrn1}}</p>\n<p>주소 : {{addr1_1}} {{addr1_2}}</p>\n<p>대표이사 {{ceo1}}</p>",
+            "caseCount": "1",
+            "caseFields": [
+                {
+                    "name": "name1"
+                }
+            ]
+        }
+    ],
+    "cssTemplateType": 1,
+    "outputTitle_underline": false
+}

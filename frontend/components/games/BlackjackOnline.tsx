@@ -53,8 +53,10 @@ const CARD_H = 86;
 const PRESET_BETS = [25, 50, 100, 250, 500];
 
 const WS_URL = typeof window !== "undefined"
-    ? `ws://${window.location.hostname}:${process.env.NEXT_PUBLIC_WS_PORT || 4000}/ws/blackjack`
+    ? `ws://${window.location.hostname}:${process.env.NEXT_PUBLIC_WS_PORT || 9090}/ws/blackjack`
     : "";
+
+console.log(WS_URL);
 
 // ─── Card Utilities ─────────────────────────────────────────────────────────
 
@@ -67,13 +69,38 @@ function handTotal(cards: Card[]): number
     {
         if (c.faceDown) continue;
         const v = cardValue(c.rank);
-        if (v === 1) { aces++; total += 11; } else total += v;
+        if (v === 1) { aces++; total += 11; }
+        else total += v;
     }
     while (total > 21 && aces > 0) { total -= 10; aces--; }
     return total;
 }
 
 function isRedSuit(suit: Suit): boolean { return suit === "hearts" || suit === "diamonds"; }
+
+function dealerShowsTenOrAce(dealerCards: Card[]): boolean
+{
+    if (dealerCards.length < 1) return false;
+    const v = cardValue(dealerCards[0].rank);
+    return v === 10 || v === 1;
+}
+
+// ─── Animation Utilities ─────────────────────────────────────────────────────
+
+const CARD_ANIM_MS = 350;
+const BADGE_ANIM_MS = 300;
+
+function easeOutCubic(t: number): number { return 1 - Math.pow(1 - t, 3); }
+
+function getAnimProgress(key: string, anims: Map<string, number>, now: number, duration: number): number
+{
+    const start = anims.get(key);
+    if (start === undefined) return 1;
+    const elapsed = now - start;
+    if (elapsed < 0) return 0;
+    if (elapsed >= duration) return 1;
+    return elapsed / duration;
+}
 
 // ─── Canvas Drawing ─────────────────────────────────────────────────────────
 
@@ -160,15 +187,32 @@ function drawCard(ctx: CanvasRenderingContext2D, card: Card, x: number, y: numbe
     ctx.fillText(symbol, x + w - 5, y + h - 4);
 }
 
-function drawHand(ctx: CanvasRenderingContext2D, cards: Card[], cx: number, cy: number, isDark: boolean)
+function drawHand(
+    ctx: CanvasRenderingContext2D, cards: Card[], cx: number, cy: number, isDark: boolean,
+    keyPrefix?: string, anims?: Map<string, number>, now?: number
+)
 {
     const overlap = 20;
     const totalW = CARD_W + (cards.length - 1) * overlap;
-    let startX = cx - totalW / 2;
+    const startX = cx - totalW / 2;
 
     for (let i = 0; i < cards.length; i++)
     {
-        drawCard(ctx, cards[i], startX + i * overlap, cy, isDark);
+        const x = startX + i * overlap;
+        if (keyPrefix && anims && now !== undefined)
+        {
+            const p = getAnimProgress(`${keyPrefix}${i}`, anims, now, CARD_ANIM_MS);
+            if (p < 1)
+            {
+                const t = easeOutCubic(p);
+                ctx.save();
+                ctx.globalAlpha = t;
+                drawCard(ctx, cards[i], x, cy - 40 * (1 - t), isDark);
+                ctx.restore();
+                continue;
+            }
+        }
+        drawCard(ctx, cards[i], x, cy, isDark);
     }
 }
 
@@ -189,12 +233,33 @@ function drawChip(ctx: CanvasRenderingContext2D, x: number, y: number, value: nu
     ctx.fillText(String(value), x, y);
 }
 
-function drawBadge(ctx: CanvasRenderingContext2D, x: number, y: number, text: string, bg: string)
+function drawBadge(ctx: CanvasRenderingContext2D, x: number, y: number, text: string, bg: string, anim?: number)
 {
     ctx.font = "bold 11px sans-serif";
     const m = ctx.measureText(text);
     const pw = 6, ph = 3;
     const bw = m.width + pw * 2, bh = 16 + ph * 2;
+
+    if (anim !== undefined && anim < 1)
+    {
+        const t = easeOutCubic(anim);
+        const scale = t < 0.7 ? 0.5 + (t / 0.7) * 0.65 : 1.15 - ((t - 0.7) / 0.3) * 0.15;
+        ctx.save();
+        ctx.translate(x, y);
+        ctx.scale(scale, scale);
+        ctx.globalAlpha = t;
+
+        drawRoundRect(ctx, -bw / 2, -bh / 2, bw, bh, 4);
+        ctx.fillStyle = bg;
+        ctx.fill();
+        ctx.fillStyle = "#fff";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText(text, 0, 0);
+
+        ctx.restore();
+        return;
+    }
 
     drawRoundRect(ctx, x - bw / 2, y - bh / 2, bw, bh, 4);
     ctx.fillStyle = bg;
@@ -211,7 +276,9 @@ function renderGame(
     canvas: HTMLCanvasElement,
     state: GameState,
     myId: string | null,
-    isDark: boolean
+    isDark: boolean,
+    anims: Map<string, number>,
+    now: number
 )
 {
     const W = canvas.width;
@@ -241,7 +308,7 @@ function renderGame(
 
     if (dealerCards.length > 0)
     {
-        drawHand(ctx, dealerCards, W / 2, 30, isDark);
+        drawHand(ctx, dealerCards, W / 2, 30, isDark, "d-", anims, now);
 
         const visibleTotal = handTotal(dealerCards);
         const y = 30 + CARD_H + 8;
@@ -316,7 +383,7 @@ function renderGame(
             // Player label
             const labelColor = isActive ? "#facc15"
                 : isMe ? (isDark ? "#60a5fa" : "#93c5fd")
-                : (isDark ? "#9ca3af" : "#d1fae5");
+                    : (isDark ? "#9ca3af" : "#d1fae5");
             ctx.fillStyle = labelColor;
             ctx.font = `bold 11px sans-serif`;
             ctx.textAlign = "center";
@@ -336,7 +403,7 @@ function renderGame(
                 {
                     const h = p.hands[hIdx];
                     const handY = py + 10 + hIdx * (CARD_H + 30);
-                    drawHand(ctx, h.cards, px, handY, isDark);
+                    drawHand(ctx, h.cards, px, handY, isDark, `${p.id}-${hIdx}-`, anims, now);
 
                     // Bet chip
                     const chipX = px + (CARD_W + (h.cards.length - 1) * 20) / 2 + 14;
@@ -355,15 +422,19 @@ function renderGame(
                             : "";
                         const bg = h.result === "win" || h.result === "blackjack" ? "#16a34a"
                             : h.result === "lose" ? "#dc2626" : "#6b7280";
-                        drawBadge(ctx, px, totalY + 4, resultText + payoutText, bg);
+                        const rp = getAnimProgress(`${p.id}-${hIdx}-r`, anims, now, BADGE_ANIM_MS);
+                        drawBadge(ctx, px, totalY + 4, resultText + payoutText, bg, rp);
                     }
                     else if (h.busted)
                     {
-                        drawBadge(ctx, px, totalY + 4, `BUST (${total})`, "#dc2626");
+                        const bp = getAnimProgress(`${p.id}-${hIdx}-bust`, anims, now, BADGE_ANIM_MS);
+                        drawBadge(ctx, px, totalY + 4, `BUST (${total})`, "#dc2626", bp);
                     }
                     else if (h.blackjack)
                     {
-                        drawBadge(ctx, px, totalY + 4, "BJ!", "#ca8a04");
+                        const showGoStop = dealerShowsTenOrAce(dealerCards) && phase === "playerTurn";
+                        const label = showGoStop ? "BJ! Go / Stop?" : "BJ!";
+                        drawBadge(ctx, px, totalY + 4, label, "#ca8a04");
                     }
                     else
                     {
@@ -431,6 +502,9 @@ export default function BlackjackOnline()
     const [gameState, setGameState] = useState<GameState | null>(null);
     const [betInput, setBetInput] = useState(50);
     const gameStateRef = useRef<GameState | null>(null);
+    const animRef = useRef<{ cardKeys: Set<string>; resultKeys: Set<string>; anims: Map<string, number> }>({
+        cardKeys: new Set(), resultKeys: new Set(), anims: new Map()
+    });
 
     // WebSocket 연결
     const connect = useCallback(() =>
@@ -467,7 +541,10 @@ export default function BlackjackOnline()
                     setSpectating(true);
                 }
             }
-            catch {}
+            catch (_err)
+            {
+                console.error(_err);
+            }
         };
 
         ws.onclose = () =>
@@ -500,16 +577,60 @@ export default function BlackjackOnline()
         if (!ctx) return;
 
         let raf: number;
-        const render = () =>
+        const render = (now: number) =>
         {
             const state = gameStateRef.current;
             if (state)
             {
-                renderGame(ctx, canvas, state, myId, isDark);
+                const a = animRef.current;
+                const currentCardKeys = new Set<string>();
+                const currentResultKeys = new Set<string>();
+                let newCardIdx = 0;
+
+                state.dealerCards.forEach((_, i) =>
+                {
+                    const key = `d-${i}`;
+                    currentCardKeys.add(key);
+                    if (!a.cardKeys.has(key)) { a.anims.set(key, now + newCardIdx * 80); newCardIdx++; }
+                });
+
+                state.players.forEach(p =>
+                {
+                    p.hands.forEach((h, hi) =>
+                    {
+                        h.cards.forEach((_, ci) =>
+                        {
+                            const key = `${p.id}-${hi}-${ci}`;
+                            currentCardKeys.add(key);
+                            if (!a.cardKeys.has(key)) { a.anims.set(key, now + newCardIdx * 80); newCardIdx++; }
+                        });
+                        if (h.result)
+                        {
+                            const rk = `${p.id}-${hi}-r`;
+                            currentResultKeys.add(rk);
+                            if (!a.resultKeys.has(rk)) a.anims.set(rk, now);
+                        }
+                        if (h.busted)
+                        {
+                            const bk = `${p.id}-${hi}-bust`;
+                            currentResultKeys.add(bk);
+                            if (!a.resultKeys.has(bk)) a.anims.set(bk, now);
+                        }
+                    });
+                });
+
+                for (const key of a.cardKeys)
+                    if (!currentCardKeys.has(key)) a.anims.delete(key);
+                for (const key of a.resultKeys)
+                    if (!currentResultKeys.has(key)) a.anims.delete(key);
+
+                a.cardKeys = currentCardKeys;
+                a.resultKeys = currentResultKeys;
+
+                renderGame(ctx, canvas, state, myId, isDark, a.anims, now);
             }
             else
             {
-                // 빈 화면
                 ctx.fillStyle = isDark ? "#111827" : "#065f46";
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
                 ctx.fillStyle = isDark ? "#6b7280" : "#a7f3d0";
@@ -524,8 +645,19 @@ export default function BlackjackOnline()
         return () => cancelAnimationFrame(raf);
     }, [connected, myId, isDark]);
 
-    // Cleanup on unmount
-    useEffect(() => () => { wsRef.current?.close(); }, []);
+    // Cleanup on unmount + browser close/navigate
+    useEffect(() =>
+    {
+        const cleanup = () => { wsRef.current?.close(); };
+        window.addEventListener("beforeunload", cleanup);
+        window.addEventListener("pagehide", cleanup);
+        return () =>
+        {
+            cleanup();
+            window.removeEventListener("beforeunload", cleanup);
+            window.removeEventListener("pagehide", cleanup);
+        };
+    }, []);
 
     // 내 상태
     const myPlayer = gameState?.players.find(p => p.id === myId);
@@ -537,6 +669,8 @@ export default function BlackjackOnline()
         && (myPlayer?.chips ?? 0) >= myHand.bet;
     const isBetting = gameState?.phase === "betting" && myPlayer && !myPlayer.spectating;
     const isReady = myPlayer?.ready;
+    const hasBlackjackGoStop = isMyTurn && myHand?.blackjack
+        && gameState && dealerShowsTenOrAce(gameState.dealerCards);
 
     return (
         <div className="flex flex-col items-center gap-3 w-full">
@@ -606,7 +740,7 @@ export default function BlackjackOnline()
                             />
                             <button
                                 className="px-4 py-1 rounded font-bold bg-green-600 hover:bg-green-500 text-white"
-                                onClick={() => send({ type: "ready" })}
+                                onClick={() => { send({ type: "bet", amount: betInput }); send({ type: "ready" }); }}
                             >
                                 Ready!
                             </button>
@@ -619,8 +753,23 @@ export default function BlackjackOnline()
                         </span>
                     )}
 
-                    {/* 플레이 액션 */}
-                    {isMyTurn && (
+                    {/* Go/Stop 액션 (BJ + 딜러 10/A) */}
+                    {isMyTurn && hasBlackjackGoStop && (
+                        <>
+                            <span className="text-yellow-400 font-bold text-sm">BLACKJACK! Go 또는 Stop?</span>
+                            <button className="px-4 py-2 rounded font-bold bg-green-600 hover:bg-green-500 text-white"
+                                onClick={() => send({ type: "hit" })}>
+                                Go (2배 or 패배)
+                            </button>
+                            <button className="px-4 py-2 rounded font-bold bg-yellow-600 hover:bg-yellow-500 text-white"
+                                onClick={() => send({ type: "stand" })}>
+                                Stop (1.5배 확정)
+                            </button>
+                        </>
+                    )}
+
+                    {/* 일반 플레이 액션 */}
+                    {isMyTurn && !hasBlackjackGoStop && (
                         <>
                             <button className="px-4 py-2 rounded font-bold bg-green-600 hover:bg-green-500 text-white"
                                 onClick={() => send({ type: "hit" })}>

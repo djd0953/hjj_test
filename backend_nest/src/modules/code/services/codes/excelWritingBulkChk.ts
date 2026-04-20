@@ -1,0 +1,353 @@
+import fs from "fs";
+import path from "path";
+
+import dayjs from "dayjs";
+import exceljs, { CellErrorValue } from "exceljs";
+
+// TODO: templateData import 경로 확인 필요
+// import templateData from '@libs/template_data.json';
+
+interface CellInfo {
+    address: string;
+    value: string | number | boolean | Date | CellErrorValue;
+}
+
+interface CellData {
+    displayName: string;
+    bindKeyName: string;
+    value: string | number | boolean | Date | CellErrorValue | null;
+}
+
+interface ErrorStat {
+    prob: boolean;
+    message: string;
+}
+
+export interface ExcelContent {
+    rowIndex: number;
+    error: ErrorStat;
+    content: Record<string, CellData>;
+    esignSigner: Record<string, CellData>;
+}
+
+interface TextField {
+    binding: string;
+    currency?: boolean;
+}
+
+interface CheckboxField {
+    binding: string;
+}
+
+interface ObjDataField {
+    type: string;
+    selectBinding?: string;
+    textFields?: TextField[];
+    calendar_Binding?: string;
+    checkboxFields?: CheckboxField[];
+    radioBinding?: string;
+    addressBinding?: string;
+}
+
+interface InputField {
+    objdataFields: ObjDataField[];
+}
+
+interface InputSection {
+    fields: InputField[];
+}
+
+interface TemplateData {
+    inputSections?: InputSection[];
+}
+
+const user_to_bind_key_map = [
+    { displayName: "이름", bindKeyName: "name1", required: false },
+    { displayName: "구간별 장려금 1", bindKeyName: "kg_one" },
+    { displayName: "구간별 장려금 2", bindKeyName: "kg_two" },
+    { displayName: "구간별 장려금 3", bindKeyName: "kg_three" },
+    { displayName: "구간별 장려금 4", bindKeyName: "kg_four" }
+];
+
+const CF_WRITING_BULK_DOCUMENT_ESIGN_EXCEL_HEADERS = [
+    { displayName: "서명 참여자 이름(필수)", bindKeyName: "esignSignersName", required: true, type: "string" },
+    { displayName: "이메일 주소(필수)", bindKeyName: "esignSignersEmail", required: true, type: "email" },
+    { displayName: "휴대폰 번호(필수)", bindKeyName: "esignSignersMobileNumber", required: true, type: "phone" },
+    { displayName: "암호(필수)", bindKeyName: "esignSignersPassword", required: true, type: "string" },
+    {
+        displayName: "참여기한(선택)\n설정하지 않을 경우 10일 이내",
+        bindKeyName: "esignSignersDeadlineAt",
+        required: false,
+        type: "number"
+    },
+    { displayName: "코멘트(선택)", bindKeyName: "esignSignersComment", required: false, type: "string" }
+];
+
+const validateExcelValue = (type: string, value: string | number | boolean | Date | CellErrorValue) => {
+    if (typeof value !== "string") return false;
+    if (type === "email")
+        return value.match(
+            /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        );
+    else if (type === "phone") return value.match(/^(0)?1[016789][- ]?\d{3,4}[- ]?\d{4}$/);
+    else if (type === "number") return !isNaN(Number(value));
+    return true;
+};
+
+const getCellValue = (cell: exceljs.Cell) => {
+    let val = cell?.value;
+
+    if (typeof val === "string") val = val.normalize();
+    else if (typeof val === "number") val = `${val}`;
+    else if (
+        val &&
+        typeof val === "object" &&
+        (val as exceljs.CellFormulaValue | exceljs.CellSharedFormulaValue)?.result
+    )
+        val = (val as exceljs.CellFormulaValue | exceljs.CellSharedFormulaValue)?.result ?? "";
+    else if (val && typeof val === "object" && val instanceof Date) val = dayjs(val).format("YYYY-MM-DD");
+    else if (val && typeof val === "object" && val.hasOwnProperty("richText"))
+        val = (val as exceljs.CellRichTextValue).richText.map((z: exceljs.RichText) => z.text).join("");
+    else if (val && typeof val === "object" && (val as exceljs.CellHyperlinkValue)?.text)
+        val = (val as exceljs.CellHyperlinkValue).text.toString();
+    else if (val && typeof val === "object" && (val as exceljs.CellErrorValue)?.error)
+        val = (val as exceljs.CellErrorValue).error.toString();
+    else val = "";
+
+    return val;
+};
+
+const getCells = (row: exceljs.Row) => {
+    const cells: {
+        address: string;
+        value: string | number | boolean | Date | CellErrorValue;
+    }[] = [];
+    for (let i = 1; i <= row.cellCount; i++) {
+        const cell = row.getCell(i);
+        cells.push({ address: cell.address, value: getCellValue(cell) });
+    }
+    return cells;
+};
+
+const HP_EXCEL_VALIDATE_ESIGN_DATA = ({
+    error,
+    rowIndex,
+    bindKeyName,
+    displayName,
+    value
+}: {
+    error: ErrorStat;
+    rowIndex: number;
+    bindKeyName: string;
+    displayName: string;
+    value?: string | number | boolean | Date | CellErrorValue;
+}) => {
+    const esignField = CF_WRITING_BULK_DOCUMENT_ESIGN_EXCEL_HEADERS.find((o) => o.bindKeyName === bindKeyName);
+
+    try {
+        if (!esignField) throw new Error("해당 항목 행 제목이 수정됨");
+        else if (esignField.required && !value) throw new Error("필수 항목의 데이터 없음");
+
+        if (value && esignField.type && !validateExcelValue(esignField.type, value))
+            throw new Error("항목의 형식이 맞지 않음");
+    } catch (e) {
+        error.prob = true;
+        if (e) error.message = `${e} (${rowIndex}행, ${displayName})`;
+        else error.message = `필수항목 데이터 없음 (${rowIndex}행, ${displayName})`;
+    }
+};
+
+const HP_DOCUMENT_TEMPLATE_CAST_VALUE_BY_TYPE = ({
+    error,
+    template_data,
+    displayName,
+    bindKeyName,
+    value,
+    rowIndex,
+    addCheckBindData
+}: {
+    error: ErrorStat;
+    template_data: TemplateData;
+    displayName: string;
+    bindKeyName: string;
+    value?: string | number | boolean | Date | CellErrorValue;
+    rowIndex: number;
+    addCheckBindData: (bindKey: string) => void;
+}) => {
+    if (!bindKeyName) throw new Error(`엑셀 값이 잘못됐습니다 (${rowIndex}행, ${displayName})`);
+
+    if (!value) return null;
+
+    let retVal: string | number | boolean | Date | CellErrorValue | null = value;
+
+    const data = template_data.inputSections ?? [];
+    let type = "";
+    for (const x of data) {
+        for (const y of x.fields) {
+            for (const z of y.objdataFields) {
+                if (z.type === "select" && z.selectBinding === bindKeyName) {
+                    type = "select";
+                    break;
+                } else if (z.type === "text") {
+                    if (!z.textFields || z.textFields.length === 0) break;
+                    for (const a of z.textFields)
+                        if (a.binding === bindKeyName) {
+                            if (typeof a.binding === "string" && a.binding.includes("phone")) type = "phone";
+                            if (a.currency) type = "number";
+                            else type = "text";
+                            break;
+                        }
+                } else if (z.type === "calendar" && z.calendar_Binding === bindKeyName) {
+                    type = "calendar";
+                    break;
+                } else if (z.type === "checkbox") {
+                    if (!z.checkboxFields || z.checkboxFields.length === 0) break;
+                    for (const a of z.checkboxFields)
+                        if (a.binding === bindKeyName) {
+                            type = "checkbox";
+                            break;
+                        }
+                } else if (z.type === "radio" && z.radioBinding === bindKeyName) {
+                    type = "radio";
+                    break;
+                } else if (z.type === "address" && z.addressBinding === bindKeyName) {
+                    type = "address";
+                    break;
+                }
+                if (type !== "") break;
+            }
+            if (type !== "") break;
+        }
+        if (type !== "") break;
+    }
+
+    if (typeof retVal === "string" && (type === "phone" || bindKeyName === "esignSignersMobileNumber")) {
+        retVal = retVal.replace(/-/g, "").replace(/\s/g, "");
+        if (`${retVal}`[0] !== "0") retVal = `0${retVal}`;
+    } else if ((typeof retVal === "string" || retVal instanceof Date || !retVal) && type === "calendar") {
+        const dateValue = retVal ? dayjs(retVal).format("YYYY-MM-DD") : null;
+        if (dateValue === "Invalid Date") {
+            error.prob = true;
+            error.message = `날짜 값이 아님 (${rowIndex}행, ${displayName})`;
+        } else {
+            retVal = dateValue;
+        }
+    } else if (type === "checkbox") addCheckBindData(bindKeyName);
+    else if (bindKeyName?.includes("_checked")) {
+        if (value === "true") retVal = true;
+        else if (value === "false") retVal = false;
+        else retVal = null;
+    } else if (type === "number") {
+        if (typeof value === "string" && isNaN(Number(value.replace(/,/g, "")))) {
+            error.prob = true;
+            error.message = `숫자가 아님 (${rowIndex}행, ${displayName})`;
+        } else if (typeof value !== "string" && isNaN(Number(value))) {
+            error.prob = true;
+            error.message = `숫자가 아님 (${rowIndex}행, ${displayName})`;
+        } else {
+            if (typeof value === "string") retVal = Number(value.replace(/,/g, "")).toLocaleString();
+            else retVal = Number(value).toLocaleString();
+        }
+    }
+
+    return retVal;
+};
+
+const HP_EXCEL_TO_WRITING_BULK_META_INFO = async (excel: Buffer, templateData: TemplateData) => {
+    try {
+        const workbook = new exceljs.Workbook();
+
+        try {
+            const arrayBuffer = excel.buffer.slice(
+                excel.byteOffset,
+                excel.byteOffset + excel.byteLength
+            ) as ArrayBuffer;
+            await workbook.xlsx.load(arrayBuffer);
+        } catch {
+            throw new Error("");
+        }
+
+        let headers: CellInfo[] = [];
+        const values: CellInfo[][] = [];
+        for (const worksheet of workbook.worksheets) {
+            if (worksheet.name !== "data") continue;
+
+            worksheet.eachRow((row, rowNumber) => {
+                const cells: CellInfo[] = getCells(row);
+                if (!cells.some((x: CellInfo) => x.value)) return;
+
+                if (rowNumber === 1) headers = cells;
+                else values.push(cells);
+            });
+        }
+
+        if (values.length > 501) throw new Error("500개 넘음");
+
+        const userToBindKeyMap = user_to_bind_key_map;
+        const fixedInputData: Record<string, string | number | boolean | null> = { "1": 1 };
+
+        const excelContent: { contents: ExcelContent[]; total: number } = {
+            contents: [],
+            total: values.length
+        };
+
+        let rowIndex = 0;
+        for (const row of values) {
+            rowIndex++;
+
+            const error: ErrorStat = { prob: false, message: "" };
+            const esign: Record<string, CellData> = {};
+            const rowObject: Record<string, CellData> = {};
+
+            for (const { displayName, bindKeyName, required } of [
+                ...userToBindKeyMap,
+                ...CF_WRITING_BULK_DOCUMENT_ESIGN_EXCEL_HEADERS
+            ]) {
+                if (!displayName || !bindKeyName) continue;
+
+                const address = headers.find((header: CellInfo) => header.value === displayName)?.address;
+                if (!address) continue;
+
+                const value = row.find((cell: CellInfo) => cell.address === address)?.value;
+
+                const cellData = {
+                    displayName,
+                    bindKeyName,
+                    value: HP_DOCUMENT_TEMPLATE_CAST_VALUE_BY_TYPE({
+                        error,
+                        template_data: templateData,
+                        displayName,
+                        bindKeyName,
+                        value,
+                        rowIndex,
+                        addCheckBindData: (bindKey: string) => {
+                            if (!bindKey) return;
+                            fixedInputData[`${bindKey}_checked`] = true;
+                        }
+                    })
+                };
+
+                if (required && !cellData.value) throw new Error("형식 아님");
+
+                if (bindKeyName.includes("esignSigners")) {
+                    HP_EXCEL_VALIDATE_ESIGN_DATA({ error, rowIndex, bindKeyName, displayName, value });
+                    esign[bindKeyName] = cellData;
+                } else rowObject[bindKeyName] = cellData;
+            }
+
+            excelContent.contents.push({ rowIndex, error, content: rowObject, esignSigner: esign });
+        }
+
+        return excelContent;
+    } catch (err) {
+        throw err;
+    }
+};
+
+export const excelWritingBulkChk = async () => {
+    const e = fs.readFileSync(path.resolve("files", "tt.xlsx"));
+    // TODO: templateData import 경로 확인 필요
+    const templateData: TemplateData = {};
+    const bu = await HP_EXCEL_TO_WRITING_BULK_META_INFO(e, templateData);
+    return bu;
+};

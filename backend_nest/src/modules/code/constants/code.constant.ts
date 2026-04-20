@@ -1,0 +1,20 @@
+export const CodeKeywords = [
+    "aws",
+    "cleanDocx",
+    "diffDocx",
+    "email",
+    "excelFileCheck",
+    "excelWritingBulkChk",
+    "fixDocx",
+    "jwt",
+    "kms",
+    "lcs",
+    "organization",
+    "sentEvent",
+    "separateCode",
+    "sm",
+    "templateDataParse",
+    "uaparse",
+    "uuid",
+    "woffToTtf"
+];
