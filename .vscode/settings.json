@@ -10,7 +10,7 @@
     
     "eslint.format.enable": true,
     "eslint.workingDirectories": [
-        { "directory": "backend_nest", "changeProcessCWD": true }
+        { "directory": "backend", "changeProcessCWD": true }
     ],
     "eslint.validate": [
         "javascript",

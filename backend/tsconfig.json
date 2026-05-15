@@ -1,39 +1,35 @@
 {
-    "compilerOptions": {
-        "target": "es2020",                          
-        "module": "commonjs",                        
-        "typeRoots": ["./types", "./node_modules/@types"],
-        "lib": ["ES2020"],                    
-        "esModuleInterop": true,                     
-        "resolveJsonModule": true,                   
-        "strict": true,                              
-        "noImplicitAny": true,                       
-        "skipLibCheck": true,                        
-        "forceConsistentCasingInFileNames": true,    
-        "types": ["node"],                           
-
-        "sourceMap": true,
-        "inlineSources": true,
-
-        "allowSyntheticDefaultImports": true,        
-        "allowJs": true,                             
-        "checkJs": false,
-
-        "outDir": "./dist",                          
-        "rootDir": "./src",                          
-
-        "paths": {
-            "@controller": ["./src/controllers/index.ts"],
-            "@code/*": ["./src/controllers/code/*"],
-            "@libs/*": ["./src/libs/*"],
-            "@aws": ["./src/aws/index.ts"],
-            "@db": ["./src/db/index.ts"],
-            "@migrateDb": ["./src/db/migrateDb.ts"],
-            "@util": ["./src/util/index.ts"],
-            "@types": ["./types/index.d.ts"],
-            "@files/*": ["./files/*"]
-        }
+  "compilerOptions": {
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "resolvePackageJsonExports": true,
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "ES2023",
+    "sourceMap": true,
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "paths": {
+      "@error/*": ["./src/error/*"],
+      "@lib/*": ["./src/libs/*"],
+      "@module/*": ["./src/modules/*"],
+      "@util/*": ["./src/utils/*"],
+      "@types/*": ["./src/types/*"]
     },
-    "include": ["src/**/*"],
-    "exclude": ["node_modules", "dist"]
+    "incremental": true,
+    "skipLibCheck": true,
+    "strictNullChecks": true,
+    "strictPropertyInitialization": false,
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitAny": false,
+    "strictBindCallApply": false,
+    "noFallthroughCasesInSwitch": false,
+    "jsx": "react-jsx"
+  },
+  "include": ["src"]
 }

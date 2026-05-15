@@ -2,64 +2,28 @@
   "version": "0.2.0",
   "configurations": [
     /**
-     * 1) Backend: Express + TS (nodemon + ts-node)
-     * - backend 폴더 기준으로 실행되도록 cwd 설정
-     * - src/app.ts 경로도 backend 기준으로 맞춤
+     * 1) Backend: NestJS dev script (nest start --watch)
+     * - backend 의 npm run dev 를 터미널에서 실행
+     * - --debug 9229 로 inspector 열고 VSCode Auto Attach 가 자동으로 붙음
      */
     {
-      "name": "Backend: Debug (nodemon)",
-      "type": "pwa-node",
+      "name": "Backend: Debug (nest)",
+      "type": "node-terminal",
       "request": "launch",
-      "cwd": "${workspaceFolder}/backend",
-      "runtimeExecutable": "${workspaceFolder}/backend/node_modules/.bin/nodemon",
-      "runtimeArgs": [
-        "--watch",
-        "src",
-        "--ext",
-        "ts,js,json",
-        "--exec",
-        "node",
-        "--inspect=9229",
-        "-r",
-        "ts-node/register",
-        "-r",
-        "tsconfig-paths/register",
-        "src/app.ts"
-      ],
-      "restart": true,
-      "console": "integratedTerminal",
-      "internalConsoleOptions": "neverOpen",
-      "env": {
-        "NODE_ENV": "development"
-      },
-      "skipFiles": ["<node_internals>/**"]
+      "command": "npm run dev -- --debug 9229",
+      "cwd": "${workspaceFolder}/backend"
     },
 
     /**
      * 2) Frontend: Next.js dev 서버 실행(터미널)
-     * - NODE_OPTIONS로 inspect 포트(9230) 열기
-     * - Windows가 아니라 macOS 기준이지만, cross-env 쓰면 더 안전
+     * - BE 디버깅과 함께 실행만 되는 용도
      */
     {
       "name": "Frontend: Run (next dev)",
       "type": "node-terminal",
       "request": "launch",
       "cwd": "${workspaceFolder}/frontend",
-      "command": "NODE_OPTIONS=--inspect=9230 npm run dev"
-    },
-
-    /**
-     * 3) Frontend: Next.js에 attach
-     * - 위 Run이 켜진 상태에서 attach로 디버깅
-     */
-    {
-      "name": "Frontend: Attach (9230)",
-      "type": "pwa-node",
-      "request": "attach",
-      "port": 9230,
-      "restart": true,
-      "cwd": "${workspaceFolder}/frontend",
-      "skipFiles": ["<node_internals>/**"]
+      "command": "npm run dev"
     },
 
     /**
@@ -81,15 +45,14 @@
 
   "compounds": [
     /**
-     * 4) 풀스택 한번에
-     * - Frontend는 "Run" + "Attach" 둘 다 포함해야 실제 브레이크포인트가 잘 걸립니다.
+     * 3) 풀스택 한번에
+     * - BE는 디버그(attach), FE는 dev 서버 실행만
      */
     {
       "name": "Fullstack: Backend + Frontend",
       "configurations": [
-        "Backend: Debug (nodemon)",
-        "Frontend: Run (next dev)",
-        "Frontend: Attach (9230)"
+        "Backend: Debug (nest)",
+        "Frontend: Run (next dev)"
       ],
       "stopAll": true
     }
