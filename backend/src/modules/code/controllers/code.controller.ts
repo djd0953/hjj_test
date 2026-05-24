@@ -7,9 +7,7 @@ export class CodeController {
 
     @Get("list")
     getCodeList() {
-        const a = this.codeService.getList();
-        console.log(a);
-        return a;
+        return this.codeService.getList();
     }
 
     @Get(":type/:keyword")

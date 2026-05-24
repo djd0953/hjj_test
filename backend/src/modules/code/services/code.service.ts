@@ -68,14 +68,17 @@ export class CodeService {
             case "templateDataParse":
                 return codes.templateDataParse();
 
+            case "test":
+                return codes.test();
+
             case "uaparse":
                 return codes.uaparse();
 
             case "uuid":
                 return codes.uuid();
 
-            case "woffToTtf":
-                return await codes.woffToTtf();
+            // case "woffToTtf":
+            //     return await codes.woffToTtf();
 
             default:
                 return null;

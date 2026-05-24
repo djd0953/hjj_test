@@ -16,4 +16,4 @@ export { templateDataParse } from "./templateDataParse";
 export { test } from "./test";
 export { uaparse } from "./uaparse";
 export { uuid } from "./uuid";
-export { woffToTtf } from "./woffToTtf";
+// export { woffToTtf } from "./woffToTtf";

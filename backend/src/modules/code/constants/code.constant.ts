@@ -14,6 +14,7 @@ export const CodeKeywords = [
     "separateCode",
     "sm",
     "templateDataParse",
+    "test",
     "uaparse",
     "uuid",
     "woffToTtf"
