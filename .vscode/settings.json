@@ -37,6 +37,8 @@
         ".cache": true,
         "retool.config.json": true
     },
+    "files.eol": "\n",
+    
     "[xml]": {
         "editor.defaultFormatter": "redhat.vscode-xml"
     }

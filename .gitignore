@@ -4,3 +4,6 @@ dist
 backend/files/*
 logs
 .next
+
+tsconfig.build.tsbuildinfo
+tsconfig.tsbuildinfo
