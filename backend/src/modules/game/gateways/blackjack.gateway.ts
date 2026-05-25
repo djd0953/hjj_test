@@ -9,17 +9,17 @@ import {
     MessageBody,
     ConnectedSocket
 } from "@nestjs/websockets";
-import * as ws from "ws";
+import { Server, Socket } from "socket.io";
 import { BlackjackService } from "../services/blackjack.service";
 import type { ClientMessage } from "../dto/blackjack.dto";
 
-@WebSocketGateway({ path: "/ws/blackjack" })
+@WebSocketGateway({ namespace: "blackjack" })
 export class BlackjackGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
     private readonly logger = new Logger(BlackjackGateway.name);
-    private clientMap = new Map<ws.WebSocket, string>(); // ws instance → playerId
+    private socketMap = new Map<string, string>(); // socket.id → playerId
 
     @WebSocketServer()
-    server: ws.Server;
+    server: Server;
 
     constructor(private readonly blackjackService: BlackjackService) {}
 
@@ -28,54 +28,47 @@ export class BlackjackGateway implements OnGatewayInit, OnGatewayConnection, OnG
             broadcast: () => this.broadcastState(),
             sendTo: (clientId, data) => this.sendToClient(clientId, data)
         });
-        this.logger.log("Blackjack WebSocket gateway initialized at /ws/blackjack");
+        this.logger.log("Blackjack Socket.IO gateway initialized at namespace /blackjack");
     }
 
-    handleConnection(client: ws.WebSocket) {
-        const clientId = this.generateClientId();
-        this.logger.log(`New connection (total: ${this.blackjackService.connectionCount + 1})`);
-
+    handleConnection(client: Socket) {
+        const clientId = client.id;
         const { playerId } = this.blackjackService.addConnection(clientId);
-        this.clientMap.set(client, playerId);
+        this.socketMap.set(client.id, playerId);
+        this.logger.log(
+            `Client ${client.id} connected as ${playerId} (total: ${this.blackjackService.connectionCount})`
+        );
     }
 
-    handleDisconnect(client: ws.WebSocket) {
-        const playerId = this.clientMap.get(client);
+    handleDisconnect(client: Socket) {
+        const playerId = this.socketMap.get(client.id);
         if (playerId) {
             this.blackjackService.handleDisconnect(playerId);
-            this.clientMap.delete(client);
+            this.socketMap.delete(client.id);
         }
     }
 
-    @SubscribeMessage("message")
-    handleMessage(@ConnectedSocket() client: ws.WebSocket, @MessageBody() data: ClientMessage) {
-        const playerId = this.clientMap.get(client);
+    // ------------------- Action --------------------
+    @SubscribeMessage("bet")
+    handleBet(@ConnectedSocket() client: Socket, @MessageBody() body: { amount?: number }) {
+        const playerId = this.socketMap.get(client.id);
+        if (!playerId) return;
+    }
+
+    @SubscribeMessage("action")
+    handleMessage(@ConnectedSocket() client: Socket, @MessageBody() data: ClientMessage) {
+        const playerId = this.socketMap.get(client.id);
         if (!playerId) return;
         this.blackjackService.handleMessage(playerId, data);
     }
 
     private broadcastState() {
         const state = this.blackjackService.getState();
-        const payload = JSON.stringify({ type: "gameState", ...state });
-
-        for (const client of this.server.clients) {
-            if (client.readyState === ws.WebSocket.OPEN) {
-                client.send(payload);
-            }
-        }
+        this.server.in("blackjack").emit("gameState", state);
     }
 
     private sendToClient(clientId: string, data: Record<string, unknown>) {
-        for (const [socket, playerId] of this.clientMap) {
-            const foundClientId = this.blackjackService.findPlayerIdByClient(playerId);
-            if (foundClientId === clientId && socket.readyState === ws.WebSocket.OPEN) {
-                socket.send(JSON.stringify(data));
-                return;
-            }
-        }
-    }
-
-    private generateClientId(): string {
-        return `client_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
+        // clientId is the socket.id from Socket.IO
+        this.server.to(clientId).emit("notification", data);
     }
 }

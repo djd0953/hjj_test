@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { useTheme } from "next-themes";
+import { io, Socket } from "socket.io-client";
 
 // ─── Types (BE와 동일) ──────────────────────────────────────────────────────
 
@@ -53,7 +54,7 @@ const CARD_H = 86;
 const PRESET_BETS = [25, 50, 100, 250, 500];
 
 const WS_URL = typeof window !== "undefined"
-    ? `ws://${window.location.hostname}:${process.env.NEXT_PUBLIC_WS_PORT || 9090}/ws/blackjack`
+    ? `http://${window.location.hostname}:${process.env.NEXT_PUBLIC_WS_PORT || 9090}`
     : "";
 
 console.log(WS_URL);
@@ -495,7 +496,7 @@ export default function BlackjackOnline()
     const isDark = resolvedTheme === "dark";
 
     const canvasRef = useRef<HTMLCanvasElement>(null);
-    const wsRef = useRef<WebSocket | null>(null);
+    const socketRef = useRef<Socket | null>(null);
     const [connected, setConnected] = useState(false);
     const [myId, setMyId] = useState<string | null>(null);
     const [spectating, setSpectating] = useState(false);
@@ -506,35 +507,29 @@ export default function BlackjackOnline()
         cardKeys: new Set(), resultKeys: new Set(), anims: new Map()
     });
 
-    // WebSocket 연결
+    // Socket.IO 연결
     const connect = useCallback(() =>
     {
-        if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) return;
+        if (socketRef.current?.connected) return;
 
-        const ws = new WebSocket(WS_URL);
-        wsRef.current = ws;
+        const socket = io(`${WS_URL}/blackjack`, {
+            reconnection: true,
+            reconnectionDelay: 1000,
+            reconnectionDelayMax: 5000,
+            reconnectionAttempts: 5
+        });
+        socketRef.current = socket;
 
-        ws.onopen = () => setConnected(true);
+        socket.on("connect", () => setConnected(true));
 
-        ws.onmessage = (e) =>
+        socket.on("notification", (data) =>
         {
             try
             {
-                const data = JSON.parse(e.data);
                 if (data.type === "welcome")
                 {
                     setMyId(data.id);
                     setSpectating(data.spectating);
-                }
-                else if (data.type === "gameState")
-                {
-                    const state: GameState = data;
-                    setGameState(state);
-                    gameStateRef.current = state;
-
-                    // 내 spectating 상태 업데이트
-                    const me = state.players.find(p => p.id === data.id);
-                    if (me) setSpectating(me.spectating);
                 }
                 else if (data.type === "bankrupt")
                 {
@@ -545,27 +540,44 @@ export default function BlackjackOnline()
             {
                 console.error(_err);
             }
-        };
+        });
 
-        ws.onclose = () =>
+        socket.on("gameState", (data) =>
+        {
+            try
+            {
+                const state: GameState = data;
+                setGameState(state);
+                gameStateRef.current = state;
+
+                // 내 spectating 상태 업데이트
+                const me = state.players.find(p => p.id === myId);
+                if (me) setSpectating(me.spectating);
+            }
+            catch (_err)
+            {
+                console.error(_err);
+            }
+        });
+
+        socket.on("disconnect", () =>
         {
             setConnected(false);
             setMyId(null);
-            wsRef.current = null;
-        };
+        });
 
-        ws.onerror = () => ws.close();
-    }, []);
+        socket.on("connect_error", (err) => console.error("Connection error:", err.message));
+    }, [myId]);
 
     const disconnect = useCallback(() =>
     {
-        wsRef.current?.close();
+        socketRef.current?.disconnect();
     }, []);
 
     const send = useCallback((msg: any) =>
     {
-        if (wsRef.current?.readyState === WebSocket.OPEN)
-            wsRef.current.send(JSON.stringify(msg));
+        if (socketRef.current?.connected)
+            socketRef.current.emit("action", msg);
     }, []);
 
     // Canvas 렌더링 루프
@@ -648,7 +660,7 @@ export default function BlackjackOnline()
     // Cleanup on unmount + browser close/navigate
     useEffect(() =>
     {
-        const cleanup = () => { wsRef.current?.close(); };
+        const cleanup = () => { socketRef.current?.disconnect(); };
         window.addEventListener("beforeunload", cleanup);
         window.addEventListener("pagehide", cleanup);
         return () =>

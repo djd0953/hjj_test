@@ -1,5 +1,15 @@
 import { Injectable, Logger } from "@nestjs/common";
-import { Card, GameState, Hand, Phase, Player, PlayerView, ClientMessage } from "../dto/blackjack.dto";
+import {
+    Card,
+    GameState,
+    Hand,
+    Phase,
+    Player,
+    PlayerView,
+    ClientMessage,
+    BlackjackRoom,
+    JoinRoomResult
+} from "../dto/blackjack.dto";
 import {
     BETTING_TIMEOUT_MS,
     DEFAULT_BET,
@@ -19,6 +29,51 @@ export interface RoomEvents {
 @Injectable()
 export class BlackjackService {
     private readonly logger = new Logger(BlackjackService.name);
+
+    private room = new Map<string, BlackjackRoom>();
+
+    // joinroom(roomId: string, clientId: string): JoinRoomResult {
+    //     const room = this.getOrCreateRoom(roomId);
+
+    //     const player = this.createPlayer(room, clientId);
+
+    //     if (this.canJoinAsPlayer(room)) {
+    //         room.players.set(player.id, player);
+
+    //         if (room.phase === "waiting") {
+    //             this.startBetting(room);
+    //         }
+
+    //         return { playerId: player.id, spectating: false };
+    //     }
+
+    //     player.spectating = true;
+    //     room.spectators.set(player.id, player);
+
+    //     return { playerId: player.id, spectating: true };
+    // }
+
+    private getOrCreateRoom(roomId: string): BlackjackRoom {
+        const existing = this.room.get(roomId);
+        if (existing) return existing;
+
+        const room: BlackjackRoom = {
+            id: roomId,
+            players: new Map(),
+            spectators: new Map(),
+            deck: [],
+            dealerCards: [],
+            phase: "waiting",
+            activePlayerId: null,
+            message: "대기 중...",
+            bettingTimer: null,
+            settlementTimer: null,
+            playerIdCounter: 0
+        };
+
+        this.room.set(roomId, room);
+        return room;
+    }
 
     private players = new Map<string, Player>();
     private spectators = new Map<string, Player>();

@@ -20,7 +20,6 @@ export interface Hand {
 
 export interface Player {
     id: string;
-    clientId: string; // WebSocket client ID (Gateway에서 관리)
     chips: number;
     hands: Hand[];
     currentHandIndex: number;
@@ -60,6 +59,8 @@ export interface ClientMessage {
 
 export interface BlackjackRoom {
     id: string;
+    name: string;
+    createPlayerId: string;
     players: Map<string, Player>;
     spectators: Map<string, Player>;
     deck: Card[];
@@ -73,6 +74,6 @@ export interface BlackjackRoom {
 }
 
 export interface JoinRoomResult {
-    playerId: string;
+    player: Player;
     spectating: boolean;
 }
