@@ -1,5 +1,5 @@
 import { Injectable, Logger } from "@nestjs/common";
-import { BlackjackRoom, JoinRoomResult } from "./ws.dto";
+import { BlackjackRoom, JoinRoomResult, Phase } from "./ws.dto";
 import { WsException } from "@nestjs/websockets";
 
 const INITIAL_CHIPS = 1_000;
@@ -25,46 +25,6 @@ export class WSService {
     /****** Event ******/
 
     /****** Room ******/
-    getRoomList() {
-        const roomList: { id: string; name: string; playerCount: number }[] = [];
-        for (const [id, room] of this.room) {
-            roomList.push({
-                id,
-                name: room.name,
-                playerCount: room.players.size
-            });
-        }
-
-        this.logger.debug(roomList);
-        return roomList;
-    }
-
-    joinRoom(roomId: string, clientId: string) {
-        const room = this.getOrThrowRoom(roomId);
-        if (!room) throw new WsException("not found room");
-        const player = this.createPlayer(room, clientId);
-
-        if (this.canJoinAsPlayer(room)) {
-            room.players.set(player.id, player);
-
-            if (room.phase === "waiting") this.startBetting(room);
-
-            return { player: player.id, spectating: false };
-        }
-
-        player.spectating = true;
-        room.spectators.set(player.id, player);
-
-        return { player: player.id, spectating: true };
-    }
-
-    getOrThrowRoom(roomId: string): BlackjackRoom | null {
-        const existing = this.room.get(roomId);
-        if (existing) return existing;
-
-        return null;
-    }
-
     createRoom(name: string, clientId: string): BlackjackRoom {
         const roomId = crypto.randomUUID();
 
@@ -87,8 +47,54 @@ export class WSService {
         this.room.set(roomId, room);
         return room;
     }
-    /****** Room ******/
 
+    getRoomList() {
+        const roomList: { id: string; name: string; playerCount: number }[] = [];
+        for (const [id, room] of this.room) {
+            roomList.push({
+                id,
+                name: room.name,
+                playerCount: room.players.size
+            });
+        }
+
+        this.logger.debug(roomList);
+        return roomList;
+    }
+
+    getRoom(roomId: string): BlackjackRoom | null {
+        const existing = this.room.get(roomId);
+        if (existing) return existing;
+
+        return null;
+    }
+
+    getRoomState(roomId: string): Phase {
+        const room = this.getRoom(roomId);
+        if (!room) throw new WsException("not found room");
+
+        return room.phase;
+    }
+
+    joinRoom(roomId: string, clientId: string) {
+        const room = this.getRoom(roomId);
+        if (!room) throw new WsException("not found room");
+        const player = this.createPlayer(room, clientId);
+
+        if (this.canJoinAsPlayer(room)) {
+            room.players.set(player.id, player);
+
+            if (room.phase === "waiting") this.startBetting(room);
+
+            return { player: player.id, spectating: false };
+        }
+
+        player.spectating = true;
+        room.spectators.set(player.id, player);
+
+        return { player: player.id, spectating: true };
+    }
+    /****** Room ******/
     createPlayer(room: BlackjackRoom, clientId: string) {
         const player = room.players.get(clientId);
         if (player) return player;
