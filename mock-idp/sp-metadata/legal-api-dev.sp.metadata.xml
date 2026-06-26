@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<EntityDescriptor
+    xmlns="urn:oasis:names:tc:SAML:2.0:metadata"
+    entityID="https://legal-api-dev.hsad.co.kr">
+
+    <SPSSODescriptor
+        protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol"
+        WantAssertionsSigned="true">
+
+        <NameIDFormat>
+            urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified
+        </NameIDFormat>
+
+        <AssertionConsumerService
+            index="1"
+            isDefault="true"
+            Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST"
+            Location="https://legal-api-dev.hsad.co.kr/api/login/saml/callback" />
+
+    </SPSSODescriptor>
+</EntityDescriptor>

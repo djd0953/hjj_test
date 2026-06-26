@@ -66,7 +66,7 @@ export default function Home()
 
     const resetCurl = () =>
     {
-        setCurl(`curl -X GET "${ORIGIN}/${mode}/${keyword}"`);
+        setCurl(`curl -X GET "${ORIGIN}/code/${mode}/${keyword}"`);
     };
 
     useEffect(() =>
@@ -77,7 +77,7 @@ export default function Home()
     const sendRequest = async () =>
     {
         if (!keyword) return;
-        const url = `${ORIGIN}/${mode}/${keyword}`;
+        const url = `${ORIGIN}/code/${mode}/${keyword}`;
         resetCurl();
         setResult('Loading...');
         setStatusText('...');
@@ -161,10 +161,10 @@ export default function Home()
     {
         try 
         {
-            // const url = `${ORIGIN}/code/list`;
-            // const res = await fetch(url);
-            // const a = await res.json();
-            setKeywordList([]);
+            const url = `${ORIGIN}/code/list`;
+            const res = await fetch(url);
+            const list = await res.json();
+            setKeywordList(list);
         }
         catch (e: unknown) 
         {
