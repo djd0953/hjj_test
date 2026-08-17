@@ -37,6 +37,13 @@ const PAGES: PageItem[] =
         title: 'Logs',
         subTitle: 'Request history and debugging',
         icon: <span className="grid place-items-center w-8 h-8 rounded-lg bg-bg text-ink">L</span>
+    },
+    {
+        href: '/craft',
+        label: 'Craft',
+        title: 'Craft',
+        subTitle: '필요 재료 계산기',
+        icon: <span className="grid place-items-center w-8 h-8 rounded-lg bg-bg text-ink">C</span>
     }
 ];
 

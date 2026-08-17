@@ -5,6 +5,10 @@
   "root": "src",
   "entryFile": "main",
   "compilerOptions": {
-    "deleteOutDir": false
+    "deleteOutDir": false,
+    "assets": [
+      "modules/game/files/packs/**/*"
+    ],
+    "watchAssets": true
   }
 }

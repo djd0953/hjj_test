@@ -1,0 +1,2720 @@
+{
+    "game": {
+        "title": "숲속의 작은 마녀",
+        "version": "7.0.6.1"
+    },
+    "categories": [
+        {
+            "id": "green-forest",
+            "name": "초록숲"
+        },
+        {
+            "id": "cloud-valley",
+            "name": "구름계곡"
+        },
+        {
+            "id": "starcluster-cave",
+            "name": "별빛동굴"
+        }
+    ],
+    "items": [
+        {
+            "id": "squishychub-fur",
+            "name": "몽시리털",
+            "type": "material",
+            "acquisition": [
+                {
+                    "method": "채집",
+                    "locations": [
+                        "초록 숲 평원"
+                    ],
+                    "time": "낮"
+                }
+            ]
+        },
+        {
+            "id": "bush-bug",
+            "name": "덤불깨비",
+            "type": "material",
+            "acquisition": [
+                {
+                    "method": "채집",
+                    "locations": [
+                        "초록 숲 평원",
+                        "초록 숲 고원",
+                        "초록 숲 폭포",
+                        "초록 숲 깊은 곳"
+                    ],
+                    "time": "하루 종일"
+                }
+            ]
+        },
+        {
+            "id": "pumpkin-terrier-fur",
+            "name": "호박강아지의털 조각",
+            "type": "material",
+            "acquisition": [
+                {
+                    "method": "호박 테리어에게서 채집",
+                    "locations": [
+                        "초록 숲 평원"
+                    ],
+                    "time": "하루 종일"
+                }
+            ]
+        },
+        {
+            "id": "blue-moon-butterfly",
+            "name": "푸른 달나비",
+            "type": "material",
+            "acquisition": [
+                {
+                    "method": "채집망",
+                    "locations": [
+                        "초록 숲 고원",
+                        "초록 숲 폭포"
+                    ],
+                    "time": "밤"
+                }
+            ]
+        },
+        {
+            "id": "bird-flower",
+            "name": "새꽃",
+            "type": "material",
+            "acquisition": [
+                {
+                    "method": "새싹새에게서 채집",
+                    "locations": [
+                        "초록 숲 고원",
+                        "초록 숲 폭포"
+                    ],
+                    "time": "낮"
+                }
+            ]
+        },
+        {
+            "id": "one-eye-frog",
+            "name": "외눈 개구리",
+            "type": "material",
+            "acquisition": [
+                {
+                    "method": "채집",
+                    "locations": [
+                        "초록 숲 폭포"
+                    ],
+                    "time": "밤"
+                }
+            ]
+        },
+        {
+            "id": "smile-bubble",
+            "name": "웃음방울",
+            "type": "material",
+            "acquisition": [
+                {
+                    "method": "장갑으로 채집",
+                    "locations": [
+                        "초록 숲 폭포"
+                    ],
+                    "time": "낮"
+                }
+            ]
+        },
+        {
+            "id": "tinkle-spider",
+            "name": "딸랑 거미",
+            "type": "material",
+            "acquisition": [
+                {
+                    "method": "채집",
+                    "locations": [
+                        "초록 숲 깊은 곳"
+                    ],
+                    "time": "낮"
+                }
+            ]
+        },
+        {
+            "id": "pompom-tail-feather",
+            "name": "폼폼의 꼬리깃",
+            "type": "material",
+            "acquisition": [
+                {
+                    "method": "폼폼에게서 채집",
+                    "locations": [
+                        "초록 숲 깊은 곳"
+                    ],
+                    "time": "밤"
+                }
+            ]
+        },
+        {
+            "id": "witchflower",
+            "name": "마녀꽃",
+            "type": "material",
+            "acquisition": [
+                {
+                    "method": "채집",
+                    "locations": [
+                        "초록 숲 평원",
+                        "초록 숲 고원",
+                        "초록 숲 폭포",
+                        "초록 숲 깊은 곳"
+                    ],
+                    "time": "하루 종일"
+                }
+            ]
+        },
+        {
+            "id": "silver-starbell-pollen",
+            "name": "은빛 별방울꽃 꽃가루",
+            "type": "material",
+            "acquisition": [
+                {
+                    "method": "채집",
+                    "locations": [
+                        "초록 숲 평원"
+                    ],
+                    "time": "밤"
+                }
+            ]
+        },
+        {
+            "id": "maple-herb",
+            "name": "단풍 허브",
+            "type": "material",
+            "acquisition": [
+                {
+                    "method": "채집",
+                    "locations": [
+                        "초록 숲 고원",
+                        "초록 숲 폭포"
+                    ],
+                    "time": "하루 종일"
+                }
+            ]
+        },
+        {
+            "id": "splash-carrot",
+            "name": "퐁당무",
+            "type": "material",
+            "acquisition": [
+                {
+                    "method": "채집",
+                    "locations": [
+                        "초록 숲 폭포"
+                    ],
+                    "time": "하루 종일"
+                }
+            ]
+        },
+        {
+            "id": "little-mandrake",
+            "name": "어린 만드라고라",
+            "type": "material",
+            "acquisition": [
+                {
+                    "method": "채집",
+                    "locations": [
+                        "초록 숲 깊은 곳"
+                    ],
+                    "time": "하루 종일"
+                }
+            ]
+        },
+        {
+            "id": "cotton-doggy-fluff",
+            "name": "포멜로 솜털",
+            "type": "material",
+            "acquisition": [
+                {
+                    "method": "생물에게서 채집",
+                    "locations": [
+                        "구름 계곡"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "furball-rat-fur",
+            "name": "말랑찌 솜털",
+            "type": "material",
+            "acquisition": [
+                {
+                    "method": "생물에게서 채집",
+                    "locations": [
+                        "구름 계곡"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "nectar-moth",
+            "name": "꿀빛나방",
+            "type": "material",
+            "acquisition": [
+                {
+                    "method": "채집망",
+                    "locations": [
+                        "구름 계곡"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "raccoon-tail-fur",
+            "name": "너구리 꼬리털",
+            "type": "material",
+            "acquisition": [
+                {
+                    "method": "생물에게서 채집",
+                    "locations": [
+                        "구름 계곡"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "mole-crown",
+            "name": "두더지 왕관",
+            "type": "material",
+            "acquisition": [
+                {
+                    "method": "생물에게서 채집",
+                    "locations": [
+                        "구름 계곡"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "cloud-gecko",
+            "name": "구름 게코",
+            "type": "material",
+            "acquisition": [
+                {
+                    "method": "채집",
+                    "locations": [
+                        "구름 계곡"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "honey-piglet-bubble",
+            "name": "꿀꾸리 방울",
+            "type": "material",
+            "acquisition": [
+                {
+                    "method": "채집",
+                    "locations": [
+                        "구름 계곡"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "grass-whistler",
+            "name": "풀피리벌레",
+            "type": "material",
+            "acquisition": [
+                {
+                    "method": "채집",
+                    "locations": [
+                        "구름 계곡"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "leafbeaver-hair",
+            "name": "잎새달 머리털",
+            "type": "material",
+            "acquisition": [
+                {
+                    "method": "생물에게서 채집",
+                    "locations": [
+                        "구름 계곡"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "tail-breathing-croc-water",
+            "name": "숨꼬리물",
+            "type": "material",
+            "acquisition": [
+                {
+                    "method": "생물에게서 채집",
+                    "locations": [
+                        "구름 계곡"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "bellody-flower",
+            "name": "벨로디 꽃",
+            "type": "material",
+            "acquisition": [
+                {
+                    "method": "삽",
+                    "locations": [
+                        "구름 계곡"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "moongirth",
+            "name": "달둘레",
+            "type": "material",
+            "acquisition": [
+                {
+                    "method": "손",
+                    "locations": [
+                        "구름 계곡"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "wish-flower",
+            "name": "소망꽃 씨앗",
+            "type": "material",
+            "acquisition": [
+                {
+                    "method": "손",
+                    "locations": [
+                        "구름 계곡"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "cloudbloom",
+            "name": "구름꽃",
+            "type": "material",
+            "acquisition": [
+                {
+                    "method": "손",
+                    "locations": [
+                        "구름 계곡"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "ground-nailer-head-fur",
+            "name": "땅못박이 머리털",
+            "type": "material",
+            "acquisition": [
+                {
+                    "method": "열매를 머리에 떨어뜨린 뒤 채집",
+                    "locations": [
+                        "별빛 동굴 상층"
+                    ],
+                    "time": "하루 종일"
+                }
+            ]
+        },
+        {
+            "id": "peanut-bat-wing-husk",
+            "name": "땅콩 박쥐 날개 껍질",
+            "type": "material",
+            "acquisition": [
+                {
+                    "method": "멀리 던지기 물약 사용 후 채집",
+                    "locations": [
+                        "별빛 동굴 상층"
+                    ],
+                    "time": "하루 종일"
+                }
+            ]
+        },
+        {
+            "id": "phantom-jellyfish",
+            "name": "별빛 해파리",
+            "type": "material",
+            "acquisition": [
+                {
+                    "method": "채집망",
+                    "locations": [
+                        "별빛 동굴"
+                    ],
+                    "time": "밤"
+                }
+            ]
+        },
+        {
+            "id": "fog-fox-tail-fur",
+            "name": "달자국 여우 꼬리털",
+            "type": "material",
+            "acquisition": [
+                {
+                    "method": "손",
+                    "locations": [
+                        "별빛 동굴 상층",
+                        "별빛 동굴 중층 상부",
+                        "별빛 동굴 중층 하부"
+                    ],
+                    "time": "낮"
+                }
+            ]
+        },
+        {
+            "id": "jelly-shell-shell",
+            "name": "온도리 껍데기",
+            "type": "material",
+            "acquisition": [
+                {
+                    "method": "곡괭이",
+                    "locations": [
+                        "별빛 동굴 중층 내부 상부",
+                        "별빛 동굴 중층 내부 하부"
+                    ],
+                    "time": "하루 종일",
+                    "condition": "간헐천으로 데우거나 따끈 물약 사용"
+                }
+            ]
+        },
+        {
+            "id": "fort-rat",
+            "name": "망쥐",
+            "type": "material",
+            "acquisition": [
+                {
+                    "method": "채집망",
+                    "locations": [
+                        "별빛 동굴 중층 외벽"
+                    ],
+                    "time": "하루 종일"
+                }
+            ]
+        },
+        {
+            "id": "buoyancy-fruit",
+            "name": "푸리게",
+            "type": "material",
+            "acquisition": [
+                {
+                    "method": "삽",
+                    "locations": [
+                        "별빛 동굴 중층 외벽"
+                    ],
+                    "time": "하루 종일"
+                }
+            ]
+        },
+        {
+            "id": "dream-orb",
+            "name": "몽쭈기의 구슬",
+            "type": "material",
+            "acquisition": [
+                {
+                    "method": "손",
+                    "locations": [
+                        "별빛 동굴 중층 외벽"
+                    ],
+                    "time": "낮"
+                }
+            ]
+        },
+        {
+            "id": "water-dragonfly",
+            "name": "별반딧불",
+            "type": "material",
+            "acquisition": [
+                {
+                    "method": "채집망",
+                    "locations": [
+                        "별빛 동굴 하층"
+                    ],
+                    "time": "밤"
+                }
+            ]
+        },
+        {
+            "id": "soil-diver-horn-shard",
+            "name": "더비 뿔조각",
+            "type": "material",
+            "acquisition": [
+                {
+                    "method": "곡괭이",
+                    "locations": [
+                        "별빛 동굴 하층"
+                    ],
+                    "time": "낮"
+                }
+            ]
+        },
+        {
+            "id": "moon-brilliance-tail-scale",
+            "name": "달동이의 꼬리 비늘",
+            "type": "material",
+            "acquisition": [
+                {
+                    "method": "손",
+                    "locations": [
+                        "별빛 동굴 하층"
+                    ],
+                    "time": "하루 종일",
+                    "condition": "어둠장막 물약 필요"
+                }
+            ]
+        },
+        {
+            "id": "shooting-star-seed",
+            "name": "유성꽃 씨앗",
+            "type": "material",
+            "acquisition": [
+                {
+                    "method": "채집망",
+                    "locations": [
+                        "별빛 동굴 중층"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "cliff-root",
+            "name": "은벽초",
+            "type": "material",
+            "acquisition": [
+                {
+                    "method": "모종삽",
+                    "locations": [
+                        "별빛 동굴 중층 외벽"
+                    ],
+                    "time": "밤"
+                }
+            ]
+        },
+        {
+            "id": "duckweed-nectar",
+            "name": "너울꽃 꿀",
+            "type": "material",
+            "acquisition": [
+                {
+                    "method": "채집",
+                    "locations": [
+                        "별빛 동굴"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "bird-flower-water",
+            "name": "새꽃 물",
+            "type": "intermediate"
+        },
+        {
+            "id": "blue-moon-butterfly-extract",
+            "name": "푸른 달나비 추출물",
+            "type": "intermediate"
+        },
+        {
+            "id": "bush-bug-extract",
+            "name": "덤불깨비 추출물",
+            "type": "intermediate"
+        },
+        {
+            "id": "maple-herb-extract",
+            "name": "단풍 허브 추출물",
+            "type": "intermediate"
+        },
+        {
+            "id": "silver-starbell-pollen-extract",
+            "name": "은빛 별방울꽃 꽃가루 추출물",
+            "type": "intermediate"
+        },
+        {
+            "id": "smile-bubble-extract",
+            "name": "웃음방울 추출물",
+            "type": "intermediate"
+        },
+        {
+            "id": "splash-carrot-juice",
+            "name": "퐁당무 즙",
+            "type": "intermediate"
+        },
+        {
+            "id": "squishychub-fur-extract",
+            "name": "몽시리털 추출물",
+            "type": "intermediate"
+        },
+        {
+            "id": "witchflower-extract",
+            "name": "마녀꽃 추출물",
+            "type": "intermediate"
+        },
+        {
+            "id": "baked-tinkle-spider",
+            "name": "구운 딸랑 거미",
+            "type": "intermediate"
+        },
+        {
+            "id": "burned-pumpkin-terrier-fur",
+            "name": "구운 호박강아지 털",
+            "type": "intermediate"
+        },
+        {
+            "id": "dried-pompom-feather",
+            "name": "말린 폼폼 꼬리깃",
+            "type": "intermediate"
+        },
+        {
+            "id": "roast-little-mandrake",
+            "name": "구운 어린 만드라고라",
+            "type": "intermediate"
+        },
+        {
+            "id": "roasted-one-eye-frog",
+            "name": "구운 외눈 개구리",
+            "type": "intermediate"
+        },
+        {
+            "id": "bellody-flower-juice",
+            "name": "벨로디 꽃 즙",
+            "type": "intermediate"
+        },
+        {
+            "id": "cotton-doggy-fluff-jelly",
+            "name": "포멜로 솜털 젤리",
+            "type": "intermediate"
+        },
+        {
+            "id": "dried-raccoon-tail-fur",
+            "name": "말린 너구리 꼬리털",
+            "type": "intermediate"
+        },
+        {
+            "id": "furball-rat-fur-jelly",
+            "name": "말랑찌 솜털 젤리",
+            "type": "intermediate"
+        },
+        {
+            "id": "grass-whistler-juice",
+            "name": "풀피리벌레 즙",
+            "type": "intermediate"
+        },
+        {
+            "id": "mole-crown-powder",
+            "name": "왕관 두더지 가루",
+            "type": "intermediate"
+        },
+        {
+            "id": "cloud-gecko-jelly",
+            "name": "구름 게코 젤리",
+            "type": "intermediate"
+        },
+        {
+            "id": "honey-piglet-bubble-powder",
+            "name": "꿀꾸리 방울 가루",
+            "type": "intermediate"
+        },
+        {
+            "id": "lunarleaf-hair-juice",
+            "name": "잎새달 머리털 즙",
+            "type": "intermediate"
+        },
+        {
+            "id": "moongirth-pollen",
+            "name": "달둘레 꽃가루",
+            "type": "intermediate"
+        },
+        {
+            "id": "nectar-moth-jelly",
+            "name": "꿀빛나방 젤리",
+            "type": "intermediate"
+        },
+        {
+            "id": "tail-breathing-croc-water-powder",
+            "name": "숨꼬리물 가루",
+            "type": "intermediate"
+        },
+        {
+            "id": "wish-flower-seed-juice",
+            "name": "소망꽃 씨앗 즙",
+            "type": "intermediate"
+        },
+        {
+            "id": "cloudbloom-jelly",
+            "name": "구름꽃 젤리",
+            "type": "intermediate"
+        },
+        {
+            "id": "buoyancy-fruit-juice",
+            "name": "부력 열매 즙",
+            "type": "intermediate"
+        },
+        {
+            "id": "duckweed-nectar-juice",
+            "name": "개구리밥 꿀 즙",
+            "type": "intermediate"
+        },
+        {
+            "id": "ground-nailer-hair-oil",
+            "name": "땅못박이 머리털 기름",
+            "type": "intermediate"
+        },
+        {
+            "id": "dried-jelly-shell",
+            "name": "말린 젤리 껍데기",
+            "type": "intermediate"
+        },
+        {
+            "id": "dried-moon-brilliance-tail-scale",
+            "name": "말린 달빛꼬리 비늘",
+            "type": "intermediate"
+        },
+        {
+            "id": "fog-fox-tail-fur-powder",
+            "name": "안개 여우 꼬리털 가루",
+            "type": "intermediate"
+        },
+        {
+            "id": "roast-fort-rat",
+            "name": "구운 요새쥐",
+            "type": "intermediate"
+        },
+        {
+            "id": "shooting-star-seed-powder",
+            "name": "별똥별 씨앗 가루",
+            "type": "intermediate"
+        },
+        {
+            "id": "cliff-root-jelly",
+            "name": "절벽 뿌리 젤리",
+            "type": "intermediate"
+        },
+        {
+            "id": "dream-orb-jelly",
+            "name": "꿈 구슬 젤리",
+            "type": "intermediate"
+        },
+        {
+            "id": "peanut-bat-husk-jelly",
+            "name": "땅콩 박쥐 껍질 젤리",
+            "type": "intermediate"
+        },
+        {
+            "id": "phantom-jellyfish-jelly",
+            "name": "유령 해파리 젤리",
+            "type": "intermediate"
+        },
+        {
+            "id": "soil-diver-horn-jelly",
+            "name": "흙잠수꾼 뿔 젤리",
+            "type": "intermediate"
+        },
+        {
+            "id": "water-dragonfly-jelly",
+            "name": "물잠자리 젤리",
+            "type": "intermediate"
+        },
+        {
+            "id": "weed-terminator-potion",
+            "name": "나쁜 풀 제거 물약",
+            "type": "craftable",
+            "category": [
+                "green-forest"
+            ]
+        },
+        {
+            "id": "nutrition-potion",
+            "name": "영양 공급 물약",
+            "type": "craftable",
+            "category": [
+                "green-forest"
+            ]
+        },
+        {
+            "id": "earmuff-potion",
+            "name": "귀마개 물약",
+            "type": "craftable",
+            "category": [
+                "green-forest"
+            ]
+        },
+        {
+            "id": "pink-star-juice",
+            "name": "별별주스",
+            "type": "craftable",
+            "category": [
+                "green-forest"
+            ]
+        },
+        {
+            "id": "curse-lifting-candy",
+            "name": "저주 해제 사탕",
+            "type": "craftable",
+            "category": [
+                "green-forest"
+            ]
+        },
+        {
+            "id": "healing-candy",
+            "name": "치료 사탕",
+            "type": "craftable",
+            "category": [
+                "green-forest"
+            ]
+        },
+        {
+            "id": "sleepy-candy",
+            "name": "꾸벅꾸벅 사탕",
+            "type": "craftable",
+            "category": [
+                "green-forest"
+            ]
+        },
+        {
+            "id": "sigh-candy",
+            "name": "한숨 사탕",
+            "type": "craftable",
+            "category": [
+                "green-forest"
+            ]
+        },
+        {
+            "id": "keen-eye-candy",
+            "name": "초롱초롱 사탕",
+            "type": "craftable",
+            "category": [
+                "green-forest"
+            ]
+        },
+        {
+            "id": "workout-candy",
+            "name": "근육 강화 사탕",
+            "type": "craftable",
+            "category": [
+                "green-forest"
+            ]
+        },
+        {
+            "id": "back-scratcher-candy",
+            "name": "효자손 사탕",
+            "type": "craftable",
+            "category": [
+                "green-forest"
+            ]
+        },
+        {
+            "id": "sticky-candy",
+            "name": "말끔접착 사탕",
+            "type": "craftable",
+            "category": [
+                "green-forest"
+            ]
+        },
+        {
+            "id": "deep-breath-candy",
+            "name": "심호흡 사탕",
+            "type": "craftable",
+            "category": [
+                "green-forest"
+            ]
+        },
+        {
+            "id": "cough-candy",
+            "name": "기침 사탕",
+            "type": "craftable",
+            "category": [
+                "green-forest"
+            ]
+        },
+        {
+            "id": "massage-candy",
+            "name": "부들부들 사탕",
+            "type": "craftable",
+            "category": [
+                "green-forest"
+            ]
+        },
+        {
+            "id": "bugproof-candy",
+            "name": "벌레 방지 사탕",
+            "type": "craftable",
+            "category": [
+                "green-forest"
+            ]
+        },
+        {
+            "id": "curse-detection-candy",
+            "name": "저주보기 사탕",
+            "type": "craftable",
+            "category": [
+                "green-forest"
+            ]
+        },
+        {
+            "id": "good-luck-candy",
+            "name": "행운 사탕",
+            "type": "craftable",
+            "category": [
+                "green-forest"
+            ]
+        },
+        {
+            "id": "thundershower-potion",
+            "name": "소나기 물약",
+            "type": "craftable",
+            "category": [
+                "cloud-valley"
+            ]
+        },
+        {
+            "id": "sticky-hand-potion",
+            "name": "끈적 손 물약",
+            "type": "craftable",
+            "category": [
+                "cloud-valley"
+            ]
+        },
+        {
+            "id": "inflation-potion",
+            "name": "부풀림 물약",
+            "type": "craftable",
+            "category": [
+                "cloud-valley"
+            ]
+        },
+        {
+            "id": "diet-potion",
+            "name": "다이어트 물약",
+            "type": "craftable",
+            "category": [
+                "cloud-valley"
+            ]
+        },
+        {
+            "id": "magic-detection-candy",
+            "name": "마력 감지 사탕",
+            "type": "craftable",
+            "category": [
+                "cloud-valley"
+            ]
+        },
+        {
+            "id": "crack-candy",
+            "name": "꽥꽥 사탕",
+            "type": "craftable",
+            "category": [
+                "cloud-valley"
+            ]
+        },
+        {
+            "id": "babble-candy",
+            "name": "나불나불 사탕",
+            "type": "craftable",
+            "category": [
+                "cloud-valley"
+            ]
+        },
+        {
+            "id": "cleansing-candy",
+            "name": "깨끗거품 사탕",
+            "type": "craftable",
+            "category": [
+                "cloud-valley"
+            ]
+        },
+        {
+            "id": "antidote-candy",
+            "name": "해독 사탕",
+            "type": "craftable",
+            "category": [
+                "cloud-valley"
+            ]
+        },
+        {
+            "id": "anti-rhinorrhea-candy",
+            "name": "콧물 제거 사탕",
+            "type": "craftable",
+            "category": [
+                "cloud-valley"
+            ]
+        },
+        {
+            "id": "grannys-wisdom-candy",
+            "name": "할머니의 지혜 사탕",
+            "type": "craftable",
+            "category": [
+                "cloud-valley"
+            ]
+        },
+        {
+            "id": "morale-candy",
+            "name": "으쌰으쌰 사탕",
+            "type": "craftable",
+            "category": [
+                "cloud-valley"
+            ]
+        },
+        {
+            "id": "dental-care-candy",
+            "name": "충치 치료 사탕",
+            "type": "craftable",
+            "category": [
+                "cloud-valley"
+            ]
+        },
+        {
+            "id": "bawl-candy",
+            "name": "훌쩍훌쩍 사탕",
+            "type": "craftable",
+            "category": [
+                "cloud-valley"
+            ]
+        },
+        {
+            "id": "deja-vu-candy",
+            "name": "데자뷔 사탕",
+            "type": "craftable",
+            "category": [
+                "cloud-valley"
+            ]
+        },
+        {
+            "id": "filling-candy",
+            "name": "배부름 사탕",
+            "type": "craftable",
+            "category": [
+                "cloud-valley"
+            ]
+        },
+        {
+            "id": "misfortune-candy",
+            "name": "불행 사탕",
+            "type": "craftable",
+            "category": [
+                "cloud-valley"
+            ]
+        },
+        {
+            "id": "nice-dream-candy",
+            "name": "좋은 꿈 사탕",
+            "type": "craftable",
+            "category": [
+                "cloud-valley"
+            ]
+        },
+        {
+            "id": "bulk-up-potion",
+            "name": "무게 증가 물약",
+            "type": "craftable",
+            "category": [
+                "starcluster-cave"
+            ]
+        },
+        {
+            "id": "light-hands-potion",
+            "name": "멀리 던지기 물약",
+            "type": "craftable",
+            "category": [
+                "starcluster-cave"
+            ]
+        },
+        {
+            "id": "heat-potion",
+            "name": "따끈 물약",
+            "type": "craftable",
+            "category": [
+                "starcluster-cave"
+            ]
+        },
+        {
+            "id": "dark-barrier-potion",
+            "name": "어둠장막 물약",
+            "type": "craftable",
+            "category": [
+                "starcluster-cave"
+            ]
+        },
+        {
+            "id": "sweet-curse-candy",
+            "name": "단맛 저주 사탕",
+            "type": "craftable",
+            "category": [
+                "starcluster-cave"
+            ]
+        },
+        {
+            "id": "warm-comfort-candy",
+            "name": "포근 사탕",
+            "type": "craftable",
+            "category": [
+                "starcluster-cave"
+            ]
+        },
+        {
+            "id": "heavy-press-candy",
+            "name": "꾹꾹 사탕",
+            "type": "craftable",
+            "category": [
+                "starcluster-cave"
+            ]
+        },
+        {
+            "id": "dont-move-candy",
+            "name": "꼼짝마 사탕",
+            "type": "craftable",
+            "category": [
+                "starcluster-cave"
+            ]
+        },
+        {
+            "id": "foresight-candy",
+            "name": "예지 사탕",
+            "type": "craftable",
+            "category": [
+                "starcluster-cave"
+            ]
+        },
+        {
+            "id": "cool-head-candy",
+            "name": "머리 식힘 사탕",
+            "type": "craftable",
+            "category": [
+                "starcluster-cave"
+            ]
+        },
+        {
+            "id": "calm-stomach-candy",
+            "name": "속 편한 사탕",
+            "type": "craftable",
+            "category": [
+                "starcluster-cave"
+            ]
+        },
+        {
+            "id": "light-step-candy",
+            "name": "사뿐사뿐 사탕",
+            "type": "craftable",
+            "category": [
+                "starcluster-cave"
+            ]
+        },
+        {
+            "id": "whisper-candy",
+            "name": "속닥속닥 사탕",
+            "type": "craftable",
+            "category": [
+                "starcluster-cave"
+            ]
+        },
+        {
+            "id": "deep-voice-candy",
+            "name": "으르렁 사탕",
+            "type": "craftable",
+            "category": [
+                "starcluster-cave"
+            ]
+        },
+        {
+            "id": "sharp-ear-candy",
+            "name": "쫑긋 사탕",
+            "type": "craftable",
+            "category": [
+                "starcluster-cave"
+            ]
+        },
+        {
+            "id": "quick-reflex-candy",
+            "name": "움찔 사탕",
+            "type": "craftable",
+            "category": [
+                "starcluster-cave"
+            ]
+        },
+        {
+            "id": "soft-grip-candy",
+            "name": "스르륵 사탕",
+            "type": "craftable",
+            "category": [
+                "starcluster-cave"
+            ]
+        },
+        {
+            "id": "tick-tock-candy",
+            "name": "똑딱 사탕",
+            "type": "craftable",
+            "category": [
+                "starcluster-cave"
+            ]
+        }
+    ],
+    "recipes": [
+        {
+            "output": {
+                "itemId": "bird-flower-water",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "bird-flower",
+                    "quantity": 4
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "blue-moon-butterfly-extract",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "blue-moon-butterfly",
+                    "quantity": 2
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "bush-bug-extract",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "bush-bug",
+                    "quantity": 2
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "maple-herb-extract",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "maple-herb",
+                    "quantity": 2
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "silver-starbell-pollen-extract",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "silver-starbell-pollen",
+                    "quantity": 2
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "smile-bubble-extract",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "smile-bubble",
+                    "quantity": 2
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "splash-carrot-juice",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "splash-carrot",
+                    "quantity": 2
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "squishychub-fur-extract",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "squishychub-fur",
+                    "quantity": 2
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "witchflower-extract",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "witchflower",
+                    "quantity": 2
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "baked-tinkle-spider",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "tinkle-spider",
+                    "quantity": 2
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "burned-pumpkin-terrier-fur",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "pumpkin-terrier-fur",
+                    "quantity": 4
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "dried-pompom-feather",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "pompom-tail-feather",
+                    "quantity": 4
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "roast-little-mandrake",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "little-mandrake",
+                    "quantity": 4
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "roasted-one-eye-frog",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "one-eye-frog",
+                    "quantity": 2
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "bellody-flower-juice",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "bellody-flower",
+                    "quantity": 2
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "cotton-doggy-fluff-jelly",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "cotton-doggy-fluff",
+                    "quantity": 2
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "dried-raccoon-tail-fur",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "raccoon-tail-fur",
+                    "quantity": 4
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "furball-rat-fur-jelly",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "furball-rat-fur",
+                    "quantity": 2
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "grass-whistler-juice",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "grass-whistler",
+                    "quantity": 2
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "honey-piglet-bubble-powder",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "honey-piglet-bubble",
+                    "quantity": 4
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "lunarleaf-hair-juice",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "leafbeaver-hair",
+                    "quantity": 2
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "moongirth-pollen",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "moongirth",
+                    "quantity": 2
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "nectar-moth-jelly",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "nectar-moth",
+                    "quantity": 2
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "tail-breathing-croc-water-powder",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "tail-breathing-croc-water",
+                    "quantity": 4
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "wish-flower-seed-juice",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "wish-flower",
+                    "quantity": 2
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "cloudbloom-jelly",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "cloudbloom",
+                    "quantity": 2
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "cloud-gecko-jelly",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "cloud-gecko",
+                    "quantity": 2
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "mole-crown-powder",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "mole-crown",
+                    "quantity": 2
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "buoyancy-fruit-juice",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "buoyancy-fruit",
+                    "quantity": 4
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "duckweed-nectar-juice",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "duckweed-nectar",
+                    "quantity": 2
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "ground-nailer-hair-oil",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "ground-nailer-head-fur",
+                    "quantity": 2
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "dried-jelly-shell",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "jelly-shell-shell",
+                    "quantity": 4
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "dried-moon-brilliance-tail-scale",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "moon-brilliance-tail-scale",
+                    "quantity": 2
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "fog-fox-tail-fur-powder",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "fog-fox-tail-fur",
+                    "quantity": 2
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "roast-fort-rat",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "fort-rat",
+                    "quantity": 2
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "shooting-star-seed-powder",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "shooting-star-seed",
+                    "quantity": 2
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "cliff-root-jelly",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "cliff-root",
+                    "quantity": 2
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "dream-orb-jelly",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "dream-orb",
+                    "quantity": 2
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "peanut-bat-husk-jelly",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "peanut-bat-wing-husk",
+                    "quantity": 4
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "phantom-jellyfish-jelly",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "phantom-jellyfish",
+                    "quantity": 2
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "soil-diver-horn-jelly",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "soil-diver-horn-shard",
+                    "quantity": 2
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "water-dragonfly-jelly",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "water-dragonfly",
+                    "quantity": 2
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "weed-terminator-potion",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "squishychub-fur-extract",
+                    "quantity": 1
+                },
+                {
+                    "itemId": "witchflower-extract",
+                    "quantity": 1
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "nutrition-potion",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "maple-herb-extract",
+                    "quantity": 1
+                },
+                {
+                    "itemId": "bush-bug-extract",
+                    "quantity": 1
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "earmuff-potion",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "splash-carrot-juice",
+                    "quantity": 1
+                },
+                {
+                    "itemId": "blue-moon-butterfly-extract",
+                    "quantity": 1
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "pink-star-juice",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "smile-bubble-extract",
+                    "quantity": 1
+                },
+                {
+                    "itemId": "baked-tinkle-spider",
+                    "quantity": 1
+                },
+                {
+                    "itemId": "maple-herb-extract",
+                    "quantity": 1
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "curse-lifting-candy",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "bush-bug-extract",
+                    "quantity": 1
+                },
+                {
+                    "itemId": "squishychub-fur-extract",
+                    "quantity": 1
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "healing-candy",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "maple-herb-extract",
+                    "quantity": 1
+                },
+                {
+                    "itemId": "witchflower-extract",
+                    "quantity": 1
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "sleepy-candy",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "bush-bug-extract",
+                    "quantity": 1
+                },
+                {
+                    "itemId": "silver-starbell-pollen-extract",
+                    "quantity": 1
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "sigh-candy",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "squishychub-fur-extract",
+                    "quantity": 1
+                },
+                {
+                    "itemId": "maple-herb-extract",
+                    "quantity": 1
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "keen-eye-candy",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "splash-carrot-juice",
+                    "quantity": 1
+                },
+                {
+                    "itemId": "silver-starbell-pollen-extract",
+                    "quantity": 1
+                },
+                {
+                    "itemId": "roasted-one-eye-frog",
+                    "quantity": 1
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "workout-candy",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "witchflower-extract",
+                    "quantity": 1
+                },
+                {
+                    "itemId": "maple-herb-extract",
+                    "quantity": 1
+                },
+                {
+                    "itemId": "roasted-one-eye-frog",
+                    "quantity": 1
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "back-scratcher-candy",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "blue-moon-butterfly-extract",
+                    "quantity": 1
+                },
+                {
+                    "itemId": "smile-bubble-extract",
+                    "quantity": 1
+                },
+                {
+                    "itemId": "splash-carrot-juice",
+                    "quantity": 1
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "sticky-candy",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "blue-moon-butterfly-extract",
+                    "quantity": 1
+                },
+                {
+                    "itemId": "witchflower-extract",
+                    "quantity": 1
+                },
+                {
+                    "itemId": "splash-carrot-juice",
+                    "quantity": 1
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "deep-breath-candy",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "bird-flower-water",
+                    "quantity": 1
+                },
+                {
+                    "itemId": "silver-starbell-pollen-extract",
+                    "quantity": 1
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "cough-candy",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "burned-pumpkin-terrier-fur",
+                    "quantity": 1
+                },
+                {
+                    "itemId": "smile-bubble-extract",
+                    "quantity": 1
+                },
+                {
+                    "itemId": "roasted-one-eye-frog",
+                    "quantity": 1
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "massage-candy",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "burned-pumpkin-terrier-fur",
+                    "quantity": 1
+                },
+                {
+                    "itemId": "baked-tinkle-spider",
+                    "quantity": 1
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "bugproof-candy",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "bird-flower-water",
+                    "quantity": 1
+                },
+                {
+                    "itemId": "squishychub-fur-extract",
+                    "quantity": 1
+                },
+                {
+                    "itemId": "maple-herb-extract",
+                    "quantity": 1
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "curse-detection-candy",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "roast-little-mandrake",
+                    "quantity": 1
+                },
+                {
+                    "itemId": "smile-bubble-extract",
+                    "quantity": 1
+                },
+                {
+                    "itemId": "bush-bug-extract",
+                    "quantity": 1
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "good-luck-candy",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "witchflower-extract",
+                    "quantity": 1
+                },
+                {
+                    "itemId": "baked-tinkle-spider",
+                    "quantity": 1
+                },
+                {
+                    "itemId": "dried-pompom-feather",
+                    "quantity": 1
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "thundershower-potion",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "bellody-flower-juice",
+                    "quantity": 1
+                },
+                {
+                    "itemId": "furball-rat-fur-jelly",
+                    "quantity": 1
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "sticky-hand-potion",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "wish-flower-seed-juice",
+                    "quantity": 1
+                },
+                {
+                    "itemId": "mole-crown-powder",
+                    "quantity": 1
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "inflation-potion",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "moongirth-pollen",
+                    "quantity": 1
+                },
+                {
+                    "itemId": "cloud-gecko-jelly",
+                    "quantity": 1
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "diet-potion",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "cloudbloom-jelly",
+                    "quantity": 1
+                },
+                {
+                    "itemId": "nectar-moth-jelly",
+                    "quantity": 1
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "magic-detection-candy",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "furball-rat-fur-jelly",
+                    "quantity": 1
+                },
+                {
+                    "itemId": "nectar-moth-jelly",
+                    "quantity": 1
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "crack-candy",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "bellody-flower-juice",
+                    "quantity": 1
+                },
+                {
+                    "itemId": "furball-rat-fur-jelly",
+                    "quantity": 1
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "babble-candy",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "grass-whistler-juice",
+                    "quantity": 1
+                },
+                {
+                    "itemId": "wish-flower-seed-juice",
+                    "quantity": 1
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "cleansing-candy",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "cloudbloom-jelly",
+                    "quantity": 1
+                },
+                {
+                    "itemId": "cloud-gecko-jelly",
+                    "quantity": 1
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "antidote-candy",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "wish-flower-seed-juice",
+                    "quantity": 1
+                },
+                {
+                    "itemId": "moongirth-pollen",
+                    "quantity": 1
+                },
+                {
+                    "itemId": "furball-rat-fur-jelly",
+                    "quantity": 1
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "anti-rhinorrhea-candy",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "bellody-flower-juice",
+                    "quantity": 1
+                },
+                {
+                    "itemId": "cloudbloom-jelly",
+                    "quantity": 1
+                },
+                {
+                    "itemId": "mole-crown-powder",
+                    "quantity": 1
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "grannys-wisdom-candy",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "lunarleaf-hair-juice",
+                    "quantity": 1
+                },
+                {
+                    "itemId": "bellody-flower-juice",
+                    "quantity": 1
+                },
+                {
+                    "itemId": "cloud-gecko-jelly",
+                    "quantity": 1
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "morale-candy",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "lunarleaf-hair-juice",
+                    "quantity": 1
+                },
+                {
+                    "itemId": "honey-piglet-bubble-powder",
+                    "quantity": 1
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "dental-care-candy",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "cloud-gecko-jelly",
+                    "quantity": 1
+                },
+                {
+                    "itemId": "mole-crown-powder",
+                    "quantity": 1
+                },
+                {
+                    "itemId": "nectar-moth-jelly",
+                    "quantity": 1
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "bawl-candy",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "wish-flower-seed-juice",
+                    "quantity": 1
+                },
+                {
+                    "itemId": "grass-whistler-juice",
+                    "quantity": 1
+                },
+                {
+                    "itemId": "cotton-doggy-fluff-jelly",
+                    "quantity": 1
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "deja-vu-candy",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "bellody-flower-juice",
+                    "quantity": 1
+                },
+                {
+                    "itemId": "cotton-doggy-fluff-jelly",
+                    "quantity": 1
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "filling-candy",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "honey-piglet-bubble-powder",
+                    "quantity": 1
+                },
+                {
+                    "itemId": "furball-rat-fur-jelly",
+                    "quantity": 1
+                },
+                {
+                    "itemId": "cloudbloom-jelly",
+                    "quantity": 1
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "misfortune-candy",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "mole-crown-powder",
+                    "quantity": 1
+                },
+                {
+                    "itemId": "dried-raccoon-tail-fur",
+                    "quantity": 1
+                },
+                {
+                    "itemId": "nectar-moth-jelly",
+                    "quantity": 1
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "nice-dream-candy",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "grass-whistler-juice",
+                    "quantity": 1
+                },
+                {
+                    "itemId": "moongirth-pollen",
+                    "quantity": 1
+                },
+                {
+                    "itemId": "tail-breathing-croc-water-powder",
+                    "quantity": 1
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "bulk-up-potion",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "ground-nailer-hair-oil",
+                    "quantity": 1
+                },
+                {
+                    "itemId": "fog-fox-tail-fur-powder",
+                    "quantity": 1
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "light-hands-potion",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "shooting-star-seed-powder",
+                    "quantity": 1
+                },
+                {
+                    "itemId": "phantom-jellyfish-jelly",
+                    "quantity": 1
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "heat-potion",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "roast-fort-rat",
+                    "quantity": 1
+                },
+                {
+                    "itemId": "dream-orb-jelly",
+                    "quantity": 1
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "dark-barrier-potion",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "duckweed-nectar-juice",
+                    "quantity": 1
+                },
+                {
+                    "itemId": "soil-diver-horn-jelly",
+                    "quantity": 1
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "sweet-curse-candy",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "shooting-star-seed-powder",
+                    "quantity": 1
+                },
+                {
+                    "itemId": "soil-diver-horn-jelly",
+                    "quantity": 1
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "warm-comfort-candy",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "ground-nailer-hair-oil",
+                    "quantity": 1
+                },
+                {
+                    "itemId": "dream-orb-jelly",
+                    "quantity": 1
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "heavy-press-candy",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "fog-fox-tail-fur-powder",
+                    "quantity": 1
+                },
+                {
+                    "itemId": "water-dragonfly-jelly",
+                    "quantity": 1
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "dont-move-candy",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "cliff-root-jelly",
+                    "quantity": 1
+                },
+                {
+                    "itemId": "phantom-jellyfish-jelly",
+                    "quantity": 1
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "foresight-candy",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "duckweed-nectar-juice",
+                    "quantity": 1
+                },
+                {
+                    "itemId": "roast-fort-rat",
+                    "quantity": 1
+                },
+                {
+                    "itemId": "soil-diver-horn-jelly",
+                    "quantity": 1
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "cool-head-candy",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "duckweed-nectar-juice",
+                    "quantity": 1
+                },
+                {
+                    "itemId": "ground-nailer-hair-oil",
+                    "quantity": 1
+                },
+                {
+                    "itemId": "fog-fox-tail-fur-powder",
+                    "quantity": 1
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "calm-stomach-candy",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "fog-fox-tail-fur-powder",
+                    "quantity": 1
+                },
+                {
+                    "itemId": "dream-orb-jelly",
+                    "quantity": 1
+                },
+                {
+                    "itemId": "cliff-root-jelly",
+                    "quantity": 1
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "light-step-candy",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "ground-nailer-hair-oil",
+                    "quantity": 1
+                },
+                {
+                    "itemId": "shooting-star-seed-powder",
+                    "quantity": 1
+                },
+                {
+                    "itemId": "phantom-jellyfish-jelly",
+                    "quantity": 1
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "whisper-candy",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "dried-jelly-shell",
+                    "quantity": 1
+                },
+                {
+                    "itemId": "phantom-jellyfish-jelly",
+                    "quantity": 1
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "deep-voice-candy",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "buoyancy-fruit-juice",
+                    "quantity": 1
+                },
+                {
+                    "itemId": "shooting-star-seed-powder",
+                    "quantity": 1
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "sharp-ear-candy",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "dried-moon-brilliance-tail-scale",
+                    "quantity": 1
+                },
+                {
+                    "itemId": "roast-fort-rat",
+                    "quantity": 1
+                },
+                {
+                    "itemId": "water-dragonfly-jelly",
+                    "quantity": 1
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "quick-reflex-candy",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "duckweed-nectar-juice",
+                    "quantity": 1
+                },
+                {
+                    "itemId": "dried-jelly-shell",
+                    "quantity": 1
+                },
+                {
+                    "itemId": "cliff-root-jelly",
+                    "quantity": 1
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "soft-grip-candy",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "buoyancy-fruit-juice",
+                    "quantity": 1
+                },
+                {
+                    "itemId": "soil-diver-horn-jelly",
+                    "quantity": 1
+                },
+                {
+                    "itemId": "water-dragonfly-jelly",
+                    "quantity": 1
+                }
+            ]
+        },
+        {
+            "output": {
+                "itemId": "tick-tock-candy",
+                "quantity": 1
+            },
+            "ingredients": [
+                {
+                    "itemId": "roast-fort-rat",
+                    "quantity": 1
+                },
+                {
+                    "itemId": "peanut-bat-husk-jelly",
+                    "quantity": 1
+                },
+                {
+                    "itemId": "dream-orb-jelly",
+                    "quantity": 1
+                }
+            ]
+        }
+    ]
+}
