@@ -45,3 +45,9 @@ out/
 
 ### Kotlin ###
 .kotlin
+application-local.yml
+
+### VS Code ###
+.vscode/*
+!.vscode/launch.json
+!.vscode/settings.json
