@@ -8,233 +8,277 @@
 
 ## ⚠️ 이 프로젝트의 지시서 방식
 
-**코드를 적지 않는다.** 요구사항과 힌트만 쓴다.
-정답은 대부분 기준 코드(`~/work/lawform_be/spring/`)에 있으므로, **"어디를 보라"** 만 가리킨다.
-막히면 물어보되, 답변도 코드가 아니라 **문제 지점 지목**으로 받는다.
+**코드 본문을 적지 않는다.** 요구사항과 근거를 쓴다. **선언부(시그니처)까지는 적고 본문은 비워둔다.**
+(2026-08-19) 막혔을 때는 되묻기 대신 **답과 이유를 직접 설명**받는다. 파일 수정은 사용자가 한다.
+(2026-08-24) lawform 은 **컨벤션만** 참조한다. 버전·라이브러리는 추종하지 않고, diff 해서 베끼지 않는다.
 
 ---
 
-## 대상 섹션 / 청크
+## 대상 청크: 4단계 — 인증 (신규 기능, 원본에 없음)
 
-**골격 1단계 — Initializr 산출물을 2모듈로 해체·재구성한다.**
+### 목표 (사용자 정의)
 
-완료 조건:
-1. `./gradlew build` 통과
-2. `api` 가 **포트 9100** 에서 뜨고 HTTP 응답을 준다
+로그인하면 **AES-256 으로 암호화한 토큰을 쿠키에** 넣고, 이후 요청에서 그 쿠키로 인증된 사용자인지 확인해
+`/code/{keyword}` 를 수행할 수 있게 한다. `/code/list` 는 public. **인증 확인은 미들웨어(Interceptor)에서,
+허용 판정은 컨트롤러에서** 하고 허용되지 않은 keyword 접근은 throw.
 
-> JPA / DB / 컨트롤러 / 예외처리는 **이 단계에 들어가지 않는다.**
-> 특히 `kotlin-jpa`·`allOpen`·`noArg` 플러그인은 4단계에서 엔티티를 만들며 **에러로 만나는 것**이 목적이므로 지금 넣지 않는다.
+### 이 청크에서 전제한 결정 (다르게 가고 싶으면 말할 것)
 
----
-
-## 현재 상태 (2026-08-10 15:19 확인)
-
-`start.spring.io` 에서 생성 → `backend-kt/` 에 배치 → 빌드 1회 실행됨.
-
-```
-backend-kt/
-├── gradlew, gradlew.bat          ✅ 그대로 쓴다
-├── gradle/wrapper/               ✅ 그대로 쓴다 (Gradle 9.5.1)
-├── settings.gradle.kts           🔧 고친다 (rootProject.name = "hjj")
-├── build.gradle.kts              🔧 쪼갠다 (지금은 단일 모듈용)
-├── HELP.md                       🗑 지워도 된다 (Initializr 안내문)
-├── src/                          📦 api/ 로 옮긴다
-│   ├── main/kotlin/backend_kt/hjj/HjjApplication.kt
-│   ├── main/resources/application.properties
-│   └── test/kotlin/backend_kt/hjj/HjjApplicationTests.kt
-├── build/, .gradle/, .kotlin/    🗑 산출물. gitignore 대상
-└── (.gitignore 없음)             ❗ 아래 (E) 참고
-```
-
-**git 상태**: 소스 10개만 `A`(스테이징). `build/`·`.gradle/`·`.kotlin/` 은 안 들어감 — 아직 괜찮다.
-
----
-
-## 목표 구조
-
-```
-backend-kt/
-├── .gitignore                    ← (E)
-├── gradlew, gradlew.bat          ← 이동 없음
-├── gradle/
-│   ├── wrapper/                  ← 이동 없음
-│   └── libs.versions.toml        ← 새로 만든다
-├── settings.gradle.kts           ← rootProject.name + include 2개
-├── build.gradle.kts              ← 공통 설정만 (앱이 아님)
-├── shared/
-│   ├── build.gradle.kts          ← 새로 만든다
-│   └── src/main/kotlin/…         ← 빈 패키지라도
-└── api/
-    ├── build.gradle.kts          ← 지금 루트 build 파일에서 갈라져 나온 것
-    └── src/                      ← 지금 루트의 src/ 를 그대로
-```
-
-이동 자체는 `src/` 한 번 + `mkdir` 두 번이 전부다.
-
----
-
-## 손볼 것 — 발견 순서대로
-
-### (A) `spring-boot-starter` 가 웹 스타터가 아니다
-
-`build.gradle.kts:22` 가 `spring-boot-starter` 다. `-web` 이 아니다.
-
-**먼저 해볼 것**: 지금 상태로 `./gradlew bootRun` 을 돌려본다.
-- 뜨자마자 **종료**된다. 왜 그런가?
-- 포트 9100 에서 `curl` 로 응답을 받으려면 무엇이 추가돼야 하나?
-- 그 스타터가 추가되면 기동 로그에 없던 줄이 생긴다. 무슨 줄인가?
-
-> 이게 "Spring Boot 앱"과 "웹 서버가 있는 Spring Boot 앱"의 차이다. 한 번 보고 가는 게 낫다.
-
-### (B) 버전이 lawform 과 다르다 — 내릴 것
-
-| | Initializr 생성값 | 목표 (spec) |
+| 항목 | 결정 | 근거 |
 |---|---|---|
-| Kotlin | 2.3.21 | **2.1.21** |
-| Spring Boot | 4.1.0 | **3.5.6** |
-| dependency-management | 1.1.7 | lawform 확인 |
-| Gradle | 9.5.1 | lawform 확인 |
+| Spring Security | **쓰지 않는다** | 직접 만들어봐야 Security 가 뭘 대신해주는지 안다. Boot 4 = Security 7 이라 지금 배우면 병목이 둘 |
+| 미들웨어 계층 | **HandlerInterceptor** | Filter 에서 던진 예외는 `@ControllerAdvice` 가 못 잡는다. 3단계에서 만든 예외 체계를 재사용하려면 Interceptor |
+| 값 전달 | `request.setAttribute` → `@RequestAttribute` | 가장 단순. 나중에 `HandlerMethodArgumentResolver` + `@LoginUser` 로 승격 |
+| 권한 모델 | **로그인 여부만** (PRIVATE = 로그인 필요) | keyword 단위 허용 목록을 하드코딩 사용자에 박으면 스니펫 추가마다 사용자 정의를 고쳐야 한다 = 드리프트 재발. 세분화는 2차(DB) |
+| `/code/list` | **전체 노출 + `permission` 표시** | 이미 그렇게 동작 중. 이름 노출이 문제 되는 상황이 아니고 API 문서로 친절함 |
+| 사용자 저장소 | **하드코딩 + TODO** | DB 는 2차. 이 TODO 가 2차 JPA 실습의 host 가 된다 |
 
-**확인할 것**: `build.gradle.kts:31` 에 `-Xannotation-default-target=param-property` 라는 플래그가 있다.
-- 이게 무슨 플래그인지 찾아볼 것. **어노테이션의 기본 use-site target** 을 정한다
-- 그리고 lawform `rules/dto.md` 4.1 을 다시 읽어볼 것 — "`@field:` 를 반드시 명시하라, 안 하면 param 에 붙어서 validation 이 작동하지 않는다"
-- **이 둘이 같은 문제다.** Kotlin 2.3 은 이 플래그로 언어 차원에서 해결한 것으로 보인다
-- Kotlin 2.1.21 로 내리면 이 플래그가 존재하는가? 없다면 `dto.md` 규칙이 왜 필요해지는가?
+### 완료 조건
 
-> lawform 컨벤션이 "왜" 생겼는지 알 수 있는 지점이다. 버전 내리면서 확인해볼 것.
-
-### (C) `group` 과 패키지명이 관례에 안 맞는다
-
-- `group = "backend-kt"` → 패키지가 **`backend_kt.hjj`** 로 생성됐다
-- 하이픈이 패키지명에 못 들어가서 언더스코어로 치환된 결과다
-- lawform: `com.amicuslex.lawform`
-
-**정할 것**: `group` 을 무엇으로 할지. 정하면 `src/main/kotlin/` 아래 디렉토리도 같이 옮겨야 한다.
-- ⚠️ 패키지 위치는 **컴포넌트 스캔 범위**를 결정한다. `shared` 의 빈들을 나중에 스캔해야 하는데,
-  지금 어떻게 잡아두면 그때 편할지 미리 생각할 것
-
-### (D) `rootProject.name = "hjj"`
-
-Initializr 입력값이 그대로 들어갔다. 디렉토리는 `backend-kt` 인데 프로젝트명은 `hjj`.
-
-- 이 이름이 어디에 드러나는가? → `./gradlew projects` 로 확인
-- 모듈을 include 하면 모듈 경로가 어떻게 표시되는가?
-
-### (E) ❗ `.gitignore` 가 누락됐다
-
-Initializr zip 에는 **있었다** (`hjj.zip` 안에 468바이트). `~/Downloads/hjj/.gitignore` 에 원본이 남아 있다.
-
-**dotfile 이라 복사할 때 빠진 것**이다 — `cp *` 가 숨은 파일을 안 잡는 고전적 함정.
-
-- 지금 `build/`·`.gradle/`·`.kotlin/` 이 **무시되지 않는 상태**다. 스테이징엔 아직 안 들어갔지만 언제든 들어간다
-- 원본을 가져다 쓰되, **Initializr 기본 `.gitignore` 에는 `application-local.yml` 이 없다.** 직접 추가할 것
-- 저장소 루트 `.gitignore` 와 `backend-kt/.gitignore` 중 어디에 쓸지 정할 것 (중첩 `.gitignore` 동작 확인)
-- 원본에 `!gradle/wrapper/gradle-wrapper.jar` 같은 `!` 규칙이 있다. 왜 예외로 빼는가?
-
-### (F) `application.properties` → `.yml`
-
-lawform 은 yml 이다. 포트 9100 설정을 넣을 때 형식을 맞출 것.
-`application.yml` 과 `application-local.yml` 의 관계(프로파일)를 지금 알아둘 것 — 다음 단계에서 DB 비밀번호가 들어갈 자리가 `local` 쪽이다.
-
-### (G) 루트 `build.gradle.kts` 를 쪼갠다
-
-지금 파일은 **단일 모듈 앱**용이다. 이걸 둘로 나눈다.
-
-**루트에 남을 것**: 모든 모듈 공통 — `group`/`version`, JDK 21 toolchain, JVM 타깃, `-Xjsr305=strict`, JUnit Platform.
-**`api` 로 갈 것**: Spring Boot 앱으로 만드는 것들, 웹 스타터, `shared` 의존, `bootJar` 이름(`api.jar`).
-
-**힌트**
-- 참고: `~/work/lawform_be/spring/build.gradle.kts` 의 `allprojects` / `subprojects` 블록
-- lawform 은 플러그인을 루트에 `apply false` 로 선언해두고 각 모듈이 가져다 쓴다. 루트에서 바로 적용하면 뭐가 곤란한가?
-- lawform 은 `plugins.withId("org.jetbrains.kotlin.jvm") { … }` 로 **반응형**으로 설정을 건다. 주석에 "no legacy `apply(plugin = …)` calls" 라고 적혀 있다 — 왜?
-- 루트는 실행 가능한 앱이 **아니다**. Spring Boot 플러그인을 루트에 적용하면 무슨 일이 생기는지 해봐도 좋다
-
-### (H) `shared` 모듈 신설
-
-**요구사항**: Kotlin JVM 라이브러리 모듈. 실행 가능한 jar 를 만들지 않는다. 이 단계에선 의존성이 거의 없어도 된다.
-
-**힌트**
-- 참고: `~/work/lawform_be/spring/shared/build.gradle.kts` — 필요한 것만 골라올 것
-- ⚠️ JPA 플러그인은 **넣지 말 것** (위 대상 섹션 참고)
-
-### (I) `gradle/libs.versions.toml` 신설
-
-**요구사항**: 버전을 한 곳에서 관리하고 각 모듈이 참조.
-
-**힌트**
-- 참고: `~/work/lawform_be/spring/gradle/libs.versions.toml`
-- **통째로 복사하지 말 것.** 이 단계에 쓰는 것만. 나중에 필요할 때 추가하는 흐름을 만드는 게 목적
-- `[versions]` / `[libraries]` / `[plugins]` 역할 구분
-- `kotlin-jvm` 로 적으면 `build.gradle.kts` 에서 어떤 이름으로 접근되나? (이름 변환 규칙이 있다)
-- lawform 루트 `build.gradle.kts` 의 `buildscript` 블록에 "버전 카탈로그 접근 불가하여 직접 명시" 주석이 있다. 왜 접근이 안 되나?
-
-### (J) `settings.gradle.kts` 수정
-
-**요구사항**: 프로젝트명 정리 + `shared`, `api` 등록 + 저장소 선언.
-
-**힌트**
-- 참고: `~/work/lawform_be/spring/settings.gradle.kts`
-- lawform 의 Node.js ivy 블록은 **admin 이 React 를 품고 있어서** 있는 것. 우리는 필요 없다
-- `pluginManagement.repositories` 와 `dependencyResolutionManagement.repositories` 가 각각 무엇의 저장소인지 구분할 것. 둘 다 필요한지 판단해서 결정
-- 모듈 디렉토리를 먼저 만들어야 include 가 되는가? (해보면 안다)
+1. `POST /auth/login` 성공 시 **`Set-Cookie`** 로 암호화 토큰이 내려온다
+2. 쿠키 없이 `GET /code/organization`(PRIVATE) → **401**
+3. 쿠키를 갖고 → **200**
+4. `GET /code/uuid`(PUBLIC) 는 쿠키 없이도 **200**
+5. **쿠키를 한 글자 고치면 401** (GCM 인증 태그가 위조를 잡아낸다)
+6. `POST /auth/logout` 후 다시 401
 
 ---
 
-## 검증
+## Step 1. 에러 코드 3개 추가
 
-```bash
-cd backend-kt
-./gradlew projects       # 모듈 2개가 보이는지
-./gradlew build          # 통과
-./gradlew :api:bootRun   # 기동
+**어디**: `api/exception/ApiErrorCode.kt` + `messages*.properties` 3개 파일
+
+```kotlin
+LOGIN_FAILED(HttpStatus.UNAUTHORIZED, "error.auth.login-failed"),
+UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "error.auth.unauthorized"),
+FORBIDDEN(HttpStatus.FORBIDDEN, "error.auth.forbidden"),
 ```
 
-다른 터미널:
-```bash
-curl -i localhost:9100
+**401 vs 403 의 구분**
+- **401** = "당신이 누군지 모르겠다" — 토큰 없음/만료/복호화 실패
+- **403** = "누군지는 알겠는데 안 된다" — 인증은 됐으나 권한 부족
+
+> 이번 청크의 권한 모델(로그인 여부만)에서는 실제로 403 이 날 일이 없다. **2차(DB 권한)를 위해 미리 넣어둔다.**
+
+**⚠️ 응답에 실패 사유를 담지 말 것.** "비밀번호가 틀렸다" / "복호화 실패" 같은 정보는 공격자에게 힌트다.
+로그인 실패는 **아이디·비밀번호 구분 없이 하나의 메시지**로. 상세는 로그에만. (3단계에서 세운 원칙과 같다)
+
+---
+
+## Step 2. AES-256-GCM 토큰 암호화
+
+**어디**: `api/auth/TokenCipher.kt` (`@Component`)
+
+**형태**
+
+```kotlin
+package hjj.auth
+
+@Component
+class TokenCipher(
+    @Value("\${hjj.auth.token-key}") private val base64Key: String,
+) {
+    fun encrypt(plain: String): String = TODO()
+    fun decrypt(token: String): String = TODO()
+}
 ```
 
-- **404 가 정상이다.** 컨트롤러가 없으니 매핑이 없는 게 맞다. 200 을 기대하지 말 것
-- 404 응답 본문이 **어디서 만들어진 것인지** 찾아볼 것 (Spring 기본 제공물이 있다)
-- 기동 로그에서: 포트가 9100 인지, 어떤 내장 서버가 떴는지, 스캔된 빈 개수
+**요구사항 (이 5개는 타협하지 말 것)**
+
+1. **모드는 `AES/GCM/NoPadding`.** `AES/CBC/PKCS5Padding` 은 **변조를 감지하지 못한다**(padding oracle).
+   쿠키는 클라이언트가 마음대로 고칠 수 있으므로 AEAD 가 필수다. 완료 조건 5번이 이걸 검증한다
+2. **IV 는 12바이트, 매 암호화마다 `SecureRandom` 으로 새로.** 같은 키로 IV 를 재사용하면 GCM 은 키 복구까지 가능해진다
+3. IV 를 암호문 **앞에 이어 붙여** 하나의 문자열로 만든다 (복호화 때 앞 12바이트를 잘라 쓴다)
+4. 인코딩은 **Base64 URL-safe**(`Base64.getUrlEncoder()`) — 일반 Base64 의 `+`, `/` 는 쿠키/URL 에서 문제가 된다
+5. 키는 32바이트여야 한다. **생성자에서 길이를 검증**하고 아니면 즉시 실패시킬 것 (기동 시 드러나는 게 낫다)
+
+**힌트**: `Cipher.getInstance(...)`, `SecretKeySpec(keyBytes, "AES")`, `GCMParameterSpec(128, iv)`(128 = 인증 태그 비트).
+복호화 실패는 `AEADBadTagException` 으로 온다 → 잡아서 `MessageException(UNAUTHORIZED)` 로 바꾼다.
+
+**참고**: `spring-security-crypto` jar 하나만 넣으면 `Encryptors.stronger()` 로 같은 걸 얻을 수 있다.
+**직접 만든 뒤에 비교**해보는 걸 권한다 — 직접 짜봐야 IV·태그·모드가 뭘 하는지 감이 온다.
 
 ---
 
-## 일부러 깨보기 (이 단계의 본편)
+## Step 3. 키 관리 — `application-local.yml` 부활
 
-정상 동작을 확인한 **다음에** 하나씩. "무슨 에러가 나는지" + "왜 그런지" 를 말할 수 있으면 통과.
+- `api/src/main/resources/application-local.yml` 을 **새로 만든다** (이미 `.gitignore` 대상이라 커밋되지 않는다)
+- 32바이트 랜덤 키를 Base64 로 넣는다:
+  ```yaml
+  hjj:
+    auth:
+      token-key: <base64 32바이트>
+  ```
+  생성: `openssl rand -base64 32`
+- `application.yml`(커밋됨)에는 **키를 넣지 않는다.** 필요하면 빈 값이나 주석으로 자리만 표시
 
-1. **의존 방향 위반** — `shared` 안에서 `api` 의 애플리케이션 클래스를 import
-   → 컴파일인가 런타임인가? 이게 왜 좋은 일인가?
-
-2. **`implementation` 의 차단 효과** — `shared` 에 아무 라이브러리든 `implementation` 으로 추가하고 `api` 에서 import
-   → 실패한다. `api` 에서도 쓰려면 `shared` 쪽 선언을 어떻게 바꾸나?
-   → 이게 lawform `manager.md` 1.1 의 "구현체를 `shared` 에 두지 말라 — 외부 SDK 의존성이 shared 로 새어들어옴" 과 어떻게 연결되나?
-
-3. **toolchain 이 실제로 먹는지** — 21 → 17 로 바꿔 빌드, 되돌리기
-   → Gradle 이 JDK 17 을 어디서 구했나? (`~/.gradle/jdks/` 확인)
-   → 그럼 `JAVA_HOME` 은 무엇에 영향을 주나? (오늘 JDK 3개로 헷갈렸던 게 왜 문제가 아니었는지 여기서 설명된다)
-
-4. **컴포넌트 스캔 범위** — 애플리케이션 클래스를 한 패키지 위/아래로 이동
-   → 지금은 빈이 없어 티가 안 난다. **어떻게 티나게 만들지 직접 설계** (스캔 범위 밖에 `@Component` 하나 두고 주입 시도)
+**⚠️ 이 파일은 `local` 프로파일이 활성일 때만 읽힌다.** 프로파일 없이 띄우면 `hjj.auth.token-key` 가 없어
+**기동이 실패**한다(`@Value` 가 못 채움). 그게 오히려 좋다 — 조용히 기본 키로 도는 것보다 훨씬 안전하다.
 
 ---
 
-## 막혔을 때
+## Step 4. 토큰 페이로드 + 하드코딩 사용자 + 로그인
 
-**코드를 달라고 하지 말고** 이렇게 물어보시는 게 남습니다:
+**어디**
+- `api/auth/AuthUser.kt` — `data class AuthUser(val userId: String)`
+- `api/auth/TokenPayload.kt` — `data class TokenPayload(val userId: String, val expiresAt: Long)`
+- `api/usecase/service/auth/AuthService.kt`
+- `api/usecase/controller/auth/AuthController.kt`
+- `api/request/auth/LoginRequest.kt` — `data class LoginRequest(val id: String, val password: String)`
 
-- "이 에러 메시지에서 어디를 봐야 해?"
-- "내가 A라고 생각했는데 B가 나왔어. 내 이해 중 뭐가 틀렸어?"
-- "이 설정이 왜 필요한지 모르겠어"
+**`AuthService` 형태**
 
-답변도 **문제 지점 지목**으로만 드립니다. (memory: `feedback-hint-not-code`)
+```kotlin
+@Service
+class AuthService(
+    private val tokenCipher: TokenCipher,
+    private val objectMapper: ObjectMapper,   // Jackson 3 — Boot 가 빈으로 제공
+) {
+    // TODO 2차: DB 로 이관. 사용자/권한 테이블 + BCrypt
+    private val users = mapOf("hjj" to "1234")
+
+    fun login(id: String, password: String): String = TODO("검증 → TokenPayload → JSON → 암호화")
+    fun verify(token: String): AuthUser = TODO("복호화 → JSON 역직렬화 → 만료 확인")
+}
+```
+
+**⚠️ 만료는 토큰 안에 넣는다.** 쿠키의 `Max-Age` 는 클라이언트가 지우거나 바꿀 수 있으니 **서버가 신뢰하면 안 된다.**
+`verify` 에서 `expiresAt` 을 현재 시각과 비교해 지났으면 401.
+
+**`AuthController`**
+
+```kotlin
+@RestController
+@RequestMapping("/auth")
+class AuthController(private val authService: AuthService) {
+    @PostMapping("/login")
+    fun login(@RequestBody request: LoginRequest): ResponseEntity<Void> = TODO()
+
+    @PostMapping("/logout")
+    fun logout(): ResponseEntity<Void> = TODO()
+}
+```
+
+**쿠키 만들기**: `ResponseCookie.from("token", value)` 에 `.httpOnly(true)` `.path("/")` `.sameSite("Lax")`
+`.maxAge(Duration.ofHours(1))` → `ResponseEntity.noContent().header(HttpHeaders.SET_COOKIE, cookie.toString()).build()`
+
+- **`httpOnly`** 는 JS 접근을 막는다(XSS 로 토큰 탈취 방지). 반드시 켠다
+- **`secure`** 는 https 전용이라 **로컬 http 에서 켜면 쿠키가 아예 안 실린다.** 프로파일별로 다르게 주는 좋은 연습거리
+- **로그아웃**은 같은 이름의 쿠키를 `maxAge(0)` 으로 다시 내려 지운다 (서버에 상태가 없으므로 이게 유일한 방법)
+
+**비밀번호**: 지금은 평문 비교 + `// TODO`. `spring-security-crypto` 를 넣으면 `BCryptPasswordEncoder` 를 쓸 수 있다 — 2차에 DB 와 함께.
 
 ---
 
-## 이 단계에서 결정해야 할 것
+## Step 5. Interceptor — 인증 "시도"
 
-- [ ] `group` / 패키지 루트 — 지금 `backend-kt` → `backend_kt.hjj` 로 어긋나 있음. lawform 은 `com.amicuslex.lawform`
-- [ ] `rootProject.name` — 지금 `hjj`
-- [ ] Gradle 버전 — 지금 9.5.1. lawform 과 맞출지
-- [ ] `.gitignore` 를 `backend-kt/` 에 둘지 저장소 루트에 합칠지
+**어디**
+- `api/interceptor/AuthInterceptor.kt`
+- `api/config/WebMvcConfig.kt`
+
+```kotlin
+@Component
+class AuthInterceptor(private val authService: AuthService) : HandlerInterceptor {
+    override fun preHandle(request: HttpServletRequest, response: HttpServletResponse, handler: Any): Boolean = TODO()
+}
+```
+
+**⚠️ 이 Step 의 핵심 설계 — 여기서 막으면 안 된다**
+
+Interceptor 가 "토큰 없으면 401" 로 막아버리면 **PUBLIC 스니펫도 막힌다.** 역할을 이렇게 나눈다:
+
+| 상황 | Interceptor 의 행동 |
+|---|---|
+| 쿠키 없음 | **그냥 통과**(익명). 속성을 심지 않는다 |
+| 쿠키 있고 유효 | `AuthUser` 를 `request.setAttribute("authUser", …)` 로 심고 통과 |
+| 쿠키 있는데 위조·만료 | **401 throw** — 잘못된 자격증명을 조용히 넘기면 안 된다 |
+
+즉 Interceptor 는 **인증(누구냐)** 만 하고, **인가(되냐)** 는 컨트롤러가 한다. Security 도 내부적으로 같은 분리를 한다.
+
+**등록** (`WebMvcConfig`)
+
+```kotlin
+@Configuration
+class WebMvcConfig(private val authInterceptor: AuthInterceptor) : WebMvcConfigurer {
+    override fun addInterceptors(registry: InterceptorRegistry) = TODO()
+}
+```
+
+**⚠️ 제외 경로를 반드시 지정할 것**: `/auth/**`(로그인 자체), `/docs`, `/swagger-ui/**`, `/v3/api-docs/**`, `/error`.
+안 하면 Swagger 문서 요청까지 인증을 타게 된다.
+
+---
+
+## Step 6. 컨트롤러에서 인가 판정
+
+**`CodeController.run`**
+
+```kotlin
+@GetMapping("/{keyword}")
+fun run(
+    @PathVariable keyword: String,
+    @RequestAttribute(name = "authUser", required = false) authUser: AuthUser?,
+): CodeRunResponse = TODO()
+```
+
+- **`required = false` 를 빼면** 속성이 없을 때(익명) 예외가 난다 → PUBLIC 이 깨진다
+- 판정: `codeService.permissionOf(keyword)` 로 permission 을 얻어 `PRIVATE` 이고 `authUser == null` 이면
+  `MessageException(UNAUTHORIZED)` throw. `CodeService` 에 `fun permissionOf(keyword: String): SnippetPermission` 을 추가한다
+  (없는 keyword 면 그 안에서 기존 404 가 먼저 난다 — 순서가 자연스럽다)
+
+**보안 논의 하나 — 알고 선택할 것**
+없는 keyword 는 404, PRIVATE keyword 는 401 이면 **"그 keyword 가 존재한다" 는 사실이 노출**된다(존재 여부 oracle).
+엄격하게 하려면 미인증자에게는 **둘 다 404** 로 통일한다. 우리는 `/code/list` 가 이미 전체를 공개하므로
+숨길 게 없어서 **404/401 구분을 유지**해도 된다. 다만 이 트레이드오프를 아는 상태로 두는 것과 모르는 것은 다르다.
+
+---
+
+## 검증 절차
+
+```bash
+# 1. 로그인 → 쿠키 저장
+curl -i -c /tmp/c.txt -X POST localhost:9100/auth/login \
+  -H 'Content-Type: application/json' -d '{"id":"hjj","password":"1234"}'
+
+# 2. PUBLIC 은 쿠키 없이도 200
+curl -s -o /dev/null -w '%{http_code}\n' localhost:9100/code/uuid
+
+# 3. PRIVATE 은 쿠키 없이 401
+curl -s -o /dev/null -w '%{http_code}\n' localhost:9100/code/organization
+
+# 4. 쿠키를 갖고 PRIVATE → 200
+curl -s -o /dev/null -w '%{http_code}\n' -b /tmp/c.txt localhost:9100/code/organization
+
+# 5. 쿠키 위조 → 401 (GCM 태그가 잡는다)
+curl -s -o /dev/null -w '%{http_code}\n' -H 'Cookie: token=AAAA위조AAAA' localhost:9100/code/organization
+
+# 6. 로그아웃 후 401
+curl -s -X POST -b /tmp/c.txt -c /tmp/c.txt localhost:9100/auth/logout
+curl -s -o /dev/null -w '%{http_code}\n' -b /tmp/c.txt localhost:9100/code/organization
+```
+
+- 5번이 **이 청크에서 가장 중요한 검증**이다. 401 이 아니라 500 이나 200 이 나오면 암호화 설계가 틀렸다
+- 로그에서 401 이 **WARN** 으로 남는지 (3단계 규칙)
+- `/docs` 에서 `/auth/login` 이 보이는지, 쿠키가 붙는지
+
+---
+
+## 막혔을 때 물어보는 형태
+
+- "`AEADBadTagException` 이 났는데 이게 정상인 경우와 버그인 경우를 어떻게 구분해?"
+- "Interceptor 가 안 타는 것 같은데 뭘 확인하면 돼?"
+- "쿠키가 안 실리는데 어디를 봐야 해?"
+- "`@Value` 가 못 채운다는데 왜?"
+
+---
+
+## 이 청크 다음
+
+- **`@LoginUser` 승격** — `HandlerMethodArgumentResolver` 를 만들어 `@RequestAttribute` 를 대체.
+  컨트롤러 시그니처가 깔끔해지고, 인증 필수 여부를 애노테이션으로 표현할 수 있게 된다
+- **Interceptor 의 나머지 두 훅** — `preHandle` 에서 시작 시각을 심고 `afterCompletion` 에서 요청 전체 시간을 로깅.
+  스니펫 실행 시간(`elapsedMicros`)과 비교하면 직렬화·HTTP 오버헤드가 보인다
+- **2차 JPA 의 host** — 이 Step 4 의 `// TODO 2차` 가 그것이다. 사용자/권한은 **쓰기가 있는 도메인**이라
+  더티 체킹·flush·연관관계를 체감할 수 있다
+- **Spring Security 로 갈아끼우기** — 직접 만든 것과 1:1 대응을 보는 연습 (필터체인 / `SecurityContextHolder` /
+  `AuthenticationProvider` / `AuthenticationEntryPoint` 가 각각 내가 만든 무엇에 대응하는가)

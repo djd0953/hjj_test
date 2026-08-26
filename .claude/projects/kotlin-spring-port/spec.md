@@ -16,6 +16,15 @@ Nest 까지는 실무로 따라왔으나 Kotlin Spring 은 아직 안 해봤다.
 **`~/work/lawform_be/spring/`** (이 저장소 외부, 회사 코드).
 Express → Kotlin Spring 이관 중인 실물 저장소로, **컨벤션·구조의 기준**으로 삼는다.
 
+> ⚠️ **2026-08-24: 위상을 낮췄다.** **컨벤션(파일 위치·레이어·네이밍)만** 참고하고,
+> 버전·라이브러리 선택은 따라가지 않는다. `build.gradle.kts` 를 세우는 단계에서 이미 역할을 다했다.
+> 막혔을 때 diff 해서 베끼는 방식도 쓰지 않는다 — 베낀 뒤 오타 검사하는 루프가 되어 실력이 늘지 않는다.
+>
+> **2026-08-24 후속: lawform 도 Boot 4.1.0 으로 온다.** 사내 `DEV-122` 브랜치(→ base `alpha`)에서
+> 3.5.6 → 4.1.0 마이그레이션이 진행 중이며, PR 문서를 확보했다(변경 118파일). 따라서 "버전 차이를 전제하라"는
+> 조건은 머지되면 해소된다. 다만 **"컨벤션만 참조 / diff 로 베끼지 않는다" 방침은 그대로 유지**한다(버전과 무관한 이유).
+> 그 문서는 베낄 코드가 아니라 **Boot 4 함정 지도**로 쓴다 → 아래 "Boot 4 에서 조심할 것" 절.
+
 | 위치 | 내용 |
 |---|---|
 | `rules/*.md` (19개) | 팀 코드 컨벤션 — controller / service / facade / repository / dto / payload / exception / manager / naming / class / test / sql / security / logging / config / lint / commit / entity / convention |
@@ -23,13 +32,17 @@ Express → Kotlin Spring 이관 중인 실물 저장소로, **컨벤션·구조
 
 ## 목적 / 완료 기준
 
-**1차 완료 기준** — 아래가 전부 동작하면 1차 종료:
+**목적 (2026-08-24 변경)** — 원래는 "회사 Kotlin Spring 이관 대비" 였으나,
+**Kotlin/Spring 자체의 코드 실력 향상**으로 바꿨다. 실무 이관 대비는 부수 효과로만 취급한다.
 
 1. `shared` + `api` 2모듈 Gradle 프로젝트가 뜬다
 2. 스니펫 디스패처 골격이 `Map<String, CodeSnippet>` 빈 주입으로 동작한다
 3. 예외 체계(`MessageException` + `LoggingErrorHandler`)가 ko/en/ja 3로케일로 응답한다
 4. 난이도별 대표 스니펫이 이식돼 있다 (아래 "이식 대상" 참고)
-5. **`organization` 이 JPA 로 동작한다** — 영속성 컨텍스트를 실제로 쓴다
+5. **`organization` 의 트리 조립·검색이 제네릭 공용 함수로 이식돼 있다** (DB/JPA 아님 — 아래 "이식 대상" 참고)
+
+**JPA / DB 는 1차 범위에서 빠졌다 (2026-08-24).** organization 이 DB 로 가지 않게 되면서 host 가 없어졌다.
+2차로 이월하고, 그때 **쓰기(insert/update/delete)가 있는 도메인**을 새로 정한다.
 
 전체 19개 스니펫 이식은 1차 범위가 **아니다**. 골격이 서면 반복 작업으로 남긴다.
 
@@ -40,6 +53,71 @@ Express → Kotlin Spring 이관 중인 실물 저장소로, **컨벤션·구조
   (`.claude/memory/rule/plan-md-workflow.md`)
 
 ## 설계 방향
+
+### 패키지 / 네이밍 (2026-08-24 확정)
+
+- group `hjj`, 루트 패키지 **`hjj`**, 진입점 **`hjj.ApiApplication`** (`rootProject.name = "backend-kt"`)
+  - Initializr 가 준 `backend_kt.hjj` 는 디렉토리명(`backend-kt`)에서 온 것이고, **패키지에 underscore 는 Kotlin 관례에 안 맞다**
+- 패키지 구조는 lawform 을 따른다: **`usecase/{controller,facade,service}/{도메인}`**
+- ⚠️ **Kotlin 은 디렉토리와 `package` 선언의 일치를 강제하지 않고 추론도 하지 않는다.**
+  선언을 빼면 루트(default) 패키지로 컴파일되고, `@SpringBootApplication` 이 `hjj` 를 스캔하므로
+  **컴포넌트 스캔에서 조용히 빠진다**(에러 없이 404). 파일 첫 줄의 `package` 선언을 항상 확인할 것
+
+### 코드 배치 컨벤션 — lawform 에서 **이탈**하는 2가지 (2026-08-25 확정)
+
+lawform 은 컨벤션 참조용이지만, **근거를 공유하지 않는 항목은 따르지 않는다.** 판단 기준은
+"이 컨벤션이 무슨 결정의 결과인가" 를 찾아, 그 결정을 우리가 공유하는지 보는 것.
+
+#### 이탈 ①: 응답 DTO / type 은 **사용하는 모듈 안에** 둔다 (lawform 은 `shared`)
+
+- lawform: `shared/response/{도메인}/`, `shared/type/`
+- **우리: `api/response/{도메인}/`, `api/type/`**
+- **lawform 이 `shared` 에 두는 이유**: `rules/repository.md` **1.15**("Repository 는 Entity 반환 금지,
+  `Projections.constructor` 로 Response DTO 직접 투영") 때문에 **`shared` 의 Repository 가 Response DTO 를 봐야 한다.**
+  거기에 4모듈이 한 제품이라 `api`/`admin` 이 응답을 공유하는 경우도 있다.
+- **우리가 안 따르는 이유**: **1.15/1.16 을 이미 의도적으로 버렸다**(영속성 컨텍스트 적극 사용 절).
+  근거가 사라진 컨벤션이다. 게다가 `shared` 를 **나중에 다른 저장소와 공유할 계획**이므로,
+  `shared` 가 특정 앱의 API 계약을 알면 안 된다 — 다른 레포가 우리 API 스펙까지 끌고 오게 된다.
+
+#### 이탈 ②: 인터페이스·타입(껍데기)과 구현을 **패키지로 분리**한다
+
+- 한 패키지에 인터페이스와 구현 코드가 섞이는 것을 쓰지 않는다.
+- 형태: `snippet/CodeSnippet.kt`(계약) + `snippet/implement/UuidSnippet.kt`(구현)
+- 참고: lawform 도 Repository 는 이렇게 한다(`repository/` + `repository/implement/*RepositoryImpl.kt`) →
+  **이름 선례(`implement/`)는 그쪽을 따른다.** 이탈인 부분은 "모든 인터페이스에 이 형태를 적용한다" 는 점.
+- 스니펫이 쌓여 `implement/` 가 평평해지면 도메인별로 한 겹 더 나눈다(docx/excel/aws/…). **파일이 쌓인 뒤에** 한다.
+
+#### 반대로 **따르는** 컨벤션 — Manager (근거가 유효함)
+
+`shared` 에 무엇을 두는지의 기준을 헷갈리지 않기 위해 함께 기록한다.
+
+| 넣을 것 | 위치 |
+|---|---|
+| 엔티티, Repository 인터페이스 | `shared` |
+| **Manager 인터페이스** (`IUploadManager` 등) | `shared` — **인터페이스만** |
+| **Manager 구현체** (`S3UploadManager` 등) | **사용 모듈**(`api`) |
+| 도메인 예외, VO, 공용 순수 유틸 | `shared` |
+| 응답 DTO / 요청 payload / type | **`api`** ← 이탈 ① |
+
+구현체를 `shared` 에 두지 않는 이유(lawform `manager.md` 1.1)는 우리에게도 **유효하다**:
+`S3UploadManager` 를 `shared` 에 두면 **aws-sdk 의존성이 `shared` 로 새어들어와**, `shared` 를 쓰는 모든 모듈과
+나중에 생길 다른 레포까지 S3 를 쓰지 않아도 aws-sdk 를 끌고 온다. 인터페이스만 두면 `shared` 는 순수 Kotlin 타입만 안다.
+(구현 교체 — `LocalUploadManager` — 가 가능해지는 것도 같은 구조 덕분)
+
+#### 따라오는 결과: 엔티티 → 응답 매핑 방침
+
+TypeScript 의 `Pick<User, "name">` 같은 **타입 수준 연산이 Kotlin 에는 없다**(구조적 타이핑 vs 명목적 타이핑).
+**상속으로도 불가능하다** — 상속은 필드를 더하는 것이라 `password` 가 그대로 따라온다(`Pick` 은 축소, 상속은 확장).
+
+- 기본: 응답 타입을 **따로 선언**하고 매핑 함수로 잇는다. 타입 동기화는 선언이 아니라 **매핑 지점의 컴파일 에러**가 보장한다
+  (`User.name` 타입이 바뀌면 매핑 줄에서 에러)
+- 매핑은 **확장 함수**를 `api` 에 두는 쪽을 우선한다: `fun User.toResponse() = UserResponse(name = name)`
+  → `shared` 의 엔티티를 건드리지 않고, 의존 방향(`api → shared`)이 유지되며, `map { it.toResponse() }` 가 자연스럽다
+- 필드가 많고 응답이 엔티티와 거의 같으면 **공통 인터페이스**를 `shared` 에 두는 방식(②)을 고려. 단 노출 조합마다
+  인터페이스가 생겨 조합 폭발하므로 기본은 아니다
+- 엔티티를 그대로 응답으로 내보내지 않는 이유(JPA 도입 시 실제로 터지는 것): 민감 필드 누출(fail-open),
+  양방향 연관관계의 **순환 참조**, lazy 프록시 직렬화(`LazyInitializationException` 또는 N+1),
+  응답은 대개 여러 엔티티의 조합
 
 ### 위치 / 모듈
 
@@ -56,18 +134,37 @@ backend-kt/              ← 이 저장소의 4번째 독립 앱 (frontend/backe
   단일 모듈이면 그 규칙 자체를 연습할 수 없다.
 - lawform 은 `shared`/`api`/`admin`/`scim` 4모듈이나, 여기선 `shared`+`api` 축소판으로 간다.
 
-### 스택 (lawform 과 동일하게 맞춤)
+### 스택 (2026-08-24 확정 — lawform 버전은 따라가지 않는다)
 
 | 항목 | 값 | 비고 |
 |---|---|---|
-| Kotlin / JDK | 2.1.21 / **JDK 21** | toolchain 고정, `-Xjsr305=strict` |
+| Kotlin / JDK | **2.3.21** / **JDK 21** | toolchain 고정. `-Xjsr305=strict` + `-Xannotation-default-target=param-property` |
 | 포트 | **9100** | 9090(backend) / 9080(frontend) / 7000(mock-idp) 과 회피 |
-| Spring Boot | 3.5.6 | **서블릿 MVC** (WebFlux 아님) |
-| 빌드 | Gradle Kotlin DSL + 버전 카탈로그(`libs.versions.toml`) | |
-| DB | **MySQL 8.0.41** (Homebrew) `localhost:3306`, database `hjj`, 유저 `hjj` | Postgres(5432)도 설치돼 있으나 1차엔 미사용 |
-| 영속성 | JPA + QueryDSL + **Flyway** | |
-| JWT | jjwt 0.12.6 | lawform 과 동일 라이브러리 |
+| Spring Boot | **4.1.0** | **서블릿 MVC** (WebFlux 아님) |
+| 빌드 | **Gradle 9.5.1** Kotlin DSL + 버전 카탈로그(`libs.versions.toml`) | |
+| JWT | jjwt 0.12.6 | |
 | Excel | Apache POI | Nest 의 exceljs 대응 |
+| DB / 영속성 | **2차로 이월.** MySQL 8.0.41 (Homebrew) `localhost:3306`, db `hjj`, 유저 `hjj` 는 준비돼 있음 | JPA + Flyway(**`spring-boot-starter-flyway`**). QueryDSL 은 **7.5**(openfeign fork) 사용 가능 — 아래 참고 |
+| API 문서 | **springdoc-openapi 3.1.0** (`org.springdoc:springdoc-openapi-starter-webmvc-ui`) | 3.0.x/3.1.x ↔ Boot 4.x. lawform 의 2.8.6 은 Boot 3 라인이라 못 씀 |
+| JSON | **Jackson 3** (`tools.jackson.*`) | Boot 4 BOM 이 관리. 버전 명시하지 않는다 |
+
+#### 버전을 lawform(3.5.6 / 2.1.21 / Gradle 8.14.4)으로 하향하지 않기로 한 이유
+
+- 하향은 한 줄 수정이 아니라 **3단 연쇄**다: Kotlin 2.1.21 의 KGP 는 Gradle 9 미지원, Boot 3.5.x 플러그인도 마찬가지
+  → wrapper 까지 8.14.4 로 내려야 하고, `-Xannotation-default-target`(Kotlin 2.2 도입)도 제거해야 한다
+- 하향의 근거였던 "lawform diff 안전망" 과 "실무 이관 대비" 가 **목적 변경으로 사라졌다**
+- 남은 기술 리스크는 QueryDSL 6.x(openfeign fork) + Hibernate 7 조합뿐인데, **QueryDSL 을 안 쓰면 리스크가 0** 이다.
+  lazy 로딩 / N+1 / fetch join / `@EntityGraph` 학습에는 Spring Data JPA + JPQL 로 충분하다
+  → **2026-08-24 해소**: lawform 이 QueryDSL 을 **7.5** 로 올려 Boot 4/Hibernate 7 대응을 실물로 검증 중이다.
+    이 리스크는 사라졌다. (참고: 순정 `com.querydsl:querydsl-jpa` 는 5.1.0 에서 멈춰 있으므로 6.x/7.x 는 openfeign fork 라인)
+
+**안고 가는 대가** (하향 안 한 값):
+
+- Boot 4 는 검색으로 답이 잘 안 나온다 (2025-11 릴리스). 에러가 나면 블로그보다 **공식 릴리스 노트·마이그레이션 가이드**를 먼저 볼 것
+- lawform 코드를 참조할 때 **버전 차이를 전제해야 하는 곳**: ① Security (Boot 4 = Security 7)
+  ② null-safety 가 JSR-305 → **JSpecify** 로 이전 ③ 오토컨피그·스타터 모듈 분리
+  → `DEV-122` 가 머지되면 이 조건은 사라진다(같은 4.1.0 이 된다)
+- 그래서 루트 `build.gradle.kts` 의 `-Xjsr305=strict` 는 Boot 4 에서 **Spring 타입에 대해 사실상 무효**다 (해롭지는 않아 그대로 둔다)
 
 **Postgres 는 나중에 멀티 데이터소스 연습 대상으로 남겨둔다.**
 
@@ -124,14 +221,116 @@ Spring 이 `Map<String, CodeSnippet>` 파라미터를 보면 **빈 이름을 키
 **주의**: 이 패턴은 lawform `rules/` 에 선례가 없다. 팀 컨벤션 위반은 아니지만(그런 상황이 없었을 뿐),
 회사 코드에 그대로 적용하기 전엔 팀과 상의할 것.
 
+#### 응답 형태 — **봉투(envelope)** 채택 (2026-08-25)
+
+디스패처는 `keyword` 가 **런타임 문자열**이라 컨트롤러 반환 타입이 `Any?` 로 뭉개진다.
+이건 게으른 선택이 아니라 구조적 결론이다(타입은 컴파일 타임 개념. TypeScript 도 런타임 문자열이면 좁혀지지 않고,
+Kotlin 제네릭 `CodeSnippet<out T>` 로 해도 `Map` 에 모으는 순간 스타 프로젝션으로 소실된다).
+
+**결정**: 전용 엔드포인트로 흩지 않고, **봉투로 바깥 형태만 고정**한다.
+
+- `api/response/code/CodeRunResponse.kt` — `data class CodeRunResponse(keyword, result: Any?)`
+- 조립은 **Service** 에서 한다 (`list()` 가 이미 Service 에서 `CodeListResponse` 를 만들므로 통일)
+- 개별 스니펫은 **자기 반환 타입을 좁혀서** 선언한다 (`override fun run(): UuidResult` 처럼).
+  인터페이스가 `Any?` 여도 구현은 구체 타입 반환이 가능하다(공변 반환) → 스니펫 내부·테스트·IDE 에서는 타입이 살아있다
+- 구조를 갖는 스니펫(organization, templateDataParse 등)은 `api/response/code/` 에 전용 data class 를 만든다
+
+**전용 엔드포인트 19개로 전환하는 안은 기각**했다. 잃는 것이 크다:
+① 디스패처 자체가 이 프로젝트의 핵심 학습 소재(Spring 이 컨테이너 내용물을 주입 대상으로 노출한다는 발상)
+② `/code/list` 를 손으로 관리하게 되어 **키워드 드리프트가 되돌아온다**
+③ 인증의 `permission` 판정이 한 곳에서 19곳으로 흩어져 **빼먹으면 열린다**(fail-open)
+④ 스니펫 추가 비용이 파일 1개 → 4곳으로 늘어난다
+되돌리기 비용도 비대칭이다 — 디스패처를 유지하면 응답 타입을 점진적으로 좁힐 수 있지만, 흩어놓으면 다시 합치기 어렵다.
+
+**후속 후보 (지금 안 함)**
+- **sealed interface** 로 결과 타입을 닫힌 집합으로 만들기 — `when` 전수 처리 + Jackson `@JsonTypeInfo` 타입 태그.
+  Kotlin 다운 방식이지만 스니펫 19개에 하위 타입 19개는 무겁다. **sealed 가 궁금해지는 시점에** 실험한다
+- 봉투에 `elapsedMs` 추가 — organization 의 두 탐색 구현 비교, JPA N+1 개선 전후 비교에 실제로 쓸모가 있다.
+  봉투가 있으니 나중에 추가해도 파괴적 변경이 아니다
+- 무거운 스니펫(`excelWritingBulkChk` 353줄, `diffDocx` 320줄) 이식 시 **로직을 재사용 컴포넌트로 분리**하고
+  스니펫은 얇은 진입점으로 남긴다. 그 스니펫을 실제로 이식할 때 판단
+
 ### 예외 / i18n — ko/en/ja 3로케일 유지
 
 - lawform 은 한국어 단일 메시지. **여기선 놀이터 원본(ko-KR/en/ja 3로케일)을 유지한다.**
-- 구조는 lawform 을 따름: `shared/exception` 에 `MessageException` 상속,
+- 구조는 lawform 을 따름: `exception/` 에 `MessageException`,
   응답 생성은 `LoggingErrorHandler`(`@ControllerAdvice`) **한 곳에서만**, 비즈니스 로직은 throw 만 (로깅 금지)
 - 4xx = `WARN`, 5xx = `ERROR`
+- 위치는 이탈 ①에 따라 **`api`** 안에 둔다(`shared` 아님). 다른 모듈이 생기면 그때 올린다
 
-### 영속성 컨텍스트 — **적극 사용** (lawform 과 의도적으로 다름)
+#### 구현 방식: **`MessageSource` + properties** (2026-08-25 결정)
+
+원본(놀이터 Nest)은 에러 상수에 3로케일 문자열을 직접 박고 `resolveLocaleFromAcceptLanguage` 로 골랐다.
+**우리는 Spring 내장 `MessageSource` 를 쓴다.**
+
+- 에러 카탈로그(enum)에는 **`status` + 메시지 키만** 둔다. 문장은 `messages*.properties` 3개 파일에
+- 로케일 해석은 **`AcceptHeaderLocaleResolver`(Boot 기본)** 가 한다 → 원본의 `resolveLocaleFromAcceptLanguage` 와
+  ko-KR → en → ja fallback 로직이 **통째로 사라진다.** `@ExceptionHandler` 파라미터에 `Locale` 을 선언하면 Spring 이 채워준다
+- 메시지 수정이 재컴파일 없이 되고, 로케일 추가가 파일 하나
+
+**대가 (알고 택함)**: 메시지 키는 컴파일 검사를 받지 못한다 — 오타가 **런타임**에 드러난다(`NoSuchMessageException`).
+enum 카탈로그가 키를 한 곳에 모아두므로 위험은 줄지만 없어지지는 않는다.
+
+**⚠️ properties 함정 2개**
+- **기본 파일이 `messages.properties`** 다. `messages_ko.properties` 만 만들고 기본 파일이 없으면, 지원하지 않는
+  로케일 요청에서 `NoSuchMessageException` 이 난다 → **`messages.properties`(ko 내용) + `_en` + `_ja`** 구성을 쓴다
+- `spring.messages.fallback-to-system-locale=false` 를 켜지 않으면, 매칭 실패 시 **JVM 의 시스템 로케일**로 떨어진다
+  (개발 머신에서는 우연히 맞고 서버에서 틀리는 유형)
+
+### Boot 4 에서 조심할 것 (lawform `DEV-122` 마이그레이션 문서에서 추출, 2026-08-24)
+
+우리는 처음부터 4.1.0 이라 **마이그레이션할 것은 없다.** 하지만 같은 함정을 신규 코드에서 밟는다.
+핵심은 breaking change 의 다수가 **컴파일 에러로 드러나지 않는다**는 것:
+
+| 유형 | 드러나는 시점 |
+|---|---|
+| 컴파일 에러 | 즉시 (안전) |
+| 부팅 실패 | 기동 시 (비교적 안전) |
+| **조용한 기능 상실** | **런타임에 에러 없이 동작만 사라짐** ← 실질적 위험 |
+| 테스트에서만 드러남 | 테스트 실행 시 |
+
+> "에러가 없으니 괜찮다" 가 성립하지 않는다. 우리도 이미 두 번 겪었다 —
+> `CraftController` 의 `package` 누락(404, 무에러), `application-local.yml` 이 profile 미활성으로 무시된 것.
+
+**① 자동설정이 기술별 모듈로 분해됐다.** Boot 3 의 "라이브러리가 classpath 에 있으면 자동설정도 따라온다"가
+**성립하지 않는다.** 라이브러리만 있고 자동설정이 없는 상태가 되며, 대체 no-op 구현이 있으면 조용히 기능만 사라진다.
+우리 로드맵에 걸리는 것:
+
+| 필요해지는 시점 | 라이브러리만으로는 안 되고 이 starter 가 필요 |
+|---|---|
+| 2차 JPA — Flyway | **`spring-boot-starter-flyway`** (`flyway-core` 단독이면 **마이그레이션이 실행되지 않고 부팅은 성공**한다. 검증은 `flyway_schema_history` 행으로) |
+| 5단계 테스트 — MockMvc | **`spring-boot-starter-webmvc-test`** (`spring-boot-starter-test` 만으로는 `@AutoConfigureMockMvc` 자동설정이 없다) |
+| 외부 HTTP 호출 | **`spring-boot-starter-restclient`** (`RestClient.Builder` 빈이 web 스타터에서 분리 → 없으면 부팅 실패) |
+
+**② Jackson 3 (`tools.jackson`)** — Boot 4 BOM 이 관리한다. 우리는 이전할 게 없지만 **인터넷 예제는 전부 Jackson 2** 라
+import 가 안 맞는다.
+
+- 좌표: `tools.jackson.core:jackson-databind`, `tools.jackson.module:jackson-module-kotlin` (버전 명시 X)
+- **애노테이션만 `com.fasterxml.jackson.annotation.*` 그대로** (`@JsonProperty`/`@JsonIgnore` …). 일괄 치환 시 함께 바꾸면 깨진다
+- `ObjectMapper` 가 **불변** → `JsonMapper.builder()…build()`, `registerModule` → `addModule`
+- `readValue(URL, …)` 오버로드 **없음** → `ClassPathResource` 의 스트림을 직접 `use { }`
+- `JsonNode.asText()` → **`asString()`**
+- ⚠️ **`JsonNode.map` 함정**: Jackson 3 이 멤버 `map(Function)` 을 추가해 Kotlin 의 `Iterable.map` 확장을 **가린다**
+  (Kotlin 은 멤버 함수가 확장보다 우선). 순회는 `.values().map { }`.
+  → **organization 이 이 함정 위에 있다.** `data class` 리스트로 역직렬화한 뒤 Kotlin 컬렉션으로만 다루면 원천 회피된다
+
+**③ Framework 7 은 AOP 프록시를 클래스 기반(CGLIB)으로 고정**한다. Kotlin 클래스는 기본 `final` 이므로 프록시 생성이 실패한다.
+`kotlin-spring`(allopen) 이 `@Component`/`@Service` 가 **클래스에** 붙은 경우는 열어주지만,
+**`@Bean` 으로 등록하면서 `@Transactional`/`@Async`/`@Cacheable` 이 메서드에만 붙은 클래스는 직접 `open`** 을 붙여야 한다.
+
+**④ null-safety 는 JSpecify** (JSR-305 아님). Spring API 를 오버라이드할 때 파라미터/반환의 nullability 가 바뀐 지점을 만난다.
+방향이 일정하지 않다(파라미터는 non-null 로 좁아지고 반환은 nullable 로 넓어지는 사례가 있다).
+`!!` 를 흩뿌리지 말고 지점마다 "null 이 실제로 가능한가"를 판단할 것.
+
+**⑤ 테스트 관련 이동**: `@AutoConfigureMockMvc` 패키지 `boot.test.autoconfigure.web.servlet` → **`boot.webmvc.test.autoconfigure`**,
+`@MockBean` → **`@MockitoBean`**(`test.context.bean.override.mockito`).
+
+### 영속성 컨텍스트 — **적극 사용** (lawform 과 의도적으로 다름) → **2차로 이월**
+
+> ⚠️ 2026-08-24: organization 이 DB 로 가지 않게 되어 **JPA 가 1차 범위에서 빠졌다.**
+> 아래 방침은 JPA 착수(2차) 시점에 유효하다. 실습 도메인은 그때 새로 정하며,
+> **쓰기가 있는 도메인**이어야 더티 체킹·flush 를 체감할 수 있다
+> (organization 은 읽기 전용 트리라 애초에 JPA 교재로는 반쪽이었다).
 
 lawform 은 영속성 컨텍스트를 Repository 경계에서 끊는다:
 - `application.yml` → `open-in-view: false`
@@ -187,14 +386,41 @@ lawform 은 Kover 커버리지 게이트(라인 80% / 브랜치 70%)가 `build` 
 |---|---|---|---|
 | 1 | `uuid`, `test` | 배선 확인용 순수 함수 | `crypto.randomUUID` → `java.util.UUID` |
 | 2 | `jwt` | 라이브러리 교체 | `jsonwebtoken` → **jjwt** (lawform 과 동일) |
-| 3 | **`organization`** | **JPA / 영속성 컨텍스트** ← 메인 | 메모리 Map 트리 조립 → 자기참조 연관관계 |
+| 3 | **`organization`** | **Kotlin 컬렉션 · 불변성 · 제네릭** ← 메인 | 가변 트리 조립 → 제네릭 공용 함수 |
 | 4 | `aws` (`awsDownload`/`kms`) | **Manager 규약** | `libs/aws/*` → `IUploadManager`(shared) + `S3UploadManager`(api) |
 | 5 (선택) | `excelWritingBulkChk` | 실무 난이도 | `exceljs` → Apache POI |
 
-**`organization` 이 메인인 이유**: 지금은 `ancestor_id` 로 메모리에서 Map 을 만들어 트리를 조립하는데,
-JPA 로 옮기면 `@ManyToOne(LAZY) parent` / `@OneToMany(mappedBy) children` 자기참조 연관관계가 되면서
-**lazy 로딩 / N+1 / fetch join / `@EntityGraph` 가 한 번에 등장**한다.
-조상 탐색(`findNodeAndAncestorsByIdMap`)까지 이미 짜여 있어 비교 대상도 완비돼 있다.
+#### `organization` — 성격 변경 (2026-08-24)
+
+원래 JPA 자기참조 연관관계 교재로 잡았으나, 이 코드는 **lawform 이 클러스터 테이블로 풀고 있는 조직도를
+"`parent_id` + 애플리케이션에서 트리 조립" 으로 바꾸자고 팀에 설득하려고 짠 POC** 였다.
+DB 에 넣을 데이터가 아니므로 **JPA 대상에서 제외**하고, 더미를 JSON 리소스로 가져와 **트리 조립·검색 로직만** 이식한다.
+
+**이식 대상 함수 3개** (`backend/src/modules/code/services/codes/organization.ts`):
+
+| 함수 | 하는 일 | 복잡도 |
+|---|---|---|
+| `getOrganizationTree` | `id → node` Map 조립 + `ancestor_id` 로 부모 연결 + `depth` 부여 | O(n) |
+| `getOrganization` | 트리 DFS 로 노드 + 조상 경로 탐색 | O(n) |
+| `findNodeAndAncestorsByIdMap` | Map 인덱스로 조상 역추적 + 자손 수집 | O(depth) |
+
+뒤 두 개는 **같은 목적의 두 구현**이라 비교 대상이 완비돼 있다. 팀 설득 논거("클러스터 테이블 없이도 조상/자손 조회가 싸다")가 여기였다.
+
+**여기서 배우는 것** (JPA 대신):
+
+- **가변 → 불변**: 원본은 입력 배열의 객체를 직접 변형한다 (`o.children = []`, `parent.children.push(o)`, `o.parent = parent`).
+  Kotlin `data class` 는 `val` 이 기본이라 그대로 옮겨지지 않는다 → **입력 DTO(flat) / 트리 노드(별도 타입) 분리**를 강제당한다
+- **순환 참조**: `parent` + `children` 양방향은 Jackson 직렬화가 무한 루프. `@JsonIgnore` 로 끊을지, parent 를 들지 않고
+  Map 으로 조상을 찾을지 선택해야 한다. **JPA 양방향 연관관계에서 만나는 문제와 같은 문제를 DB 없이 만난다**
+- **제네릭 설계**: "공용 함수" 로 만들려면 `id`/`parentId` 접근을 추상화해야 한다 → 제네릭 + 확장 함수 + 고차 함수
+- **Kotlin stdlib**: `associateBy` / `groupBy` / `fold`, 조상 순회는 `generateSequence(node.parent) { it.parent }` 로 while 이 사라진다. 재귀는 `tailrec` 검토
+- **Jackson**: `data class` 역직렬화에 `jackson-module-kotlin` 이 필요한 이유(생성자 파라미터 이름), `ClassPathResource` 로 리소스 로딩, nullable `ancestor_id` → `String?`
+- **배치 판단**: 제네릭 트리 유틸 = 도메인 무관 순수 함수 → **`shared`** / `OrganizationItem` DTO·JSON 리소스·스니펫 → **`api`**
+
+⚠️ **원본 데이터는 `.json` 이 아니라 `.ts` 다** (`files/organization.ts`, 52KB, `export const dummy: OrganizationItem[]`,
+필드 `id`/`team_id`/`name`/`sort_id`/`ancestor_id`). JSON 리소스로 쓰려면 변환 한 단계가 필요하다.
+원본 스니펫에서는 이 `dummy` import 가 **주석 처리**되어 있어 데이터와 로직이 연결조차 안 돼 있었다
+(`organization()` 이 `return null` 인 이유).
 
 ### 원본에서 이미 발견된 결함 (이식하면서 고칠 것)
 

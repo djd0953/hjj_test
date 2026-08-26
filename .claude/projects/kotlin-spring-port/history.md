@@ -110,3 +110,125 @@
   의존성이 실제로 복사되는 유일한 순간은 fat jar 를 만들 때(`BOOT-INF/lib/`)다.
 - **작업 방식 변경**: 힌트/되묻기 방식 → **답과 이유를 직접 설명**. 사용자 요청("빙빙 돌리지 말고 설명이랑 같이
   말해줘, 내가 오히려 이유를 찾는 질문을 할게"). memory `feedback-hint-not-code` 갱신. 파일 수정은 계속 사용자가 함.
+
+## 2026-08-24
+
+- **버전 하향 취소 — Boot 4.1.0 / Kotlin 2.3.21 / Gradle 9.5.1 로 확정.**
+  Claude 가 처음엔 lawform 일치(3.5.6 / 2.1.21)를 위해 하향을 권고했으나, 근거 4개 중 3개가 사용자가 바꾼 전제에
+  얹혀 있던 것이라 철회. 남은 근거(QueryDSL 6.x + Hibernate 7 조합 리스크)도 **QueryDSL 을 안 쓰면 0** 이라 약함.
+  하향이 실제로는 3단 연쇄(Boot + Kotlin + Gradle wrapper + `-Xannotation-default-target` 제거)라는 점도 확인됨.
+  안고 가는 대가는 spec "버전을 … 하향하지 않기로 한 이유" 절에 기록 (Boot 4 검색 결과 부족 / lawform 참조 시
+  Security·JSpecify·스타터 구조 차이 / `-Xjsr305=strict` 가 Boot 4 에선 사실상 무효).
+- **목적 변경: "실무 이관 대비" → "Kotlin/Spring 코드 실력 향상".** 사용자 판단.
+  - lawform 의 위상을 **컨벤션(파일 위치·레이어·네이밍) 참조**로 격하. 버전·라이브러리는 따라가지 않는다.
+    "build.gradle.kts 만들 때가 diff 의 끝" 이라는 정리.
+  - 막혔을 때 lawform diff 로 베끼는 방식 폐기 — "베낀 뒤 오타 검사하는 루프가 되어 실력이 안 는다",
+    차라리 에러를 직접 읽고 고치는 쪽을 택함.
+- **organization 성격 변경: JPA 교재 → Kotlin 교재.** 이 코드는 lawform 이 클러스터 테이블로 풀고 있는 조직도를
+  "`parent_id` + 애플리케이션 트리 조립" 으로 바꾸자고 **팀에 설득하려고 짠 POC** 였다는 배경이 확인됨.
+  DB 에 넣을 데이터가 아니므로 `files/organization.ts` 더미를 JSON 리소스로 가져와 **트리 조립·검색 로직만** 이식한다.
+  - 이식 대상 3함수 재확인: `getOrganizationTree`(Map+depth) / `getOrganization`(DFS, O(n)) /
+    `findNodeAndAncestorsByIdMap`(Map, O(depth)). 뒤 둘은 같은 목적의 두 구현 = 팀 설득 논거였던 비교 지점.
+  - 배울 것이 JPA 에서 **가변→불변(입력 DTO / 트리 노드 분리 강제) · 순환 참조(Jackson 무한 루프, JPA 양방향과 같은 문제) ·
+    제네릭 공용 함수 설계 · Kotlin stdlib(`associateBy`/`generateSequence`/`tailrec`) · Jackson+`ClassPathResource`** 로 이동.
+  - 실물 확인: 데이터가 `.json` 이 아니라 **`.ts`**(52KB) → 변환 한 단계 필요. 원본은 `dummy` import 가 주석 처리돼
+    데이터-로직이 연결조차 안 돼 있었음(그래서 `organization()` 이 `return null`).
+- **JPA / DB 는 1차 범위에서 제외 → 2차 이월.** organization 이 host 를 잃었고, 지금까지 실제로 쓴 Kotlin 코드가
+  거의 없어(1단계는 전부 Gradle) JPA 를 얹으면 병목이 둘이 되기 때문. 2차 실습 도메인은 **쓰기가 있는 도메인**으로
+  정할 것(더티 체킹·flush 체감). QueryDSL 도입 여부도 그때 판단.
+- request.md 정리: 시드 데이터 규모 항목 **해소·제거**(DB 미투입), 엔티티 식별자 타입은 2차 이월로 재작성.
+  여전히 열린 항목: **i18n 구현 방식**(골격 3단계 전 결정 필요), 시크릿 관리(이월).
+
+## 2026-08-24 (2)
+
+- **문서 정리**: 진입점/패키지 stale 정정 (`backend_kt.hjj.HjjApplication` → **`hjj.ApiApplication`**,
+  `group = "be.hjj"` → `hjj`). spec 에 "패키지 / 네이밍" 절 신설.
+- **`CraftController` 결함 발견** — 파일에 `package` 선언이 없어 **루트(default) 패키지로 컴파일**되고 있었다
+  (증거: `api/build/classes/kotlin/main/CraftController.class` 가 하위 디렉토리 없이 최상단).
+  `@SpringBootApplication` 이 `hjj` 를 스캔하므로 이 컨트롤러는 **컴포넌트 스캔에서 조용히 빠지고 `/craft` 는 404**.
+  Kotlin 은 디렉토리와 package 선언의 일치를 강제하지 않고 추론도 하지 않는다. → spec 에 함정으로 기록.
+  구조 자체(`usecase/{controller,facade,service}/{도메인}`)는 lawform 과 일치함을 확인.
+- **`application.yml` / `application-local.yml` 개념 정리** (사용자 질문: "node 의 env 같은 개념인가?").
+  절반만 맞다 — Node 는 코드가 `process.env` 를 직접 읽어 **출처가 코드에 박히는데**, Spring 은 `Environment` 로
+  통합돼 **코드는 키만 안다**(yml/env/CLI 어디서 왔는지 모름). relaxed binding 으로 `SPRING_DATASOURCE_PASSWORD`
+  환경변수가 `spring.datasource.password` 를 덮는다. 우선순위: CLI 인자 > OS env > `application-{profile}.yml` > `application.yml`.
+  최대 함정: **profile 을 안 켜면 `application-local.yml` 은 조용히 무시된다**(기동 로그의 active profile 줄로 확인).
+- **`application-local.yml` 추적 해제.** 이미 `d00c7b9` 로 커밋돼 있어서 **gitignore 추가만으로는 안 됐다**
+  (gitignore 는 untracked 파일에만 적용). `git rm --cached` + 루트 `.gitignore` 에 한 줄로 해결. 비밀 유출은 없었음.
+- **`.vscode/` 규칙 추가.** current.md 에 적힌 전제("gitignore 에 `.vscode/` 가 있는데 파일은 추적 중")는 **틀렸었다** —
+  병합된 루트 `.gitignore` 에 `.vscode` 줄이 애초에 없었다. `.vscode/*` + `!launch.json` + `!settings.json` 로 정리.
+  **`.vscode/`(디렉토리 제외) + `!` 부정 규칙은 작동하지 않는다** — git 이 제외된 디렉토리 안으로 내려가지 않으므로
+  내용물(`.vscode/*`)을 제외해야 예외가 먹는다.
+- **Swagger 착수 결정** — springdoc **3.1.0** 확정. Maven Central `maven-metadata.xml` + POM 확인 결과
+  3.1.0 의 부모가 `spring-boot-starter-parent 4.1.0` 으로 우리와 일치. **lawform 의 2.8.6 은 Boot 3 라인이라 못 쓴다**
+  (= "lawform 참조 시 버전 차이를 전제하라"의 첫 사례).
+- ❗ **회사가 lawform 도 Boot 4.1.0 으로 올린다** (`DEV-122` → base `alpha`, 118파일). 마이그레이션 PR 문서 확보.
+  → **하향하지 않은 판단이 결과적으로 맞았다.** 내렸다면 회사를 뒤늦게 다시 따라가야 했다.
+  - 우리 열린 항목 2개 해소: **QueryDSL 7.5** 가 Boot 4/Hibernate 7 대응(리스크 소멸), **springdoc 3.1.0** 교차 검증.
+  - spec 에 "Boot 4 에서 조심할 것" 절 신설 — 자동설정 모듈 분해(flyway/webmvc-test/restclient starter),
+    Jackson 3(`tools.jackson`, 애노테이션만 `com.fasterxml` 유지, ObjectMapper 불변, **`JsonNode.map` 이 Kotlin 확장을 가림**),
+    Framework 7 의 CGLIB 강제 + Kotlin `final`, JSpecify nullability, 테스트 애노테이션 이동.
+  - **`JsonNode.map` 함정은 organization 이식과 직결** — `data class` 리스트로 역직렬화 후 Kotlin 컬렉션으로만 다루면 회피된다.
+  - 새 열린 항목: **Kotlin 2.4.x 로 올릴지** (lawform 은 2.4.10, 근거는 JSpecify 해석). 2단계 이후 판단.
+
+## 2026-08-25
+
+- **Swagger 붙임 완료** (계획 외 추가 작업). `springdoc-openapi 3.1.0` 을 `api` 모듈 `implementation` 으로.
+  의존성 2줄 외에 코드 0줄로 동작 — `/v3/api-docs` 200, `/swagger-ui.html` 302 확인.
+- **진입 경로 `/docs` + `local` 프로파일에서만 노출**로 마무리. `application.yml` 기본값 `enabled: false`(fail-closed),
+  `---` + `spring.config.activate.on-profile: local` 문서에서만 켠다. `application-local.yml` 은 gitignore 대상이라
+  비밀도 머신 종속도 아닌 이 설정은 **커밋되는 파일**에 둬야 한다는 판단.
+- **자동설정 메커니즘을 jar 내부로 확인** — `META-INF/spring/…AutoConfiguration.imports` 를 `@EnableAutoConfiguration`
+  이 수집 → `@ConditionalOn*` 평가. "jar 를 넣는 행위 자체가 설정"이며, 그래서 imports 가 없는 jar 는 라이브러리만
+  들어온다(= Boot 4 starter 함정의 정체). 실측으로 `spring-boot-autoconfigure` 가 3.5.6 의 156개 → 4.1.0 의 12개로
+  쪼개진 것과 기술별 모듈 분산을 확인.
+- springdoc 이 Boot BOM 관리 대상이 **아니라는** 것도 BOM 파일로 확인(4.1.0/3.5.6 모두 0건) — "4 부터 빠진 것"이 아니라
+  원래 서드파티. 카탈로그 주석을 그에 맞게 수정.
+- **YAML 침묵 4종을 한 번에 밟음** — 들여쓰기로 `server.springdoc.*` 이 됨 / `activate` → `active` 오타로 프로파일 조건이
+  사라져 문서가 항상 적용됨 / `enabled` → `enalbed` 오타. 넷 다 에러가 없다. 사용자가 `activate` 로 고쳐 해결.
+  → current.md "이 단계에서 확인된 것"에 확인 도구(기동 로그 profile 줄 / actuator env·configprops / IDE 경고)와 함께 기록.
+- 관찰: IntelliJ 런 구성 JDK 가 **23**(toolchain 은 21). 동작은 하나 일관성 문제로 기록.
+- **컨벤션 이탈 2건 확정** (사용자 판단):
+  ① **응답 DTO / type 을 `shared` 가 아니라 `api` 에 둔다.** lawform 이 `shared` 에 두는 이유가
+     `repository.md` 1.15(Repository 가 `Projections.constructor` 로 Response DTO 직접 투영)에 매달려 있는데,
+     우리는 그 규칙을 이미 버렸다 → 근거가 없는 컨벤션. `shared` 를 나중에 다른 저장소와 공유할 계획이라는 점도
+     같은 방향(공유 모듈이 특정 앱의 API 계약을 알면 안 된다).
+  ② **인터페이스·타입과 구현을 패키지로 분리**한다 (`snippet/` + `snippet/implement/`).
+     이름 선례는 lawform 의 `repository/implement/` 를 따른다.
+  → 판단 기준을 spec 에 명시: "이 컨벤션이 무슨 결정의 결과인가" 를 찾아 그 결정을 공유하는지 본다.
+- 대비 기록: **Manager 컨벤션은 따른다**(인터페이스 `shared` / 구현체 사용 모듈). 근거(외부 SDK 의존성이 `shared` 로
+  새어들어오는 것 방지)가 우리에게도 유효하기 때문. `shared` 에 무엇을 두는지 표로 정리.
+- **엔티티 → 응답 매핑 방침** 결정: Kotlin 에 `Pick` 같은 타입 연산이 없고(명목적 타이핑) 상속으로도 축소가 불가능하므로,
+  응답 타입을 따로 선언하고 **확장 함수**(`fun User.toResponse()`)로 잇는다. 동기화는 매핑 지점의 컴파일 에러가 보장.
+- 진행 상황: 사용자가 2단계 디스패처를 직접 타이핑 중. `CodeSnippet`/`UuidSnippet`/`CodeService`/`CodeController` 초안 작성됨.
+  ❗ `CodeSnippet.kt`·`UuidSnippet.kt` 에 `package` 선언 누락 상태(스캔에서 빠져 기동 실패 예정) — 사용자에게 전달함.
+  `/code/list` 응답을 `{permission, keyword, label}[]` 형태로 확장하기로 함(keyword 는 `@Component("...")` 의 빈 이름을
+  단일 출처로 쓰고 Map 키에서 꺼낸다 — 중복 선언하면 드리프트가 재발한다).
+- **응답 형태: 봉투(envelope) 채택.** 디스패처의 `Any?` 는 `keyword` 가 런타임 문자열이라 생기는 구조적 결론임을 확인
+  (TS 오버로드도 런타임 문자열이면 안 되고, Kotlin 제네릭 `CodeSnippet<out T>` 도 Map 에 모으면 스타 프로젝션으로 소실).
+  `CodeRunResponse(keyword, result)` 로 바깥 형태만 고정하고, 개별 스니펫은 반환 타입을 좁혀 선언한다.
+  조립 위치는 **Service**(`list()` 와 통일).
+- **전용 엔드포인트 19개 전환안은 기각** — 사용자가 제안했으나 잃는 것(디스패처 학습 소재/드리프트 재발/인증 판정 fail-open/
+  추가 비용 4배)과 되돌리기 비용의 비대칭을 근거로 봉투로 합의. sealed interface 는 "궁금해질 때" 후속 실험으로 남김.
+- 2단계 디스패처 **동작 확인** — `/code/list` → `[{permission:PUBLIC, keyword:uuid, label:UUID}]`,
+  `/code/uuid` → 200, `/v3/api-docs` paths 2개. package 선언 문제 해결됨, `SnippetException` 도 `hjj/exception/` 으로 이동.
+  남은 것: `UuidSnippet.run()` 실제 UUID 로 채우기, 두 번째 스니펫으로 드리프트 차단 검증, `/code/nope` 는 현재 500(3단계 대상).
+
+## 2026-08-26
+
+- **골격 2단계(디스패처) 완료.** `/code/list` → `[{permission,keyword,label} x2]`, `/code/{keyword}` → 봉투 응답.
+  `OrganizationSnippet` 파일 추가만으로 목록에 나타나는 것을 확인 → **드리프트 차단이 실제로 동작함**.
+  응답 봉투에 `elapsedMicros`(`measureTimedValue`) 적용. `UuidSnippet` 은 반환 타입을 `UUID` 로 좁혀 선언.
+- **골격 3단계(예외/i18n) 완료.** `ApiErrorCode` enum + `MessageException` + `LoggingErrorHandler`(`@RestControllerAdvice`)
+  + `messages*.properties` 3개. `/code/nope` → 404 + `{code,title,message}`, ko/en 로케일 전환 확인, `fr` → 기본 폴백 확인.
+  **`@ExceptionHandler` 파라미터의 `Locale` 한 줄로** 원본의 `resolveLocaleFromAcceptLanguage` + 3단 fallback 이 사라졌다.
+- 디버깅 경위(기록 가치 있음): 처음 `/code/nope` 가 Boot 기본 500(`{timestamp,status,error,path}`)을 반환했다.
+  원인이 4겹이었다 — ① `CodeService` 가 아직 `SnippetException`(= `MessageException` 아님)을 던짐
+  ② 두 핸들러 본문이 `TODO()` ③ `TODO()` 가 던지는 `NotImplementedError` 는 **`Error` 라서 `Exception` 핸들러도 못 잡음**
+  → 컨테이너로 전파 → 기본 `/error` ④ 파일명이 `message*.properties`(단수)인데 설정은 `basename: messages`(복수).
+  → **Boot 기본 error 응답 형태가 곧 "우리 핸들러가 응답을 만들지 못했다"는 진단 정보**라는 것을 배움.
+- `@ExceptionHandler` 매칭 규칙 4개, `Error` vs `Exception`, 하위 타입을 만들 판단 기준, SLF4J 의 마지막 Throwable 인자,
+  `getMessage` 의 defaultMessage 오버로드 → current.md "이 단계에서 확인된 것" 에 정리.
+- 남은 자잘한 것: `messages_ja.properties` 미번역(한국어 복사 상태), `SnippetException.kt` 삭제, `CraftController` 처리,
+  미매핑 경로 404 출처 확인(Step 6).
+- **다음: 4단계 인증** (원래 사용자가 하고 싶다고 한 것) — 로그인 + AES-256-GCM 쿠키 토큰 + Interceptor + 선택적 private.
