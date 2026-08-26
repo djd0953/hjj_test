@@ -2,7 +2,6 @@ package hjj.usecase.service.code
 
 import hjj.exception.ApiErrorCode
 import hjj.exception.MessageException
-import hjj.exception.SnippetException
 import hjj.response.code.CodeListResponse
 import hjj.response.code.CodeRunResponse
 import hjj.snippet.CodeSnippet
