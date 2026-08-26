@@ -154,6 +154,31 @@
 - `messageSource.getMessage(key, args, defaultMessage, locale)` 오버로드는 **던지지 않는다.**
   키가 안정된 뒤 "핸들러는 절대 실패하지 않는다" 를 보장하고 싶을 때 쓴다 (지금은 오타 발견을 위해 던지는 쪽 유지)
 
+### 3.5 인증 — 신규 기능 (2026-08-26~)
+
+원본(NestJS)에 없던 기능. 로그인 → AES-256-GCM 토큰을 쿠키에 → Interceptor 가 인증, 컨트롤러가 인가.
+지시서: `plan.md` (코드 본문까지 포함) / 배경 지식: `ref/aes-gcm.md`, `ref/jackson3-kotlin.md`, `ref/spring-web-auth.md`
+
+- [x] Step 1. `ApiErrorCode` 에 `LOGIN_FAILED` / `UNAUTHORIZED` / `FORBIDDEN` + `messages*.properties` 3개
+- [ ] Step 2. `auth/TokenCipher.kt` — AES/GCM/NoPadding, IV 12B 매번 새로, Base64 URL-safe, 키 32B 검증
+- [ ] Step 3. `application-local.yml` 부활 + `openssl rand -base64 32` (커밋 안 됨)
+- [ ] Step 4. `AuthKeys` / `AuthUser` / `TokenPayload` / `LoginRequest` / `AuthService` / `AuthController`
+- [ ] Step 5. `AuthInterceptor` (쿠키 없으면 통과, 위조·만료면 401) + `WebMvcConfig` 등록·제외 경로
+- [ ] Step 6. `CodeController` 인가 판정 + `CodeService.permissionOf`
+- [ ] 검증 6개 (특히 **쿠키 1글자 변조 → 401**)
+- [ ] `messages_ja.properties` 인증 키 포함 미번역 상태 해소
+
+#### 이 단계에서 확인된 것 (재학습용)
+
+- **GCM 은 일이 두 개** — 기밀성 + 무결성(AEAD). CBC 로 하면 쿠키 변조를 감지 못 한다. → `ref/aes-gcm.md`
+- **JCE 는 태그를 암호문 뒤에 자동으로 붙인다.** Node 의 `getAuthTag()`/`setAuthTag()` 에 해당하는 API 가 없다
+- **IV 재사용은 평문 노출 + 태그 위조 두 단계로 무너진다** (forbidden attack). 실측: `ref/GcmDemo.java` ④
+- **`Cipher` 는 스레드 안전하지 않다** → 매번 생성. `SecureRandom`/`SecretKeySpec` 은 안전 → 필드로 재사용
+- **Boot 4 = Jackson 3(`tools.jackson`)**, `jackson-module-kotlin` 없이도 data class 역직렬화가 된다
+  (`javaParameters` + `DETECT_PARAMETER_NAMES`). 대가는 **null 안전성 미적용**. → `ref/jackson3-kotlin.md`
+- **Kotlin 에 multi-catch 가 없다** (`catch (e: A | B)` 불가)
+- **미들웨어 계층 선택이 예외 처리를 바꾼다** — Filter 의 예외는 `@ControllerAdvice` 에 안 닿는다. → `ref/spring-web-auth.md`
+
 ### 4. 스니펫 이식 — 난이도 순
 
 - [ ] `uuid` — 배선 확인용
@@ -162,7 +187,8 @@
 - [ ] **`organization` — 제네릭 트리 유틸** ← 메인 (2026-08-24: JPA → Kotlin 학습으로 성격 변경)
   - [ ] `files/organization.ts` 의 `dummy` → **JSON 변환** 후 `api` 리소스로 배치
   - [ ] `OrganizationItem` 입력 DTO (flat, `ancestor_id` → `String?`) + Jackson 역직렬화
-        (`jackson-module-kotlin` 이 필요한 이유 확인, `ClassPathResource`)
+        (⚠️ `jackson-module-kotlin` 은 **필요 없다** — 3.5 단계에서 확인. `ref/jackson3-kotlin.md`.
+         단 null 안전성이 적용되지 않으니 검증을 따로 걸어야 한다. `ClassPathResource`)
   - [ ] 트리 노드 타입을 입력 DTO 와 **분리** 설계 (`val` 기본 → 가변 조립이 그대로 안 옮겨진다)
   - [ ] `getOrganizationTree` 이식 — Map 조립 + 부모 연결 + `depth` 부여
   - [ ] `getOrganization` 이식 — DFS 탐색 (노드 + 조상 경로)

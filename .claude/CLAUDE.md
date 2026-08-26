@@ -19,11 +19,14 @@
 - `.claude/projects/{작업명}/current.md` — 진행 체크리스트 (지금 어디까지 했나 / 뭐가 남았나)
 - `.claude/projects/{작업명}/history.md` — 날짜별 진행 요약 (이전 맥락 이어받기)
 - `.claude/projects/{작업명}/request.md` — 아직 결정/해소 안 된 열린 항목
-- `.claude/projects/{작업명}/ref/` — 참고 파일 (보통 사용자가 직접 넣음)
+- `.claude/projects/{작업명}/ref/` — 참고 파일 + **지식 노트** (목록은 `ref/README.md`)
+  `plan.md` 는 스텝마다 비워지므로, **오래 쓸 배경 지식은 비우기 전에 여기로 옮긴다.**
 
 ## 3. 운영 규칙
 
 - **request → spec 승격**: `request.md`의 항목이 대화로 해소되면, 그 내용을 `spec.md`에 반영하고 `request.md`에서 해당 항목을 **제거**한다.
 - **history 기록**: 작업이 한 단계 진전될 때마다 `history.md`에 날짜별로 간략히 요약을 남긴다. (새 세션에서 이어가기 위함)
 - **current 갱신**: `current.md`의 할 일이 완료되면 `- [x]`로 체크한다. (삭제하지 않음. 사용자가 진척을 보기 위함)
+- **plan.md 비우기 전 지식 이관**: `plan.md` 에 쌓인 설명 중 다음 스텝에도 쓸 것은 `ref/` 로 주제별로 옮기고,
+  `plan.md` 에는 링크만 남긴다. 설계 **결정**은 `ref/` 가 아니라 `spec.md` 로 승격한다.
 - **새 작업 시작**: `.claude/projects/_TEMPLATE/`를 복사해서 `{작업명}` 폴더로 만든다.

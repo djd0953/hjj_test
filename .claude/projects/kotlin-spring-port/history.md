@@ -232,3 +232,25 @@
 - 남은 자잘한 것: `messages_ja.properties` 미번역(한국어 복사 상태), `SnippetException.kt` 삭제, `CraftController` 처리,
   미매핑 경로 404 출처 확인(Step 6).
 - **다음: 4단계 인증** (원래 사용자가 하고 싶다고 한 것) — 로그인 + AES-256-GCM 쿠키 토큰 + Interceptor + 선택적 private.
+
+## 2026-08-26 (이어서) — 4단계 인증 착수 + 문서 구조 개선
+
+- **지시서 방식 변경**: 그동안 `plan.md` 에 선언부만 적고 본문은 `TODO()` 로 비워뒀으나, 사용자가
+  "스프링을 아직 잘 못 다뤄서 어차피 AI 힘을 빌려 채우다 보니 의미가 없어졌다. 복붙 안 하고 직접 타이핑하며
+  궁금한 걸 묻는 게 낫다" 고 판단 → **동작하는 완성 코드 + 왜 그렇게 썼나 설명**을 함께 준다.
+  (`plan.md` 헤더 + 메모리 `feedback-hint-not-code` 갱신)
+- Step 1(에러 코드 3개 + messages 3파일)은 사용자가 이미 완료. Step 2~6 코드 본문 전부 작성.
+- **Jackson 3 사실 확인** (추측 아님): `jackson-module-kotlin` 이 classpath 에 **없는데** data class 역직렬화가 되는
+  이유를 jar 를 열어 확인 — ① Boot 4 Gradle 플러그인의 `enableJavaParametersOption` ② Jackson 3 databind 의
+  `DETECT_PARAMETER_NAMES`(옛 parameter-names 모듈 흡수). 대가는 **Kotlin null 안전성 미적용** +
+  reified `readValue<T>()` 없음. → 4단계(organization) 체크리스트의 "kotlin 모듈 필요" 메모를 반대로 고쳤다.
+- **GCM 이해 정리**: "그냥 암호화/복호화만 하는 게 아닌 것 같다" 는 질문에서 출발.
+  IV = 의미 없는 난수(유일성만 요건, 12B 는 `J0` 에 딱 맞는 크기), 태그 = GHASH 계산 결과(입력은 암호문·AAD·길이·키·IV).
+  IV 를 평문으로 붙여도 되는 이유와, 그런데도 IV 변조가 잡히는 이유(`태그 = S XOR AES_K(J0)`)를 실측으로 확인.
+- **`ref/GcmDemo.java` 추가** — ① 같은 평문 2회 암호화 ② 암호문 변조 → `AEADBadTagException`
+  ③ **IV 만 변조 → 도 `AEADBadTagException`** ④ **IV 재사용 → `C1 XOR C2 == P1 XOR P2` 실측**.
+  JDK 21 단일 파일 실행이라 컴파일 불필요.
+- **문서 구조 개선 (사용자 지적)**: "plan.md 는 다음 스텝에서 초기화하잖아" → 오래 쓸 지식을 `ref/` 로 주제별 분리.
+  `ref/README.md`(색인), `ref/aes-gcm.md`, `ref/jackson3-kotlin.md`, `ref/spring-web-auth.md`.
+  `plan.md` 는 **코드 + 링크**만 남겨 774행 → 564행. `CLAUDE.md` §2·§3 에 이 규약을 명시.
+

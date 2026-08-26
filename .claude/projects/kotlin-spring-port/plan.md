@@ -8,8 +8,10 @@
 
 ## ⚠️ 이 프로젝트의 지시서 방식
 
-**코드 본문을 적지 않는다.** 요구사항과 근거를 쓴다. **선언부(시그니처)까지는 적고 본문은 비워둔다.**
-(2026-08-19) 막혔을 때는 되묻기 대신 **답과 이유를 직접 설명**받는다. 파일 수정은 사용자가 한다.
+**(2026-08-26 변경) 코드 본문까지 적는다.** 사용자가 스프링에 아직 익숙하지 않아 어차피 AI 힘을 빌려 채우게 되므로,
+빈 `TODO()` 를 남기는 것이 학습에 기여하지 않았다. 대신 **복붙하지 않고 직접 타이핑하며 궁금한 것을 묻는** 방식으로 진행한다.
+→ 지시서는 **동작하는 코드 + "왜 이렇게 썼나" 주석·표**를 함께 담는다. 파일 수정은 여전히 사용자가 한다.
+(2026-08-19) 막혔을 때는 되묻기 대신 **답과 이유를 직접 설명**받는다.
 (2026-08-24) lawform 은 **컨벤션만** 참조한다. 버전·라이브러리는 추종하지 않고, diff 해서 베끼지 않는다.
 
 ---
@@ -67,19 +69,64 @@ FORBIDDEN(HttpStatus.FORBIDDEN, "error.auth.forbidden"),
 
 ## Step 2. AES-256-GCM 토큰 암호화
 
-**어디**: `api/auth/TokenCipher.kt` (`@Component`)
-
-**형태**
+**어디**: `api/src/main/kotlin/hjj/auth/TokenCipher.kt`
 
 ```kotlin
 package hjj.auth
 
+import org.springframework.beans.factory.annotation.Value
+import org.springframework.stereotype.Component
+import java.security.SecureRandom
+import java.util.Base64
+import javax.crypto.Cipher
+import javax.crypto.spec.GCMParameterSpec
+import javax.crypto.spec.SecretKeySpec
+
 @Component
 class TokenCipher(
-    @Value("\${hjj.auth.token-key}") private val base64Key: String,
+    @Value("\${hjj.auth.token-key}") base64Key: String,
 ) {
-    fun encrypt(plain: String): String = TODO()
-    fun decrypt(token: String): String = TODO()
+    private val key: SecretKeySpec
+    private val random = SecureRandom()
+
+    init {
+        val keyBytes = Base64.getDecoder().decode(base64Key)
+        require(keyBytes.size == KEY_SIZE) {
+            "hjj.auth.token-key 는 Base64 로 인코딩한 ${KEY_SIZE}바이트여야 한다 (현재 ${keyBytes.size}바이트)"
+        }
+        key = SecretKeySpec(keyBytes, "AES")
+    }
+
+    fun encrypt(plain: String): String {
+        val iv = ByteArray(IV_SIZE)
+        random.nextBytes(iv)
+
+        val cipher = Cipher.getInstance(TRANSFORMATION)
+        cipher.init(Cipher.ENCRYPT_MODE, key, GCMParameterSpec(TAG_BITS, iv))
+        val encrypted = cipher.doFinal(plain.toByteArray())
+
+        return ENCODER.encodeToString(iv + encrypted)
+    }
+
+    fun decrypt(token: String): String {
+        val decoded = DECODER.decode(token)
+        require(decoded.size > IV_SIZE) { "토큰 길이가 IV 보다 짧다" }
+
+        val cipher = Cipher.getInstance(TRANSFORMATION)
+        cipher.init(Cipher.DECRYPT_MODE, key, GCMParameterSpec(TAG_BITS, decoded, 0, IV_SIZE))
+
+        return String(cipher.doFinal(decoded, IV_SIZE, decoded.size - IV_SIZE))
+    }
+
+    companion object {
+        private const val TRANSFORMATION = "AES/GCM/NoPadding"
+        private const val KEY_SIZE = 32   // AES-256
+        private const val IV_SIZE = 12    // GCM 권장 nonce 길이
+        private const val TAG_BITS = 128  // 인증 태그 비트
+
+        private val ENCODER = Base64.getUrlEncoder().withoutPadding()
+        private val DECODER = Base64.getUrlDecoder()
+    }
 }
 ```
 
@@ -92,11 +139,13 @@ class TokenCipher(
 4. 인코딩은 **Base64 URL-safe**(`Base64.getUrlEncoder()`) — 일반 Base64 의 `+`, `/` 는 쿠키/URL 에서 문제가 된다
 5. 키는 32바이트여야 한다. **생성자에서 길이를 검증**하고 아니면 즉시 실패시킬 것 (기동 시 드러나는 게 낫다)
 
-**힌트**: `Cipher.getInstance(...)`, `SecretKeySpec(keyBytes, "AES")`, `GCMParameterSpec(128, iv)`(128 = 인증 태그 비트).
-복호화 실패는 `AEADBadTagException` 으로 온다 → 잡아서 `MessageException(UNAUTHORIZED)` 로 바꾼다.
+**배경 지식은 [`ref/aes-gcm.md`](ref/aes-gcm.md) 로 분리했다.** (GCM 이 왜 두 가지 일을 하나 / IV·태그에
+무엇이 들어가나 / IV 재사용이 무너지는 두 단계 / 코드 한 줄씩의 근거 / 예외를 어디서 잡나) 실험: `ref/GcmDemo.java`
 
-**참고**: `spring-security-crypto` jar 하나만 넣으면 `Encryptors.stronger()` 로 같은 걸 얻을 수 있다.
-**직접 만든 뒤에 비교**해보는 걸 권한다 — 직접 짜봐야 IV·태그·모드가 뭘 하는지 감이 온다.
+**⚠️ 타이핑할 때 이 둘만 틀리지 말 것**
+1. `random` 은 필드, `iv` 는 **지역변수**. 반대로 하면 GCM 의 무결성이 통째로 무너진다 (forbidden attack)
+2. `doFinal` 에 태그를 **떼지 않고** 넘긴다. Node 의 `setAuthTag` 습관대로 마지막 16바이트를 자르면 전부 실패한다
+3. 복호화 실패는 여기서 잡지 않는다 → `AuthService.verify` (Step 4)
 
 ---
 
@@ -119,67 +168,242 @@ class TokenCipher(
 
 ## Step 4. 토큰 페이로드 + 하드코딩 사용자 + 로그인
 
-**어디**
-- `api/auth/AuthUser.kt` — `data class AuthUser(val userId: String)`
-- `api/auth/TokenPayload.kt` — `data class TokenPayload(val userId: String, val expiresAt: Long)`
-- `api/usecase/service/auth/AuthService.kt`
-- `api/usecase/controller/auth/AuthController.kt`
-- `api/request/auth/LoginRequest.kt` — `data class LoginRequest(val id: String, val password: String)`
+### 4-1. 상수와 값 객체
 
-**`AuthService` 형태**
+**`api/auth/AuthKeys.kt`**
 
 ```kotlin
+package hjj.auth
+
+object AuthKeys {
+    const val COOKIE = "token"
+    const val ATTRIBUTE = "authUser"
+}
+```
+
+> **왜 `object` + `const val` 인가**: 쿠키 이름과 request 속성 키는 **Interceptor·Controller 두 곳에서 같은 문자열**을
+> 써야 한다. 문자열 리터럴을 양쪽에 적으면 오타가 컴파일에 걸리지 않고 **런타임에 조용히 인증이 안 되는** 형태로 나타난다.
+> 특히 `@RequestAttribute(name = ...)` 처럼 **애노테이션 인자**로 쓰려면 컴파일 타임 상수여야 하므로 `const val` 이 필수다.
+> (`val` 로만 쓰면 "애노테이션 인자는 상수여야 한다" 컴파일 에러)
+
+**`api/auth/AuthUser.kt`** — 컨트롤러가 받는 "인증된 사용자"
+
+```kotlin
+package hjj.auth
+
+data class AuthUser(
+    val userId: String,
+)
+```
+
+**`api/auth/TokenPayload.kt`** — 토큰 안에 들어가는 것
+
+```kotlin
+package hjj.auth
+
+data class TokenPayload(
+    val userId: String,
+    val expiresAt: Long,
+)
+```
+
+> **왜 `AuthUser` 와 `TokenPayload` 를 나누나** — 지금은 필드가 같아서 하나로 합치고 싶어진다. 하지만 하나는
+> **와이어 포맷**(토큰 안의 바이트 배치, 바꾸면 기존 토큰이 전부 무효), 하나는 **애플리케이션 모델**(컨트롤러가 쓰는 값)이다.
+> 2차에서 권한 목록·이름 같은 걸 `AuthUser` 에 붙이게 될 때 토큰을 키우지 않아도 되는 게 이 분리의 값이다.
+
+**`api/request/auth/LoginRequest.kt`**
+
+```kotlin
+package hjj.request.auth
+
+data class LoginRequest(
+    val id: String,
+    val password: String,
+)
+```
+
+> `response/` 와 짝을 맞춰 `request/` 를 새로 만든다. (컨벤션 이탈 ①과 같은 근거 — 쓰는 모듈에 둔다)
+
+### 4-2. `AuthService`
+
+**어디**: `api/usecase/service/auth/AuthService.kt`
+
+```kotlin
+package hjj.usecase.service.auth
+
+import hjj.auth.AuthUser
+import hjj.auth.TokenCipher
+import hjj.auth.TokenPayload
+import hjj.exception.ApiErrorCode
+import hjj.exception.MessageException
+import org.slf4j.LoggerFactory
+import org.springframework.stereotype.Service
+import tools.jackson.databind.ObjectMapper
+import java.security.MessageDigest
+import java.time.Duration
+import java.time.Instant
+
 @Service
 class AuthService(
     private val tokenCipher: TokenCipher,
-    private val objectMapper: ObjectMapper,   // Jackson 3 — Boot 가 빈으로 제공
+    private val objectMapper: ObjectMapper,
 ) {
-    // TODO 2차: DB 로 이관. 사용자/권한 테이블 + BCrypt
+    private val log = LoggerFactory.getLogger(javaClass)
+
+    // TODO 2차: DB 로 이관. 사용자/권한 테이블 + BCrypt 해시 저장
     private val users = mapOf("hjj" to "1234")
 
-    fun login(id: String, password: String): String = TODO("검증 → TokenPayload → JSON → 암호화")
-    fun verify(token: String): AuthUser = TODO("복호화 → JSON 역직렬화 → 만료 확인")
+    fun login(id: String, password: String): String {
+        val stored = users[id]
+        if (stored == null || !constantTimeEquals(stored, password)) {
+            log.warn("로그인 실패: id={}", id)
+            throw MessageException(ApiErrorCode.LOGIN_FAILED)
+        }
+
+        val payload = TokenPayload(
+            userId = id,
+            expiresAt = Instant.now().plus(TOKEN_TTL).toEpochMilli(),
+        )
+
+        return tokenCipher.encrypt(objectMapper.writeValueAsString(payload))
+    }
+
+    fun verify(token: String): AuthUser {
+        val payload = try {
+            objectMapper.readValue(tokenCipher.decrypt(token), TokenPayload::class.java)
+        } catch (e: Exception) {
+            log.warn("토큰 복호화 실패: {}", e.javaClass.simpleName)
+            throw MessageException(ApiErrorCode.UNAUTHORIZED)
+        }
+
+        if (payload.expiresAt <= Instant.now().toEpochMilli()) {
+            log.warn("토큰 만료: userId={}", payload.userId)
+            throw MessageException(ApiErrorCode.UNAUTHORIZED)
+        }
+
+        return AuthUser(userId = payload.userId)
+    }
+
+    // TODO 2차: BCryptPasswordEncoder.matches 로 대체 (해시 비교는 그 자체로 상수 시간)
+    private fun constantTimeEquals(a: String, b: String): Boolean =
+        MessageDigest.isEqual(a.toByteArray(), b.toByteArray())
+
+    companion object {
+        val TOKEN_TTL: Duration = Duration.ofHours(1)
+    }
 }
 ```
 
-**⚠️ 만료는 토큰 안에 넣는다.** 쿠키의 `Max-Age` 는 클라이언트가 지우거나 바꿀 수 있으니 **서버가 신뢰하면 안 된다.**
-`verify` 에서 `expiresAt` 을 현재 시각과 비교해 지났으면 401.
+**⚠️ `import tools.jackson.databind.ObjectMapper`** — `com.fasterxml` 가 아니다. Boot 4 는 **Jackson 3** 을 쓴다.
+IDE 자동완성이 `com.fasterxml` 쪽을 먼저 제안하면 그 `ObjectMapper` 는 **빈으로 등록돼 있지 않아** 주입에 실패한다.
 
-**`AuthController`**
+**왜 `constantTimeEquals` 인가** — `==` 는 첫 번째로 다른 문자에서 즉시 멈춘다. 그 미세한 시간 차를 수천 번 측정하면
+비밀번호를 한 글자씩 알아낼 수 있다(timing attack). `MessageDigest.isEqual` 은 길이가 같으면 끝까지 비교한다.
+지금 규모에서 현실적 위협은 아니지만, **비밀 비교는 이렇게 한다** 는 습관이 중요한 부분이다.
+
+**왜 `TOKEN_TTL` 을 `companion object` 에** — 컨트롤러의 쿠키 `maxAge` 와 **같은 값이어야** 한다.
+두 곳에 `1시간` 을 적으면 어긋나는 순간 "쿠키는 살아있는데 서버는 만료" 같은 디버깅하기 싫은 상태가 된다.
+
+> **⚠️ Jackson 3 + Kotlin 함정** — 이 프로젝트에는 `jackson-module-kotlin` 이 **없다.** 그래도 data class
+> 역직렬화가 되는 이유와 그 대가(**누락 필드에 `null` 이 들어간다**)는 [`ref/jackson3-kotlin.md`](ref/jackson3-kotlin.md).
+> 그래서 `readValue` 는 reified 확장이 아니라 **`TokenPayload::class.java`** 로 쓴다.
+
+### 4-3. `AuthController`
+
+**어디**: `api/usecase/controller/auth/AuthController.kt`
 
 ```kotlin
+package hjj.usecase.controller.auth
+
+import hjj.auth.AuthKeys
+import hjj.request.auth.LoginRequest
+import hjj.usecase.service.auth.AuthService
+import org.springframework.http.HttpHeaders
+import org.springframework.http.ResponseCookie
+import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RestController
+import java.time.Duration
+
 @RestController
 @RequestMapping("/auth")
-class AuthController(private val authService: AuthService) {
+class AuthController(
+    private val authService: AuthService,
+) {
     @PostMapping("/login")
-    fun login(@RequestBody request: LoginRequest): ResponseEntity<Void> = TODO()
+    fun login(@RequestBody request: LoginRequest): ResponseEntity<Void> {
+        val token = authService.login(request.id, request.password)
+
+        return noContentWithCookie(tokenCookie(token, AuthService.TOKEN_TTL))
+    }
 
     @PostMapping("/logout")
-    fun logout(): ResponseEntity<Void> = TODO()
+    fun logout(): ResponseEntity<Void> =
+        noContentWithCookie(tokenCookie("", Duration.ZERO))
+
+    private fun tokenCookie(value: String, maxAge: Duration): ResponseCookie =
+        ResponseCookie.from(AuthKeys.COOKIE, value)
+            .httpOnly(true)
+            .path("/")
+            .sameSite("Lax")
+            .maxAge(maxAge)
+            .build()
+
+    private fun noContentWithCookie(cookie: ResponseCookie): ResponseEntity<Void> =
+        ResponseEntity.noContent()
+            .header(HttpHeaders.SET_COOKIE, cookie.toString())
+            .build()
 }
 ```
 
-**쿠키 만들기**: `ResponseCookie.from("token", value)` 에 `.httpOnly(true)` `.path("/")` `.sameSite("Lax")`
-`.maxAge(Duration.ofHours(1))` → `ResponseEntity.noContent().header(HttpHeaders.SET_COOKIE, cookie.toString()).build()`
+- **`httpOnly(true)`** — JS 가 못 읽는다(XSS 로 토큰 탈취 방지). 반드시 켠다
+- **`path("/")` 를 빼면** 브라우저가 `/auth` 기준으로 잡아 `/code/**` 에 쿠키가 안 실린다. **잊기 쉬운 함정**
+- **`secure` 를 안 켰다** — https 전용이라 로컬 http 에서 켜면 쿠키가 아예 안 실린다
+- **로그아웃**은 같은 이름·같은 `path` 의 쿠키를 `maxAge=0` 으로 다시 내려 지운다
+- `Void` 대신 `Unit` 을 쓰면 Jackson 이 본문에 `{}` 를 쓴다. **204 는 본문이 없어야** 하므로 `Void`
 
-- **`httpOnly`** 는 JS 접근을 막는다(XSS 로 토큰 탈취 방지). 반드시 켠다
-- **`secure`** 는 https 전용이라 **로컬 http 에서 켜면 쿠키가 아예 안 실린다.** 프로파일별로 다르게 주는 좋은 연습거리
-- **로그아웃**은 같은 이름의 쿠키를 `maxAge(0)` 으로 다시 내려 지운다 (서버에 상태가 없으므로 이게 유일한 방법)
-
-**비밀번호**: 지금은 평문 비교 + `// TODO`. `spring-security-crypto` 를 넣으면 `BCryptPasswordEncoder` 를 쓸 수 있다 — 2차에 DB 와 함께.
+> 각 옵션의 상세와 무상태의 대가(replay 를 못 막는다)는 [`ref/spring-web-auth.md`](ref/spring-web-auth.md) §4.
 
 ---
 
 ## Step 5. Interceptor — 인증 "시도"
 
-**어디**
-- `api/interceptor/AuthInterceptor.kt`
-- `api/config/WebMvcConfig.kt`
+**어디**: `api/interceptor/AuthInterceptor.kt`, `api/config/WebMvcConfig.kt`
 
 ```kotlin
+package hjj.interceptor
+
+import hjj.auth.AuthKeys
+import hjj.usecase.service.auth.AuthService
+import jakarta.servlet.http.HttpServletRequest
+import jakarta.servlet.http.HttpServletResponse
+import org.springframework.stereotype.Component
+import org.springframework.web.servlet.HandlerInterceptor
+
 @Component
-class AuthInterceptor(private val authService: AuthService) : HandlerInterceptor {
-    override fun preHandle(request: HttpServletRequest, response: HttpServletResponse, handler: Any): Boolean = TODO()
+class AuthInterceptor(
+    private val authService: AuthService,
+) : HandlerInterceptor {
+
+    override fun preHandle(
+        request: HttpServletRequest,
+        response: HttpServletResponse,
+        handler: Any,
+    ): Boolean {
+        val token = request.cookies
+            ?.firstOrNull { it.name == AuthKeys.COOKIE }
+            ?.value
+
+        // 쿠키가 없으면 익명으로 통과시킨다. 막는 건 컨트롤러의 일
+        if (token.isNullOrBlank()) return true
+
+        // 쿠키가 있는데 위조·만료면 여기서 401 (AuthService.verify 가 던진다)
+        request.setAttribute(AuthKeys.ATTRIBUTE, authService.verify(token))
+
+        return true
+    }
 }
 ```
 
@@ -190,48 +414,104 @@ Interceptor 가 "토큰 없으면 401" 로 막아버리면 **PUBLIC 스니펫도
 | 상황 | Interceptor 의 행동 |
 |---|---|
 | 쿠키 없음 | **그냥 통과**(익명). 속성을 심지 않는다 |
-| 쿠키 있고 유효 | `AuthUser` 를 `request.setAttribute("authUser", …)` 로 심고 통과 |
+| 쿠키 있고 유효 | `AuthUser` 를 `request.setAttribute` 로 심고 통과 |
 | 쿠키 있는데 위조·만료 | **401 throw** — 잘못된 자격증명을 조용히 넘기면 안 된다 |
 
-즉 Interceptor 는 **인증(누구냐)** 만 하고, **인가(되냐)** 는 컨트롤러가 한다. Security 도 내부적으로 같은 분리를 한다.
+즉 Interceptor 는 **인증(누구냐)** 만, **인가(되냐)** 는 컨트롤러가 한다. Security 도 내부적으로 같은 분리를 한다.
 
-**등록** (`WebMvcConfig`)
+> 세 번째 줄이 왜 "통과" 가 아니라 "throw" 인가 — 만료된 쿠키를 조용히 무시하면 사용자는 **PUBLIC 은 되는데
+> PRIVATE 만 안 되는** 상태를 보고 "로그인이 풀렸다" 는 걸 모른다. 잘못된 자격증명은 **즉시 알려주는 것**이 맞다.
+
+**등록** (`api/config/WebMvcConfig.kt`)
 
 ```kotlin
+package hjj.config
+
+import hjj.interceptor.AuthInterceptor
+import org.springframework.context.annotation.Configuration
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
+
 @Configuration
-class WebMvcConfig(private val authInterceptor: AuthInterceptor) : WebMvcConfigurer {
-    override fun addInterceptors(registry: InterceptorRegistry) = TODO()
+class WebMvcConfig(
+    private val authInterceptor: AuthInterceptor,
+) : WebMvcConfigurer {
+
+    override fun addInterceptors(registry: InterceptorRegistry) {
+        registry.addInterceptor(authInterceptor)
+            .addPathPatterns("/**")
+            .excludePathPatterns(
+                "/auth/**",        // 로그인 자체는 토큰이 없다
+                "/error",          // 컨테이너가 에러를 넘기는 내부 경로
+                "/docs",           // springdoc (local 프로파일)
+                "/swagger-ui/**",
+                "/v3/api-docs/**",
+            )
+    }
 }
 ```
 
-**⚠️ 제외 경로를 반드시 지정할 것**: `/auth/**`(로그인 자체), `/docs`, `/swagger-ui/**`, `/v3/api-docs/**`, `/error`.
-안 하면 Swagger 문서 요청까지 인증을 타게 된다.
+**⚠️ 제외 경로를 빼먹으면** Swagger 문서 요청까지 인증을 타고, `/error` 로 넘어간 요청이 다시 Interceptor 를 타면서
+**예외가 예외를 낳는** 상태가 된다. `/error` 제외는 특히 잊기 쉽다.
+
+> **`@EnableWebMvc` 를 붙이지 않는다.** 붙이면 Boot 의 웹 자동설정이 전부 꺼진다.
+> 미들웨어 3계층 비교와 인증·인가 분리의 근거는 [`ref/spring-web-auth.md`](ref/spring-web-auth.md) §1~3.
 
 ---
 
 ## Step 6. 컨트롤러에서 인가 판정
 
-**`CodeController.run`**
+### 6-1. `CodeService` 에 조회 함수 추가
+
+```kotlin
+fun permissionOf(keyword: String): SnippetPermission = snippet(keyword).permission
+
+private fun snippet(keyword: String): CodeSnippet =
+    snippets[keyword] ?: throw MessageException(ApiErrorCode.SNIPPET_NOT_FOUND, arrayOf(keyword))
+```
+
+기존 `run` 의 첫 줄(`snippets[keyword] ?: throw …`)을 `snippet(keyword)` 호출로 바꿔 **404 판정을 한 곳으로** 모은다:
+
+```kotlin
+fun run(keyword: String): CodeRunResponse {
+    val snippet = snippet(keyword)
+    val (result, duration) = measureTimedValue { snippet.run() }
+
+    return CodeRunResponse(keyword, duration.inWholeMicroseconds, result)
+}
+```
+
+- `import hjj.type.enum.SnippetPermission` 이 필요하다
+- `snippet(...)` 이 `private` 이라 **404 는 서비스 안에서만** 난다. 컨트롤러는 keyword 존재 여부를 모른다
+
+### 6-2. `CodeController.run`
 
 ```kotlin
 @GetMapping("/{keyword}")
 fun run(
     @PathVariable keyword: String,
-    @RequestAttribute(name = "authUser", required = false) authUser: AuthUser?,
-): CodeRunResponse = TODO()
+    @RequestAttribute(name = AuthKeys.ATTRIBUTE, required = false) authUser: AuthUser?,
+): CodeRunResponse {
+    if (codeService.permissionOf(keyword) == SnippetPermission.PRIVATE && authUser == null)
+        throw MessageException(ApiErrorCode.UNAUTHORIZED)
+
+    return codeService.run(keyword)
+}
 ```
 
-- **`required = false` 를 빼면** 속성이 없을 때(익명) 예외가 난다 → PUBLIC 이 깨진다
-- 판정: `codeService.permissionOf(keyword)` 로 permission 을 얻어 `PRIVATE` 이고 `authUser == null` 이면
-  `MessageException(UNAUTHORIZED)` throw. `CodeService` 에 `fun permissionOf(keyword: String): SnippetPermission` 을 추가한다
-  (없는 keyword 면 그 안에서 기존 404 가 먼저 난다 — 순서가 자연스럽다)
+추가 import: `hjj.auth.AuthKeys`, `hjj.auth.AuthUser`, `hjj.exception.ApiErrorCode`, `hjj.exception.MessageException`,
+`hjj.response.code.CodeRunResponse`, `hjj.type.enum.SnippetPermission`,
+`org.springframework.web.bind.annotation.RequestAttribute`
 
-**보안 논의 하나 — 알고 선택할 것**
-없는 keyword 는 404, PRIVATE keyword 는 401 이면 **"그 keyword 가 존재한다" 는 사실이 노출**된다(존재 여부 oracle).
-엄격하게 하려면 미인증자에게는 **둘 다 404** 로 통일한다. 우리는 `/code/list` 가 이미 전체를 공개하므로
-숨길 게 없어서 **404/401 구분을 유지**해도 된다. 다만 이 트레이드오프를 아는 상태로 두는 것과 모르는 것은 다르다.
+- **`required = false` 를 빼면** 속성이 없을 때(익명) 예외가 난다 → PUBLIC 이 깨진다. 그리고 타입은 반드시 **`AuthUser?`**
+- 반환 타입을 `CodeRunResponse` 로 **명시**한다. 본문이 여러 줄이 되면 표현식 본문(`=`)이 아니라 블록이고,
+  블록 본문은 타입 추론이 안 된다
+- 순서: **`permissionOf` 가 먼저** 이므로 없는 keyword 는 401 이 아니라 **404** 가 난다 (아래 논의 참고)
 
----
+
+> **존재 여부 oracle** — 없는 keyword 404 / PRIVATE 401 은 "그 keyword 가 존재한다" 를 노출한다.
+> `/code/list` 가 이미 전체를 공개하므로 **구분을 유지**한다. 근거는 [`ref/spring-web-auth.md`](ref/spring-web-auth.md) §5.
+
 
 ## 검증 절차
 
