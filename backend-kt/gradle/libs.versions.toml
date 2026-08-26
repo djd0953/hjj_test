@@ -2,6 +2,9 @@
 kotlin = "2.3.21"
 springBoot = "4.1.0"
 springDependencyManagement = "1.1.7"
+# springdoc 은 서드파티라 Boot BOM 관리 대상이 아니다(3.x/4.x 모두 해당) → 버전을 직접 명시한다.
+# 3.0.x/3.1.x = Boot 4.x 대응 라인 (2.x 는 Boot 3 라인이라 못 씀).
+springdoc = "3.1.0"
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
@@ -12,6 +15,7 @@ spring-dependency-management = { id = "io.spring.dependency-management", version
 [libraries]
 spring-boot-starter-web = { module = "org.springframework.boot:spring-boot-starter-web" }
 spring-boot-starter-test = { module = "org.springframework.boot:spring-boot-starter-test" }
+springdoc-openapi = { module = "org.springdoc:springdoc-openapi-starter-webmvc-ui", version.ref = "springdoc" }
 kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect" }
 kotlin-test-junit5 = { module = "org.jetbrains.kotlin:kotlin-test-junit5" }
 junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher" }

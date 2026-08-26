@@ -11,6 +11,7 @@ tasks.bootJar {
 
 dependencies {
 	implementation(project(":shared"))
+	implementation(libs.springdoc.openapi)
 
 	testImplementation(libs.spring.boot.starter.test)
 }
