@@ -15,6 +15,7 @@ dependencyResolutionManagement {
 rootProject.name = "backend-kt"
 
 include(
-    ":shared",
+    ":core",
+    ":infrastructure",
     ":api",
 )

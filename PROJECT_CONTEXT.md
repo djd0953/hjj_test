@@ -26,7 +26,7 @@ hjj/
       game.tsx             미니게임 선택 화면
       logs.tsx             블랙잭 WebSocket 디버그 로그 화면
     components/games/      미니게임 컴포넌트들
-  .claude/                 기능 명세/요청 문서 일부 보관
+  .ai/                     AI 작업 메모리·프로젝트 문서
   docker-compose*.yml      개발/운영 컨테이너 설정
 ```
 
@@ -115,7 +115,7 @@ npm.cmd run build
 경로:
 
 - `backend/src/modules/hsad`
-- 참고 명세: `.claude/mdm-be/*.md`, `.claude/difference/*.md`
+- 참고 명세는 작업별 `.ai/projects/{작업명}/ref/`에 둔다.
 
 역할:
 
@@ -296,4 +296,3 @@ NEXT_PUBLIC_WS_PORT
 3. API 변경이면 프론트 요청 경로와 백엔드 endpoint를 함께 맞춥니다.
 4. WebSocket 변경이면 `/logs` 페이지나 `BlackjackOnline`에서 실제 연결과 메시지 흐름을 확인합니다.
 5. 빌드 검증은 Windows PowerShell에서 `npm.cmd run build`를 우선 사용합니다.
-

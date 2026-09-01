@@ -10,7 +10,10 @@ tasks.bootJar {
 }
 
 dependencies {
-	implementation(project(":shared"))
+	implementation(project(":core"))
+	implementation(project(":infrastructure"))
+
+	implementation(libs.spring.security.crypto)
 	implementation(libs.springdoc.openapi)
 
 	testImplementation(libs.spring.boot.starter.test)

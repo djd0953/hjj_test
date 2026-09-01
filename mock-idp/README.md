@@ -1,6 +1,6 @@
 # HSAD SSO Mock IdP
 
-`.claude/sso/mock-idp.md` 사양에 맞춰 로컬에서 띄우는 SAML 2.0 mock IdP. 본체 SP(`apps/api`)와 end-to-end 흐름 테스트용.
+mock IdP 사양에 맞춰 로컬에서 띄우는 SAML 2.0 mock IdP. 본체 SP(`apps/api`)와 end-to-end 흐름 테스트용.
 
 ## 실행
 
