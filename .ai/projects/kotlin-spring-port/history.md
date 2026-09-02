@@ -300,3 +300,26 @@
   기존 Kotlin 프로젝트의 spec/current/request/plan/ref와 history 기록은 의미를 유지하고 경로 참조만 새 구조에 맞췄다.
 - Claude Code는 루트 `CLAUDE.md`, Codex는 루트 `AGENTS.md`를 통해 같은 `.ai/bootstrap.md`를 읽는다.
   Claude 전용 `settings.local.json` 같은 로컬 설정은 `.ai/`로 옮기지 않고 도구 전용 위치에 남긴다.
+
+## 2026-09-01 — 인증 구현 완료 및 `@LoginUser` 인자 리졸버 추가
+
+- AES-GCM 쿠키 토큰, 하드코딩 사용자 로그인, `AuthInterceptor`, Code 스니펫의 PUBLIC/PRIVATE 인가 코드를 작성했고
+  `:api:compileKotlin`으로 컴파일 정합성을 확인했다. HTTP 6개 시나리오(특히 위조 쿠키 401)는 사용자 로컬 서버에서 별도 검증으로 남겼다.
+- request attribute 문자열 키를 `CodeController`가 직접 읽던 방식을 `@LoginUser AuthUser?`로 승격했다.
+  `LoginUserArgumentResolver`는 인증을 다시 하지 않고, `AuthInterceptor`가 이미 저장한 `AuthUser`를 컨트롤러 인자로 변환한다.
+- 다음 청크는 `RequestTimingInterceptor`로 `preHandle`/`afterCompletion` 생명주기를 실습하고,
+  스니펫 실행 시간과 HTTP 전체 시간을 비교한다.
+
+## 2026-09-01 — HTTP 요청 전체 시간 로깅 완료
+
+- `RequestTimingInterceptor`를 `AuthInterceptor`보다 먼저 등록해, `preHandle`에서 request attribute에 시작 시각을 저장하고
+  `afterCompletion`에서 HTTP 요청 전체 시간을 마이크로초로 로그에 남기도록 했다. `/error`는 중복 로그를 피하려고 제외했다.
+- 사용자 로컬 실행 콘솔에서 시간 로그가 실제로 출력되는 것을 확인했고, `:api:compileKotlin`도 통과했다.
+
+## 2026-09-02 — organization JSON 트리와 DFS 검색 이식
+
+- 원본 TypeScript 더미 배열을 `api` classpath JSON 리소스로 변환하고, `OrganizationItem`(flat 입력)과
+  `OrganizationNode`(불변 출력 트리)를 분리했다. parent 객체 참조를 만들지 않아 JSON 순환 직렬화를 피했다.
+- `groupBy`로 parent id별 자식을 묶어 depth·children 트리를 조립하고, DFS로 선택 노드와 root→parent 조상 경로를 찾도록
+  `OrganizationSnippet`에 연결했다. `/code/organization`의 정상 응답과 `:api:compileKotlin` 통과를 확인했다.
+- 다음 청크는 Map 인덱스 기반 조상/자손 탐색과 DFS 비용 비교, 이후 `core/common/tree` 제네릭 유틸 승격이다.

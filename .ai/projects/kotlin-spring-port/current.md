@@ -172,14 +172,26 @@
 지시서: `plan.md` (코드 본문까지 포함) / 배경 지식: `ref/aes-gcm.md`, `ref/jackson3-kotlin.md`, `ref/spring-web-auth.md`
 
 - [x] Step 1. `ApiErrorCode` 에 `LOGIN_FAILED` / `UNAUTHORIZED` / `FORBIDDEN` + `messages*.properties` 3개
-- [ ] Step 2. `authentication/component/TokenCipher.kt` — AES/GCM/NoPadding, IV 12B 매번 새로, Base64 URL-safe, 키 32B 검증
-- [ ] Step 3. `application-local.yml` 부활 + `openssl rand -base64 32` (커밋 안 됨)
-- [ ] Step 4. `authentication/**` 의 `AuthKeys` / `AuthUser` / `TokenPayload` / `LoginRequest` / `AuthService` / `AuthController`
-- [ ] Step 5. `web/interceptor/AuthInterceptor` (쿠키 없으면 통과, 위조·만료면 401) +
+- [x] Step 2. `authentication/component/TokenCipher.kt` — AES/GCM/NoPadding, IV 12B 매번 새로, Base64 URL-safe, 키 32B 검증
+- [x] Step 3. `application-local.yml` 부활 + `openssl rand -base64 32` (커밋 안 됨)
+- [x] Step 4. `authentication/**` 의 `AuthKeys` / `AuthUser` / `TokenPayload` / `LoginRequest` / `AuthService` / `AuthController`
+- [x] Step 5. `web/interceptor/AuthInterceptor` (쿠키 없으면 통과, 위조·만료면 401) +
       `web/config/WebMvcConfig` 등록·제외 경로
-- [ ] Step 6. `CodeController` 인가 판정 + `CodeService.permissionOf`
+- [x] Step 6. `CodeController` 인가 판정 + `CodeService.permissionOf`
 - [ ] 검증 6개 (특히 **쿠키 1글자 변조 → 401**)
 - [ ] `messages_ja.properties` 인증 키 포함 미번역 상태 해소
+
+### 3.6 인증 후속 — `@LoginUser` 인자 리졸버 (2026-09-01 완료)
+
+- [x] `authentication/annotation/LoginUser` + `web/resolver/LoginUserArgumentResolver` 추가
+- [x] `WebMvcConfig.addArgumentResolvers` 등록 및 `CodeController`의 `@RequestAttribute` 제거
+- [x] `./gradlew :api:compileKotlin` 통과
+
+### 3.7 HTTP 요청 시간 로깅 (2026-09-01 완료)
+
+- [x] `RequestTimingInterceptor`의 `preHandle`/`afterCompletion`으로 요청 전체 시간 측정
+- [x] `WebMvcConfig`에서 Timing → Auth 순으로 등록하고 `/error` 중복 측정 제외
+- [x] `GET /code/uuid` 요청의 콘솔 시간 로그 확인
 
 #### 이 단계에서 확인된 것 (재학습용)
 
@@ -198,19 +210,19 @@
 - [ ] `test` — Base64 SAMLResponse 디코드
 - [ ] `jwt` — jsonwebtoken → jjwt
 - [ ] **`organization` — 제네릭 트리 유틸** ← 메인 (2026-08-24: JPA → Kotlin 학습으로 성격 변경)
-  - [ ] `files/organization.ts` 의 `dummy` → **JSON 변환** 후 `api` 리소스로 배치
-  - [ ] `OrganizationItem` 입력 DTO (flat, `ancestor_id` → `String?`) + Jackson 역직렬화
+  - [x] `files/organization.ts` 의 `dummy` → **JSON 변환** 후 `api` 리소스로 배치
+  - [x] `OrganizationItem` 입력 DTO (flat, `ancestor_id` → `String?`) + Jackson 역직렬화
         (⚠️ `jackson-module-kotlin` 은 **필요 없다** — 3.5 단계에서 확인. `ref/jackson3-kotlin.md`.
          단 null 안전성이 적용되지 않으니 검증을 따로 걸어야 한다. `ClassPathResource`)
-  - [ ] 트리 노드 타입을 입력 DTO 와 **분리** 설계 (`val` 기본 → 가변 조립이 그대로 안 옮겨진다)
-  - [ ] `getOrganizationTree` 이식 — Map 조립 + 부모 연결 + `depth` 부여
-  - [ ] `getOrganization` 이식 — DFS 탐색 (노드 + 조상 경로)
+  - [x] 트리 노드 타입을 입력 DTO 와 **분리** 설계 (`val` 기본 → 가변 조립이 그대로 안 옮겨진다)
+  - [x] `getOrganizationTree` 이식 — parent id 그룹핑 + 불변 children 조립 + `depth` 부여
+  - [x] `getOrganization` 이식 — DFS 탐색 (노드 + 조상 경로)
   - [ ] `findNodeAndAncestorsByIdMap` 이식 — Map 으로 조상 역추적 + 자손 수집
   - [ ] 두 탐색 구현의 **쿼리/순회 비용 비교** (팀 설득 논거였던 지점)
   - [ ] 제네릭 공용 함수로 승격 → `core/common/tree` 배치 (`id`/`parentId` 접근 추상화)
   - [ ] 순환 참조 처리 결정 — `@JsonIgnore` vs parent 안 들기 (Jackson 무한 루프 재현해보기)
-  - [ ] Kotlin stdlib 로 다듬기 — `associateBy` / `generateSequence` / `tailrec`
-  - [ ] 원본 결함 3건 고치기 — `return null`, 함수 3개 미호출(죽은 코드), `dummy` import 주석 처리
+  - [x] Kotlin stdlib 로 다듬기 — `associateBy` / `groupBy` / `firstNotNullOfOrNull`
+  - [x] 원본 결함 3건 중 `return null`, 함수 미호출, `dummy` 미연결 해소
 - [ ] `aws` — Manager 규약
   - [ ] `core`의 `UploadManager` 인터페이스
   - [ ] `infrastructure/storage/s3`의 `S3UploadManager` 구현체
