@@ -10,3 +10,4 @@
 - [x] 4. Spring API 클라이언트·로그인·Code 스니펫 탐색 feature를 연결
 - [x] 5. production build로 App Router·타입 정합성을 확인하고 문서 상태를 마무리
 - [x] 6. frontend 의존성 관리자를 npm에서 pnpm으로 전환하고 Docker·문서를 정합화
+- [x] 7. frontend ESLint 설정·의존성을 독립시켜 루트 Node 도구 의존성을 제거할 준비
