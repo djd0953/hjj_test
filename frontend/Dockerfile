@@ -9,6 +9,6 @@ ENV CHOKIDAR_INTERVAL=100
 COPY package.json package-lock.json* ./
 RUN npm install --silent
 
-EXPOSE 3000
+EXPOSE 9000
 
 CMD ["npm", "run", "dev"]

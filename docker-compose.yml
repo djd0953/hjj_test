@@ -23,7 +23,7 @@ services:
       dockerfile: Dockerfile
     container_name: frontend
     ports:
-      - "3000:3000"
+      - "9000:9000"
     volumes:
       - ./frontend:/usr/src/app:cached
       - /usr/src/app/node_modules
