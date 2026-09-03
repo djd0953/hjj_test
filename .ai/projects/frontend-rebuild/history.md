@@ -1,0 +1,6 @@
+# frontend-rebuild — History
+
+> 날짜별 진행 요약. 새 세션에서 작업을 이어가기 위한 기록.
+
+## 2026-09-03
+- 작업 시작. 기존 Next.js Pages Router/NestJS 개발 도구를 App Router/feature-first 구조로 재구축하기로 했고, 프론트 포트는 9000, Spring API 포트는 9100으로 확정했다.
