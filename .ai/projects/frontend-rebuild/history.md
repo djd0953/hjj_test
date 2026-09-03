@@ -5,3 +5,4 @@
 ## 2026-09-03
 - 작업 시작. 기존 Next.js Pages Router/NestJS 개발 도구를 App Router/feature-first 구조로 재구축하기로 했고, 프론트 포트는 9000, Spring API 포트는 9100으로 확정했다.
 - 기존 Pages Router·게임·Nest 전용 화면을 제거하고 `src/app` 기반 App Router를 만들었다. `npm run dev`·`npm start`·Docker·docker-compose 포트를 9000으로 통일했고 production build를 통과했다.
+- `@/* → src/*` alias, 공통 AppShell, Button/Card, `cn` 유틸과 app loading/error/not-found 경계를 추가했다. 도메인 feature는 실제 Spring 계약을 연결하는 시점에만 만든다.
