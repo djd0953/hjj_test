@@ -13,6 +13,7 @@ dependencies {
 	implementation(project(":core"))
 	implementation(project(":infrastructure"))
 
+	implementation(libs.spring.boot.starter.web)
 	implementation(libs.spring.security.crypto)
 	implementation(libs.springdoc.openapi)
 
