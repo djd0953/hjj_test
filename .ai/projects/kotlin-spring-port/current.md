@@ -217,15 +217,15 @@
   - [x] 트리 노드 타입을 입력 DTO 와 **분리** 설계 (`val` 기본 → 가변 조립이 그대로 안 옮겨진다)
   - [x] `getOrganizationTree` 이식 — parent id 그룹핑 + 불변 children 조립 + `depth` 부여
   - [x] `getOrganization` 이식 — DFS 탐색 (노드 + 조상 경로)
-  - [ ] `findNodeAndAncestorsByIdMap` 이식 — Map 으로 조상 역추적 + 자손 수집
-  - [ ] 두 탐색 구현의 **쿼리/순회 비용 비교** (팀 설득 논거였던 지점)
-  - [ ] 제네릭 공용 함수로 승격 → `core/common/tree` 배치 (`id`/`parentId` 접근 추상화)
-  - [ ] 순환 참조 처리 결정 — `@JsonIgnore` vs parent 안 들기 (Jackson 무한 루프 재현해보기)
+  - [x] `findNodeAndAncestorsByIdMap` 이식 — Map 으로 조상 역추적 + 자손 수집
+  - [x] 두 탐색 구현의 **쿼리/순회 비용 비교** (팀 설득 논거였던 지점)
+  - [x] 제네릭 공용 함수로 승격 → `core/common/tree` 배치 (`id`/`parentId` 접근 추상화)
+  - [x] 순환 참조 처리 결정 — `@JsonIgnore` vs parent 안 들기 (Jackson 무한 루프 재현해보기)
   - [x] Kotlin stdlib 로 다듬기 — `associateBy` / `groupBy` / `firstNotNullOfOrNull`
   - [x] 원본 결함 3건 중 `return null`, 함수 미호출, `dummy` 미연결 해소
-- [ ] `aws` — Manager 규약
-  - [ ] `core`의 `UploadManager` 인터페이스
-  - [ ] `infrastructure/storage/s3`의 `S3UploadManager` 구현체
+- [ ] `aws` — 저장소 Port/Adapter
+  - [ ] `core`의 `FileStorage` 인터페이스
+  - [ ] `infrastructure/storage/local`의 `LocalFileStorage`, 이후 `storage/s3`의 `S3FileStorage` 구현체
   - [ ] 외부 SDK 예외를 `MessageException` 으로 wrap (+ wrap 직전 한 줄 `warn`)
 - [ ] (선택) `excelWritingBulkChk` — exceljs → Apache POI
 

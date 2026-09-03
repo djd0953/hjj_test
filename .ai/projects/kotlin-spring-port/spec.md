@@ -38,7 +38,7 @@ Express → Kotlin Spring 이관 중인 실물 저장소로, **컨벤션·구조
 1. `core` + `infrastructure` 라이브러리 모듈과 `api` 실행 모듈의 의존 방향이 컴파일로 검증된다
    (`scheduler`/`thirdparty` 실행 모듈은 실제 역할이 생길 때 추가)
 2. 스니펫 디스패처 골격이 `Map<String, CodeSnippet>` 빈 주입으로 동작한다
-3. 예외 체계(`MessageException` + `LoggingErrorHandler`)가 ko/en/ja 3로케일로 응답한다
+3. 예외 체계(`MessageException` + `LoggingErrorHandler`)가 ko/en/ja/th 4로케일로 응답한다
 4. 난이도별 대표 스니펫이 이식돼 있다 (아래 "이식 대상" 참고)
 5. **`organization` 의 트리 조립·검색이 제네릭 공용 함수로 이식돼 있다** (DB/JPA 아님 — 아래 "이식 대상" 참고)
 
@@ -264,6 +264,10 @@ Kotlin 제네릭 `CodeSnippet<out T>` 로 해도 `Map` 에 모으는 순간 스�
 
 **결정**: 전용 엔드포인트로 흩지 않고, **봉투로 바깥 형태만 고정**한다.
 
+스니펫의 목적은 입력 API 자체를 설계하는 것이 아니라, 작성한 Kotlin·Spring·알고리즘 로직이 실제로 동작하는지
+`GET /code/{keyword}`로 관찰하는 것이다. 따라서 기본은 고정된 학습 데이터를 `run()`에서 실행해 결과를 반환한다.
+URL 파라미터·전용 Controller·별도 Service는 실제 제품 기능으로 확장할 필요가 생겼을 때만 도입한다.
+
 - `api/response/code/CodeRunResponse.kt` — `data class CodeRunResponse(keyword, result: Any?)`
 - 조립은 **Service** 에서 한다 (`list()` 가 이미 Service 에서 `CodeListResponse` 를 만들므로 통일)
 - 개별 스니펫은 **자기 반환 타입을 좁혀서** 선언한다 (`override fun run(): UuidResult` 처럼).
@@ -285,9 +289,9 @@ Kotlin 제네릭 `CodeSnippet<out T>` 로 해도 `Map` 에 모으는 순간 스�
 - 무거운 스니펫(`excelWritingBulkChk` 353줄, `diffDocx` 320줄) 이식 시 **로직을 재사용 컴포넌트로 분리**하고
   스니펫은 얇은 진입점으로 남긴다. 그 스니펫을 실제로 이식할 때 판단
 
-### 예외 / i18n — ko/en/ja 3로케일 유지
+### 예외 / i18n — ko/en/ja/th 4로케일 유지
 
-- lawform 은 한국어 단일 메시지. **여기선 놀이터 원본(ko-KR/en/ja 3로케일)을 유지한다.**
+- lawform 은 한국어 단일 메시지. **여기선 놀이터 원본(ko-KR/en/ja/th 4로케일)을 유지한다.**
 - 구조는 lawform 을 따름: `exception/` 에 `MessageException`,
   응답 생성은 `LoggingErrorHandler`(`@ControllerAdvice`) **한 곳에서만**, 비즈니스 로직은 throw 만 (로깅 금지)
 - 4xx = `WARN`, 5xx = `ERROR`

@@ -323,3 +323,11 @@
 - `groupBy`로 parent id별 자식을 묶어 depth·children 트리를 조립하고, DFS로 선택 노드와 root→parent 조상 경로를 찾도록
   `OrganizationSnippet`에 연결했다. `/code/organization`의 정상 응답과 `:api:compileKotlin` 통과를 확인했다.
 - 다음 청크는 Map 인덱스 기반 조상/자손 탐색과 DFS 비용 비교, 이후 `core/common/tree` 제네릭 유틸 승격이다.
+
+## 2026-09-02 — organization Map 인덱스와 제네릭 TreeIndex 완료
+
+- flat `OrganizationItem` 목록을 `TreeIndex<OrganizationItem, String>`로 한 번 인덱싱해, 대상 노드·root부터의 조상·모든 자손을 찾도록 추가했다.
+  DFS 결과와 같은 target의 node/ancestors를 한 응답에서 비교했고, indexed 결과에만 descendants를 포함한다.
+- `TreeIndex`와 `TreeSearchResult`는 `core/hjj/common/tree`의 순수 Kotlin 코드로 두었다. `idOf`/`parentIdOf` 함수로 도메인 필드 접근을 밖에서 주입하므로 organization·Spring·HTTP를 모른다.
+- `OrganizationTree(roots, nodesById)`는 organization의 API 출력 트리를 보조하는 타입이므로 `api/code/model`에 배치했다.
+  이후 실제 id를 받아 검색하는 HTTP API를 만들 때, JSON 로드·트리 조립·인덱스를 스니펫과 공유하는 서비스로 추출한다.

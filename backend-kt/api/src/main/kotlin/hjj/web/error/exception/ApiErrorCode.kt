@@ -15,6 +15,7 @@ enum class ApiErrorCode (
 
     // 404 페이지 없음
     SNIPPET_NOT_FOUND(HttpStatus.NOT_FOUND, "error.snippet.not-found"),
+    ORGANIZATION_NOT_FOUND(HttpStatus.NOT_FOUND, "error.organization.not-found"),
 
     // 500 시스템 에러
     INTERNAL_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "error.internal"),
