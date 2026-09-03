@@ -6,9 +6,9 @@ ENV NODE_ENV=development
 ENV CHOKIDAR_USEPOLLING=true
 ENV CHOKIDAR_INTERVAL=100
 
-COPY package.json package-lock.json* ./
-RUN npm install --silent
+COPY package.json pnpm-lock.yaml ./
+RUN corepack enable && pnpm install --frozen-lockfile
 
 EXPOSE 9000
 
-CMD ["npm", "run", "dev"]
+CMD ["pnpm", "run", "dev"]
