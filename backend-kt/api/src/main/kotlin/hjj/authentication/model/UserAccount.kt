@@ -3,5 +3,5 @@ package hjj.authentication.model
 data class UserAccount(
     val id: String,
     val password: String,
-    val roles: Set<UserRole>
+    val role: Set<UserRole>
 )

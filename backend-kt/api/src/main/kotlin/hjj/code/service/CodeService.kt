@@ -1,5 +1,6 @@
 package hjj.code.service
 
+import hjj.code.constant.SnippetPermission
 import hjj.code.response.CodeListResponse
 import hjj.code.response.CodeRunResponse
 import hjj.code.snippet.CodeSnippet
@@ -23,9 +24,12 @@ class CodeService(
         }.sortedBy { it.keyword }
 
     fun run(keyword: String): CodeRunResponse {
-        val snippet = snippets[keyword] ?: throw MessageException(ApiErrorCode.SNIPPET_NOT_FOUND, arrayOf(keyword))
-        val (result, duration) = measureTimedValue { snippet.run() }
-
+        val (result, duration) = measureTimedValue { snippet(keyword).run() }
         return CodeRunResponse(keyword, duration.inWholeMicroseconds, result)
     }
+
+    fun permissionOf(keyword: String): SnippetPermission = snippet(keyword).permission
+
+    private fun snippet(keyword: String): CodeSnippet =
+            snippets[keyword] ?: throw MessageException(ApiErrorCode.SNIPPET_NOT_FOUND, arrayOf(keyword))
 }

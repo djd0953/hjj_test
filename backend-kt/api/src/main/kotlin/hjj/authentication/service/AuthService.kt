@@ -23,8 +23,8 @@ class AuthService(
     private val log = LoggerFactory.getLogger(javaClass)
 
     private val users: Map<String, UserAccount> = listOf(
-        UserAccount(id = "hjj", password = requireNotNull(passwordEncoder.encode("1234")), roles = setOf(UserRole.ADMIN)),
-        UserAccount(id = "guest", password = requireNotNull(passwordEncoder.encode("0000")), roles = setOf(UserRole.NORMAL)),
+        UserAccount(id = "hjj", password = requireNotNull(passwordEncoder.encode("1234")), role = setOf(UserRole.ADMIN)),
+        UserAccount(id = "guest", password = requireNotNull(passwordEncoder.encode("0000")), role = setOf(UserRole.NORMAL)),
     ).associateBy { it.id }
 
 
@@ -37,7 +37,7 @@ class AuthService(
             throw MessageException(ApiErrorCode.LOGIN_FAILED)
         }
 
-        val payload = TokenPayload(userId = id, expiresAt = Instant.now().plus(TOKEN_TTL).toEpochMilli())
+        val payload = TokenPayload(userId = user.id, expiresAt = Instant.now().plus(TOKEN_TTL).toEpochMilli(), role = user.role)
 
         return tokenCipher.encrypt(objectMapper.writeValueAsString(payload))
     }
@@ -55,7 +55,7 @@ class AuthService(
             throw MessageException(ApiErrorCode.UNAUTHORIZED)
         }
 
-        return AuthUser(userId = payload.userId)
+        return AuthUser(userId = payload.userId, role = payload.role)
     }
 
     companion object {

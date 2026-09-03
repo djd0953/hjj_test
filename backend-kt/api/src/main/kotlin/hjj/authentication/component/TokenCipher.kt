@@ -10,7 +10,7 @@ import javax.crypto.spec.SecretKeySpec
 
 @Component
 class TokenCipher(
-    @Value("\${hjj.auth.token-key}") private val base64Key: String
+    @param:Value($$"${hjj.auth.token-key}") private val base64Key: String
 ) {
     private val key: SecretKeySpec
     private val random = SecureRandom()
