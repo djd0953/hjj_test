@@ -10,3 +10,4 @@
 - `.env.example`로 API origin 설정 방법을 제공하고 output tracing root를 frontend로 고정했다. 최종 `npm run build`가 `/`, `/login`, `/code` App Router 경로의 컴파일·타입 검사를 통과했다.
 - frontend를 Corepack 기반 `pnpm@11.25.0`으로 전환했다. `pnpm-lock.yaml`을 생성하고 npm lockfile을 제거했으며, Docker·compose·README를 pnpm 명령으로 맞췄다. pnpm 11의 build-script 승인 정책에서 `sharp`만 명시 승인했고, npm hoisting이 숨기던 오래된 PostCSS 플러그인 참조를 제거한 뒤 `pnpm run build`를 통과했다.
 - frontend가 루트 ESLint 설정을 상속하지 않도록 Next·TypeScript ESLint 의존성과 자체 `.eslintrc.cjs`를 추가했다. 기존 Allman·4칸 들여쓰기 규칙은 유지했고, `pnpm run lint`와 `pnpm run build`를 모두 통과했다.
+- 루트 `package.json`·`package-lock.json`·`.eslintrc.cjs`, 낡은 `PROJECT_CONTEXT.md`, Claude MCP 설정, VS Code 설정 폴더를 제거했다. frontend와 legacy Nest backend는 각자 독립 manifest를 소유하며, 루트 Node 실행 진입점은 더 이상 없다.

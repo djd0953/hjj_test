@@ -20,7 +20,7 @@
 - 라우팅 파일은 URL, 메타데이터, layout 조합만 담당하고 실제 화면 구현은 feature에 둔다.
 - 초기 feature는 `auth`, `code`만 만든다. `document`, `writing`, `user` 등은 실제 API·업무 요구가 생길 때 추가한다.
 - API 공통 클라이언트는 `credentials: "include"`를 기본으로 하며, API origin은 `NEXT_PUBLIC_API_ORIGIN` 또는 개발 기본값 `http://localhost:9100`을 사용한다.
-- frontend의 패키지 관리자는 Corepack으로 실행하는 `pnpm@11.25.0`으로 고정한다. 이 앱은 독립 앱이므로 pnpm workspace로 루트까지 묶지 않으며, 루트와 기존 Nest backend의 npm 구성은 그대로 둔다.
+- frontend의 패키지 관리자는 Corepack으로 실행하는 `pnpm@11.25.0`으로 고정한다. 이 앱은 독립 앱이므로 pnpm workspace로 루트까지 묶지 않는다. 루트 Node manifest는 퇴역했고 기존 Nest backend는 자체 npm 구성을 유지한다.
 - frontend는 자체 ESLint 설정·의존성을 소유하며, 루트 `.eslintrc.cjs`를 상속하지 않는다. `pnpm run lint`가 App Router 코드와 설정 파일의 정합성을 확인한다.
 - Spring 서버는 `http://localhost:9000`을 credential CORS origin으로 허용해야 한다. 이 설정은 backend-kt 작업 범위다.
 - feature 사이 직접 import는 하지 않는다. 페이지가 feature를 조합하고, 재사용 가능하며 도메인을 모르는 코드만 공통 영역으로 승격한다.
