@@ -11,3 +11,7 @@
 - frontend를 Corepack 기반 `pnpm@11.25.0`으로 전환했다. `pnpm-lock.yaml`을 생성하고 npm lockfile을 제거했으며, Docker·compose·README를 pnpm 명령으로 맞췄다. pnpm 11의 build-script 승인 정책에서 `sharp`만 명시 승인했고, npm hoisting이 숨기던 오래된 PostCSS 플러그인 참조를 제거한 뒤 `pnpm run build`를 통과했다.
 - frontend가 루트 ESLint 설정을 상속하지 않도록 Next·TypeScript ESLint 의존성과 자체 `.eslintrc.cjs`를 추가했다. 기존 Allman·4칸 들여쓰기 규칙은 유지했고, `pnpm run lint`와 `pnpm run build`를 모두 통과했다.
 - 루트 `package.json`·`package-lock.json`·`.eslintrc.cjs`, 낡은 `PROJECT_CONTEXT.md`, Claude MCP 설정, VS Code 설정 폴더를 제거했다. frontend와 legacy Nest backend는 각자 독립 manifest를 소유하며, 루트 Node 실행 진입점은 더 이상 없다.
+
+## 2026-09-04
+- `/auth/me`을 기준으로 한 `AuthSessionProvider`와 공통 인증 내비게이션을 연결했다. 401은 정상적인 비로그인 상태로만 해석하고, 그 밖의 인증 조회 실패는 별도 오류 상태로 둔다. Code 목록은 인증 상태 확정·변경 시 Spring API에서 다시 받아 서버 권한 정책을 따른다.
+- 전역 레이아웃을 좌측 사이드바와 상단 계정 메뉴로 나눴다. 데스크톱에서는 Code 메뉴를 좌측에 두고, 768px 이하에서는 가로 메뉴로 전환한다. `pnpm --dir frontend lint`와 `pnpm --dir frontend build`를 통과했다.

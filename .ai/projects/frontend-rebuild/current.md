@@ -12,4 +12,5 @@
 - [x] 6. frontend 의존성 관리자를 npm에서 pnpm으로 전환하고 Docker·문서를 정합화
 - [x] 7. frontend ESLint 설정·의존성을 독립시켜 루트 Node 도구 의존성을 제거할 준비
 - [x] 8. 퇴역한 루트 Node·VS Code·Claude MCP 설정을 제거하고 공용 메모리를 정합화
-- [ ] 9. `/auth/me` 기반 로그인 상태를 공통 헤더에 반영
+- [x] 9. `/auth/me` 기반 로그인 상태를 공통 헤더에 반영
+- [x] 10. Code 메뉴를 반응형 좌측 사이드바로 이동
