@@ -28,22 +28,33 @@ a {
 
 .app-shell {
     display: grid;
-    grid-template-columns: 15rem minmax(0, 1fr);
+    grid-template-columns: 0 minmax(0, 1fr);
     min-height: 100vh;
+    transition: grid-template-columns 180ms ease;
+}
+
+.app-shell-sidebar-open {
+    grid-template-columns: 15rem minmax(0, 1fr);
 }
 
 .app-sidebar {
+    min-width: 0;
     display: flex;
     flex-direction: column;
     gap: 2rem;
+    overflow: hidden;
     padding: 1.5rem;
-    border-right: 1px solid #dbe3ef;
+    border-right: 1px solid transparent;
     background: #ffffff;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 180ms ease, border-color 180ms ease;
 }
 
-.app-brand {
-    font-weight: 800;
-    letter-spacing: -0.03em;
+.app-shell-sidebar-open .app-sidebar {
+    border-right-color: #dbe3ef;
+    opacity: 1;
+    pointer-events: auto;
 }
 
 .app-sidebar-navigation {
@@ -67,6 +78,24 @@ a {
     color: #172033;
 }
 
+.sidebar-icon-button {
+    display: inline-flex;
+    width: 2.5rem;
+    height: 2.5rem;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    border-radius: 0.5rem;
+    background: transparent;
+    color: #55627a;
+    cursor: pointer;
+}
+
+.sidebar-icon-button:hover {
+    background: #edf2f7;
+    color: #172033;
+}
+
 .app-main {
     min-width: 0;
 }
@@ -75,7 +104,7 @@ a {
     display: flex;
     min-height: 4.5rem;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: space-between;
     gap: 1rem;
     padding: 1rem clamp(1.25rem, 4vw, 4rem);
     border-bottom: 1px solid #dbe3ef;
@@ -95,26 +124,23 @@ a {
 }
 
 @media (max-width: 48rem) {
-    .app-shell {
+    .app-shell,
+    .app-shell-sidebar-open {
         display: block;
     }
 
     .app-sidebar {
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-        gap: 1rem;
-        padding: 1rem 1.25rem;
-        border-right: 0;
-        border-bottom: 1px solid #dbe3ef;
+        position: fixed;
+        z-index: 10;
+        inset: 0 auto 0 0;
+        width: 15rem;
+        border-right-color: #dbe3ef;
+        box-shadow: 0 16px 32px rgb(23 32 51 / 18%);
+        transform: translateX(-100%);
+        transition: transform 180ms ease;
     }
 
-    .app-sidebar-navigation {
-        flex-direction: row;
-    }
-
-    .app-header {
-        min-height: auto;
-        padding: 0.75rem 1.25rem;
+    .app-shell-sidebar-open .app-sidebar {
+        transform: translateX(0);
     }
 }
