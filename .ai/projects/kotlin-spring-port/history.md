@@ -331,3 +331,37 @@
 - `TreeIndex`와 `TreeSearchResult`는 `core/hjj/common/tree`의 순수 Kotlin 코드로 두었다. `idOf`/`parentIdOf` 함수로 도메인 필드 접근을 밖에서 주입하므로 organization·Spring·HTTP를 모른다.
 - `OrganizationTree(roots, nodesById)`는 organization의 API 출력 트리를 보조하는 타입이므로 `api/code/model`에 배치했다.
   이후 실제 id를 받아 검색하는 HTTP API를 만들 때, JSON 로드·트리 조립·인덱스를 스니펫과 공유하는 서비스로 추출한다.
+
+## 2026-09-03 — aws 로컬 저장소 검증 및 S3 범위 확정
+
+- `FileStorage`와 `LocalFileStorage`를 통한 `/code/aws` 저장·읽기 검증을 완료했다.
+- 다음 구현체는 AWS CLI `default` 프로필을 SDK 기본 provider chain으로 읽는 `S3FileStorage`다. 키·시크릿은 코드나
+  `application-local.yml`에 복사하지 않는다.
+- 실제 학습 대상은 회사 `lawform` 버킷의 `temp/kotlin-spring-port/aws/sample.txt`로 한정했다.
+
+## 2026-09-04 — aws S3 adapter 실제 I/O 검증
+
+- `S3FileStorage`를 `app.storage.type=s3`에서 조립하고, AWS CLI `default` 프로필을 SDK 기본 provider chain으로 읽어
+  `lawform/temp/sample.txt`의 PutObject·GetObject가 실제로 동작함을 확인했다.
+- `:api:compileKotlin --rerun-tasks`도 통과했다. 다만 `STORAGE_UNAVAILABLE`은 enum에서 아직 500으로 선언돼 있고
+  영문 메시지가 잘려 있어, 503 오류 응답 검증은 그 두 줄을 고친 뒤 마무리한다.
+
+## 2026-09-04 — FE 경유 S3 업로드 재검증
+
+- 다음 날 AWS CLI `default`의 `login_session` 만료로 PutObject가 실패했으나, `aws login --profile default`로
+  재인증한 뒤 FE의 AWS 버튼을 통해 `lawform/temp/sample.txt` 업로드가 실제로 성공함을 확인했다.
+- 따라서 FE CORS·HttpOnly cookie 로그인·Spring API·AWS SDK 기본 credentials chain·S3까지의 성공 경로가 모두 연결됐다.
+
+## 2026-09-04 — FE 연동 인증과 JWT 스니펫 확인
+
+- `http://localhost:9000`만 허용하는 credentialed CORS와 `GET /auth/me`를 추가해, HttpOnly cookie를 직접 읽지 않고도
+  FE 공통 헤더가 로그인/로그아웃 상태를 서버 응답으로 판단하게 했다.
+- `/code/jwt`는 FE 버튼에서 HS256 JWS 생성과 같은 키의 서명 검증까지 동작함을 확인했다. 이는 기존 AES-GCM 로그인
+  토큰을 대체하지 않는 독립 학습 스니펫이다.
+
+## 2026-09-04 — test 스니펫 이식 제외
+
+- 원본 `test`는 Node `Buffer`의 Base64 문법을 즉시 확인하려는 단발성 scratch experiment이므로 Kotlin/Spring 이식에서
+  제외했다.
+- 조직 트리·S3·JWT가 동작한 뒤의 다음 단계는 스니펫 추가가 아니라 Kover 리포트와 기존 코드의 단위 테스트를 만드는 것으로
+  정했다.

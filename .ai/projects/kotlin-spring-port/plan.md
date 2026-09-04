@@ -4,301 +4,343 @@
 
 ---
 
-## 대상 청크: aws 1 — core 저장소 계약 + infrastructure 로컬 구현
+## 대상 청크: Kover 기준선 + 순수 단위 테스트 2개
 
-### 목표
+### 이번 목표
 
-원본 `awsDownload`는 `S3Service`에 직접 의존한다. 그러면 api 기능 코드가 AWS SDK와 S3 구현 방식에 묶인다.
-이번에는 외부 저장소가 제공해야 하는 동작을 core의 `FileStorage` 인터페이스로 선언하고,
-infrastructure가 로컬 파일 시스템 구현을 제공하게 만든다.
+`uuid`·`organization`·`aws`·`jwt`의 동작 확인은 끝났다. 이제 먼저 Kover가 세 Gradle 모듈의 테스트 결과를
+한 리포트로 합산하게 만들고, Spring을 부팅하지 않는 단위 테스트로 `TreeIndex`와 `TokenCipher`의 핵심 규칙을
+고정한다.
 
-아직 실제 S3에는 연결하지 않는다. 고정 문자열을 저장하고 다시 읽어 결과가 같은지 `/code/aws`에서 확인한다.
-다음 청크에서 `S3FileStorage`를 추가하더라도 `AwsSnippet`은 고치지 않는 것이 목표다.
+이번 청크는 **리포트와 기준선까지만** 다룬다. 아직 전체 커버리지가 80%/70%에 도달하지 않았으므로
+`check → koverVerify` 연결이나 수치 임계값을 넣지 않는다. 현재 수치를 모른 채 게이트부터 걸면 모든 빌드가
+실패해서, 어떤 코드를 테스트해야 하는지 배우는 데 도움이 되지 않는다.
 
-```text
-api AwsSnippet ── FileStorage 계약(core) ◀── LocalFileStorage(infrastructure)
-      │                                               │
-      └──── 저장 → 읽기 → 결과 확인 ───────────────────┘
+```
+core: TreeIndexTest              ┐
+api:  TokenCipherTest            ├─ Kover root report
+api:  기존 contextLoads 제거     ┘
 ```
 
-이 구조에서 api는 **구현체 클래스가 아니라 인터페이스**를 생성자에서 받는다.
-어떤 구현체를 쓸지 결정하는 곳은 애플리케이션의 조립 지점인 `StorageConfig`다.
+`ApiApplicationTests.contextLoads()`는 token key 같은 런타임 설정의 존재 여부만 확인하고, 현재는 test용 설정도
+없어 Kover가 테스트를 실행하는 순간 부팅 실패를 유발한다. 실제 HTTP 통합 시나리오가 생길 때
+`src/test/resources/application.yml`을 갖춘 `@SpringBootTest`로 다시 만든다. 이번에는 삭제하고 순수 테스트만 둔다.
 
 ---
 
-## Step 1. core에 저장소 계약 선언
+## Step 1. Kover 플러그인과 루트 합산 리포트 등록
 
-**새 파일**: `core/src/main/kotlin/hjj/storage/FileStorage.kt`
+### 1-1. 버전 카탈로그
 
-```kotlin
-package hjj.storage
+**수정**: `backend-kt/gradle/libs.versions.toml`
 
-data class StoredFile(
-    val key: String,
-    val size: Long,
-)
+`[versions]` 끝에 추가한다.
 
-interface FileStorage {
-    fun save(key: String, content: ByteArray): StoredFile
-
-    fun read(key: String): ByteArray
-}
+```toml
+kover = "0.9.9"
 ```
 
-### 왜 core인가
+`[plugins]` 끝에 추가한다.
 
-`FileStorage`는 “파일을 저장하고 읽는다”는 **필요한 기능의 약속**만 말한다.
-로컬 디렉터리인지 S3 bucket인지, AWS SDK를 쓰는지는 전혀 모른다. 따라서 순수 계약인 core에 둔다.
+```toml
+kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
+```
 
-`StoredFile`도 `FileStorage`의 반환 계약이므로 같은 파일에 둔다. HTTP 응답 DTO가 아니며, `@Component`도 붙이지 않는다.
+Kover도 Kotlin·Spring 플러그인처럼 catalog alias 하나를 유일한 버전 출처로 쓴다.
 
-`ByteArray`는 Kotlin/JVM의 기본 타입이다. `InputStream`처럼 스트림을 노출하면 호출자가 닫는 책임까지 함께 가져야 하므로,
-이번 작은 실습에서는 저장소가 읽기를 끝낸 결과인 바이트 배열을 반환한다.
+### 1-2. 루트 프로젝트를 합산 지점으로 만들기
 
----
+**수정**: `backend-kt/build.gradle.kts`
 
-## Step 2. infrastructure에 로컬 파일 저장소 구현
-
-**수정 파일**: `infrastructure/build.gradle.kts`
-
-`LocalFileStorage`가 core의 `FileStorage`를 import하므로, infrastructure가 core를 의존하도록 추가한다.
+기존 `plugins` 블록의 `base` 바로 아래에 추가한다.
 
 ```kotlin
-plugins {
-    alias(libs.plugins.kotlin.jvm)
-}
+    alias(libs.plugins.kover)
+```
 
+그리고 `allprojects` 블록 뒤에 아래를 추가한다.
+
+```kotlin
 dependencies {
-    implementation(project(":core"))
+    kover(project(":core"))
+    kover(project(":infrastructure"))
+    kover(project(":api"))
 }
-```
 
-방향은 `infrastructure → core`다. core가 infrastructure를 import하는 역방향은 만들지 않는다.
-
-**새 파일**: `infrastructure/src/main/kotlin/hjj/infrastructure/storage/local/LocalFileStorage.kt`
-
-```kotlin
-package hjj.infrastructure.storage.local
-
-import hjj.storage.FileStorage
-import hjj.storage.StoredFile
-import java.nio.file.Files
-import java.nio.file.Path
-import java.nio.file.StandardOpenOption
-
-class LocalFileStorage(
-    root: Path,
-) : FileStorage {
-    private val root = root.toAbsolutePath().normalize()
-
-    override fun save(key: String, content: ByteArray): StoredFile {
-        val path = resolve(key)
-        Files.createDirectories(path.parent)
-        Files.write(
-            path,
-            content,
-            StandardOpenOption.CREATE,
-            StandardOpenOption.TRUNCATE_EXISTING,
-            StandardOpenOption.WRITE,
-        )
-
-        return StoredFile(
-            key = key,
-            size = content.size.toLong(),
-        )
-    }
-
-    override fun read(key: String): ByteArray = Files.readAllBytes(resolve(key))
-
-    private fun resolve(key: String): Path {
-        require(key.isNotBlank()) { "storage key가 비어 있습니다." }
-
-        val relativePath = Path.of(key).normalize()
-        require(
-            relativePath.toString() != "." &&
-                !relativePath.isAbsolute &&
-                !relativePath.startsWith(".."),
-        ) {
-            "storage key는 root 밖을 가리킬 수 없습니다."
-        }
-
-        return root.resolve(relativePath).normalize().also { path ->
-            check(path.startsWith(root)) { "storage path가 root 밖을 가리킵니다." }
+kover {
+    reports {
+        total {
+            html {
+                onCheck.set(false)
+            }
         }
     }
 }
 ```
 
-### 차례대로 읽기
+하위 모듈별 테스트 결과를 루트의 `kover` configuration으로 모은다. 따라서 루트에서 실행하는
+`koverHtmlReport`가 core·infrastructure·api 전체를 한 페이지에 보여준다.
 
-1. `: FileStorage`는 “이 클래스가 FileStorage 계약을 구현한다”는 뜻이다. 그래서 `save`, `read` 둘 다 반드시 구현해야 한다.
-2. `root.toAbsolutePath().normalize()`은 실행 디렉터리에 따라 달라지는 상대 경로를 절대 경로로 고정하고, `.`·`..`을 정리한다.
-3. `resolve(key)`는 저장소 루트를 기준으로 실제 파일 경로를 만든다.
-4. `../../어딘가`처럼 루트 밖으로 나가려는 key는 `require`로 막는다. 파일 경로도 외부 입력이 되는 순간 보안 경계다.
-5. `Files.createDirectories(path.parent)`는 부모 디렉터리가 이미 있어도 안전하게 통과한다.
-6. `TRUNCATE_EXISTING`은 같은 key가 있으면 기존 파일 내용을 새 내용으로 교체한다. 이번 스니펫은 매번 같은 파일을 써도 결과가 결정적이어야 해서 선택했다.
+`onCheck`는 명시적으로 `false`다. **이번 청크에서는 `check` 태스크가 리포트를 만들거나 검증 게이트를
+실행하지 않는다.** 다음 청크에서 실제 커버리지를 보고 `verify`와 `check.dependsOn(koverVerify)`를 추가한다.
 
-여기에는 `@Component`를 붙이지 않는다. infrastructure 구현은 Spring을 모르고, 다음 단계의 api 설정이 객체 하나를 빈으로 등록한다.
+### 1-3. 계측할 JVM 모듈에 플러그인 적용
 
----
-
-## Step 3. api 조립 지점에서 FileStorage 빈 등록
-
-**새 파일**: `api/src/main/kotlin/hjj/web/config/StorageConfig.kt`
+**수정**: 아래 세 파일의 `plugins` 블록에 각각 한 줄을 추가한다.
 
 ```kotlin
-package hjj.web.config
+    alias(libs.plugins.kover)
+```
 
-import hjj.infrastructure.storage.local.LocalFileStorage
-import hjj.storage.FileStorage
-import org.springframework.beans.factory.annotation.Value
-import org.springframework.context.annotation.Bean
-import org.springframework.context.annotation.Configuration
-import java.nio.file.Path
+- `backend-kt/core/build.gradle.kts`
+- `backend-kt/infrastructure/build.gradle.kts`
+- `backend-kt/api/build.gradle.kts`
 
-@Configuration
-class StorageConfig {
-    @Bean
-    fun fileStorage(
-        @Value("\${app.storage.local-root:build/local-storage}") root: String,
-    ): FileStorage = LocalFileStorage(Path.of(root))
+루트 플러그인은 리포트를 합산하고, 각 JVM 모듈 플러그인은 해당 모듈 테스트를 계측한다. 둘 중 하나만 적용하면
+멀티 모듈 전체 커버리지가 나오지 않는다.
+
+### 1-4. core의 최소 테스트 런타임 의존성
+
+**수정**: `backend-kt/core/build.gradle.kts`
+
+현재 파일의 `plugins` 블록 뒤에 추가한다.
+
+```kotlin
+dependencies {
+    testImplementation(libs.kotlin.test.junit5)
+    testRuntimeOnly(libs.junit.platform.launcher)
 }
 ```
 
-`@Configuration`은 Spring에게 “여기에는 빈을 조립하는 메서드가 있다”고 알린다.
-`@Bean`의 반환값이 Spring 빈으로 등록되며, **반환 타입 `FileStorage`가 주입 기준 타입**이다.
+`core`는 Spring을 모르는 순수 모듈이므로 `spring-boot-starter-test`를 넣지 않는다. JUnit 5 실행에 필요한
+Kotlin test/JUnit Platform 의존성만 둔다. api는 이미 `spring-boot-starter-test`를 가지고 있으므로 추가하지 않는다.
 
-`@Value`의 값은 다음 순서로 결정된다.
-
-1. `application.yml` / `application-local.yml`의 `app.storage.local-root`
-2. 없으면 `:` 뒤 기본값 `build/local-storage`
-
-이번에는 기본값을 그대로 쓴다. `build/`는 Git ignore 대상이므로, 스니펫이 만든 파일이 소스나 커밋 대상에 섞이지 않는다.
-
-> Kotlin 문자열 안의 `\${...}`에서 `$` 앞의 `\`는 Kotlin 문자열 보간을 막기 위한 것이다. Spring에는 최종적으로 `${app.storage.local-root:build/local-storage}`가 전달된다.
+> 아직 MockMvc 테스트를 만들지 않는다. Boot 4에서 필요한 `spring-boot-starter-webmvc-test`와
+> `@MockitoBean`은 Controller 슬라이스 테스트 청크에서 함께 추가한다.
 
 ---
 
-## Step 4. aws 스니펫과 응답 타입 추가
+## Step 2. TreeIndex의 순수 단위 테스트
 
-**새 파일**: `api/src/main/kotlin/hjj/code/response/AwsRunResponse.kt`
+**새 파일**: `backend-kt/core/src/test/kotlin/hjj/tree/TreeIndexTest.kt`
 
-```kotlin
-package hjj.code.response
-
-data class AwsRunResponse(
-    val key: String,
-    val storedSize: Long,
-    val restoredText: String,
-    val contentMatches: Boolean,
-)
-```
-
-core의 `StoredFile`을 그대로 HTTP 응답으로 내보내지 않고, api가 소유한 `AwsRunResponse`로 변환한다.
-이전 organization의 `OrganizationItem`과 `OrganizationNode`를 분리한 것과 같은 경계 규칙이다.
-
-**새 파일**: `api/src/main/kotlin/hjj/code/snippet/implement/AwsSnippet.kt`
+테스트 패키지는 production의 `common/tree` 계층을 그대로 복제하지 않고, 시나리오 도메인인 `hjj.tree`로 둔다.
+각 메서드는 한국어 백틱 이름과 `given / when / then` 구조를 쓴다.
 
 ```kotlin
-package hjj.code.snippet.implement
+package hjj.tree
 
-import hjj.code.constant.SnippetPermission
-import hjj.code.response.AwsRunResponse
-import hjj.code.snippet.CodeSnippet
-import hjj.storage.FileStorage
-import org.springframework.stereotype.Component
+import hjj.common.tree.TreeIndex
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNull
+import org.junit.jupiter.api.Assertions.assertThrows
+import org.junit.jupiter.api.Test
 
-@Component("aws")
-class AwsSnippet(
-    private val fileStorage: FileStorage,
-) : CodeSnippet {
-    override val label = "파일 저장소 Port/Adapter"
-    override val permission = SnippetPermission.PRIVATE
-
-    override fun run(): AwsRunResponse {
-        val content = "Kotlin file storage 실습"
-        val storedFile = fileStorage.save(FILE_KEY, content.encodeToByteArray())
-        val restoredText = fileStorage.read(FILE_KEY).decodeToString()
-
-        return AwsRunResponse(
-            key = storedFile.key,
-            storedSize = storedFile.size,
-            restoredText = restoredText,
-            contentMatches = content == restoredText,
+class TreeIndexTest {
+    @Test
+    fun `대상 노드 조회 시 루트부터의 조상과 정렬된 모든 자손을 반환한다`() {
+        // given
+        val index = TreeIndex(
+            items = listOf(
+                Node(id = "root", parentId = null, sortOrder = 1),
+                Node(id = "group", parentId = "root", sortOrder = 1),
+                Node(id = "target", parentId = "group", sortOrder = 1),
+                Node(id = "later", parentId = "target", sortOrder = 2),
+                Node(id = "first", parentId = "target", sortOrder = 1),
+                Node(id = "grandchild", parentId = "first", sortOrder = 1),
+            ),
+            idOf = Node::id,
+            parentIdOf = Node::parentId,
+            childComparator = compareBy(Node::sortOrder),
         )
+
+        // when
+        val result = requireNotNull(index.find("target"))
+
+        // then
+        assertEquals("target", result.node.id)
+        assertEquals(listOf("root", "group"), result.ancestors.map(Node::id))
+        assertEquals(listOf("first", "grandchild", "later"), result.descendants.map(Node::id))
     }
 
-    private companion object {
-        const val FILE_KEY = "snippet/aws/sample.txt"
+    @Test
+    fun `없는 id를 조회하면 null을 반환한다`() {
+        // given
+        val index = TreeIndex(
+            items = listOf(Node(id = "root", parentId = null, sortOrder = 1)),
+            idOf = Node::id,
+            parentIdOf = Node::parentId,
+        )
+
+        // when
+        val result = index.find("missing")
+
+        // then
+        assertNull(result)
     }
+
+    @Test
+    fun `중복 id가 있으면 인덱스 생성 시 예외를 던진다`() {
+        // given & when
+        val exception = assertThrows(IllegalArgumentException::class.java) {
+            TreeIndex(
+                items = listOf(
+                    Node(id = "duplicate", parentId = null, sortOrder = 1),
+                    Node(id = "duplicate", parentId = null, sortOrder = 2),
+                ),
+                idOf = Node::id,
+                parentIdOf = Node::parentId,
+            )
+        }
+
+        // then
+        assertEquals("tree id가 중복", exception.message)
+    }
+
+    @Test
+    fun `조상 체인에 순환이 있으면 조회 시 예외를 던진다`() {
+        // given
+        val index = TreeIndex(
+            items = listOf(
+                Node(id = "first", parentId = "second", sortOrder = 1),
+                Node(id = "second", parentId = "first", sortOrder = 1),
+            ),
+            idOf = Node::id,
+            parentIdOf = Node::parentId,
+        )
+
+        // when
+        val exception = assertThrows(IllegalStateException::class.java) {
+            index.find("first")
+        }
+
+        // then
+        assertEquals("tree parent 순환 감지", exception.message)
+    }
+
+    private data class Node(
+        val id: String,
+        val parentId: String?,
+        val sortOrder: Int,
+    )
 }
 ```
 
-### 여기서 핵심
-
-`AwsSnippet`은 `LocalFileStorage`를 import하지 않는다. 오직 `FileStorage`만 안다.
-
-```kotlin
-class AwsSnippet(
-    private val fileStorage: FileStorage,
-)
-```
-
-그래서 나중에 실제 S3 구현체를 등록해도 이 파일을 고칠 필요가 없다. 이게 인터페이스를 분리하는 실제 이득이다.
-
-`encodeToByteArray()`는 `String → UTF-8 ByteArray`, `decodeToString()`은 그 반대다. 저장소 계약은 bytes를 다루고,
-스니펫이 “이 bytes를 텍스트로 해석한다”는 사용처의 결정을 맡는다.
+첫 테스트는 `TreeIndex`의 세 약속을 한 번에 검증한다: 조상 순서는 root → parent, 자손은 깊이 우선이고,
+형제 정렬은 주입한 comparator를 따른다. 나머지는 존재하지 않는 id, 중복 id, 순환 parent 관계의 방어 규칙이다.
 
 ---
 
-## Step 5. 컴파일·실행 확인
+## Step 3. AES-GCM TokenCipher의 순수 단위 테스트
 
-```bash
-cd backend-kt
-./gradlew :api:compileKotlin
-./gradlew :api:bootRun --args='--spring.profiles.active=local'
-```
+**새 파일**: `backend-kt/api/src/test/kotlin/hjj/authentication/TokenCipherTest.kt`
 
-로그인 뒤 호출한다.
+`TokenCipher`는 Spring 빈이지만 생성자 값 하나만 받는다. 직접 생성하면 ApplicationContext·로컬
+`application-local.yml`·S3 자격증명 없이 암복호화 규칙만 검증할 수 있다.
 
-```bash
-COOKIE=/tmp/kotlin-aws.cookie
+```kotlin
+package hjj.authentication
 
-curl -s -c "$COOKIE" \
-  -X POST localhost:9100/auth/login \
-  -H "Content-Type: application/json" \
-  -d '{"id":"hjj","password":"1234"}'
+import hjj.authentication.component.TokenCipher
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotEquals
+import org.junit.jupiter.api.Assertions.assertThrows
+import org.junit.jupiter.api.Test
+import java.util.Base64
+import javax.crypto.AEADBadTagException
 
-curl -i -b "$COOKIE" localhost:9100/code/aws
-```
+class TokenCipherTest {
+    private val cipher = TokenCipher(
+        Base64.getEncoder().encodeToString(ByteArray(32) { it.toByte() }),
+    )
 
-응답에서 아래를 확인한다.
+    @Test
+    fun `평문을 암호화한 뒤 복호화하면 원래 문자열을 반환한다`() {
+        // given
+        val plain = "userId=123&role=USER"
 
-```json
-{
-  "keyword": "aws",
-  "result": {
-    "key": "snippet/aws/sample.txt",
-    "storedSize": 26,
-    "restoredText": "Kotlin file storage 실습",
-    "contentMatches": true
-  }
+        // when
+        val encrypted = cipher.encrypt(plain)
+        val decrypted = cipher.decrypt(encrypted)
+
+        // then
+        assertNotEquals(plain, encrypted)
+        assertEquals(plain, decrypted)
+    }
+
+    @Test
+    fun `암호문 한 글자를 변조하면 인증 태그 검증에 실패한다`() {
+        // given
+        val encrypted = cipher.encrypt("userId=123")
+        val pivot = encrypted.length / 2
+        val tampered = encrypted.replaceRange(
+            pivot,
+            pivot + 1,
+            if (encrypted[pivot] == 'A') "B" else "A",
+        )
+
+        // when & then
+        assertThrows(AEADBadTagException::class.java) {
+            cipher.decrypt(tampered)
+        }
+    }
 }
 ```
 
-`storedSize` 숫자는 UTF-8 바이트 수이므로 한글 때문에 문자열 글자 수와 다를 수 있다. 중요한 값은 `contentMatches: true`다.
+테스트의 고정 32바이트 키는 `src/test` 안에서만 사용하는 fixture다. 개발·운영 키를 복사하지 않는다.
+두 번째 테스트는 단순히 복호화 실패가 아니라 GCM의 무결성 검증(태그)이 실제로 동작하는지 고정한다.
+마지막 Base64 글자는 padding 비트만 포함할 수 있으므로 바꾸지 않는다. 문자열 중간을 바꿔 실제 IV/암호문 바이트가
+달라지게 해야 변조 검증이 우연히 통과하지 않는다.
 
-파일도 확인하고 싶다면 프로젝트 루트 기준 아래 위치에 생긴다.
+---
 
-```bash
-ls -l api/build/local-storage/snippet/aws/sample.txt
-```
+## Step 4. 기존 빈 context smoke test 제거
 
-`bootRun`의 working directory가 `api` 모듈이므로 기본 root가 `api/build/local-storage`가 된다.
-IntelliJ 실행 구성은 working directory가 다를 수 있으니, 위치가 다르면 `StorageConfig`의 `root` 값을 로그로 확인하거나 실행 구성의 working directory를 본다.
+**삭제**: `backend-kt/api/src/test/kotlin/hjj/ApiApplicationTests.kt`
 
-### 이번 청크에서 하지 않는 것
+현재 테스트는 body가 비어 있는 `contextLoads()` 하나뿐이다. token key를 test 설정으로 주입하지 않아 정상적인
+`./gradlew test`의 기반도 되지 못하며, Kover 수치만 왜곡한다. 실제 컨텍스트가 필요한 WebMvc 테스트를 만들 때
+테스트 전용 `application.yml`과 명시적 HTTP 시나리오를 갖춘 테스트로 대체한다.
 
-- AWS SDK, access key, S3 bucket 연결은 아직 넣지 않는다. 먼저 외부 구현을 바꿔 끼울 수 있는 구조와 로컬 파일 I/O를 검증한다.
-- 예외를 `MessageException`으로 번역하지 않는다. 다음 S3 청크에서 SDK 예외와 API 오류의 경계를 함께 다룬다.
-- `AwsSnippet`에 별도 Service를 만들지 않는다. 현재는 스니펫 한 곳에서만 저장소를 호출하고, 공통 업무 흐름도 없기 때문이다.
+---
+
+## Step 5. 검증과 관찰
+
+1. Gradle Reload 후, 새 테스트만 먼저 실행한다.
+
+   ```bash
+   cd backend-kt
+   ./gradlew :core:test :api:test
+   ```
+
+2. 세 모듈 합산 HTML 리포트를 만든다. 이 태스크는 필요한 테스트도 함께 실행한다.
+
+   ```bash
+   ./gradlew koverHtmlReport
+   ```
+
+3. 브라우저에서 다음 파일을 열어 Module/Package/Class별 line·branch 수치를 확인한다.
+
+   ```text
+   backend-kt/build/reports/kover/html/index.html
+   ```
+
+4. 이 청크에서는 `./gradlew check`가 통과해야 한다. 아직 `koverVerify`를 의존하지 않으므로, check 통과는
+   **테스트와 빌드가 정상**이라는 뜻이지 80%/70% 달성이라는 뜻은 아니다.
+
+5. 다음 청크에서 리포트의 미커버 영역을 보고 우선순위를 정한다. 추천 순서는
+   `CodeService`·`AuthService`의 단위 테스트 → `LoggingErrorHandler`의 locale fallback 보완/테스트 →
+   `spring-boot-starter-webmvc-test`를 이용한 Controller 슬라이스 테스트다. 그 후 전체 수치가 목표에 도달했을 때만
+   `koverVerify`와 `check`를 연결한다.
+
+---
+
+## 이번 청크 밖에 남긴 것
+
+- `LoggingErrorHandler`의 요청 locale → 한국어 기본 bundle 폴백
+- `messages_en.properties`의 `error.storage-unavailable.message` 문장 완성
+- Boot 4 MockMvc starter와 Controller 슬라이스 테스트
+- Kover 80% line / 70% branch verify 게이트 및 `check` 연결
+- 현재 작업 트리의 기능별 커밋 분리 (S3, JWT, CORS/`/auth/me`, FE 로그인 상태)
+
+위 항목들은 Kover 기준선 설정과 성격이 다르므로 이번 청크에 섞지 않는다.

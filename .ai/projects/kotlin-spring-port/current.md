@@ -145,6 +145,7 @@
       원본의 `resolveLocaleFromAcceptLanguage` + ko→en→ja fallback 이 통째로 사라짐
 - [x] `messages.properties` / `_en` / `_ja` + `spring.messages.{basename,encoding,fallback-to-system-locale}`
 - [x] 없는 키워드 요청 시 **404** 반환 (원본은 200 + null 이었음). ko/en 확인, `fr` → 기본(ko) 폴백 확인
+- [ ] `LoggingErrorHandler`의 메시지 key 누락 시 `messages.properties`(한국어 기본 bundle) 폴백 + 최소 안전 문구 응답
 - [ ] `messages_ja.properties` 에 **일본어 문장 채우기** (현재 한국어가 복사된 상태 — 동작은 정상, 내용만 미번역).
       원본 `backend/src/error/constants/error.const.ts` 에 ja 문장이 있다
 - [ ] `SnippetException.kt` 삭제 (더 이상 사용하지 않음)
@@ -178,6 +179,8 @@
 - [x] Step 5. `web/interceptor/AuthInterceptor` (쿠키 없으면 통과, 위조·만료면 401) +
       `web/config/WebMvcConfig` 등록·제외 경로
 - [x] Step 6. `CodeController` 인가 판정 + `CodeService.permissionOf`
+- [x] FE origin(`http://localhost:9000`) CORS + credentialed cookie 요청 허용
+- [x] `GET /auth/me` — `@LoginUser` 기반 세션 조회와 FE 로그인 상태 반영
 - [ ] 검증 6개 (특히 **쿠키 1글자 변조 → 401**)
 - [ ] `messages_ja.properties` 인증 키 포함 미번역 상태 해소
 
@@ -206,9 +209,9 @@
 
 ### 4. 스니펫 이식 — 난이도 순
 
-- [ ] `uuid` — 배선 확인용
-- [ ] `test` — Base64 SAMLResponse 디코드
-- [ ] `jwt` — jsonwebtoken → jjwt
+- [x] `uuid` — 배선 확인용
+- [x] `test` — Kotlin 이식 제외 (원본 Node 스크래치 실험, 2026-09-04)
+- [x] `jwt` — jsonwebtoken → jjwt (FE 버튼으로 생성·서명 검증 확인)
 - [ ] **`organization` — 제네릭 트리 유틸** ← 메인 (2026-08-24: JPA → Kotlin 학습으로 성격 변경)
   - [x] `files/organization.ts` 의 `dummy` → **JSON 변환** 후 `api` 리소스로 배치
   - [x] `OrganizationItem` 입력 DTO (flat, `ancestor_id` → `String?`) + Jackson 역직렬화
@@ -224,9 +227,11 @@
   - [x] Kotlin stdlib 로 다듬기 — `associateBy` / `groupBy` / `firstNotNullOfOrNull`
   - [x] 원본 결함 3건 중 `return null`, 함수 미호출, `dummy` 미연결 해소
 - [ ] `aws` — 저장소 Port/Adapter
-  - [ ] `core`의 `FileStorage` 인터페이스
-  - [ ] `infrastructure/storage/local`의 `LocalFileStorage`, 이후 `storage/s3`의 `S3FileStorage` 구현체
-  - [ ] 외부 SDK 예외를 `MessageException` 으로 wrap (+ wrap 직전 한 줄 `warn`)
+  - [x] `core`의 `FileStorage` 인터페이스
+  - [x] `infrastructure/storage/local`의 `LocalFileStorage` + `/code/aws` 로컬 파일 저장·읽기 검증
+  - [x] `infrastructure/storage/s3`의 `S3FileStorage` 구현체 + 설정으로 local/S3 선택
+  - [x] 외부 SDK 예외를 core `StorageException`으로 번역하고 api에서 503으로 응답
+  - [ ] `messages_en.properties`의 storage unavailable 영문 message 완성
 - [ ] (선택) `excelWritingBulkChk` — exceljs → Apache POI
 
 ### 5. 테스트 / 품질 게이트

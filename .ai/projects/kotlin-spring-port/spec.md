@@ -130,12 +130,20 @@ AWS SDK·JPA·Slack SDK를 쓰지 않는 코드까지 구현 세부사항을 알
 
 #### 인터페이스와 구현의 분리
 
-- 공용 Manager 인터페이스는 `core` (`hjj.storage.UploadManager` 등)에 둔다.
-- AWS 구현은 `infrastructure` (`hjj.infrastructure.storage.s3.S3UploadManager`)에 둔다.
-- 로컬 구현은 같은 계약의 `hjj.infrastructure.storage.local.LocalUploadManager`에 둔다.
+- 공용 저장소 계약은 `core` (`hjj.storage.FileStorage`)에 둔다.
+- AWS 구현은 `infrastructure` (`hjj.infrastructure.storage.s3.S3FileStorage`)에 둔다.
+- 로컬 구현은 같은 계약의 `hjj.infrastructure.storage.local.LocalFileStorage`에 둔다.
   Spring profile 또는 설정 조건으로 둘 중 하나만 빈으로 등록한다.
 - 구현체가 한 기능에서만 쓰는 동안에는 해당 `api/{기능}/infrastructure`에 두고, 두 번째 소비자가 생길 때
   `infrastructure` 모듈로 이동한다.
+
+#### S3 학습 환경 (2026-09-03 확정)
+
+- 로컬 S3 호출은 AWS SDK v2의 **기본 자격증명·리전 provider chain**을 사용한다. AWS CLI의 `default` 프로필을
+  이용하되 access key·secret key를 Spring 설정이나 코드에 복사하지 않는다.
+- 학습용 대상은 `lawform` 버킷의 `temp/` 접두사로 한정한다. 현재 검증 키는
+  `temp/sample.txt`다.
+- 버킷 이름·선택 타입(`local`/`s3`)은 gitignore 대상 `application-local.yml`에만 둔다. 자격증명은 그 파일에도 넣지 않는다.
 
 #### 따라오는 결과: 엔티티 → 응답 매핑 방침
 
@@ -292,6 +300,9 @@ URL 파라미터·전용 Controller·별도 Service는 실제 제품 기능으�
 ### 예외 / i18n — ko/en/ja/th 4로케일 유지
 
 - lawform 은 한국어 단일 메시지. **여기선 놀이터 원본(ko-KR/en/ja/th 4로케일)을 유지한다.**
+- 새 `ApiErrorCode`를 추가하는 모든 지시서에는 `messages.properties`, `messages_en.properties`,
+  `messages_ja.properties`, `messages_th.properties`의 title/message 추가를 **명시적 체크 항목**으로 함께 적는다.
+  누락하기 쉬운 반복 작업이므로 agent가 매번 먼저 알려준다.
 - 구조는 lawform 을 따름: `exception/` 에 `MessageException`,
   응답 생성은 `LoggingErrorHandler`(`@ControllerAdvice`) **한 곳에서만**, 비즈니스 로직은 throw 만 (로깅 금지)
 - 4xx = `WARN`, 5xx = `ERROR`
@@ -417,6 +428,11 @@ lawform 은 레거시 DB 설계를 물려받아 `README.md` 에 정리된 우회
 ### 테스트 / Kover
 
 lawform 은 Kover 커버리지 게이트(라인 80% / 브랜치 70%)가 `build` 에 걸려 있어 미달 시 빌드가 실패한다.
+
+- 원본 `test.ts`는 Node의 `Buffer` Base64 문법을 즉시 확인하던 일회성 scratch 파일이므로 Kotlin/Spring 이식 대상에서
+  제외한다 (2026-09-04). SAML XML 디코드·검증 기능으로 확장하지 않는다.
+- Kover는 우선 리포트와 좁은 단위 테스트로 현재 기준선을 확인한 뒤, 실제 측정치를 바탕으로 라인 80% / 브랜치 70%의
+  `check` 게이트를 연결한다. 기존 무테스트 코드를 둔 채로 임계값만 먼저 강제하지 않는다.
 
 **이 프로젝트는 초반엔 끄고, 골격이 선 뒤에 켠다.**
 - 이유: Kotlin 문법 + Spring 배선 + 테스트를 동시에 배우면 병목이 셋이 된다
