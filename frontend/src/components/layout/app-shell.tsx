@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
+
 import { AuthSessionProvider } from "@/features/auth/components/auth-session-provider";
 import { AuthNavigation } from "@/components/layout/auth-navigation";
 
