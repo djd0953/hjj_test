@@ -1,15 +1,17 @@
 package hjj.authentication.controller
 
+import hjj.authentication.annotation.LoginUser
 import hjj.authentication.constant.AuthKeys
+import hjj.authentication.model.AuthUser
 import hjj.authentication.request.LoginRequest
+import hjj.authentication.response.AuthMeResponse
 import hjj.authentication.service.AuthService
+import hjj.web.error.exception.ApiErrorCode
+import hjj.web.error.exception.MessageException
 import org.springframework.http.HttpHeaders
 import org.springframework.http.ResponseCookie
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import java.time.Duration
 
 @RestController
@@ -27,6 +29,16 @@ class AuthController(
     @PostMapping("/logout")
     fun logout(): ResponseEntity<Void> =
         noContentWithCookie(tokenCookie("", Duration.ZERO))
+
+    @GetMapping("/me")
+    fun me (@LoginUser authUser: AuthUser?): AuthMeResponse {
+        val user = authUser ?: throw MessageException(ApiErrorCode.UNAUTHORIZED)
+
+        return AuthMeResponse(
+            userId = user.userId,
+            role = user.role
+        )
+    }
 
     private fun tokenCookie(value: String, maxAge: Duration): ResponseCookie =
         ResponseCookie.from(AuthKeys.COOKIE, value)

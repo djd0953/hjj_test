@@ -2,7 +2,9 @@ package hjj.code.controller
 
 import hjj.authentication.annotation.LoginUser
 import hjj.authentication.model.AuthUser
+import hjj.authentication.model.UserRole
 import hjj.code.constant.SnippetPermission
+import hjj.code.response.CodeListResponse
 import hjj.code.response.CodeRunResponse
 import hjj.code.service.CodeService
 import hjj.web.error.exception.ApiErrorCode
@@ -18,7 +20,14 @@ class CodeController (
     private val codeService: CodeService
 ) {
     @GetMapping("/list")
-    fun list() = codeService.list()
+    fun list(
+        @LoginUser authUser: AuthUser?,
+    ): List<CodeListResponse> {
+        val list = codeService.list()
+
+        return if (authUser != null && UserRole.ADMIN in authUser.role) list
+            else list.filter { it.permission == SnippetPermission.PUBLIC }
+    }
 
     @GetMapping("/{keyword}")
     fun run(
