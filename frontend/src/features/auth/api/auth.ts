@@ -1,9 +1,5 @@
 import { apiRequest } from "@/lib/api/client";
-
-export type LoginInput = {
-    id: string;
-    password: string;
-};
+import { AuthMeResponse, LoginInput } from "@/features/auth/type/auth";
 
 export function login(input: LoginInput): Promise<void>
 {
@@ -18,4 +14,9 @@ export function logout(): Promise<void>
     return apiRequest("/auth/logout", {
         method: "POST"
     });
+}
+
+export function me(): Promise<AuthMeResponse>
+{
+    return apiRequest("/auth/me");
 }

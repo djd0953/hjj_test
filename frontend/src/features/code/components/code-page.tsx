@@ -4,13 +4,14 @@ import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { logout } from "@/features/auth/api/login";
 import { ApiError } from "@/lib/api/client";
 import { getCodeList, runCode } from "@/features/code/api/code";
 import type { CodeListItem, CodeRunResult } from "@/features/code/types/code";
+import { useAuthSession } from "@/features/auth/components/auth-session-provider";
 
 export function CodePage()
 {
+    const { status } = useAuthSession();
     const [items, setItems] = useState<CodeListItem[]>([]);
     const [selectedKeyword, setSelectedKeyword] = useState("");
     const [result, setResult] = useState<CodeRunResult>();
@@ -19,8 +20,10 @@ export function CodePage()
 
     useEffect(() =>
     {
+        if (status === "loading" || status === "error") return;
+
         void loadList();
-    }, []);
+    }, [status]);
 
     async function loadList()
     {
@@ -59,19 +62,6 @@ export function CodePage()
         }
     }
 
-    async function onLogout()
-    {
-        try
-        {
-            await logout();
-            setMessage("로그아웃했습니다.");
-        }
-        catch (error)
-        {
-            setMessage(error instanceof ApiError ? error.message : "로그아웃 요청에 실패했습니다.");
-        }
-    }
-
     return (
         <main className="page-content flex flex-col gap-6">
             <div className="flex flex-wrap items-end justify-between gap-4">
@@ -79,7 +69,6 @@ export function CodePage()
                     <p className="mb-2 text-sm font-semibold text-slate-500">SPRING API</p>
                     <h1 className="m-0 text-3xl font-bold">Code Explorer</h1>
                 </div>
-                <Button onClick={onLogout} variant="secondary">로그아웃</Button>
             </div>
             <Card className="flex flex-col gap-4">
                 <label className="flex max-w-xl flex-col gap-2 text-sm font-semibold">
@@ -91,7 +80,7 @@ export function CodePage()
                     >
                         {items.map((item) => (
                             <option key={item.keyword} value={item.keyword}>
-                                {item.label} ({item.keyword}, {item.permission})
+                                {item.label}
                             </option>
                         ))}
                     </select>

@@ -6,7 +6,8 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { ApiError } from "@/lib/api/client";
-import { login } from "@/features/auth/api/login";
+import { login } from "@/features/auth/api/auth";
+import { useAuthSession } from "@/features/auth/components/auth-session-provider";
 
 export function LoginPage()
 {
@@ -15,6 +16,8 @@ export function LoginPage()
     const [password, setPassword] = useState("");
     const [errorMessage, setErrorMessage] = useState<string>();
     const [isSubmitting, setIsSubmitting] = useState(false);
+
+    const { refresh } = useAuthSession();
 
     async function onSubmit(event: FormEvent<HTMLFormElement>)
     {
@@ -31,8 +34,8 @@ export function LoginPage()
         try
         {
             await login({ id: id.trim(), password });
+            await refresh();
             router.push("/code");
-            router.refresh();
         }
         catch (error)
         {
