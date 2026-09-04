@@ -2,9 +2,12 @@
 kotlin = "2.3.21"
 springBoot = "4.1.0"
 springDependencyManagement = "1.1.7"
-# springdoc 은 서드파티라 Boot BOM 관리 대상이 아니다(3.x/4.x 모두 해당) → 버전을 직접 명시한다.
-# 3.0.x/3.1.x = Boot 4.x 대응 라인 (2.x 는 Boot 3 라인이라 못 씀).
+# swagger
 springdoc = "3.1.0"
+# aws
+awsSdk = "2.54.8"
+# jwt
+jjwt = "0.12.6"
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
@@ -20,3 +23,9 @@ springdoc-openapi = { module = "org.springdoc:springdoc-openapi-starter-webmvc-u
 kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect" }
 kotlin-test-junit5 = { module = "org.jetbrains.kotlin:kotlin-test-junit5" }
 junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher" }
+aws-sdk-signin = { module = "software.amazon.awssdk:signin" }
+aws-sdk-bom = { module = "software.amazon.awssdk:bom", version.ref = "awsSdk" }
+aws-sdk-s3 = { module = "software.amazon.awssdk:s3" }
+jjwt-api = { module = "io.jsonwebtoken:jjwt-api", version.ref = "jjwt" }
+jjwt-impl = { module = "io.jsonwebtoken:jjwt-impl", version.ref = "jjwt" }
+jjwt-jackson = { module = "io.jsonwebtoken:jjwt-jackson", version.ref = "jjwt" }

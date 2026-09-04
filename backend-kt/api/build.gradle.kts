@@ -14,8 +14,18 @@ dependencies {
 	implementation(project(":infrastructure"))
 
 	implementation(libs.spring.boot.starter.web)
+	// 암호화
 	implementation(libs.spring.security.crypto)
+	// swagger
 	implementation(libs.springdoc.openapi)
+	// aws
+	implementation(platform(libs.aws.sdk.bom))
+	implementation(libs.aws.sdk.signin)
+	implementation(libs.aws.sdk.s3)
+	// jwt
+	implementation(libs.jjwt.api)
+	runtimeOnly(libs.jjwt.impl)
+	runtimeOnly(libs.jjwt.jackson)
 
 	testImplementation(libs.spring.boot.starter.test)
 }
