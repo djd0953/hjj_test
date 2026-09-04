@@ -19,4 +19,7 @@ enum class ApiErrorCode (
 
     // 500 시스템 에러
     INTERNAL_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "error.internal"),
+
+    // 503 외부 의존성
+    STORAGE_UNAVAILABLE(HttpStatus.SERVICE_UNAVAILABLE, "error.storage-unavailable"),
 }

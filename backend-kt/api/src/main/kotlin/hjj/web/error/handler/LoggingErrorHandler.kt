@@ -1,5 +1,6 @@
 package hjj.web.error.handler
 
+import hjj.storage.StorageException
 import hjj.web.error.exception.ApiErrorCode
 import hjj.web.error.exception.MessageException
 import hjj.web.error.response.ErrorResponse
@@ -40,5 +41,18 @@ class LoggingErrorHandler(
 
         return ResponseEntity.status(code.status)
             .body(ErrorResponse(code = code.name, title = title, message = message))
+    }
+
+    @ExceptionHandler(StorageException::class)
+    fun handleStorage(e: StorageException, locale: Locale): ResponseEntity<ErrorResponse> {
+        val code = ApiErrorCode.STORAGE_UNAVAILABLE
+        log.error("[{}] operation={} key={}", code.name, e.operation, e.key, e)
+
+        val title = messageSource.getMessage("${code.messageKey}.title", null, locale)
+        val message = messageSource.getMessage("${code.messageKey}.message", null, locale)
+
+        return ResponseEntity.status(code.status).body(
+            ErrorResponse(code = code.name, title = title, message = message)
+        )
     }
 }

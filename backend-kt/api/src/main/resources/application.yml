@@ -13,6 +13,11 @@ springdoc:
   swagger-ui:
     enabled: false
 
+app:
+  storage:
+    type: local
+    local-root: build/local-storage
+
 ---
 spring:
   config:

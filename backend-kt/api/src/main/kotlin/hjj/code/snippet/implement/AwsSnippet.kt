@@ -27,6 +27,7 @@ class AwsSnippet(
     }
 
     private companion object {
-        private const val FILE_KEY = "snippet/aws/sample.txt"
+//        private const val FILE_KEY = "snippet/aws/sample.txt"
+        private const val FILE_KEY = "temp/sample.txt"
     }
 }
