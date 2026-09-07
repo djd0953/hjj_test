@@ -365,3 +365,11 @@
   제외했다.
 - 조직 트리·S3·JWT가 동작한 뒤의 다음 단계는 스니펫 추가가 아니라 Kover 리포트와 기존 코드의 단위 테스트를 만드는 것으로
   정했다.
+
+## 2026-09-07 — Kover 기준선과 순수 단위 테스트 추가
+
+- root와 `core`·`infrastructure`·`api` 모듈에 Kover를 적용하고, 세 모듈을 합산하는 HTML report 구성을 추가했다.
+  아직 전체 수치를 확인하기 전이므로 `check → koverVerify`와 80% line / 70% branch 게이트는 연결하지 않았다.
+- Spring context를 부팅하던 빈 `contextLoads()`를 제거하고, `TreeIndex`의 탐색·정렬·입력 방어와
+  `TokenCipher`의 AES-GCM 왕복·변조 감지 규칙을 순수 JUnit 5 테스트로 고정했다.
+- 사용자가 Gradle 실행 결과 `BUILD SUCCESSFUL`을 확인했다.

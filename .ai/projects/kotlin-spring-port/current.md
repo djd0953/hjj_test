@@ -236,11 +236,12 @@
 
 ### 5. 테스트 / 품질 게이트
 
-- [ ] 골격 + 스니펫 1개 동작 후 **Kover 활성화** (라인 80% / 브랜치 70%)
+- [x] Kover 활성화 — 세 모듈 합산 HTML 리포트와 기준선 측정 (80% / 70% 게이트 연결은 후속)
 - [ ] ⚠️ MockMvc 쓰려면 **`spring-boot-starter-webmvc-test`** 추가 필요 (Boot 4 에서 분리됨).
       `@AutoConfigureMockMvc` 는 `boot.webmvc.test.autoconfigure` 패키지, `@MockBean` → `@MockitoBean`
 - [ ] `check` → `koverVerify` 의존 연결
-- [ ] 기존 코드에 테스트 붙이기 (JUnit5 + mockito-kotlin)
+- [x] `TreeIndex` / `TokenCipher` 순수 단위 테스트 추가 (JUnit 5)
+- [ ] 의존성이 있는 기존 코드에 테스트 붙이기 (mockito-kotlin은 필요 시 추가)
 
 ### 6. 저장소 문서 갱신
 
