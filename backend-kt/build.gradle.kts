@@ -7,11 +7,28 @@ plugins {
 	alias(libs.plugins.kotlin.spring) apply false
 	alias(libs.plugins.spring.boot.framework) apply false
 	alias(libs.plugins.spring.dependency.management) apply false
+	alias(libs.plugins.kover)
 }
 
 allprojects {
 	group = "hjj"
 	version = "0.0.1"
+}
+
+dependencies {
+	kover(project(":core"))
+	kover(project(":infrastructure"))
+	kover(project(":api"))
+}
+
+kover {
+	reports {
+		total {
+			html {
+				onCheck.set(false)
+			}
+		}
+	}
 }
 
 subprojects {

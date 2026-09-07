@@ -3,6 +3,7 @@ plugins {
 	alias(libs.plugins.kotlin.spring)
 	alias(libs.plugins.spring.boot.framework)
 	alias(libs.plugins.spring.dependency.management)
+	alias(libs.plugins.kover)
 }
 
 tasks.bootJar {
