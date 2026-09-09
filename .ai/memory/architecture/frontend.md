@@ -26,7 +26,7 @@ pnpm run build
 | 프레임워크 | Next.js 15 App Router + React 19 |
 | 언어 | TypeScript (`strict`) |
 | 스타일 | Tailwind CSS v4 + `app/globals.css` |
-| UI 기반 | 자체 `Button`, `Card`, `cn` (`clsx` + `tailwind-merge`) |
+| UI 기반 | 자체 UI 토큰과 `Button`, `Card`, `Input`, `Select`, `Table`, `PageHeader`, `cn` (`clsx` + `tailwind-merge`) |
 | API | 브라우저 `fetch`, 쿠키 포함(`credentials: "include"`) |
 | 인증 상태 | React Context 기반 `AuthSessionProvider` |
 | 패키지 관리 | pnpm |
@@ -53,7 +53,7 @@ frontend/
 │   │   └── game/                    # Game Hub와 게임 구현
 │   ├── components/
 │   │   ├── layout/                  # AppShell, SidebarLayout, AuthNavigation
-│   │   └── ui/                      # Button, Card
+│   │   └── ui/                      # 내부 디자인 시스템 공통 UI
 │   ├── lib/api/client.ts            # 도메인을 모르는 HTTP 클라이언트
 │   └── utils/cn.ts
 ├── .eslintrc.cjs
@@ -85,7 +85,7 @@ frontend/
 AuthSessionProvider
 └── SidebarLayout
     ├── 좌측 서비스 메뉴
-    └── 상단 계정 메뉴 + 페이지 내용
+    └── 상단 테마 토글·계정 메뉴 + 페이지 내용
 ```
 
 `SidebarLayout`은 클라이언트 컴포넌트이며 두 상태를 구분한다.
@@ -93,16 +93,18 @@ AuthSessionProvider
 | 상태 | UI |
 |---|---|
 | `isSidebarOpen: true` | 폭 15rem 사이드바, `<` 접기 버튼, Code 메뉴 |
-| `isSidebarOpen: false` | 폭 4.5rem 아이콘 레일, 햄버거와 `>` 확장 버튼 |
-| `isQuickMenuOpen: true` | 접힌 레일 옆에 Code 빠른 메뉴 팝오버 |
+| `isSidebarOpen: false` | 폭 4.5rem 아이콘 레일과 햄버거 |
+| 접힌 레일 햄버거 hover/focus | 햄버거가 `>`로 바뀌고 사이드바가 콘텐츠 위에서 15rem으로 임시 확장되어 서비스 메뉴 노출 |
 
-- 햄버거는 레이아웃 폭을 바꾸지 않고 빠른 메뉴만 토글한다.
-- `>`는 확장 사이드바를 연다.
+- 햄버거·임시 메뉴 영역의 React mouse/focus 이벤트 상태가 열림을 제어한다. 열린 동안 레이아웃 grid 폭은 바꾸지 않고 사이드바만 콘텐츠 위로 임시 확장하며, 메뉴 영역을 벗어나면 닫힌다.
+- 임시 확장 상태의 `>` 아이콘을 클릭하면 확장 사이드바를 고정으로 연다.
 - `<`는 확장 사이드바를 접는다.
-- 빠른 메뉴는 바깥 클릭, `Escape`, 메뉴 클릭으로 닫힌다.
+- 임시 확장 메뉴는 포인터가 사이드바를 벗어나면 접힌다.
 - 768px 이하에서는 확장 사이드바가 콘텐츠 위에 겹치는 방식으로 동작한다.
 
 아이콘은 추가 패키지 없이 접근성 이름(`aria-label`)을 가진 inline SVG로 구현한다.
+
+`ThemeProvider`는 `AppShell` 최상단에서 `next-themes`의 `attribute="class"` 설정으로 테마를 관리한다. 헤더 오른쪽에는 다음 테마를 표시하는 `ThemeToggle`과 인증 메뉴가 함께 있으며, 테마는 `localStorage`에 저장된다. Tailwind dark variant는 `globals.css`의 `@custom-variant`로 `html.dark` 클래스에 연결한다. Game Hub 내부에는 별도 provider를 두지 않으므로 Canvas/Pixi/Three 게임의 `resolvedTheme`도 헤더 토글과 동기화된다.
 
 ## API 클라이언트
 
@@ -158,6 +160,28 @@ AuthSessionProvider
 - 온라인 게임: Blackjack Online. legacy Nest Socket.IO `/blackjack` namespace를 `NEXT_PUBLIC_LEGACY_WS_ORIGIN`(기본 `http://localhost:9090`)으로 호출한다. 연결 실패 시 legacy Nest 실행 방법을 화면에 보여 준다.
 - Space Shooter는 Pixi, Tower Smash는 Three + React Three Fiber/Cannon을 사용한다.
 - 모든 게임을 정적으로 import하므로 `/games` first load는 약 620kB다. 게임별 `dynamic()` import는 후속 성능 개선 항목이다.
+- Game Hub 선택기는 카드 그리드가 아닌 반응형 flex 버튼 묶음이며, 최소 높이와 최대 높이·세로 스크롤을 둔다. 각 버튼의 게임 설명은 시각적으로 숨기고 접근성 이름으로 유지한다.
+
+## 내부 디자인 시스템
+
+외부 UI 라이브러리를 도입하지 않고 `components/ui`의 작은 공통 컴포넌트를 점진적으로 키운다. `globals.css`는 다음의 semantic CSS custom property를 light/dark 테마별로 정의한다.
+
+- canvas, surface, surface-solid, surface-subtle
+- border, border-strong, text, muted
+- accent, accent-strong, accent-soft, on-accent
+- shadow, focus, danger
+
+공통 UI는 도메인 지식 없이 사용 가능한 것만 둔다.
+
+| 컴포넌트 | 용도 |
+|---|---|
+| `Button` | primary, secondary, ghost variant와 sm/md 크기 |
+| `Card` | 반투명 표면·테두리·그림자를 가진 기본 섹션 |
+| `Input`, `Select` | 테마를 공유하는 기본 form control |
+| `Table` | 가로 스크롤을 포함한 semantic table wrapper |
+| `PageHeader` | eyebrow, title, description, actions가 있는 화면 상단 |
+
+도메인 화면은 이 컴포넌트와 `ui-*` presentation class를 조합한다. 공통 컴포넌트가 필요 이상으로 커지거나 도메인 이름을 알게 되면 해당 feature로 되돌린다.
 
 ## ESLint와 코드 스타일
 

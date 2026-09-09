@@ -23,3 +23,10 @@
 ## 2026-09-09
 - Git 이력의 기존 게임 10개를 `features/game`과 `/games` App Router 화면으로 이식했다. 로컬 게임 9개는 Game Hub에서 즉시 전환해 실행할 수 있고, 온라인 블랙잭은 legacy Nest Socket.IO `/blackjack` gateway에 `NEXT_PUBLIC_LEGACY_WS_ORIGIN`(기본 9090)으로 연결한다.
 - Pixi, Three, React Three Fiber/Cannon, socket.io-client, next-themes를 frontend 독립 의존성으로 복원했다. `pnpm --dir frontend lint`는 이식 원본의 Hook 의존성 경고 9개 외 오류 없이 통과했고, production build는 `/games`를 포함해 통과했다. Pixi·Three를 정적 import하므로 Games 첫 로드는 620kB이며, 게임별 dynamic import는 후속 최적화 항목이다.
+- `next-themes` provider를 Game Hub 내부가 아닌 AppShell 전역으로 올렸다. 헤더 오른쪽에 밝음/어두움 토글과 인증 메뉴를 배치했고, 일반 화면의 공통 표면·입력·텍스트에도 dark 스타일을 연결했다. lint·production build는 기존 게임 Hook 의존성 경고 9개 외 오류 없이 통과했다.
+- 외부 라이브러리 없이 CSS custom property 기반의 내부 UI 토큰을 만들고 Button, Card, Input, Select, Table, PageHeader를 `components/ui`에 정리했다. 배경·표면·여백·hover·활성 메뉴를 부드럽게 다듬었고, Code 화면은 실제 API 스니펫을 선택하는 Table로 새 공통 UI를 사용한다. lint·production build는 기존 게임 Hook 의존성 경고 9개 외 오류 없이 통과했다.
+- `PageHeader` 제목 크기를 줄이고, 접힌 사이드바의 별도 빠른 메뉴 팝오버를 제거했다. 햄버거 영역 hover/focus 때 사이드바 자체가 헤더보다 위 레이어에서 일시적으로 넓어져 메뉴를 보이고, 마우스가 벗어나면 다시 아이콘 레일로 접힌다. lint·production build는 기존 게임 Hook 의존성 경고 9개 외 오류 없이 통과했다.
+- Game Hub의 큰 선택 카드 그리드를 min/max 높이·스크롤을 갖는 단일 테두리 flex 버튼 묶음으로 교체했다. 사이드바 임시 확장은 CSS `:has()` 대신 햄버거·메뉴 영역의 React mouse/focus 이벤트 상태로 제어해 확실히 동작하도록 보완했다. lint·production build는 기존 게임 Hook 의존성 경고 9개 외 오류 없이 통과했다.
+- 접힌 사이드바의 `>` 확장 버튼은 기본 상태에서 햄버거 아래에 두고, 햄버거 hover로 임시 확장할 때는 오른쪽으로 이동하도록 했다. 메뉴 첫 항목과 버튼이 겹치지 않으며 두 상태 사이에 transform 전환이 적용된다. lint·production build는 기존 게임 Hook 의존성 경고 9개 외 오류 없이 통과했다.
+- 햄버거에서 absolute 임시 메뉴로 포인터를 옮기는 사이 닫히던 문제를 보완했다. 햄버거를 벗어나면 180ms 뒤 닫기를 예약하고 메뉴 영역에 들어오면 예약을 취소하며, 메뉴 영역을 벗어날 때만 바로 닫는다. lint·production build는 기존 게임 Hook 의존성 경고 9개 외 오류 없이 통과했다.
+- 임시 메뉴 이동 지연 방식은 제거하고 접힌 레일의 `>` 버튼 자체를 없앴다. 햄버거 영역 hover 시 아이콘이 `>`로 바뀌고 메뉴가 바로 오른쪽으로 나타나며, 이 아이콘을 클릭하면 고정 사이드바를 열어 `<` 접기 버튼으로 전환한다. lint·production build는 기존 게임 Hook 의존성 경고 9개 외 오류 없이 통과했다.
