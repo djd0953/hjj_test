@@ -373,3 +373,11 @@
 - Spring context를 부팅하던 빈 `contextLoads()`를 제거하고, `TreeIndex`의 탐색·정렬·입력 방어와
   `TokenCipher`의 AES-GCM 왕복·변조 감지 규칙을 순수 JUnit 5 테스트로 고정했다.
 - 사용자가 Gradle 실행 결과 `BUILD SUCCESSFUL`을 확인했다.
+
+## 2026-09-07 — Kover 합산 리포트 기준선 확인
+
+- `./gradlew koverHtmlReport`가 성공해 root와 세 하위 모듈의 HTML 리포트를 생성했다.
+- root 기준 커버리지는 line **14.6% (63/432)**, branch **19.6% (22/112)**다. `TokenCipher`는 line 95.5%지만,
+  나머지 애플리케이션 클래스가 대부분 0%이므로 임계값 게이트를 아직 연결하지 않는다.
+- 다음 테스트 대상은 Spring 없이 `Map<String, CodeSnippet>` fake로 테스트 가능한 `CodeService`다. 목록 정렬, 실행 봉투,
+  권한 조회, 없는 keyword의 `MessageException`을 한 청크에서 고정한다.

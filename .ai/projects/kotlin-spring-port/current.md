@@ -236,7 +236,7 @@
 
 ### 5. 테스트 / 품질 게이트
 
-- [x] Kover 활성화 — 세 모듈 합산 HTML 리포트와 기준선 측정 (80% / 70% 게이트 연결은 후속)
+- [x] Kover 활성화 — 세 모듈 합산 HTML 리포트와 기준선 측정 (root: line 14.6% / branch 19.6%; 80% / 70% 게이트 연결은 후속)
 - [ ] ⚠️ MockMvc 쓰려면 **`spring-boot-starter-webmvc-test`** 추가 필요 (Boot 4 에서 분리됨).
       `@AutoConfigureMockMvc` 는 `boot.webmvc.test.autoconfigure` 패키지, `@MockBean` → `@MockitoBean`
 - [ ] `check` → `koverVerify` 의존 연결
