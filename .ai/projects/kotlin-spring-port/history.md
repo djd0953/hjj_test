@@ -381,3 +381,21 @@
   나머지 애플리케이션 클래스가 대부분 0%이므로 임계값 게이트를 아직 연결하지 않는다.
 - 다음 테스트 대상은 Spring 없이 `Map<String, CodeSnippet>` fake로 테스트 가능한 `CodeService`다. 목록 정렬, 실행 봉투,
   권한 조회, 없는 keyword의 `MessageException`을 한 청크에서 고정한다.
+
+## 2026-09-09 — 남은 Code 스니펫 전체 이식 범위 확정
+
+- 사용자가 레거시 `codes/*`의 남은 항목을 전체 이식하도록 요청했고, SSE(`sentEvent`)와 WebSocket은 사용자가 직접
+  구현하는 범위로 제외했다.
+- `uuid`·`jwt`·`organization`·`aws`는 기존 실제 검증 구현을 유지한다. 과거 제외한 `test`는 이번 전체 범위에 다시
+  넣되 Java Base64 확인 예제로 제한한다.
+- 원본의 `files/` 상대경로·결과 파일 쓰기는 이식하지 않는다. 문서/엑셀/폰트 기능은 입력 처리기와 fixture를 분리하고,
+  스니펫 응답은 바이너리 본문 대신 변환 요약을 반환하는 방향으로 계획했다.
+
+## 2026-09-09 — Code 스니펫 1차 순수 로직 이식 완료
+
+- `test`, `lcs`, `separateCode`, `uaparse`, `fixDocx`, `templateDataParse`를 `CodeSnippet` bean으로 추가했다.
+  원본의 `null` 반환과 상대 파일 출력은 typed response와 순수 processor로 바꿨다.
+- LCS의 한쪽 경계 역추적 오류를 고쳤고, `templateDataParse`의 고정 placeholder hash는 HMAC-SHA-256으로 완성했다.
+  템플릿 JSON은 Jackson 3이 생략된 배열을 null로 전달할 수 있어 nullable input DTO와 `orEmpty()`로 경계를 방어했다.
+- HTML 구조 변경은 jsoup 1.23.2로 처리해 목록 item 안의 table을 DOM 수준에서 밖으로 이동한다.
+- `./gradlew :api:test :api:compileKotlin`이 `BUILD SUCCESSFUL`로 통과했다.

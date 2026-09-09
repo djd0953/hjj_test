@@ -429,8 +429,9 @@ lawform 은 레거시 DB 설계를 물려받아 `README.md` 에 정리된 우회
 
 lawform 은 Kover 커버리지 게이트(라인 80% / 브랜치 70%)가 `build` 에 걸려 있어 미달 시 빌드가 실패한다.
 
-- 원본 `test.ts`는 Node의 `Buffer` Base64 문법을 즉시 확인하던 일회성 scratch 파일이므로 Kotlin/Spring 이식 대상에서
-  제외한다 (2026-09-04). SAML XML 디코드·검증 기능으로 확장하지 않는다.
+- 원본 `test.ts`는 Node의 `Buffer` Base64 문법을 즉시 확인하던 일회성 scratch 파일이다. 한때 이식 제외로
+  결정했지만, **2026-09-09 전체 스니펫 이식 요청으로 다시 포함**한다. 다만 SAML XML 디코드·서명 검증 기능으로
+  확장하지 않고, Java의 Base64 디코딩 결과를 확인하는 작은 스니펫으로만 둔다.
 - Kover는 우선 리포트와 좁은 단위 테스트로 현재 기준선을 확인한 뒤, 실제 측정치를 바탕으로 라인 80% / 브랜치 70%의
   `check` 게이트를 연결한다. 기존 무테스트 코드를 둔 채로 임계값만 먼저 강제하지 않는다.
 
@@ -497,6 +498,32 @@ DB 에 넣을 데이터가 아니므로 **JPA 대상에서 제외**하고, 더�
 | `excelFileCheck` vs `excelWritingBulkChk` | 셀 값 파싱 로직 중복 (전자는 `val`/`val2` 로 2번 복붙) |
 | 모듈 전반 | `backend-error.md` 컨벤션 미적용 (`throw new Error` / `console.error`) |
 | `getCodeResult` | `default: return null` → 404 가 아니라 200 + null |
+
+### 남은 Code 스니펫 전체 이식 범위 (2026-09-09 확정)
+
+사용자는 레거시 `backend/src/modules/code/services/codes/*`의 나머지 항목을 전체 이식하되,
+**`sentEvent`(SSE)와 `backend/src/modules/ws/**`를 포함한 WebSocket은 직접 구현**하기로 했다.
+따라서 이 청크에서는 해당 두 범위를 만들거나 수정하지 않는다.
+
+이미 검증한 `uuid`·`jwt`·`organization`·`aws`는 유지한다. 특히 `aws`는 레거시의 파일명 검색 예제보다
+`FileStorage` Port/Adapter를 통한 실제 S3 Put/Get을 더 넓게 검증하고 있으므로, `awsDownload.ts`를 같은 이름으로
+중복 구현하지 않는다. KMS와 Secrets Manager는 별도 AWS 예제로 추가한다.
+
+레거시의 `files/` 상대경로와 결과 파일 쓰기(`ttt.txt`, `contract_list.txt`, `font/ttf`)는 이식하지 않는다.
+각 기능을 `ByteArray`/문자열/도메인 타입을 받는 순수 처리기로 분리하고, `CodeSnippet.run()`은 classpath의 작은
+샘플 또는 코드 안의 고정 학습 데이터를 실행한다. 이로써 `/code/{keyword}`가 개발자의 현재 작업 디렉터리나
+회사 S3 객체의 존재 여부에 따라 깨지지 않는다. 변환 산출물은 JSON에 원본 바이너리를 그대로 싣지 않고 크기,
+SHA-256, 분석·변환 요약을 응답한다.
+
+| 분류 | 대상 | 이식 방침 |
+|---|---|---|
+| 작은 순수 예제 | `test`, `lcs`, `separateCode`, `uaparse`, `fixDocx` | 원본의 죽은 `null`/파일 출력을 관찰 가능한 typed 결과로 바꾼다. `lcs`의 경계 오류도 고친다. |
+| 템플릿·웹·메일 | `templateDataParse`, `effectiveDate`, `email` | 순수 정책/정규화/HTML 분할은 테스트하고, HTTP·메일 원본은 adapter와 fixture로 분리한다. `hmacToken` placeholder는 HMAC-SHA-256으로 완성한다. |
+| AWS | `kms`, `sm` | AWS SDK 기본 credential chain을 재사용하고, 필수 property가 있을 때만 bean/snippet을 조립한다. 시크릿 원문·환경변수 전체를 응답하거나 process env에 주입하지 않는다. |
+| 문서·엑셀·폰트 | `cleanDocx`, `diffDocx`, `excelFileCheck`, `excelWritingBulkChk`, `woffToTtf` | 파일 시스템 의존을 제거한 processor와 fixture 테스트부터 만든다. OOXML·Excel·WOFF 입력 오류는 명시적인 도메인 오류로 번역한다. |
+
+HTML DOM을 다루는 `fixDocx`·`effectiveDate`·`email`에는 **jsoup**을 공용 parser로 사용한다. 중첩 목록 안 table처럼
+구조를 바꾸는 HTML을 정규식으로 처리하지 않으며, jsoup 1.23.2는 `api`에만 직접 의존한다.
 
 ## 참조 파일
 

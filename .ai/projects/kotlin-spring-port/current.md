@@ -210,7 +210,7 @@
 ### 4. 스니펫 이식 — 난이도 순
 
 - [x] `uuid` — 배선 확인용
-- [x] `test` — Kotlin 이식 제외 (원본 Node 스크래치 실험, 2026-09-04)
+- [x] `test` — Java Base64 디코딩 예제로 재편입 및 단위 테스트 완료 (2026-09-09)
 - [x] `jwt` — jsonwebtoken → jjwt (FE 버튼으로 생성·서명 검증 확인)
 - [ ] **`organization` — 제네릭 트리 유틸** ← 메인 (2026-08-24: JPA → Kotlin 학습으로 성격 변경)
   - [x] `files/organization.ts` 의 `dummy` → **JSON 변환** 후 `api` 리소스로 배치
@@ -233,6 +233,20 @@
   - [x] 외부 SDK 예외를 core `StorageException`으로 번역하고 api에서 503으로 응답
   - [ ] `messages_en.properties`의 storage unavailable 영문 message 완성
 - [ ] (선택) `excelWritingBulkChk` — exceljs → Apache POI
+
+### 4.1 남은 Code 스니펫 전체 이식 (2026-09-09 시작)
+
+- [x] 공통 실행 원칙 확정 — 상대 파일 경로/결과 파일 쓰기 제거, processor + classpath fixture + typed summary
+- [x] 순수 스니펫 — `test`, `lcs`, `separateCode`, `uaparse`, `fixDocx`
+- [x] 템플릿 정책 — `templateDataParse`와 `template_data.json`, 실제 HMAC-SHA-256
+- [ ] 웹·메일 — `effectiveDate`, `email`의 HTML 정규화/분할과 외부 I/O 경계
+- [ ] AWS 확장 — `kms`, `sm` (property 조건 조립, AWS 기본 credentials chain)
+- [ ] DOCX — `cleanDocx`, `diffDocx` (OOXML 입력/출력은 바이너리 processor로 분리)
+- [ ] Excel — `excelFileCheck`, `excelWritingBulkChk` (공용 셀 값 변환 + Apache POI)
+- [ ] Font — `woffToTtf` (WOFF/WOFF2 지원 범위와 오류 결과 명시)
+- [ ] 각 processor의 fixture 기반 단위 테스트와 `/code/list` 노출 확인
+- [ ] `sentEvent`는 사용자 구현 범위(SSE)로 제외
+- [ ] WebSocket은 사용자 구현 범위로 제외
 
 ### 5. 테스트 / 품질 게이트
 
@@ -261,7 +275,7 @@
       스키마·코드 커밋 분리, Expand-Contract 단계별 분리). **Flyway 도입 시점에** `rule/git.md` 로 가져온다
 - [ ] QueryDSL 도입 여부 결정 — 호환 리스크는 해소됨(**7.5** = Boot 4/Hibernate 7 대응, openfeign fork).
       쓸지 말지만 결정하면 된다
-- [ ] 나머지 스니펫 이식 (cleanDocx, diffDocx, effectiveDate, email, excelFileCheck, fixDocx, kms, lcs, separateCode, sm, templateDataParse, uaparse, woffToTtf, sentEvent)
+- [ ] 남은 Code 스니펫 이식 — 4.1 체크리스트로 이동 (`sentEvent`/WebSocket 제외)
 - [ ] Postgres 붙여서 멀티 데이터소스 연습
-- [ ] `sentEvent` → SSE 엔드포인트 (원본은 목록에만 있고 미배선)
+- [ ] `sentEvent` → SSE 엔드포인트 (사용자 구현 범위, 원본은 목록에만 있고 미배선)
 - [ ] Spring Security 필터 체인 (lawform `request-pipeline.md` 대응)
