@@ -1,91 +1,173 @@
 # frontend (Next.js)
 
-`frontend/`는 로컬 개발/테스트용 Next.js 앱. 백엔드가 주력이던 작성자를 위해 **대부분 의존적으로(=대신) 만들어진** 코드라, 이 문서는 "어디를 어떻게 건드리면 되는지"에 초점을 둔다.
+`frontend/`는 Kotlin Spring API(`backend-kt`, 기본 `http://localhost:9100`)와 통신하는 독립 Next.js 애플리케이션이다. 이전 Pages Router·게임·NestJS 개발 도구는 제거됐으며, 현재 코드는 App Router와 feature-first 구조를 따른다.
+
+## 실행과 품질 확인
+
+```bash
+cd frontend
+corepack enable
+pnpm install --frozen-lockfile
+pnpm run dev       # http://localhost:9000
+pnpm run lint
+pnpm run build
+```
+
+- 패키지 관리자: `pnpm@11.25.0` (`package.json`의 `packageManager`가 기준)
+- 개발·production 공개 포트: **9000**
+- API 기본 origin: **`http://localhost:9100`**
+- API origin 변경: `.env.example`을 `.env`로 복사한 뒤 `NEXT_PUBLIC_API_ORIGIN` 설정
+- `pnpm run lint`는 현재 `eslint . --fix`를 실행하므로, 자동 수정 가능한 파일을 바꿀 수 있다. 단순 검사 전용 명령이 아니다.
 
 ## 핵심 스택
 
 | 영역 | 사용 |
-|------|------|
-| 프레임워크 | **Next.js 15 + React 19** |
-| 라우팅 | **Pages Router** (`pages/`). ⚠️ App Router(`app/`) 아님 |
-| 언어 | TypeScript |
-| 스타일 | **Tailwind CSS v4** (+ postcss-import, autoprefixer) |
-| UI 프리미티브 | Radix UI (`@radix-ui/react-*`) + `class-variance-authority` + `clsx`/`tailwind-merge` (shadcn 스타일) |
-| 아이콘 | `lucide-react` |
-| 다크모드 | `next-themes` (`attribute="class"`, 기본 system) |
-| 폼 | `react-hook-form` |
-| 실시간 | `socket.io-client` → 백엔드 `/ws` |
-| 게임 렌더 | `three` + `@react-three/fiber` + `@react-three/cannon` (3D), `pixi.js` (2D), Canvas |
-| 인증(미완성) | `next-auth` v5 beta (설치만, 거의 미배선) |
+|---|---|
+| 프레임워크 | Next.js 15 App Router + React 19 |
+| 언어 | TypeScript (`strict`) |
+| 스타일 | Tailwind CSS v4 + `app/globals.css` |
+| UI 기반 | 자체 `Button`, `Card`, `cn` (`clsx` + `tailwind-merge`) |
+| API | 브라우저 `fetch`, 쿠키 포함(`credentials: "include"`) |
+| 인증 상태 | React Context 기반 `AuthSessionProvider` |
+| 패키지 관리 | pnpm |
 
-- 실행: `npm run dev` → **포트 9080** (`next dev -p 9080`). README의 "port 3000"은 낡은 설명이니 무시.
-- 백엔드(NestJS)는 `http://localhost:9090`. 별도 앱이므로 Next API routes는 쓰지 않음.
+Radix, next-auth, socket.io, three, pixi, Pages Router 및 게임 관련 코드는 현재 frontend 범위에 없다.
 
-## 디렉토리 / Path alias
+## 디렉터리와 의존성 방향
 
-```
+```text
 frontend/
-├── pages/            # 라우트 (파일 = URL)
-├── components/       # 공용 컴포넌트 + games/
-│   ├── Layout.tsx    # 사이드바+헤더 셸. 메뉴/제목 관리
-│   ├── ThemeToggle.tsx
-│   ├── button/LogoutButton.tsx
-│   └── games/*.tsx   # 게임 10종
-├── hooks/            # usePermission(stub), use-mobile
-├── libs/             # rbac.ts(상수), utils.ts(cn 헬퍼)
-├── types/            # defaultNavigator.ts (nav 타입 — 아직 미사용)
-├── generated/prisma/ # enums.ts (백엔드 Prisma에서 생성된 enum)
-├── styles/global.css # 전역 CSS (.panel/.field/.segmented/.code 등 커스텀 클래스)
-└── tailwind.config.js
+├── src/
+│   ├── app/                         # URL·layout·loading/error 경계
+│   │   ├── (auth)/login/page.tsx
+│   │   ├── (service)/code/page.tsx
+│   │   ├── layout.tsx
+│   │   ├── page.tsx
+│   │   ├── loading.tsx
+│   │   ├── error.tsx
+│   │   ├── not-found.tsx
+│   │   └── globals.css
+│   ├── features/
+│   │   ├── auth/                    # 로그인·세션 도메인
+│   │   └── code/                    # Code 목록·실행 도메인
+│   ├── components/
+│   │   ├── layout/                  # AppShell, SidebarLayout, AuthNavigation
+│   │   └── ui/                      # Button, Card
+│   ├── lib/api/client.ts            # 도메인을 모르는 HTTP 클라이언트
+│   └── utils/cn.ts
+├── .eslintrc.cjs
+├── next.config.js
+├── pnpm-lock.yaml
+└── package.json
 ```
 
-Path alias (`tsconfig.json`) — **폴더별 명시적 alias, catch-all 없음**:
-`@component/*` `@hook/*` `@lib/*` `@type/*` `@generated/*`
+경로 별칭은 `@/* → frontend/src/*`다.
 
-## 페이지 (라우트)
+의존성은 `app → features → components/lib/utils` 방향을 지향한다. `components/ui`, `lib`, `utils`는 특정 feature를 import하지 않는다. 특정 업무 도메인을 알아야 하는 API·Hook·타입·화면은 해당 `features/{name}` 아래에 둔다.
 
-`pages/{name}.tsx` 파일 하나가 곧 URL `/{name}`. `_app.tsx`가 전체를 `ThemeProvider > Layout`으로 감싼다.
+## 라우트
 
-| URL | 파일 | 내용 |
-|-----|------|------|
-| `/` | `index.tsx` | **API Playground**. 백엔드 `localhost:9090` 수동 호출 도구. ① `/code/{mode}/{keyword}` GET 테스터(mode: brack/pass, keyword는 `/code/list`에서 로드) ② HSAD Difference 트리거 — `/hsad/trigger/{n}` POST (payload 더미 하드코딩) |
-| `/game` | `game.tsx` | 게임 선택기. `GAMES` 배열에서 고른 컴포넌트를 클라이언트 렌더 |
-| `/logs` | `logs.tsx` | **Socket.IO 콘솔**. 백엔드 `/ws` 네임스페이스에 connect/ping/echo/message, 이벤트 로그 뷰어 |
+| URL | 라우트 파일 | 화면 구현 | 설명 |
+|---|---|---|---|
+| `/` | `app/page.tsx` | 인라인 | 새 Spring API 프론트의 간단한 안내 |
+| `/login` | `app/(auth)/login/page.tsx` | `features/auth/components/login-page.tsx` | ID·비밀번호 로그인 |
+| `/code` | `app/(service)/code/page.tsx` | `features/code/components/code-page.tsx` | Code 스니펫 목록·실행 |
 
-## 스타일 시스템
+`app/layout.tsx`가 모든 라우트를 `AppShell`로 감싼다. 라우팅 파일에는 URL 조합만 두고, 화면 로직은 feature 컴포넌트에 둔다.
 
-- **Tailwind 유틸리티 클래스를 JSX에 인라인**으로 쓰는 게 기본 (`className="flex items-center gap-4"`).
-- 공유되는 커스텀 클래스(`.panel`, `.field`, `.segmented`, `.code`, `.page-grid`)는 `styles/global.css`에 정의 → index.tsx 등에서 사용.
-- 테마 토큰은 `tailwind.config.js`의 `theme.extend`에 정의: 색(`bg/panel/ink/muted/accent/accent-strong/line`), 그림자(`shadow-panel`), 폰트(IBM Plex Sans).
-- 다크모드: `next-themes`가 `<html>`에 `class="dark"` 토글 → JSX에서 `dark:` variant로 대응.
-- `cn(...)` (`libs/utils.ts`) = `clsx` + `tailwind-merge`. 조건부/충돌 클래스 합칠 때 사용.
+## 레이아웃과 내비게이션
 
-## 게임 (`components/games/`)
+`AppShell`은 전역 `AuthSessionProvider`와 `SidebarLayout`을 조합한다.
 
-`game.tsx`의 `GAMES` 배열에 등록된 10종. 대부분 Canvas 기반, 일부는 pixi.js/three(3D) 사용.
+```text
+AuthSessionProvider
+└── SidebarLayout
+    ├── 좌측 서비스 메뉴
+    └── 상단 계정 메뉴 + 페이지 내용
+```
 
-- 로컬 단독: BulletDodge, Snake, Pong, Breakout, FlappyBird, Game2048, SpaceShooter, TowerSmash(3D), Blackjack
-- **BlackjackOnline**: `socket.io-client`로 백엔드 `/ws`에 붙는 멀티플레이어 (진행 중 작업)
+`SidebarLayout`은 클라이언트 컴포넌트이며 두 상태를 구분한다.
 
-## 인증 / RBAC (⚠️ 대부분 미완성 스캐폴드)
+| 상태 | UI |
+|---|---|
+| `isSidebarOpen: true` | 폭 15rem 사이드바, `<` 접기 버튼, Code 메뉴 |
+| `isSidebarOpen: false` | 폭 4.5rem 아이콘 레일, 햄버거와 `>` 확장 버튼 |
+| `isQuickMenuOpen: true` | 접힌 레일 옆에 Code 빠른 메뉴 팝오버 |
 
-- `hooks/usePermission.ts` → **`check`가 무조건 `true` 반환하는 stub.** 실제 권한 검사 없음.
-- `libs/rbac.ts` → `PERMISSIONS`/`PERMISSION_GROUPS` 상수만 최소 정의.
-- `generated/prisma/enums.ts` → `PermissionRole`(admin/user) enum. 백엔드 Prisma schema에서 생성된 것으로 보임(현재 `enums.ts`만 존재).
-- `types/defaultNavigator.ts` → 권한 기반 nav 아이템 타입. **Layout이 아직 사용하지 않음**(Layout은 자체 `PAGES` 배열 사용).
-- `next-auth` v5 설치 + `LogoutButton` 존재하나, 인증 흐름은 거의 배선 안 됨.
+- 햄버거는 레이아웃 폭을 바꾸지 않고 빠른 메뉴만 토글한다.
+- `>`는 확장 사이드바를 연다.
+- `<`는 확장 사이드바를 접는다.
+- 빠른 메뉴는 바깥 클릭, `Escape`, 메뉴 클릭으로 닫힌다.
+- 768px 이하에서는 확장 사이드바가 콘텐츠 위에 겹치는 방식으로 동작한다.
 
-## 수정하는 법 (자주 쓰는 작업)
+아이콘은 추가 패키지 없이 접근성 이름(`aria-label`)을 가진 inline SVG로 구현한다.
 
-- **페이지 추가**: `pages/foo.tsx` 생성 → `components/Layout.tsx`의 `PAGES` 배열에 `{href, label, title, subTitle, icon}` 추가해야 사이드바 메뉴 + 헤더 제목이 뜬다.
-- **게임 추가**: `components/games/X.tsx` 생성 → `pages/game.tsx`의 `GAMES` 배열에 `{id, label, component}` 등록.
-- **백엔드 호출**: `fetch('http://localhost:9090/...')` 직접, 또는 `next.config.js` rewrites로 `/b/*`·`/p/*`를 9090으로 프록시. (index.tsx는 절대 URL `ORIGIN`을 하드코딩해서 프록시 우회 중)
-- **WebSocket**: `io(\`http://\${host}:9090/ws\`)` (socket.io-client). 포트는 `.env`의 `NEXT_PUBLIC_WS_PORT`(=9090).
-- **스타일**: 인라인 Tailwind 우선, 반복되는 건 `styles/global.css`, 색/폰트 토큰은 `tailwind.config.js`.
+## API 클라이언트
 
-## 편집 시 함정 (gotchas)
+`src/lib/api/client.ts`의 `apiRequest<T>()`가 공통 HTTP 처리를 담당한다.
 
-- 페이지 파일이 `export const title` / `subTitle`을 내보내지만 **Layout은 이걸 읽지 않는다.** 제목/메뉴는 `Layout.tsx`의 `PAGES` 배열이 pathname으로 결정 → 제목 바꾸려면 거기를 고쳐야 함.
-- `index.tsx`의 백엔드 주소 `ORIGIN = "http://localhost:9090"`은 **하드코딩**. 백엔드 포트 바꾸면 여기도 수정.
-- `usePermission`이 stub이라 **권한 걸어도 다 통과**한다. 실제 접근제어를 기대하면 안 됨.
-- Radix UI 의존성은 잔뜩 설치돼 있으나, 실제로 만들어진 컴포넌트는 Layout/ThemeToggle/games 정도. `components/ui/` 같은 shadcn 컴포넌트 세트는 아직 없음.
+- `NEXT_PUBLIC_API_ORIGIN` 또는 `http://localhost:9100`에 상대 경로를 붙인다.
+- 모든 요청에 `credentials: "include"`를 지정해 세션 쿠키를 전달한다.
+- body가 있으면 기본 `Content-Type: application/json`을 추가한다.
+- 204 응답은 `undefined`로 반환한다.
+- 2xx 이외 상태는 `status`, `code`, `title`을 포함한 `ApiError`로 throw한다.
+
+`apiRequest`가 401을 전역적으로 성공 처리하면 안 된다. 401의 의미는 API마다 다르므로 호출 도메인에서 해석한다.
+
+## 인증
+
+`features/auth/api/auth.ts`의 현재 Spring API 계약은 다음과 같다.
+
+| 요청 | 용도 |
+|---|---|
+| `POST /auth/login` | ID·비밀번호 로그인 |
+| `POST /auth/logout` | 현재 세션 로그아웃 |
+| `GET /auth/me` | 현재 사용자 조회 |
+
+`AuthSessionProvider`는 최초 마운트 때 `/auth/me`을 호출하고 다음 상태를 Context로 제공한다.
+
+| 상태 | 의미 |
+|---|---|
+| `loading` | 현재 사용자 확인 중 |
+| `authenticated` | `userId`, `role`을 받은 로그인 상태 |
+| `anonymous` | `/auth/me`이 401을 반환한 정상적인 비로그인 상태 |
+| `error` | 네트워크·5xx 등 401 이외의 인증 조회 실패 |
+
+`useAuthSession()`은 Provider 내부에서만 사용할 수 있다. 로그인 뒤에는 `refresh()`를 호출한 다음 `/code`로 이동해야 상단 인증 메뉴가 즉시 갱신된다. 로그아웃은 `signOut()`으로 수행한다.
+
+공개 페이지는 `anonymous`여도 렌더링할 수 있다. 로그인 필수 페이지의 차단·리다이렉트는 해당 페이지에서 `status`를 기준으로 결정한다.
+
+## Code feature
+
+`features/code`은 Spring의 Code API를 사용한다.
+
+| 요청 | 용도 |
+|---|---|
+| `GET /code/list` | 현재 인증 상태에서 보이는 스니펫 목록 |
+| `GET /code/{keyword}` | 선택한 스니펫 실행 |
+
+`CodePage`는 인증 상태가 `authenticated` 또는 `anonymous`로 확정될 때 목록을 다시 받아 로그인·로그아웃 뒤 서버가 필터링한 결과를 반영한다. 권한으로 PRIVATE 항목을 감추는 것은 반드시 Spring API가 수행해야 하며, 프론트의 표시 제어만으로 접근 제어를 구현하면 안 된다.
+
+## ESLint와 코드 스타일
+
+`.eslintrc.cjs`는 frontend 자체 설정이며 루트 설정을 상속하지 않는다.
+
+- Allman 중괄호, 4칸 들여쓰기, 세미콜론을 ESLint가 강제한다.
+- `import/order`, unused variable, `no-console`, `eqeqeq` 등 안전 규칙을 둔다.
+- Prettier는 사용하지 않는다. Prettier 기본 포맷은 Allman 스타일과 충돌하기 때문이다.
+- IntelliJ에서는 frontend를 ESLint working directory로 인식시키고 **Run eslint --fix on save**만 켠다. IntelliJ의 Reformat Code·Optimize Imports 자동 저장은 ESLint 규칙과 충돌할 수 있어 기본으로 켜지 않는다.
+
+## 자주 수정하는 법
+
+- **새 페이지**: `src/app`에 route group과 `page.tsx`를 만들고, 실제 화면은 적절한 `features/{name}/components`에 둔다. 메뉴가 필요하면 `SidebarLayout`의 서비스 메뉴를 별도 client navigation 컴포넌트로 분리해 확장한다.
+- **새 도메인 기능**: `features/{name}`에서 시작한다. 필요한 폴더(`api`, `components`, `hooks`, `types`)만 추가한다.
+- **새 API 호출**: feature의 `api/`에 API 함수로 만들고 `apiRequest`를 사용한다. React 상태·lifecycle은 feature 컴포넌트나 hook에서 관리한다.
+- **공통 UI**: 도메인 지식 없이 재사용할 수 있을 때만 `components/ui`로 올린다.
+- **스타일**: 컴포넌트 가까운 Tailwind class를 우선하고, 전역 레이아웃/공통 규칙은 `app/globals.css`에 둔다.
+
+## 주의할 점
+
+- Spring CORS는 `http://localhost:9000`을 credential 허용 origin으로 포함해야 한다.
+- Next config에는 API rewrite가 없다. 브라우저가 Spring API origin으로 직접 요청한다.
+- API origin은 `NEXT_PUBLIC_*` 환경 변수이므로 바꾸면 Next 개발 서버를 재시작한다.
+- UI에서 메뉴·목록을 감추는 것은 보안 경계가 아니다. API의 인증·권한 검증을 대체하지 않는다.
