@@ -1,7 +1,7 @@
 package hjj.code.snippet.implement
 
 import hjj.code.constant.SnippetPermission
-import hjj.code.lcs.LongestCommonSubsequence
+import hjj.code.component.LongestCommonSubsequence
 import hjj.code.response.LcsDiffCharacter
 import hjj.code.response.LcsRunResponse
 import hjj.code.snippet.CodeSnippet

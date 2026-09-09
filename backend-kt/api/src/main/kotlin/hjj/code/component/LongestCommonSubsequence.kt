@@ -1,17 +1,7 @@
-package hjj.code.lcs
+package hjj.code.component
 
-data class LcsCharacter(
-    val character: Char,
-    val common: Boolean,
-)
-
-data class LcsResult(
-    val length: Int,
-    val commonSequence: String,
-    val firstDiff: List<LcsCharacter>,
-    val secondDiff: List<LcsCharacter>,
-    val matrix: List<List<Int>>,
-)
+import hjj.code.model.LcsCharacter
+import hjj.code.model.LcsResult
 
 object LongestCommonSubsequence {
     fun compare(first: String, second: String): LcsResult {

@@ -1,4 +1,4 @@
-package hjj.code.lcs
+package hjj.code.component
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue

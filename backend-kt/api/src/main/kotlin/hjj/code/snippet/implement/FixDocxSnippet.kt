@@ -1,7 +1,7 @@
 package hjj.code.snippet.implement
 
 import hjj.code.constant.SnippetPermission
-import hjj.code.html.DocxHtmlSanitizer
+import hjj.code.component.DocxHtmlSanitizer
 import hjj.code.response.FixDocxRunResponse
 import hjj.code.snippet.CodeSnippet
 import org.springframework.stereotype.Component
