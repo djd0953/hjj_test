@@ -66,6 +66,7 @@ export function SidebarLayout({ children }: Readonly<{ children: ReactNode }>)
                         </button>
                         <nav className="app-sidebar-navigation">
                             <Link href="/code">Code</Link>
+                            <Link href="/games">Games</Link>
                         </nav>
                     </>
                 ) : (
@@ -91,6 +92,7 @@ export function SidebarLayout({ children }: Readonly<{ children: ReactNode }>)
                         {isQuickMenuOpen ? (
                             <nav aria-label="빠른 서비스 메뉴" className="quick-navigation" id="quick-navigation">
                                 <Link href="/code" onClick={() => setIsQuickMenuOpen(false)}>Code</Link>
+                                <Link href="/games" onClick={() => setIsQuickMenuOpen(false)}>Games</Link>
                             </nav>
                         ) : null}
                     </>
