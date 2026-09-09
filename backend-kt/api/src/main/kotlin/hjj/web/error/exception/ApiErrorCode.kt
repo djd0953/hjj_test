@@ -17,6 +17,9 @@ enum class ApiErrorCode (
     SNIPPET_NOT_FOUND(HttpStatus.NOT_FOUND, "error.snippet.not-found"),
     ORGANIZATION_NOT_FOUND(HttpStatus.NOT_FOUND, "error.organization.not-found"),
 
+    // 400 스니펫 입력 오류
+    CODE_SNIPPET_INPUT_INVALID(HttpStatus.BAD_REQUEST, "error.code-snippet.input-invalid"),
+
     // 500 시스템 에러
     INTERNAL_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "error.internal"),
 

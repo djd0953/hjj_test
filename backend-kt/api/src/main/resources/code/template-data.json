@@ -1,0 +1,36 @@
+{
+  "inputSections": [
+    {
+      "fields": [
+        {
+          "objdataFields": [
+            {
+              "type": "text",
+              "searchable": true,
+              "searchMode": "plain",
+              "textFields": [{ "binding": "name1" }]
+            },
+            {
+              "type": "text",
+              "encrypt": true,
+              "searchable": true,
+              "searchMode": "mask",
+              "textFields": [{ "binding": "phone1" }]
+            },
+            {
+              "type": "text",
+              "encrypt": true,
+              "searchable": true,
+              "searchMode": "token",
+              "textFields": [{ "binding": "email1" }]
+            },
+            {
+              "type": "calendar",
+              "calendar_Binding": "clm_con_date"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
