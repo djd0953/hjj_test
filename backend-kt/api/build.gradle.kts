@@ -27,6 +27,8 @@ dependencies {
 	implementation(libs.jjwt.api)
 	runtimeOnly(libs.jjwt.impl)
 	runtimeOnly(libs.jjwt.jackson)
+	// HTML DOM 변환
+	implementation(libs.jsoup)
 
 	testImplementation(libs.spring.boot.starter.test)
 }
