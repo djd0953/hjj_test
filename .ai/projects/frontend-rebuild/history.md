@@ -19,3 +19,7 @@
 
 ## 2026-09-07
 - 접힌 상태에서 사이드바를 0폭으로 숨기던 구현을 4.5rem 아이콘 레일로 교체했다. 확장 상태의 `<` 접기, 접힌 상태의 `>` 확장, 햄버거의 Code 빠른 메뉴 팝오버를 서로 분리했고, 팝오버는 외부 클릭·Escape·메뉴 클릭 시 닫힌다.
+
+## 2026-09-09
+- Git 이력의 기존 게임 10개를 `features/game`과 `/games` App Router 화면으로 이식했다. 로컬 게임 9개는 Game Hub에서 즉시 전환해 실행할 수 있고, 온라인 블랙잭은 legacy Nest Socket.IO `/blackjack` gateway에 `NEXT_PUBLIC_LEGACY_WS_ORIGIN`(기본 9090)으로 연결한다.
+- Pixi, Three, React Three Fiber/Cannon, socket.io-client, next-themes를 frontend 독립 의존성으로 복원했다. `pnpm --dir frontend lint`는 이식 원본의 Hook 의존성 경고 9개 외 오류 없이 통과했고, production build는 `/games`를 포함해 통과했다. Pixi·Three를 정적 import하므로 Games 첫 로드는 620kB이며, 게임별 dynamic import는 후속 최적화 항목이다.

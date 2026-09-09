@@ -13,6 +13,7 @@
 3. 도메인 기능은 `src/features`, 도메인 비의존 UI는 `src/components`, 외부 통신 기반은 `src/lib`에 둔다.
 4. Spring API `http://localhost:9100`과 쿠키 인증을 위한 공통 API 클라이언트를 둔다.
 5. 현재 Spring에서 실제 제공하는 로그인과 Code 스니펫 탐색 화면을 최소 기능으로 연결한다.
+6. 기존 로컬 게임과 legacy 온라인 블랙잭을 `/games` Game Hub에 보존한다.
 
 ## 설계 방향
 
@@ -22,6 +23,7 @@
 - API 공통 클라이언트는 `credentials: "include"`를 기본으로 하며, API origin은 `NEXT_PUBLIC_API_ORIGIN` 또는 개발 기본값 `http://localhost:9100`을 사용한다.
 - 공통 인증 상태는 `AuthSessionProvider`가 `/auth/me`으로 조회한다. 401만 비로그인 상태로 해석하며, 공개 페이지는 비로그인 상태에서도 렌더링할 수 있다. 권한별 Code 목록은 프론트가 아닌 Spring API 응답을 기준으로 한다.
 - 전역 메뉴는 접을 수 있는 좌측 사이드바로 둔다. 확장 상태에는 `<` 접기 버튼과 메뉴를, 접힌 상태에는 4.5rem 아이콘 레일 안의 햄버거·`>` 버튼을 둔다. 햄버거는 메뉴 팝오버만 여닫고, `>`는 사이드바를 확장한다. 768px 이하에서는 확장 사이드바가 콘텐츠 위에 겹쳐지며, 상단 헤더는 계정 상태와 인증 동작을 담당한다.
+- `features/game`은 Canvas/DOM 게임, Pixi 기반 Space Shooter, Three/Cannon 기반 Tower Smash를 포함한다. 온라인 블랙잭만 legacy Nest Socket.IO `/blackjack`을 `NEXT_PUBLIC_LEGACY_WS_ORIGIN`(기본 `http://localhost:9090`)으로 사용하며, Spring API 전환 전의 호환 기능이다.
 - frontend의 패키지 관리자는 Corepack으로 실행하는 `pnpm@11.25.0`으로 고정한다. 이 앱은 독립 앱이므로 pnpm workspace로 루트까지 묶지 않는다. 루트 Node manifest는 퇴역했고 기존 Nest backend는 자체 npm 구성을 유지한다.
 - frontend는 자체 ESLint 설정·의존성을 소유하며, 루트 `.eslintrc.cjs`를 상속하지 않는다. `pnpm run lint`가 App Router 코드와 설정 파일의 정합성을 확인한다.
 - Spring 서버는 `http://localhost:9000`을 credential CORS origin으로 허용해야 한다. 이 설정은 backend-kt 작업 범위다.

@@ -31,7 +31,7 @@ pnpm run build
 | 인증 상태 | React Context 기반 `AuthSessionProvider` |
 | 패키지 관리 | pnpm |
 
-Radix, next-auth, socket.io, three, pixi, Pages Router 및 게임 관련 코드는 현재 frontend 범위에 없다.
+Radix, next-auth, Pages Router 및 이전 게임 전용 라우팅 코드는 현재 frontend 범위에 없다. 게임 기능은 `features/game`으로 이식됐으며 Pixi, Three, Socket.IO는 이 기능에서만 사용한다.
 
 ## 디렉터리와 의존성 방향
 
@@ -49,7 +49,8 @@ frontend/
 │   │   └── globals.css
 │   ├── features/
 │   │   ├── auth/                    # 로그인·세션 도메인
-│   │   └── code/                    # Code 목록·실행 도메인
+│   │   ├── code/                    # Code 목록·실행 도메인
+│   │   └── game/                    # Game Hub와 게임 구현
 │   ├── components/
 │   │   ├── layout/                  # AppShell, SidebarLayout, AuthNavigation
 │   │   └── ui/                      # Button, Card
@@ -72,6 +73,7 @@ frontend/
 | `/` | `app/page.tsx` | 인라인 | 새 Spring API 프론트의 간단한 안내 |
 | `/login` | `app/(auth)/login/page.tsx` | `features/auth/components/login-page.tsx` | ID·비밀번호 로그인 |
 | `/code` | `app/(service)/code/page.tsx` | `features/code/components/code-page.tsx` | Code 스니펫 목록·실행 |
+| `/games` | `app/(service)/games/page.tsx` | `features/game/components/game-page.tsx` | 기존 게임 선택·실행 |
 
 `app/layout.tsx`가 모든 라우트를 `AppShell`로 감싼다. 라우팅 파일에는 URL 조합만 두고, 화면 로직은 feature 컴포넌트에 둔다.
 
@@ -147,6 +149,15 @@ AuthSessionProvider
 | `GET /code/{keyword}` | 선택한 스니펫 실행 |
 
 `CodePage`는 인증 상태가 `authenticated` 또는 `anonymous`로 확정될 때 목록을 다시 받아 로그인·로그아웃 뒤 서버가 필터링한 결과를 반영한다. 권한으로 PRIVATE 항목을 감추는 것은 반드시 Spring API가 수행해야 하며, 프론트의 표시 제어만으로 접근 제어를 구현하면 안 된다.
+
+## Game feature
+
+`features/game`은 `/games`의 Game Hub를 제공한다. Game Hub는 게임을 바꿀 때 `key`를 바꿔 이전 게임 컴포넌트의 animation frame·interval·키보드 listener cleanup이 실행되게 한다.
+
+- 로컬 게임: Bullet Dodge, Snake, Pong, Breakout, Flappy Bird, 2048, Space Shooter, Tower Smash, Blackjack
+- 온라인 게임: Blackjack Online. legacy Nest Socket.IO `/blackjack` namespace를 `NEXT_PUBLIC_LEGACY_WS_ORIGIN`(기본 `http://localhost:9090`)으로 호출한다. 연결 실패 시 legacy Nest 실행 방법을 화면에 보여 준다.
+- Space Shooter는 Pixi, Tower Smash는 Three + React Three Fiber/Cannon을 사용한다.
+- 모든 게임을 정적으로 import하므로 `/games` first load는 약 620kB다. 게임별 `dynamic()` import는 후속 성능 개선 항목이다.
 
 ## ESLint와 코드 스타일
 
