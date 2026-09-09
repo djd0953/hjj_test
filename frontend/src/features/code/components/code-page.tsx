@@ -4,6 +4,9 @@ import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { PageHeader } from "@/components/ui/page-header";
+import { Select } from "@/components/ui/select";
+import { Table } from "@/components/ui/table";
 import { ApiError } from "@/lib/api/client";
 import { getCodeList, runCode } from "@/features/code/api/code";
 import type { CodeListItem, CodeRunResult } from "@/features/code/types/code";
@@ -64,17 +67,15 @@ export function CodePage()
 
     return (
         <main className="page-content flex flex-col gap-6">
-            <div className="flex flex-wrap items-end justify-between gap-4">
-                <div>
-                    <p className="mb-2 text-sm font-semibold text-slate-500">SPRING API</p>
-                    <h1 className="m-0 text-3xl font-bold">Code Explorer</h1>
-                </div>
-            </div>
-            <Card className="flex flex-col gap-4">
+            <PageHeader
+                description="Spring API에 등록된 스니펫을 고르고 실행 결과를 바로 확인하세요."
+                eyebrow="SPRING API"
+                title="Code Explorer"
+            />
+            <Card className="ui-action-card flex flex-col gap-4">
                 <label className="flex max-w-xl flex-col gap-2 text-sm font-semibold">
                     실행할 스니펫
-                    <select
-                        className="rounded-lg border border-slate-300 bg-white px-3 py-2"
+                    <Select
                         onChange={(event) => setSelectedKeyword(event.target.value)}
                         value={selectedKeyword}
                     >
@@ -83,7 +84,7 @@ export function CodePage()
                                 {item.label}
                             </option>
                         ))}
-                    </select>
+                    </Select>
                 </label>
                 <div>
                     <Button disabled={!selectedKeyword || isRunning} onClick={onRun}>
@@ -92,16 +93,59 @@ export function CodePage()
                 </div>
                 {message ? <p className="m-0 text-sm text-red-600">{message}</p> : null}
             </Card>
+            {items.length ? (
+                <Card className="ui-table-card p-0">
+                    <div className="ui-card-heading">
+                        <div>
+                            <p className="ui-eyebrow">AVAILABLE SNIPPETS</p>
+                            <h2 className="ui-card-title">실행 가능한 Code</h2>
+                        </div>
+                        <span className="ui-count-badge">{items.length}</span>
+                    </div>
+                    <Table>
+                        <thead>
+                            <tr>
+                                <th scope="col">키워드</th>
+                                <th scope="col">설명</th>
+                                <th scope="col"><span className="sr-only">선택</span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {items.map((item) => (
+                                <tr className={item.keyword === selectedKeyword ? "is-selected" : undefined} key={item.keyword}>
+                                    <td><code>{item.keyword}</code></td>
+                                    <td>{item.label}</td>
+                                    <td>
+                                        <Button
+                                            aria-pressed={item.keyword === selectedKeyword}
+                                            onClick={() => setSelectedKeyword(item.keyword)}
+                                            size="sm"
+                                            variant={item.keyword === selectedKeyword ? "secondary" : "ghost"}
+                                        >
+                                            {item.keyword === selectedKeyword ? "선택됨" : "선택"}
+                                        </Button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </Table>
+                </Card>
+            ) : null}
             <Card>
-                <h2 className="mt-0 text-lg font-bold">결과</h2>
+                <div className="ui-card-heading">
+                    <div>
+                        <p className="ui-eyebrow">RESULT</p>
+                        <h2 className="ui-card-title">실행 결과</h2>
+                    </div>
+                </div>
                 {result ? (
                     <>
-                        <p className="text-sm text-slate-500">{result.keyword} · API 응답 시간값 {result.elapsedMs}</p>
-                        <pre className="m-0 overflow-x-auto rounded-lg bg-slate-950 p-4 text-sm text-slate-100">
+                        <p className="ui-result-meta">{result.keyword} · API 응답 시간값 {result.elapsedMs}</p>
+                        <pre className="ui-code-block">
                             {JSON.stringify(result.result, null, 2)}
                         </pre>
                     </>
-                ) : <p className="m-0 text-slate-500">스니펫을 선택해 실행해 보세요.</p>}
+                ) : <p className="ui-empty-message">스니펫을 선택해 실행해 보세요.</p>}
             </Card>
         </main>
     );

@@ -1,59 +1,44 @@
 "use client";
 
 import Link from "next/link";
-import { type ReactNode, useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
+import { type ReactNode, useState } from "react";
 
 import { AuthNavigation } from "@/components/layout/auth-navigation";
+import { ThemeToggle } from "@/components/layout/theme-toggle";
 import { cn } from "@/utils/cn";
 
 export function SidebarLayout({ children }: Readonly<{ children: ReactNode }>)
 {
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-    const [isQuickMenuOpen, setIsQuickMenuOpen] = useState(false);
-    const sidebarRef = useRef<HTMLElement>(null);
+    const [isHoverNavigationOpen, setIsHoverNavigationOpen] = useState(false);
+    const pathname = usePathname();
 
-    useEffect(() =>
+    function openHoverNavigation()
     {
-        if (!isQuickMenuOpen)
-            return;
+        setIsHoverNavigationOpen(true);
+    }
 
-        function closeQuickMenu(event: MouseEvent)
-        {
-            if (!sidebarRef.current?.contains(event.target as Node))
-                setIsQuickMenuOpen(false);
-        }
-
-        function closeWithEscape(event: KeyboardEvent)
-        {
-            if (event.key === "Escape")
-                setIsQuickMenuOpen(false);
-        }
-
-        document.addEventListener("mousedown", closeQuickMenu);
-        document.addEventListener("keydown", closeWithEscape);
-
-        return () =>
-        {
-            document.removeEventListener("mousedown", closeQuickMenu);
-            document.removeEventListener("keydown", closeWithEscape);
-        };
-    }, [isQuickMenuOpen]);
+    function closeHoverNavigation()
+    {
+        setIsHoverNavigationOpen(false);
+    }
 
     function openSidebar()
     {
-        setIsQuickMenuOpen(false);
+        closeHoverNavigation();
         setIsSidebarOpen(true);
     }
 
     function closeSidebar()
     {
-        setIsQuickMenuOpen(false);
+        closeHoverNavigation();
         setIsSidebarOpen(false);
     }
 
     return (
         <div className={cn("app-shell", isSidebarOpen ? "app-shell-sidebar-open" : "app-shell-sidebar-closed")}>
-            <aside aria-label="서비스 메뉴" className="app-sidebar" ref={sidebarRef}>
+            <aside aria-label="서비스 메뉴" className={cn("app-sidebar", isHoverNavigationOpen && "is-hover-navigation-open")}>
                 {isSidebarOpen ? (
                     <>
                         <button
@@ -65,49 +50,62 @@ export function SidebarLayout({ children }: Readonly<{ children: ReactNode }>)
                             <ChevronLeftIcon />
                         </button>
                         <nav className="app-sidebar-navigation">
-                            <Link href="/code">Code</Link>
-                            <Link href="/games">Games</Link>
+                            <SidebarLink href="/code" isActive={pathname === "/code"}>Code</SidebarLink>
+                            <SidebarLink href="/games" isActive={pathname === "/games"}>Games</SidebarLink>
                         </nav>
                     </>
                 ) : (
                     <>
-                        <button
-                            aria-controls="quick-navigation"
-                            aria-expanded={isQuickMenuOpen}
-                            aria-label="메뉴 빠르게 보기"
-                            className="sidebar-icon-button"
-                            onClick={() => setIsQuickMenuOpen((current) => !current)}
-                            type="button"
+                        <div
+                            className="sidebar-hover-menu"
+                            onBlur={(event) =>
+                            {
+                                if (!event.currentTarget.contains(event.relatedTarget))
+                                    closeHoverNavigation();
+                            }}
+                            onMouseEnter={openHoverNavigation}
+                            onMouseLeave={closeHoverNavigation}
                         >
-                            <MenuIcon />
-                        </button>
-                        <button
-                            aria-label="사이드바 열기"
-                            className="sidebar-icon-button"
-                            onClick={openSidebar}
-                            type="button"
-                        >
-                            <ChevronRightIcon />
-                        </button>
-                        {isQuickMenuOpen ? (
-                            <nav aria-label="빠른 서비스 메뉴" className="quick-navigation" id="quick-navigation">
-                                <Link href="/code" onClick={() => setIsQuickMenuOpen(false)}>Code</Link>
-                                <Link href="/games" onClick={() => setIsQuickMenuOpen(false)}>Games</Link>
+                            <button
+                                aria-label={isHoverNavigationOpen ? "사이드바 고정으로 열기" : "서비스 메뉴 보기"}
+                                className="sidebar-icon-button sidebar-menu-trigger"
+                                onClick={openSidebar}
+                                onFocus={openHoverNavigation}
+                                type="button"
+                            >
+                                {isHoverNavigationOpen ? <ChevronRightIcon /> : <MenuIcon />}
+                            </button>
+                            <nav aria-label="빠른 서비스 메뉴" className="hover-navigation">
+                                <SidebarLink href="/code" isActive={pathname === "/code"}>Code</SidebarLink>
+                                <SidebarLink href="/games" isActive={pathname === "/games"}>Games</SidebarLink>
                             </nav>
-                        ) : null}
+                        </div>
                     </>
                 )}
             </aside>
             <div className="app-main">
                 <header className="app-header">
-                    <nav aria-label="계정 메뉴" className="app-navigation">
-                        <AuthNavigation />
-                    </nav>
+                    <div className="app-header-actions">
+                        <nav aria-label="계정 메뉴" className="app-navigation">
+                            <AuthNavigation />
+                        </nav>
+                        <ThemeToggle />
+                    </div>
                 </header>
                 {children}
             </div>
         </div>
     );
+}
+
+function SidebarLink({ children, href, isActive, onClick }: Readonly<{
+    children: ReactNode;
+    href: string;
+    isActive: boolean;
+    onClick?: () => void;
+}>)
+{
+    return <Link className={isActive ? "is-active" : undefined} href={href} onClick={onClick}>{children}</Link>;
 }
 
 function MenuIcon()

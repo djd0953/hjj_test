@@ -1,9 +1,9 @@
 "use client";
 
-import { ThemeProvider } from "next-themes";
 import { useState } from "react";
 
 import { Card } from "@/components/ui/card";
+import { PageHeader } from "@/components/ui/page-header";
 import { GAMES } from "@/features/game/constants/game.constant";
 import type { GameId } from "@/features/game/types/game.type";
 
@@ -15,29 +15,27 @@ export function GamePage()
 
     return (
         <main className="page-content flex flex-col gap-6">
-            <div>
-                <p className="mb-2 text-sm font-semibold text-slate-500">GAMES</p>
-                <h1 className="m-0 text-3xl font-bold">Game Hub</h1>
-                <p className="mb-0 mt-2 text-slate-500">원하는 게임을 고르고 바로 플레이해 보세요.</p>
-            </div>
-            <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+            <PageHeader
+                description="가볍게 머리를 식히고 싶을 때, 원하는 게임을 고르고 바로 플레이하세요."
+                eyebrow="PLAYGROUND"
+                title="Game Hub"
+            />
+            <div aria-label="게임 선택" className="ui-game-grid">
                 {GAMES.map((game) => (
                     <button
+                        aria-label={`${game.label}: ${game.description}`}
                         aria-pressed={game.id === selectedId}
-                        className={`rounded-xl border p-4 text-left transition-colors ${game.id === selectedId ? "border-slate-900 bg-slate-900 text-white" : "border-slate-200 bg-white hover:border-slate-400"}`}
+                        className={`ui-game-card ${game.id === selectedId ? "is-selected" : ""}`}
                         key={game.id}
                         onClick={() => setSelectedId(game.id)}
                         type="button"
                     >
-                        <span className="block font-bold">{game.label}</span>
-                        <span className={`mt-1 block text-sm ${game.id === selectedId ? "text-slate-200" : "text-slate-500"}`}>{game.description}</span>
+                        <span className="ui-game-card-title">{game.label}</span>
                     </button>
                 ))}
             </div>
             <Card className="overflow-x-auto">
-                <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
-                    <GameComponent key={selectedGame.id} />
-                </ThemeProvider>
+                <GameComponent key={selectedGame.id} />
             </Card>
         </main>
     );

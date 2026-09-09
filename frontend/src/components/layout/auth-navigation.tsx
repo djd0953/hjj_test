@@ -33,7 +33,7 @@ export function AuthNavigation()
     }
 
     if (status === "loading")
-        return <span className="px-3 py-2 text-sm text-slate-500">인증 확인 중...</span>;
+        return <span className="px-3 py-2 text-sm text-slate-500 dark:text-slate-400">인증 확인 중...</span>;
 
     if (status === "error")
     {
@@ -49,7 +49,7 @@ export function AuthNavigation()
     {
         return (
             <div className="flex items-center gap-2">
-                <span className="text-sm text-slate-500">{user?.userId}</span>
+                <span className="text-sm text-slate-500 dark:text-slate-400">{user?.userId}</span>
                 <Button disabled={isSigningOut} onClick={() => void onSignOut()} variant="secondary">
                     {isSigningOut ? "로그아웃 중…" : "로그아웃"}
                 </Button>

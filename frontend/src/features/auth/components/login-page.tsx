@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { PageHeader } from "@/components/ui/page-header";
 import { ApiError } from "@/lib/api/client";
 import { login } from "@/features/auth/api/auth";
 import { useAuthSession } from "@/features/auth/components/auth-session-provider";
@@ -49,17 +51,17 @@ export function LoginPage()
 
     return (
         <main className="page-content">
-            <Card className="mx-auto max-w-md">
-                <div className="mb-6">
-                    <p className="mb-2 text-sm font-semibold text-slate-500">AUTHENTICATION</p>
-                    <h1 className="m-0 text-2xl font-bold">로그인</h1>
-                </div>
+            <Card className="ui-login-card mx-auto max-w-md">
+                <PageHeader
+                    description="계정으로 로그인해 Code와 개인화된 기능을 이용하세요."
+                    eyebrow="AUTHENTICATION"
+                    title="다시 만나서 반가워요"
+                />
                 <form className="flex flex-col gap-4" onSubmit={onSubmit}>
                     <label className="flex flex-col gap-2 text-sm font-semibold">
                         아이디
-                        <input
+                        <Input
                             autoComplete="username"
-                            className="rounded-lg border border-slate-300 px-3 py-2"
                             disabled={isSubmitting}
                             onChange={(event) => setId(event.target.value)}
                             value={id}
@@ -67,9 +69,8 @@ export function LoginPage()
                     </label>
                     <label className="flex flex-col gap-2 text-sm font-semibold">
                         비밀번호
-                        <input
+                        <Input
                             autoComplete="current-password"
-                            className="rounded-lg border border-slate-300 px-3 py-2"
                             disabled={isSubmitting}
                             onChange={(event) => setPassword(event.target.value)}
                             type="password"
