@@ -399,3 +399,18 @@
   템플릿 JSON은 Jackson 3이 생략된 배열을 null로 전달할 수 있어 nullable input DTO와 `orEmpty()`로 경계를 방어했다.
 - HTML 구조 변경은 jsoup 1.23.2로 처리해 목록 item 안의 table을 DOM 수준에서 밖으로 이동한다.
 - `./gradlew :api:test :api:compileKotlin`이 `BUILD SUCCESSFUL`로 통과했다.
+
+## 2026-09-09 — Code 스니펫 2차 웹·메일 이식 완료
+
+- `effectiveDate`의 HTML 본문 선택·정규화·SHA-256을 `PrivacyPolicyHasher`로 분리하고, 실제 Samsung URL 요청은
+  connect/request timeout을 둔 JDK `HttpClient` adapter에 남겼다. 테스트는 외부 사이트를 호출하지 않는다.
+- `email`은 S3 placeholder 경로를 없애고, 레거시 forwarded/original/reply separator를 jsoup DOM에서 제거하는
+  `EmailReplySplitter`와 classpath HTML fixture로 이식했다.
+- `./gradlew :api:test :api:compileKotlin`이 `BUILD SUCCESSFUL`로 통과했다.
+
+## 2026-09-09 — Code 스니펫 component/model 경계 정리
+
+- `effectiveDate`, `fixDocx` HTML, `email`, `lcs` 처리기를 개별 기능 패키지에서 `hjj.code.component`으로 모았다.
+- 처리기 내부에 있던 `PrivacyPolicyHashResult`, `EmailSplitResult`, `LcsCharacter`, `LcsResult` data class는
+  `hjj.code.model`로 분리했다. HTTP 실행 응답은 기존 `hjj.code.response`에 유지했다.
+- `./gradlew :api:test :api:compileKotlin`이 `BUILD SUCCESSFUL`로 통과했다.

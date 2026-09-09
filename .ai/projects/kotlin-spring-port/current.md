@@ -239,7 +239,7 @@
 - [x] 공통 실행 원칙 확정 — 상대 파일 경로/결과 파일 쓰기 제거, processor + classpath fixture + typed summary
 - [x] 순수 스니펫 — `test`, `lcs`, `separateCode`, `uaparse`, `fixDocx`
 - [x] 템플릿 정책 — `templateDataParse`와 `template_data.json`, 실제 HMAC-SHA-256
-- [ ] 웹·메일 — `effectiveDate`, `email`의 HTML 정규화/분할과 외부 I/O 경계
+- [x] 웹·메일 — `effectiveDate`, `email`의 HTML 정규화/분할과 외부 I/O 경계
 - [ ] AWS 확장 — `kms`, `sm` (property 조건 조립, AWS 기본 credentials chain)
 - [ ] DOCX — `cleanDocx`, `diffDocx` (OOXML 입력/출력은 바이너리 processor로 분리)
 - [ ] Excel — `excelFileCheck`, `excelWritingBulkChk` (공용 셀 값 변환 + Apache POI)

@@ -525,6 +525,9 @@ SHA-256, 분석·변환 요약을 응답한다.
 HTML DOM을 다루는 `fixDocx`·`effectiveDate`·`email`에는 **jsoup**을 공용 parser로 사용한다. 중첩 목록 안 table처럼
 구조를 바꾸는 HTML을 정규식으로 처리하지 않으며, jsoup 1.23.2는 `api`에만 직접 의존한다.
 
+Code 스니펫 내부의 작은 처리기는 `hjj.code.component`에 모으고, 그 처리기의 입력·중간 결과 data class는
+`hjj.code.model`에 둔다. `hjj.code.response`는 HTTP 실행 결과의 외부 봉투이므로 구분해 유지한다.
+
 ## 참조 파일
 
 **이 저장소**
