@@ -25,6 +25,7 @@
 - 전역 메뉴는 접을 수 있는 좌측 사이드바로 둔다. 확장 상태에는 `<` 접기 버튼과 메뉴를, 접힌 상태에는 4.5rem 아이콘 레일 안의 햄버거를 둔다. 햄버거 hover/focus 동안만 콘텐츠 위에서 15rem으로 임시 확장해 메뉴를 보이고 아이콘은 `>`로 바뀌며, 이 `>`를 클릭하면 사이드바를 고정으로 확장한다. 768px 이하에서는 확장 사이드바가 콘텐츠 위에 겹쳐지며, 상단 헤더는 계정 상태와 인증 동작을 담당한다.
 - 밝음/어두움 테마는 `next-themes`의 전역 provider가 `html` class로 관리한다. 헤더 오른쪽의 토글과 인증 메뉴는 같은 영역에 두며, 게임의 `resolvedTheme`도 이 전역 상태를 사용한다.
 - 외부 UI 라이브러리 대신 `components/ui`에 작은 내부 디자인 시스템을 유지한다. CSS custom property 기반의 색·표면·테두리·그림자·강조색 토큰과 `Button`, `Card`, `Input`, `Select`, `Table`, `PageHeader`를 먼저 제공하고, 실제 화면에서 필요해진 공통 UI만 추가한다.
+- 게임 구현은 게임별 폴더에서 orchestration 컴포넌트, JSX 전용 View, React lifecycle·state 전용 hook, React/브라우저 의존성이 없는 계산 logic, Canvas/Pixi draw renderer를 책임별로 나눈다. Canvas·DOM 게임은 이 기본 구조를 따르되 Socket.IO, Pixi, Three 게임은 각 라이브러리 Scene/연결 계층을 별도로 둔다.
 - `features/game`은 Canvas/DOM 게임, Pixi 기반 Space Shooter, Three/Cannon 기반 Tower Smash를 포함한다. 온라인 블랙잭만 legacy Nest Socket.IO `/blackjack`을 `NEXT_PUBLIC_LEGACY_WS_ORIGIN`(기본 `http://localhost:9090`)으로 사용하며, Spring API 전환 전의 호환 기능이다.
 - frontend의 패키지 관리자는 Corepack으로 실행하는 `pnpm@11.25.0`으로 고정한다. 이 앱은 독립 앱이므로 pnpm workspace로 루트까지 묶지 않는다. 루트 Node manifest는 퇴역했고 기존 Nest backend는 자체 npm 구성을 유지한다.
 - frontend는 자체 ESLint 설정·의존성을 소유하며, 루트 `.eslintrc.cjs`를 상속하지 않는다. `pnpm run lint`가 App Router 코드와 설정 파일의 정합성을 확인한다.

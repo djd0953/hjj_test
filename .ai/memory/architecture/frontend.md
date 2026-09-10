@@ -161,6 +161,7 @@ AuthSessionProvider
 - Space Shooter는 Pixi, Tower Smash는 Three + React Three Fiber/Cannon을 사용한다.
 - 모든 게임을 정적으로 import하므로 `/games` first load는 약 620kB다. 게임별 `dynamic()` import는 후속 성능 개선 항목이다.
 - Game Hub 선택기는 카드 그리드가 아닌 반응형 flex 버튼 묶음이며, 최소 높이와 최대 높이·세로 스크롤을 둔다. 각 버튼의 게임 설명은 시각적으로 숨기고 접근성 이름으로 유지한다.
+- 게임별 구현은 `{game}-game.tsx` controller, `{game}-logic.ts` 순수 계산, `{game}-renderer.ts` Canvas/Pixi draw, `{game}-view.tsx` JSX로 나눈다. 모든 게임이 renderer를 요구하지는 않으며, 라이브러리 Scene이나 Socket.IO 연결은 해당 게임에서 필요한 만큼만 추가 분리한다.
 
 ## 내부 디자인 시스템
 

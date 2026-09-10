@@ -30,3 +30,7 @@
 - 접힌 사이드바의 `>` 확장 버튼은 기본 상태에서 햄버거 아래에 두고, 햄버거 hover로 임시 확장할 때는 오른쪽으로 이동하도록 했다. 메뉴 첫 항목과 버튼이 겹치지 않으며 두 상태 사이에 transform 전환이 적용된다. lint·production build는 기존 게임 Hook 의존성 경고 9개 외 오류 없이 통과했다.
 - 햄버거에서 absolute 임시 메뉴로 포인터를 옮기는 사이 닫히던 문제를 보완했다. 햄버거를 벗어나면 180ms 뒤 닫기를 예약하고 메뉴 영역에 들어오면 예약을 취소하며, 메뉴 영역을 벗어날 때만 바로 닫는다. lint·production build는 기존 게임 Hook 의존성 경고 9개 외 오류 없이 통과했다.
 - 임시 메뉴 이동 지연 방식은 제거하고 접힌 레일의 `>` 버튼 자체를 없앴다. 햄버거 영역 hover 시 아이콘이 `>`로 바뀌고 메뉴가 바로 오른쪽으로 나타나며, 이 아이콘을 클릭하면 고정 사이드바를 열어 `<` 접기 버튼으로 전환한다. lint·production build는 기존 게임 Hook 의존성 경고 9개 외 오류 없이 통과했다.
+
+## 2026-09-10
+
+- 게임 리팩터링의 기준 구현으로 Snake를 `snake-game`(React state·ref·effect·animation orchestration), `snake-logic`(순수 이동·점수·키 방향 계산), `snake-renderer`(Canvas draw), `snake-view`(JSX)로 분리했다. lint·production build는 기존 다른 게임 Hook 의존성 경고 9개 외 오류 없이 통과했다.

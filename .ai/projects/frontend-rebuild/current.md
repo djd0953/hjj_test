@@ -24,3 +24,6 @@
 - [x] 18. hover 확장 중 사이드바 열기 버튼과 메뉴의 겹침 보완
 - [x] 19. 햄버거에서 hover 메뉴로 이동할 때 닫힘 지연 처리 보완
 - [x] 20. 접힌 사이드바를 햄버거 hover·클릭 기반의 단순 확장 동작으로 재구성
+- [ ] 21. Canvas 기반 게임을 View·hook·logic·renderer 책임으로 분리
+- [ ] 22. Blackjack과 Blackjack Online의 화면·게임 진행·Socket.IO 책임 분리
+- [ ] 23. Pixi·Three 기반 게임의 Scene/게임 상태 책임 분리
