@@ -31,6 +31,8 @@ junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher
 aws-sdk-signin = { module = "software.amazon.awssdk:signin" }
 aws-sdk-bom = { module = "software.amazon.awssdk:bom", version.ref = "awsSdk" }
 aws-sdk-s3 = { module = "software.amazon.awssdk:s3" }
+aws-sdk-kms = { module = "software.amazon.awssdk:kms" }
+aws-sdk-secrets-manager = { module = "software.amazon.awssdk:secretsmanager" }
 jjwt-api = { module = "io.jsonwebtoken:jjwt-api", version.ref = "jjwt" }
 jjwt-impl = { module = "io.jsonwebtoken:jjwt-impl", version.ref = "jjwt" }
 jjwt-jackson = { module = "io.jsonwebtoken:jjwt-jackson", version.ref = "jjwt" }

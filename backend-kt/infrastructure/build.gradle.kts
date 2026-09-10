@@ -8,4 +8,6 @@ dependencies {
     implementation(platform(libs.aws.sdk.bom))
     implementation(libs.aws.sdk.signin)
     implementation(libs.aws.sdk.s3)
+    implementation(libs.aws.sdk.kms)
+    implementation(libs.aws.sdk.secrets.manager)
 }

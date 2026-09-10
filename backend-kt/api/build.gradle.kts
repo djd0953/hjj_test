@@ -23,6 +23,8 @@ dependencies {
 	implementation(platform(libs.aws.sdk.bom))
 	implementation(libs.aws.sdk.signin)
 	implementation(libs.aws.sdk.s3)
+	implementation(libs.aws.sdk.kms)
+	implementation(libs.aws.sdk.secrets.manager)
 	// jwt
 	implementation(libs.jjwt.api)
 	runtimeOnly(libs.jjwt.impl)
