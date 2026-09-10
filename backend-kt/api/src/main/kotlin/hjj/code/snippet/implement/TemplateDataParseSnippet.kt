@@ -1,10 +1,10 @@
 package hjj.code.snippet.implement
 
 import hjj.code.constant.SnippetPermission
+import hjj.code.component.TemplatePolicyProcessor
 import hjj.code.model.TemplateData
 import hjj.code.response.TemplateDataParseRunResponse
 import hjj.code.snippet.CodeSnippet
-import hjj.code.template.TemplatePolicyProcessor
 import org.springframework.core.io.ClassPathResource
 import org.springframework.stereotype.Component
 import tools.jackson.databind.ObjectMapper

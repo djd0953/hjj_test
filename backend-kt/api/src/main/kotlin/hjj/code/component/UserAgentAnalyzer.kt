@@ -1,10 +1,6 @@
-package hjj.code.useragent
+package hjj.code.component
 
-data class UserAgentInfo(
-    val browser: String,
-    val os: String,
-    val device: String,
-)
+import hjj.code.model.UserAgentInfo
 
 object UserAgentAnalyzer {
     fun analyze(raw: String): UserAgentInfo = UserAgentInfo(

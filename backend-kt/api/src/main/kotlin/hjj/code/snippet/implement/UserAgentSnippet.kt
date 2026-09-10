@@ -1,9 +1,9 @@
 package hjj.code.snippet.implement
 
 import hjj.code.constant.SnippetPermission
+import hjj.code.component.UserAgentAnalyzer
 import hjj.code.response.UserAgentRunResponse
 import hjj.code.snippet.CodeSnippet
-import hjj.code.useragent.UserAgentAnalyzer
 import org.springframework.stereotype.Component
 
 @Component("uaparse")

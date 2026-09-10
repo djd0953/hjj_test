@@ -1,4 +1,4 @@
-package hjj.code.transform
+package hjj.code.component
 
 object TypeAliasToInterfaceConverter {
     private val typeDeclaration = Regex("""\btype\s+(\w+)\s*=\s*\{""")

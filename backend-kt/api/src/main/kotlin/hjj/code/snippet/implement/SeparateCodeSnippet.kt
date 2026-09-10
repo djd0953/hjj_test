@@ -1,9 +1,9 @@
 package hjj.code.snippet.implement
 
 import hjj.code.constant.SnippetPermission
+import hjj.code.component.TypeAliasToInterfaceConverter
 import hjj.code.response.SeparateCodeRunResponse
 import hjj.code.snippet.CodeSnippet
-import hjj.code.transform.TypeAliasToInterfaceConverter
 import org.springframework.stereotype.Component
 
 @Component("separateCode")

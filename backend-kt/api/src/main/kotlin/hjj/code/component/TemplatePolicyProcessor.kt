@@ -1,4 +1,4 @@
-package hjj.code.template
+package hjj.code.component
 
 import hjj.code.model.BindingPolicy
 import hjj.code.model.MaskType
