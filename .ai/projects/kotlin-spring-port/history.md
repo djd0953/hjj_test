@@ -414,3 +414,11 @@
 - 처리기 내부에 있던 `PrivacyPolicyHashResult`, `EmailSplitResult`, `LcsCharacter`, `LcsResult` data class는
   `hjj.code.model`로 분리했다. HTTP 실행 응답은 기존 `hjj.code.response`에 유지했다.
 - `./gradlew :api:test :api:compileKotlin`이 `BUILD SUCCESSFUL`로 통과했다.
+
+## 2026-09-10 — 남은 Code 보조 로직 component/model 이관
+
+- `templateDataParse`, `separateCode`, `uaparse`의 보조 로직인 `TemplatePolicyProcessor`,
+  `TypeAliasToInterfaceConverter`, `UserAgentAnalyzer`를 모두 `hjj.code.component`로 옮겼다.
+- `UserAgentInfo`는 처리기에서 분리해 `hjj.code.model`에 두었고, 기존 `template`·`transform`·`useragent`와
+  앞서 비워진 `email`·`effectiveDate`·`html`·`lcs` 디렉터리를 제거했다.
+- `./gradlew :api:test :api:compileKotlin`이 `BUILD SUCCESSFUL`로 통과했다.
