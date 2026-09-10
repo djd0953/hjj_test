@@ -34,3 +34,4 @@
 ## 2026-09-10
 
 - 게임 리팩터링의 기준 구현으로 Snake를 `snake-game`(React state·ref·effect·animation orchestration), `snake-logic`(순수 이동·점수·키 방향 계산), `snake-renderer`(Canvas draw), `snake-view`(JSX)로 분리했다. lint·production build는 기존 다른 게임 Hook 의존성 경고 9개 외 오류 없이 통과했다.
+- Flappy Bird도 같은 controller·logic·renderer·view 구조로 분리했다. 순수 game tick에서 파이프 생성·이동·점수·충돌을 처리하고, controller는 Space/canvas 입력과 requestAnimationFrame lifecycle만 담당한다. lint·production build는 기존 다른 게임 Hook 의존성 경고 9개 외 오류 없이 통과했다.
