@@ -422,3 +422,13 @@
 - `UserAgentInfo`는 처리기에서 분리해 `hjj.code.model`에 두었고, 기존 `template`·`transform`·`useragent`와
   앞서 비워진 `email`·`effectiveDate`·`html`·`lcs` 디렉터리를 제거했다.
 - `./gradlew :api:test :api:compileKotlin`이 `BUILD SUCCESSFUL`로 통과했다.
+
+## 2026-09-11 — AWS KMS·Secrets Manager 실패 경계와 단위 검증
+
+- AWS SDK 예외와 Secrets Manager의 text secret 누락을 `core`의 `AwsServiceException`으로 번역하고,
+  API의 `LoggingErrorHandler`가 `AWS_UNAVAILABLE` 503으로 응답하게 했다. 로그에는 작업 종류만 남기며
+  key id·secret id·시크릿 원문은 응답이나 로그 메시지에 넣지 않는다.
+- `TextEncryptor`·`SecretLoader`를 단일 메서드 Port(`fun interface`)로 두어 fake 구현을 만들고,
+  KMS의 네 평문 암호화 위임과 Secrets Manager 응답이 key 이름·개수만 노출하는 규칙을 단위 테스트로 고정했다.
+- AWS 식별자 property가 없을 때 KMS·Secrets Manager client와 두 Port bean이 생기지 않는 설정 테스트를 추가했다.
+  실제 AWS 호출은 local profile과 식별자를 제공하는 별도 검증으로 남겼다.

@@ -519,7 +519,7 @@ SHA-256, 분석·변환 요약을 응답한다.
 |---|---|---|
 | 작은 순수 예제 | `test`, `lcs`, `separateCode`, `uaparse`, `fixDocx` | 원본의 죽은 `null`/파일 출력을 관찰 가능한 typed 결과로 바꾼다. `lcs`의 경계 오류도 고친다. |
 | 템플릿·웹·메일 | `templateDataParse`, `effectiveDate`, `email` | 순수 정책/정규화/HTML 분할은 테스트하고, HTTP·메일 원본은 adapter와 fixture로 분리한다. `hmacToken` placeholder는 HMAC-SHA-256으로 완성한다. |
-| AWS | `kms`, `sm` | AWS SDK 기본 credential chain을 재사용하고, 필수 property가 있을 때만 bean/snippet을 조립한다. 시크릿 원문·환경변수 전체를 응답하거나 process env에 주입하지 않는다. |
+| AWS | `kms`, `sm` | AWS SDK 기본 credential chain을 재사용하고, 필수 property가 있을 때만 bean/snippet을 조립한다. 시크릿 원문·환경변수 전체를 응답하거나 process env에 주입하지 않는다. SDK 실패는 core의 `AwsServiceException`으로 감싸 API에서 503으로만 노출한다. |
 | 문서·엑셀·폰트 | `cleanDocx`, `diffDocx`, `excelFileCheck`, `excelWritingBulkChk`, `woffToTtf` | 파일 시스템 의존을 제거한 processor와 fixture 테스트부터 만든다. OOXML·Excel·WOFF 입력 오류는 명시적인 도메인 오류로 번역한다. |
 
 HTML DOM을 다루는 `fixDocx`·`effectiveDate`·`email`에는 **jsoup**을 공용 parser로 사용한다. 중첩 목록 안 table처럼

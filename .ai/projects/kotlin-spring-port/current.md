@@ -241,6 +241,9 @@
 - [x] 템플릿 정책 — `templateDataParse`와 `template_data.json`, 실제 HMAC-SHA-256
 - [x] 웹·메일 — `effectiveDate`, `email`의 HTML 정규화/분할과 외부 I/O 경계
 - [ ] AWS 확장 — `kms`, `sm` (property 조건 조립, AWS 기본 credentials chain)
+  - [x] KMS encrypt·Secrets Manager load Port/adapter와 503 오류 번역
+  - [x] fake Port 단위 테스트와 property 미설정 시 AWS bean 미등록 확인
+  - [ ] local AWS profile과 실제 key ID·secret ID로 호출 검증
 - [ ] DOCX — `cleanDocx`, `diffDocx` (OOXML 입력/출력은 바이너리 processor로 분리)
 - [ ] Excel — `excelFileCheck`, `excelWritingBulkChk` (공용 셀 값 변환 + Apache POI)
 - [ ] Font — `woffToTtf` (WOFF/WOFF2 지원 범위와 오류 결과 명시)
