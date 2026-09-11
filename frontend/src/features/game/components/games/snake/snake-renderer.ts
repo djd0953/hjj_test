@@ -5,7 +5,7 @@ import {
     SNAKE_COLUMNS,
     SNAKE_ROWS,
     type SnakePoint
-} from "@/features/game/components/games/snake-logic";
+} from "./snake-logic";
 
 export function drawSnakeGame(context: CanvasRenderingContext2D, options: {
     food: SnakePoint;

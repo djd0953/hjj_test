@@ -27,3 +27,4 @@
 - [ ] 21. Canvas 기반 게임을 View·hook·logic·renderer 책임으로 분리
 - [ ] 22. Blackjack과 Blackjack Online의 화면·게임 진행·Socket.IO 책임 분리
 - [ ] 23. Pixi·Three 기반 게임의 Scene/게임 상태 책임 분리
+- [x] 24. Game 구현을 게임별 디렉터리로 재배치

@@ -1,6 +1,6 @@
 import type { RefObject } from "react";
 
-import { SNAKE_CANVAS_HEIGHT, SNAKE_CANVAS_WIDTH, type SnakeStatus } from "@/features/game/components/games/snake-logic";
+import { SNAKE_CANVAS_HEIGHT, SNAKE_CANVAS_WIDTH, type SnakeStatus } from "./snake-logic";
 
 type SnakeViewProps = {
     canvasRef: RefObject<HTMLCanvasElement | null>;

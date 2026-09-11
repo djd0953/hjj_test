@@ -1,6 +1,6 @@
 import type { RefObject } from "react";
 
-import { FLAPPY_CANVAS_HEIGHT, FLAPPY_CANVAS_WIDTH, type FlappyStatus } from "@/features/game/components/games/flappy-bird-logic";
+import { FLAPPY_CANVAS_HEIGHT, FLAPPY_CANVAS_WIDTH, type FlappyStatus } from "./flappy-bird-logic";
 
 export function FlappyBirdView({ canvasRef, onFlap, onStart, score, status }: {
     canvasRef: RefObject<HTMLCanvasElement | null>;

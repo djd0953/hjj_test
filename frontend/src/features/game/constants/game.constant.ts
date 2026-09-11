@@ -1,13 +1,13 @@
-import BlackjackGame from "@/features/game/components/games/blackjack-game";
-import BlackjackOnlineGame from "@/features/game/components/games/blackjack-online-game";
-import BreakoutGame from "@/features/game/components/games/breakout-game";
-import BulletDodgeGame from "@/features/game/components/games/bullet-dodge-game";
-import FlappyBirdGame from "@/features/game/components/games/flappy-bird-game";
-import Game2048 from "@/features/game/components/games/game-2048";
-import PongGame from "@/features/game/components/games/pong-game";
-import SnakeGame from "@/features/game/components/games/snake-game";
-import SpaceShooterGame from "@/features/game/components/games/space-shooter-game";
-import TowerSmashGame from "@/features/game/components/games/tower-smash-game";
+import BlackjackGame from "@/features/game/components/games/blackjack/blackjack-game";
+import BlackjackOnlineGame from "@/features/game/components/games/blackjack-online/blackjack-online-game";
+import BreakoutGame from "@/features/game/components/games/breakout/breakout-game";
+import BulletDodgeGame from "@/features/game/components/games/bullet-dodge/bullet-dodge-game";
+import FlappyBirdGame from "@/features/game/components/games/flappy-bird/flappy-bird-game";
+import Game2048 from "@/features/game/components/games/game-2048/game-2048";
+import PongGame from "@/features/game/components/games/pong/pong-game";
+import SnakeGame from "@/features/game/components/games/snake/snake-game";
+import SpaceShooterGame from "@/features/game/components/games/space-shooter/space-shooter-game";
+import TowerSmashGame from "@/features/game/components/games/tower-smash/tower-smash-game";
 import type { GameDefinition } from "@/features/game/types/game.type";
 
 export const GAMES: GameDefinition[] = [

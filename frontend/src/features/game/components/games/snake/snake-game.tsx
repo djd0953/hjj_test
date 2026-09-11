@@ -10,9 +10,9 @@ import {
     type SnakeDirection,
     type SnakePoint,
     type SnakeStatus
-} from "@/features/game/components/games/snake-logic";
-import { drawSnakeGame, drawSnakeIdle } from "@/features/game/components/games/snake-renderer";
-import { SnakeView } from "@/features/game/components/games/snake-view";
+} from "./snake-logic";
+import { drawSnakeGame, drawSnakeIdle } from "./snake-renderer";
+import { SnakeView } from "./snake-view";
 
 export default function Snake()
 {

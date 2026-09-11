@@ -6,7 +6,7 @@ import {
     FLAPPY_PIPE_WIDTH,
     getFlappyPipeGeometry,
     type FlappyGameState
-} from "@/features/game/components/games/flappy-bird-logic";
+} from "./flappy-bird-logic";
 
 export function drawFlappyGame(context: CanvasRenderingContext2D, game: FlappyGameState, isDark: boolean): void
 {

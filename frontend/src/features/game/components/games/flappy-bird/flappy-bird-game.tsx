@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useTheme } from "next-themes";
 
-import { advanceFlappyGame, createInitialFlappyGame, resetFlappyGame, type FlappyGameState, type FlappyStatus } from "@/features/game/components/games/flappy-bird-logic";
-import { drawFlappyGame } from "@/features/game/components/games/flappy-bird-renderer";
-import { FlappyBirdView } from "@/features/game/components/games/flappy-bird-view";
+import { advanceFlappyGame, createInitialFlappyGame, resetFlappyGame, type FlappyGameState, type FlappyStatus } from "./flappy-bird-logic";
+import { drawFlappyGame } from "./flappy-bird-renderer";
+import { FlappyBirdView } from "./flappy-bird-view";
 
 export default function FlappyBird()
 {
